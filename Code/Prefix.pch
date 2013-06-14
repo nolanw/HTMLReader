@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'HTMLReader' target in the 'HTMLReader' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
