@@ -26,6 +26,7 @@
 		1C9C3ECE176BC53900E982C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3ECD176BC53900E982C9 /* UIKit.framework */; };
 		1C9C3ECF176BC53900E982C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EBC176BC53900E982C9 /* Foundation.framework */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
+		1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		1C9C3ECB176BC53900E982C9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		1C9C3ECD176BC53900E982C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		1C9C3ED5176BC53900E982C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C9C789A176E35F900AFF16B /* HTMLTokenizerTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerTestUtilities.h; sourceTree = "<group>"; };
+		1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTestUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 		1C640E97176BCA0000919E5C /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
+				1C9C789A176E35F900AFF16B /* HTMLTokenizerTestUtilities.h */,
+				1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */,
 				1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */,
 				1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */,
 				1C640E9A176BCA0000919E5C /* TokenizerEntitiesTests.m */,
@@ -301,6 +306,7 @@
 				1C640EAF176BCA0000919E5C /* TokenizerTest4Tests.m in Sources */,
 				1C640EB0176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m in Sources */,
 				1C640EB1176BCA0000919E5C /* TokenizerUnicodeCharsTests.m in Sources */,
+				1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

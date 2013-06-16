@@ -8,10 +8,82 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, HTMLTokenizerState)
+{
+    HTMLTokenizerDataState,
+    HTMLTokenizerCharacterReferenceInDataState,
+    HTMLTokenizerRCDATAState,
+    HTMLTokenizerCharacterReferenceInRCDATAState,
+    HTMLTokenizerRAWTEXTState,
+    HTMLTokenizerScriptDataState,
+    HTMLTokenizerPLAINTEXTState,
+    HTMLTokenizerTagOpenState,
+    HTMLTokenizerEndTagOpenState,
+    HTMLTokenizerTagNameState,
+    HTMLTokenizerRCDATALessThanSignState,
+    HTMLTokenizerRCDATAEndTagOpenState,
+    HTMLTokenizerRCDATAEndTagNameState,
+    HTMLTokenizerRAWTEXTLessThanSignState,
+    HTMLTokenizerRAWTEXTEndTagOpenState,
+    HTMLTokenizerRAWTEXTEndTagNameState,
+    HTMLTokenizerScriptDataLessThanSignState,
+    HTMLTokenizerScriptDataEndTagOpenState,
+    HTMLTokenizerScriptDataEndTagNameState,
+    HTMLTokenizerScriptDataEscapeStartState,
+    HTMLTokenizerScriptDataEscapeStartDashState,
+    HTMLTokenizerScriptDataEscapedState,
+    HTMLTokenizerScriptDataEscapedDashState,
+    HTMLTokenizerScriptDataEscapedDashDashState,
+    HTMLTokenizerScriptDataEscapedLessThanSignState,
+    HTMLTokenizerScriptDataEscapedEndTagOpenState,
+    HTMLTokenizerScriptDataEscapedEndTagNameState,
+    HTMLTokenizerScriptDataDoubleEscapeStartState,
+    HTMLTokenizerScriptDataDoubleEscapedState,
+    HTMLTokenizerScriptDataDoubleEscapedDashState,
+    HTMLTokenizerScriptDataDoubleEscapedDashDashState,
+    HTMLTokenizerScriptDataDoubleEscapedLessThanSignState,
+    HTMLTokenizerScriptDataDoubleEscapeEndState,
+    HTMLTokenizerBeforeAttributeNameState,
+    HTMLTokenizerAttributeNameState,
+    HTMLTokenizerAfterAttributeNameState,
+    HTMLTokenizerBeforeAttributeValueState,
+    HTMLTokenizerAttributeValueDoubleQuotedState,
+    HTMLTokenizerAttributeValueSingleQuotedState,
+    HTMLTokenizerAttributeValueUnquotedState,
+    HTMLTokenizerCharacterReferenceInAttributeValueState,
+    HTMLTokenizerAfterAttributeValueQuotedState,
+    HTMLTokenizerSelfClosingStartTagState,
+    HTMLTokenizerBogusCommentState,
+    HTMLTokenizerMarkupDeclarationOpenState,
+    HTMLTokenizerCommentStartState,
+    HTMLTokenizerCommentStartDashState,
+    HTMLTokenizerCommentState,
+    HTMLTokenizerCommentEndDashState,
+    HTMLTokenizerCommentEndState,
+    HTMLTokenizerCommentEndBangState,
+    HTMLTokenizerDOCTYPEState,
+    HTMLTokenizerBeforeDOCTYPENameState,
+    HTMLTokenizerDOCTYPENameState,
+    HTMLTokenizerAfterDOCTYPENameState,
+    HTMLTokenizerAfterDOCTYPEPublicKeywordState,
+    HTMLTokenizerBeforeDOCTYPEPublicIdentifierState,
+    HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState,
+    HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState,
+    HTMLTokenizerAfterDOCTYPEPublicIdentifierState,
+    HTMLTokenizerBetweenDOCTYPEPublicAndSystemIdentifiersState,
+    HTMLTokenizerAfterDOCTYPESystemKeywordState,
+    HTMLTokenizerBeforeDOCTYPESystemIdentifierState,
+    HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState,
+    HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState,
+    HTMLTokenizerAfterDOCTYPESystemIdentifierState,
+    HTMLTokenizerBogusDOCTYPEState,
+    HTMLTokenizerCDATASectionState,
+};
+
 @interface HTMLTokenizer : NSEnumerator
 
 // Designated initializer.
-- (id)initWithString:(NSString *)string;
+- (id)initWithString:(NSString *)string state:(HTMLTokenizerState)state;
 
 @end
 
@@ -47,6 +119,9 @@
 @end
 
 @interface HTMLCharacterToken : NSObject
+
+// Designated initializer.
+- (id)initWithData:(NSString *)data;
 
 @property (readonly, nonatomic) NSString *data;
 

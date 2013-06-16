@@ -8,84 +8,6 @@
 
 #import "HTMLTokenizer.h"
 
-typedef NS_ENUM(NSInteger, HTMLTokenizerState)
-{
-    HTMLTokenizerDataState,
-    HTMLTokenizerCharacterReferenceInDataState,
-    HTMLTokenizerRCDATAState,
-    HTMLTokenizerCharacterReferenceInRCDATAState,
-    HTMLTokenizerRAWTEXTState,
-    HTMLTokenizerScriptDataState,
-    HTMLTokenizerPLAINTEXTState,
-    HTMLTokenizerTagOpenState,
-    HTMLTokenizerEndTagOpenState,
-    HTMLTokenizerTagNameState,
-    HTMLTokenizerRCDATALessThanSignState,
-    HTMLTokenizerRCDATAEndTagOpenState,
-    HTMLTokenizerRCDATAEndTagNameState,
-    HTMLTokenizerRAWTEXTLessThanSignState,
-    HTMLTokenizerRAWTEXTEndTagOpenState,
-    HTMLTokenizerRAWTEXTEndTagNameState,
-    HTMLTokenizerScriptDataLessThanSignState,
-    HTMLTokenizerScriptDataEndTagOpenState,
-    HTMLTokenizerScriptDataEndTagNameState,
-    HTMLTokenizerScriptDataEscapeStartState,
-    HTMLTokenizerScriptDataEscapeStartDashState,
-    HTMLTokenizerScriptDataEscapedState,
-    HTMLTokenizerScriptDataEscapedDashState,
-    HTMLTokenizerScriptDataEscapedDashDashState,
-    HTMLTokenizerScriptDataEscapedLessThanSignState,
-    HTMLTokenizerScriptDataEscapedEndTagOpenState,
-    HTMLTokenizerScriptDataEscapedEndTagNameState,
-    HTMLTokenizerScriptDataDoubleEscapeStartState,
-    HTMLTokenizerScriptDataDoubleEscapedState,
-    HTMLTokenizerScriptDataDoubleEscapedDashState,
-    HTMLTokenizerScriptDataDoubleEscapedDashDashState,
-    HTMLTokenizerScriptDataDoubleEscapedLessThanSignState,
-    HTMLTokenizerScriptDataDoubleEscapeEndState,
-    HTMLTokenizerBeforeAttributeNameState,
-    HTMLTokenizerAttributeNameState,
-    HTMLTokenizerAfterAttributeNameState,
-    HTMLTokenizerBeforeAttributeValueState,
-    HTMLTokenizerAttributeValueDoubleQuotedState,
-    HTMLTokenizerAttributeValueSingleQuotedState,
-    HTMLTokenizerAttributeValueUnquotedState,
-    HTMLTokenizerCharacterReferenceInAttributeValueState,
-    HTMLTokenizerAfterAttributeValueQuotedState,
-    HTMLTokenizerSelfClosingStartTagState,
-    HTMLTokenizerBogusCommentState,
-    HTMLTokenizerMarkupDeclarationOpenState,
-    HTMLTokenizerCommentStartState,
-    HTMLTokenizerCommentStartDashState,
-    HTMLTokenizerCommentState,
-    HTMLTokenizerCommentEndDashState,
-    HTMLTokenizerCommentEndState,
-    HTMLTokenizerCommentEndBangState,
-    HTMLTokenizerDOCTYPEState,
-    HTMLTokenizerBeforeDOCTYPENameState,
-    HTMLTokenizerDOCTYPENameState,
-    HTMLTokenizerAfterDOCTYPENameState,
-    HTMLTokenizerAfterDOCTYPEPublicKeywordState,
-    HTMLTokenizerBeforeDOCTYPEPublicIdentifierState,
-    HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState,
-    HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState,
-    HTMLTokenizerAfterDOCTYPEPublicIdentifierState,
-    HTMLTokenizerBetweenDOCTYPEPublicAndSystemIdentifiersState,
-    HTMLTokenizerAfterDOCTYPESystemKeywordState,
-    HTMLTokenizerBeforeDOCTYPESystemIdentifierState,
-    HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState,
-    HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState,
-    HTMLTokenizerAfterDOCTYPESystemIdentifierState,
-    HTMLTokenizerBogusDOCTYPEState,
-    HTMLTokenizerCDATASectionState,
-};
-
-@interface HTMLCharacterToken ()
-
-- (id)initWithData:(NSString *)data;
-
-@end
-
 @implementation HTMLTokenizer
 {
     NSScanner *_scanner;
@@ -93,12 +15,12 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
     NSMutableArray *_tokenQueue;
 }
 
-- (id)initWithString:(NSString *)string
+- (id)initWithString:(NSString *)string state:(HTMLTokenizerState)state
 {
     if (!(self = [super init])) return nil;
     _scanner = [NSScanner scannerWithString:string];
     _scanner.charactersToBeSkipped = nil;
-    _state = HTMLTokenizerDataState;
+    _state = state;
     _tokenQueue = [NSMutableArray new];
     return self;
 }
@@ -2587,7 +2509,7 @@ static const struct {
 
 - (id)init
 {
-    return [self initWithString:nil];
+    return [self initWithString:nil state:HTMLTokenizerDataState];
 }
 
 @end
@@ -2667,6 +2589,23 @@ static const struct {
 - (NSString *)data
 {
     return _data;
+}
+
+#pragma mark - NSObject
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.data];
+}
+
+- (BOOL)isEqual:(HTMLCharacterToken *)other
+{
+    return ([other isKindOfClass:[HTMLCharacterToken class]] && [other.data isEqualToString:self.data]);
+}
+
+- (NSUInteger)hash
+{
+    return self.data.hash;
 }
 
 @end
