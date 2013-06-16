@@ -11,84 +11,84 @@
         
 - (void)test0
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<head>&body;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<head>&body;"];
     NSArray *tokens = @[@[@"Character",@"<head>&body;"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"PLAINTEXT content model flag");
 }
         
 - (void)test1
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp>"];
     NSArray *tokens = @[@[@"Character",@"foo"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag closing RCDATA or RAWTEXT");
 }
         
 - (void)test2
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xMp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xMp>"];
     NSArray *tokens = @[@[@"Character",@"foo"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag closing RCDATA or RAWTEXT (case-insensitivity)");
 }
         
 - (void)test3
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xmp "];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp "];
     NSArray *tokens = @[@[@"Character",@"foo"],@"ParseError"];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag closing RCDATA or RAWTEXT (ending with space)");
 }
         
 - (void)test4
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xmp"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp"];
     NSArray *tokens = @[@[@"Character",@"foo</xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag closing RCDATA or RAWTEXT (ending with EOF)");
 }
         
 - (void)test5
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xmp/"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp/"];
     NSArray *tokens = @[@[@"Character",@"foo"],@"ParseError"];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag closing RCDATA or RAWTEXT (ending with slash)");
 }
         
 - (void)test6
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xmp<"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp<"];
     NSArray *tokens = @[@[@"Character",@"foo</xmp<"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag not closing RCDATA or RAWTEXT (ending with left-angle-bracket)");
 }
         
 - (void)test7
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</foo>bar</xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</foo>bar</xmp>"];
     NSArray *tokens = @[@[@"Character",@"</foo>bar"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag with incorrect name in RCDATA or RAWTEXT");
 }
         
 - (void)test8
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</foo>bar</xmpaar>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</foo>bar</xmpaar>"];
     NSArray *tokens = @[@[@"Character",@"</foo>bar</xmpaar>"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag with incorrect name in RCDATA or RAWTEXT (starting like correct name)");
 }
         
 - (void)test9
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo</xmp></baz>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp></baz>"];
     NSArray *tokens = @[@[@"Character",@"foo"],@[@"EndTag",@"xmp"],@[@"EndTag",@"baz"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag closing RCDATA or RAWTEXT, switching back to PCDATA");
 }
         
 - (void)test10
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&foo;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&foo;"];
     NSArray *tokens = @[@[@"Character",@"&foo;"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"RAWTEXT w/ something looking like an entity");
 }
         
 - (void)test11
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&lt;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&lt;"];
     NSArray *tokens = @[@[@"Character",@"<"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"RCDATA w/ an entity");
 }

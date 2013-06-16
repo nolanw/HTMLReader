@@ -11,7 +11,7 @@
         
 - (void)test0
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<!---- >"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- >"];
     NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-- >"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"<!---- >");
 }

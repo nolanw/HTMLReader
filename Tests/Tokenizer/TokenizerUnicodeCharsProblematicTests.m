@@ -11,35 +11,35 @@
         
 - (void)test0
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"\\uDFFF"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\\uDFFF"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\\uFFFD"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid Unicode character U+DFFF");
 }
         
 - (void)test1
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"\\uD800"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\\uD800"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\\uFFFD"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid Unicode character U+D800");
 }
         
 - (void)test2
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"a\\uDFFF"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"a\\uDFFF"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"a\\uFFFD"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid Unicode character U+DFFF with valid preceding character");
 }
         
 - (void)test3
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"\\uD800a"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\\uD800a"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\\uFFFDa"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid Unicode character U+D800 with valid following character");
 }
         
 - (void)test4
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"\r\x00"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\r\x00"];
     NSArray *tokens = @[@[@"Character",@"\n"],@"ParseError",@[@"Character",@"\x00"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"CR followed by U+0000");
 }

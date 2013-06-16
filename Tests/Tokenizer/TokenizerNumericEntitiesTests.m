@@ -11,2289 +11,2289 @@
         
 - (void)test0
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0000;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"�"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0000");
 }
         
 - (void)test1
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0001;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0001;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x01"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0001");
 }
         
 - (void)test2
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0002;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0002;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x02"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0002");
 }
         
 - (void)test3
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0003;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0003;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x03"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0003");
 }
         
 - (void)test4
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0004;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0004;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x04"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0004");
 }
         
 - (void)test5
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0005;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0005;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x05"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0005");
 }
         
 - (void)test6
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0006;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0006;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x06"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0006");
 }
         
 - (void)test7
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0007;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0007;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x07"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0007");
 }
         
 - (void)test8
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0008;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0008;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\b"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0008");
 }
         
 - (void)test9
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x000b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000b;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x0b"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+000B");
 }
         
 - (void)test10
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x000e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000e;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x0e"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+000E");
 }
         
 - (void)test11
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x000f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000f;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x0f"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+000F");
 }
         
 - (void)test12
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0010;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0010;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x10"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0010");
 }
         
 - (void)test13
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0011;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0011;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x11"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0011");
 }
         
 - (void)test14
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0012;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0012;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x12"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0012");
 }
         
 - (void)test15
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0013;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0013;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x13"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0013");
 }
         
 - (void)test16
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0014;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0014;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x14"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0014");
 }
         
 - (void)test17
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0015;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0015;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x15"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0015");
 }
         
 - (void)test18
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0016;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0016;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x16"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0016");
 }
         
 - (void)test19
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0017;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0017;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x17"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0017");
 }
         
 - (void)test20
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0018;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0018;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x18"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0018");
 }
         
 - (void)test21
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0019;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0019;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x19"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+0019");
 }
         
 - (void)test22
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x001a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001a;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x1a"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+001A");
 }
         
 - (void)test23
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x001b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001b;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x1b"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+001B");
 }
         
 - (void)test24
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x001c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001c;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x1c"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+001C");
 }
         
 - (void)test25
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x001d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001d;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x1d"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+001D");
 }
         
 - (void)test26
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x001e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001e;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x1e"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+001E");
 }
         
 - (void)test27
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x001f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001f;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\x1f"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+001F");
 }
         
 - (void)test28
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x007f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007f;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+007F");
 }
         
 - (void)test29
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xd800;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd800;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"�"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+D800");
 }
         
 - (void)test30
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xdfff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"�"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+DFFF");
 }
         
 - (void)test31
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd0;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷐"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD0");
 }
         
 - (void)test32
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd1;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷑"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD1");
 }
         
 - (void)test33
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd2;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷒"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD2");
 }
         
 - (void)test34
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd3;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷓"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD3");
 }
         
 - (void)test35
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd4;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷔"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD4");
 }
         
 - (void)test36
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd5;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷕"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD5");
 }
         
 - (void)test37
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd6;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷖"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD6");
 }
         
 - (void)test38
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd7;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷗"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD7");
 }
         
 - (void)test39
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd8;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷘"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD8");
 }
         
 - (void)test40
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdd9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd9;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷙"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDD9");
 }
         
 - (void)test41
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdda;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdda;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷚"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDDA");
 }
         
 - (void)test42
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfddb;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddb;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷛"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDDB");
 }
         
 - (void)test43
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfddc;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddc;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷜"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDDC");
 }
         
 - (void)test44
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfddd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddd;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷝"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDDD");
 }
         
 - (void)test45
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdde;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdde;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷞"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDDE");
 }
         
 - (void)test46
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfddf;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddf;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷟"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDDF");
 }
         
 - (void)test47
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde0;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷠"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE0");
 }
         
 - (void)test48
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde1;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷡"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE1");
 }
         
 - (void)test49
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde2;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷢"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE2");
 }
         
 - (void)test50
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde3;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷣"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE3");
 }
         
 - (void)test51
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde4;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷤"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE4");
 }
         
 - (void)test52
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde5;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷥"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE5");
 }
         
 - (void)test53
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde6;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷦"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE6");
 }
         
 - (void)test54
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde7;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷧"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE7");
 }
         
 - (void)test55
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde8;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷨"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE8");
 }
         
 - (void)test56
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfde9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde9;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷩"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDE9");
 }
         
 - (void)test57
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdea;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdea;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷪"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDEA");
 }
         
 - (void)test58
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdeb;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdeb;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷫"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDEB");
 }
         
 - (void)test59
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdec;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdec;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷬"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDEC");
 }
         
 - (void)test60
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfded;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfded;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷭"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDED");
 }
         
 - (void)test61
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdee;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdee;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷮"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDEE");
 }
         
 - (void)test62
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdef;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdef;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"﷯"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FDEF");
 }
         
 - (void)test63
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"￾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FFFE");
 }
         
 - (void)test64
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"￿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FFFF");
 }
         
 - (void)test65
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x1fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"🿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+1FFFE");
 }
         
 - (void)test66
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x1ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"🿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+1FFFF");
 }
         
 - (void)test67
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x2fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"𯿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+2FFFE");
 }
         
 - (void)test68
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x2ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"𯿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+2FFFF");
 }
         
 - (void)test69
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x3fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"𿿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+3FFFE");
 }
         
 - (void)test70
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x3ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"𿿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+3FFFF");
 }
         
 - (void)test71
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x4fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񏿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+4FFFE");
 }
         
 - (void)test72
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x4ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񏿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+4FFFF");
 }
         
 - (void)test73
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x5fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񟿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+5FFFE");
 }
         
 - (void)test74
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x5ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񟿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+5FFFF");
 }
         
 - (void)test75
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x6fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񯿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+6FFFE");
 }
         
 - (void)test76
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x6ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񯿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+6FFFF");
 }
         
 - (void)test77
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x7fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񿿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+7FFFE");
 }
         
 - (void)test78
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x7ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"񿿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+7FFFF");
 }
         
 - (void)test79
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x8fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򏿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+8FFFE");
 }
         
 - (void)test80
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x8ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򏿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+8FFFF");
 }
         
 - (void)test81
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x9fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򟿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+9FFFE");
 }
         
 - (void)test82
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x9ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򟿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+9FFFF");
 }
         
 - (void)test83
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xafffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xafffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򯿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+AFFFE");
 }
         
 - (void)test84
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xaffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xaffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򯿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+AFFFF");
 }
         
 - (void)test85
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xbfffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbfffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򿿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+BFFFE");
 }
         
 - (void)test86
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xbffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"򿿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+BFFFF");
 }
         
 - (void)test87
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xcfffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcfffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󏿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+CFFFE");
 }
         
 - (void)test88
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xcffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󏿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+CFFFF");
 }
         
 - (void)test89
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xdfffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󟿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+DFFFE");
 }
         
 - (void)test90
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xdffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󟿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+DFFFF");
 }
         
 - (void)test91
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xefffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xefffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󯿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+EFFFE");
 }
         
 - (void)test92
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xeffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xeffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󯿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+EFFFF");
 }
         
 - (void)test93
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xffffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󿿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FFFFE");
 }
         
 - (void)test94
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"󿿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+FFFFF");
 }
         
 - (void)test95
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x10fffe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10fffe;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"􏿾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+10FFFE");
 }
         
 - (void)test96
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x10ffff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10ffff;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"􏿿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Invalid numeric entity character U+10FFFF");
 }
         
 - (void)test97
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0009;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0009;"];
     NSArray *tokens = @[@[@"Character",@"\t"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0009");
 }
         
 - (void)test98
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x000a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000a;"];
     NSArray *tokens = @[@[@"Character",@"\n"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+000A");
 }
         
 - (void)test99
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0020;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0020;"];
     NSArray *tokens = @[@[@"Character",@" "]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0020");
 }
         
 - (void)test100
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0021;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0021;"];
     NSArray *tokens = @[@[@"Character",@"!"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0021");
 }
         
 - (void)test101
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0022;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0022;"];
     NSArray *tokens = @[@[@"Character",@"\""]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0022");
 }
         
 - (void)test102
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0023;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0023;"];
     NSArray *tokens = @[@[@"Character",@"#"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0023");
 }
         
 - (void)test103
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0024;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0024;"];
     NSArray *tokens = @[@[@"Character",@"$"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0024");
 }
         
 - (void)test104
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0025;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0025;"];
     NSArray *tokens = @[@[@"Character",@"%"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0025");
 }
         
 - (void)test105
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0026;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0026;"];
     NSArray *tokens = @[@[@"Character",@"&"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0026");
 }
         
 - (void)test106
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0027;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0027;"];
     NSArray *tokens = @[@[@"Character",@"'"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0027");
 }
         
 - (void)test107
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0028;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0028;"];
     NSArray *tokens = @[@[@"Character",@"("]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0028");
 }
         
 - (void)test108
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0029;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0029;"];
     NSArray *tokens = @[@[@"Character",@")"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0029");
 }
         
 - (void)test109
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x002a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002a;"];
     NSArray *tokens = @[@[@"Character",@"*"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+002A");
 }
         
 - (void)test110
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x002b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002b;"];
     NSArray *tokens = @[@[@"Character",@"+"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+002B");
 }
         
 - (void)test111
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x002c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002c;"];
     NSArray *tokens = @[@[@"Character",@","]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+002C");
 }
         
 - (void)test112
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x002d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002d;"];
     NSArray *tokens = @[@[@"Character",@"-"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+002D");
 }
         
 - (void)test113
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x002e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002e;"];
     NSArray *tokens = @[@[@"Character",@"."]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+002E");
 }
         
 - (void)test114
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x002f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002f;"];
     NSArray *tokens = @[@[@"Character",@"/"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+002F");
 }
         
 - (void)test115
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0030;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0030;"];
     NSArray *tokens = @[@[@"Character",@"0"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0030");
 }
         
 - (void)test116
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0031;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0031;"];
     NSArray *tokens = @[@[@"Character",@"1"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0031");
 }
         
 - (void)test117
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0032;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0032;"];
     NSArray *tokens = @[@[@"Character",@"2"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0032");
 }
         
 - (void)test118
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0033;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0033;"];
     NSArray *tokens = @[@[@"Character",@"3"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0033");
 }
         
 - (void)test119
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0034;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0034;"];
     NSArray *tokens = @[@[@"Character",@"4"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0034");
 }
         
 - (void)test120
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0035;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0035;"];
     NSArray *tokens = @[@[@"Character",@"5"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0035");
 }
         
 - (void)test121
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0036;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0036;"];
     NSArray *tokens = @[@[@"Character",@"6"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0036");
 }
         
 - (void)test122
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0037;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0037;"];
     NSArray *tokens = @[@[@"Character",@"7"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0037");
 }
         
 - (void)test123
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0038;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0038;"];
     NSArray *tokens = @[@[@"Character",@"8"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0038");
 }
         
 - (void)test124
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0039;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0039;"];
     NSArray *tokens = @[@[@"Character",@"9"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0039");
 }
         
 - (void)test125
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x003a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003a;"];
     NSArray *tokens = @[@[@"Character",@":"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+003A");
 }
         
 - (void)test126
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x003b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003b;"];
     NSArray *tokens = @[@[@"Character",@";"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+003B");
 }
         
 - (void)test127
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x003c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003c;"];
     NSArray *tokens = @[@[@"Character",@"<"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+003C");
 }
         
 - (void)test128
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x003d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003d;"];
     NSArray *tokens = @[@[@"Character",@"="]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+003D");
 }
         
 - (void)test129
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x003e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003e;"];
     NSArray *tokens = @[@[@"Character",@">"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+003E");
 }
         
 - (void)test130
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x003f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003f;"];
     NSArray *tokens = @[@[@"Character",@"?"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+003F");
 }
         
 - (void)test131
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0040;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0040;"];
     NSArray *tokens = @[@[@"Character",@"@"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0040");
 }
         
 - (void)test132
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0041;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0041;"];
     NSArray *tokens = @[@[@"Character",@"A"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0041");
 }
         
 - (void)test133
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0042;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0042;"];
     NSArray *tokens = @[@[@"Character",@"B"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0042");
 }
         
 - (void)test134
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0043;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0043;"];
     NSArray *tokens = @[@[@"Character",@"C"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0043");
 }
         
 - (void)test135
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0044;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0044;"];
     NSArray *tokens = @[@[@"Character",@"D"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0044");
 }
         
 - (void)test136
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0045;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0045;"];
     NSArray *tokens = @[@[@"Character",@"E"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0045");
 }
         
 - (void)test137
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0046;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0046;"];
     NSArray *tokens = @[@[@"Character",@"F"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0046");
 }
         
 - (void)test138
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0047;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0047;"];
     NSArray *tokens = @[@[@"Character",@"G"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0047");
 }
         
 - (void)test139
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0048;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0048;"];
     NSArray *tokens = @[@[@"Character",@"H"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0048");
 }
         
 - (void)test140
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0049;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0049;"];
     NSArray *tokens = @[@[@"Character",@"I"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0049");
 }
         
 - (void)test141
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x004a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004a;"];
     NSArray *tokens = @[@[@"Character",@"J"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+004A");
 }
         
 - (void)test142
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x004b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004b;"];
     NSArray *tokens = @[@[@"Character",@"K"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+004B");
 }
         
 - (void)test143
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x004c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004c;"];
     NSArray *tokens = @[@[@"Character",@"L"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+004C");
 }
         
 - (void)test144
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x004d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004d;"];
     NSArray *tokens = @[@[@"Character",@"M"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+004D");
 }
         
 - (void)test145
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x004e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004e;"];
     NSArray *tokens = @[@[@"Character",@"N"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+004E");
 }
         
 - (void)test146
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x004f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004f;"];
     NSArray *tokens = @[@[@"Character",@"O"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+004F");
 }
         
 - (void)test147
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0050;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0050;"];
     NSArray *tokens = @[@[@"Character",@"P"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0050");
 }
         
 - (void)test148
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0051;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0051;"];
     NSArray *tokens = @[@[@"Character",@"Q"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0051");
 }
         
 - (void)test149
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0052;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0052;"];
     NSArray *tokens = @[@[@"Character",@"R"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0052");
 }
         
 - (void)test150
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0053;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0053;"];
     NSArray *tokens = @[@[@"Character",@"S"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0053");
 }
         
 - (void)test151
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0054;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0054;"];
     NSArray *tokens = @[@[@"Character",@"T"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0054");
 }
         
 - (void)test152
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0055;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0055;"];
     NSArray *tokens = @[@[@"Character",@"U"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0055");
 }
         
 - (void)test153
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0056;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0056;"];
     NSArray *tokens = @[@[@"Character",@"V"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0056");
 }
         
 - (void)test154
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0057;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0057;"];
     NSArray *tokens = @[@[@"Character",@"W"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0057");
 }
         
 - (void)test155
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0058;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0058;"];
     NSArray *tokens = @[@[@"Character",@"X"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0058");
 }
         
 - (void)test156
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0059;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0059;"];
     NSArray *tokens = @[@[@"Character",@"Y"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0059");
 }
         
 - (void)test157
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x005a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005a;"];
     NSArray *tokens = @[@[@"Character",@"Z"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+005A");
 }
         
 - (void)test158
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x005b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005b;"];
     NSArray *tokens = @[@[@"Character",@"@["]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+005B");
 }
         
 - (void)test159
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x005c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005c;"];
     NSArray *tokens = @[@[@"Character",@"\\"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+005C");
 }
         
 - (void)test160
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x005d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005d;"];
     NSArray *tokens = @[@[@"Character",@"]"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+005D");
 }
         
 - (void)test161
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x005e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005e;"];
     NSArray *tokens = @[@[@"Character",@"^"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+005E");
 }
         
 - (void)test162
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x005f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005f;"];
     NSArray *tokens = @[@[@"Character",@"_"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+005F");
 }
         
 - (void)test163
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0060;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0060;"];
     NSArray *tokens = @[@[@"Character",@"`"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0060");
 }
         
 - (void)test164
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0061;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0061;"];
     NSArray *tokens = @[@[@"Character",@"a"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0061");
 }
         
 - (void)test165
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0062;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0062;"];
     NSArray *tokens = @[@[@"Character",@"b"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0062");
 }
         
 - (void)test166
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0063;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0063;"];
     NSArray *tokens = @[@[@"Character",@"c"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0063");
 }
         
 - (void)test167
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0064;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0064;"];
     NSArray *tokens = @[@[@"Character",@"d"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0064");
 }
         
 - (void)test168
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0065;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0065;"];
     NSArray *tokens = @[@[@"Character",@"e"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0065");
 }
         
 - (void)test169
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0066;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0066;"];
     NSArray *tokens = @[@[@"Character",@"f"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0066");
 }
         
 - (void)test170
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0067;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0067;"];
     NSArray *tokens = @[@[@"Character",@"g"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0067");
 }
         
 - (void)test171
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0068;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0068;"];
     NSArray *tokens = @[@[@"Character",@"h"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0068");
 }
         
 - (void)test172
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0069;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0069;"];
     NSArray *tokens = @[@[@"Character",@"i"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0069");
 }
         
 - (void)test173
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x006a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006a;"];
     NSArray *tokens = @[@[@"Character",@"j"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+006A");
 }
         
 - (void)test174
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x006b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006b;"];
     NSArray *tokens = @[@[@"Character",@"k"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+006B");
 }
         
 - (void)test175
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x006c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006c;"];
     NSArray *tokens = @[@[@"Character",@"l"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+006C");
 }
         
 - (void)test176
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x006d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006d;"];
     NSArray *tokens = @[@[@"Character",@"m"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+006D");
 }
         
 - (void)test177
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x006e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006e;"];
     NSArray *tokens = @[@[@"Character",@"n"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+006E");
 }
         
 - (void)test178
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x006f;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006f;"];
     NSArray *tokens = @[@[@"Character",@"o"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+006F");
 }
         
 - (void)test179
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0070;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0070;"];
     NSArray *tokens = @[@[@"Character",@"p"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0070");
 }
         
 - (void)test180
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0071;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0071;"];
     NSArray *tokens = @[@[@"Character",@"q"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0071");
 }
         
 - (void)test181
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0072;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0072;"];
     NSArray *tokens = @[@[@"Character",@"r"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0072");
 }
         
 - (void)test182
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0073;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0073;"];
     NSArray *tokens = @[@[@"Character",@"s"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0073");
 }
         
 - (void)test183
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0074;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0074;"];
     NSArray *tokens = @[@[@"Character",@"t"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0074");
 }
         
 - (void)test184
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0075;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0075;"];
     NSArray *tokens = @[@[@"Character",@"u"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0075");
 }
         
 - (void)test185
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0076;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0076;"];
     NSArray *tokens = @[@[@"Character",@"v"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0076");
 }
         
 - (void)test186
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0077;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0077;"];
     NSArray *tokens = @[@[@"Character",@"w"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0077");
 }
         
 - (void)test187
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0078;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0078;"];
     NSArray *tokens = @[@[@"Character",@"x"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0078");
 }
         
 - (void)test188
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x0079;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0079;"];
     NSArray *tokens = @[@[@"Character",@"y"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+0079");
 }
         
 - (void)test189
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x007a;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007a;"];
     NSArray *tokens = @[@[@"Character",@"z"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+007A");
 }
         
 - (void)test190
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x007b;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007b;"];
     NSArray *tokens = @[@[@"Character",@"@{"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+007B");
 }
         
 - (void)test191
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x007c;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007c;"];
     NSArray *tokens = @[@[@"Character",@"|"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+007C");
 }
         
 - (void)test192
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x007d;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007d;"];
     NSArray *tokens = @[@[@"Character",@"}"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+007D");
 }
         
 - (void)test193
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x007e;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007e;"];
     NSArray *tokens = @[@[@"Character",@"~"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+007E");
 }
         
 - (void)test194
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a0;"];
     NSArray *tokens = @[@[@"Character",@" "]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A0");
 }
         
 - (void)test195
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a1;"];
     NSArray *tokens = @[@[@"Character",@"¡"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A1");
 }
         
 - (void)test196
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a2;"];
     NSArray *tokens = @[@[@"Character",@"¢"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A2");
 }
         
 - (void)test197
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a3;"];
     NSArray *tokens = @[@[@"Character",@"£"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A3");
 }
         
 - (void)test198
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a4;"];
     NSArray *tokens = @[@[@"Character",@"¤"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A4");
 }
         
 - (void)test199
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a5;"];
     NSArray *tokens = @[@[@"Character",@"¥"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A5");
 }
         
 - (void)test200
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a6;"];
     NSArray *tokens = @[@[@"Character",@"¦"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A6");
 }
         
 - (void)test201
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a7;"];
     NSArray *tokens = @[@[@"Character",@"§"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A7");
 }
         
 - (void)test202
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a8;"];
     NSArray *tokens = @[@[@"Character",@"¨"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A8");
 }
         
 - (void)test203
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00a9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a9;"];
     NSArray *tokens = @[@[@"Character",@"©"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00A9");
 }
         
 - (void)test204
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00aa;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00aa;"];
     NSArray *tokens = @[@[@"Character",@"ª"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00AA");
 }
         
 - (void)test205
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ab;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ab;"];
     NSArray *tokens = @[@[@"Character",@"«"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00AB");
 }
         
 - (void)test206
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ac;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ac;"];
     NSArray *tokens = @[@[@"Character",@"¬"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00AC");
 }
         
 - (void)test207
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ad;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ad;"];
     NSArray *tokens = @[@[@"Character",@"­"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00AD");
 }
         
 - (void)test208
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ae;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ae;"];
     NSArray *tokens = @[@[@"Character",@"®"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00AE");
 }
         
 - (void)test209
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00af;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00af;"];
     NSArray *tokens = @[@[@"Character",@"¯"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00AF");
 }
         
 - (void)test210
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b0;"];
     NSArray *tokens = @[@[@"Character",@"°"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B0");
 }
         
 - (void)test211
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b1;"];
     NSArray *tokens = @[@[@"Character",@"±"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B1");
 }
         
 - (void)test212
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b2;"];
     NSArray *tokens = @[@[@"Character",@"²"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B2");
 }
         
 - (void)test213
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b3;"];
     NSArray *tokens = @[@[@"Character",@"³"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B3");
 }
         
 - (void)test214
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b4;"];
     NSArray *tokens = @[@[@"Character",@"´"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B4");
 }
         
 - (void)test215
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b5;"];
     NSArray *tokens = @[@[@"Character",@"µ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B5");
 }
         
 - (void)test216
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b6;"];
     NSArray *tokens = @[@[@"Character",@"¶"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B6");
 }
         
 - (void)test217
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b7;"];
     NSArray *tokens = @[@[@"Character",@"·"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B7");
 }
         
 - (void)test218
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b8;"];
     NSArray *tokens = @[@[@"Character",@"¸"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B8");
 }
         
 - (void)test219
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00b9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b9;"];
     NSArray *tokens = @[@[@"Character",@"¹"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00B9");
 }
         
 - (void)test220
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ba;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ba;"];
     NSArray *tokens = @[@[@"Character",@"º"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00BA");
 }
         
 - (void)test221
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00bb;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bb;"];
     NSArray *tokens = @[@[@"Character",@"»"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00BB");
 }
         
 - (void)test222
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00bc;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bc;"];
     NSArray *tokens = @[@[@"Character",@"¼"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00BC");
 }
         
 - (void)test223
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00bd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bd;"];
     NSArray *tokens = @[@[@"Character",@"½"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00BD");
 }
         
 - (void)test224
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00be;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00be;"];
     NSArray *tokens = @[@[@"Character",@"¾"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00BE");
 }
         
 - (void)test225
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00bf;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bf;"];
     NSArray *tokens = @[@[@"Character",@"¿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00BF");
 }
         
 - (void)test226
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c0;"];
     NSArray *tokens = @[@[@"Character",@"À"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C0");
 }
         
 - (void)test227
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c1;"];
     NSArray *tokens = @[@[@"Character",@"Á"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C1");
 }
         
 - (void)test228
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c2;"];
     NSArray *tokens = @[@[@"Character",@"Â"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C2");
 }
         
 - (void)test229
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c3;"];
     NSArray *tokens = @[@[@"Character",@"Ã"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C3");
 }
         
 - (void)test230
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c4;"];
     NSArray *tokens = @[@[@"Character",@"Ä"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C4");
 }
         
 - (void)test231
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c5;"];
     NSArray *tokens = @[@[@"Character",@"Å"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C5");
 }
         
 - (void)test232
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c6;"];
     NSArray *tokens = @[@[@"Character",@"Æ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C6");
 }
         
 - (void)test233
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c7;"];
     NSArray *tokens = @[@[@"Character",@"Ç"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C7");
 }
         
 - (void)test234
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c8;"];
     NSArray *tokens = @[@[@"Character",@"È"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C8");
 }
         
 - (void)test235
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00c9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c9;"];
     NSArray *tokens = @[@[@"Character",@"É"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00C9");
 }
         
 - (void)test236
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ca;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ca;"];
     NSArray *tokens = @[@[@"Character",@"Ê"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00CA");
 }
         
 - (void)test237
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00cb;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cb;"];
     NSArray *tokens = @[@[@"Character",@"Ë"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00CB");
 }
         
 - (void)test238
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00cc;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cc;"];
     NSArray *tokens = @[@[@"Character",@"Ì"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00CC");
 }
         
 - (void)test239
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00cd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cd;"];
     NSArray *tokens = @[@[@"Character",@"Í"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00CD");
 }
         
 - (void)test240
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ce;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ce;"];
     NSArray *tokens = @[@[@"Character",@"Î"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00CE");
 }
         
 - (void)test241
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00cf;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cf;"];
     NSArray *tokens = @[@[@"Character",@"Ï"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00CF");
 }
         
 - (void)test242
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d0;"];
     NSArray *tokens = @[@[@"Character",@"Ð"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D0");
 }
         
 - (void)test243
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d1;"];
     NSArray *tokens = @[@[@"Character",@"Ñ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D1");
 }
         
 - (void)test244
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d2;"];
     NSArray *tokens = @[@[@"Character",@"Ò"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D2");
 }
         
 - (void)test245
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d3;"];
     NSArray *tokens = @[@[@"Character",@"Ó"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D3");
 }
         
 - (void)test246
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d4;"];
     NSArray *tokens = @[@[@"Character",@"Ô"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D4");
 }
         
 - (void)test247
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d5;"];
     NSArray *tokens = @[@[@"Character",@"Õ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D5");
 }
         
 - (void)test248
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d6;"];
     NSArray *tokens = @[@[@"Character",@"Ö"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D6");
 }
         
 - (void)test249
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d7;"];
     NSArray *tokens = @[@[@"Character",@"×"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D7");
 }
         
 - (void)test250
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d8;"];
     NSArray *tokens = @[@[@"Character",@"Ø"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D8");
 }
         
 - (void)test251
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00d9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d9;"];
     NSArray *tokens = @[@[@"Character",@"Ù"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00D9");
 }
         
 - (void)test252
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00da;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00da;"];
     NSArray *tokens = @[@[@"Character",@"Ú"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00DA");
 }
         
 - (void)test253
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00db;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00db;"];
     NSArray *tokens = @[@[@"Character",@"Û"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00DB");
 }
         
 - (void)test254
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00dc;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00dc;"];
     NSArray *tokens = @[@[@"Character",@"Ü"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00DC");
 }
         
 - (void)test255
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00dd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00dd;"];
     NSArray *tokens = @[@[@"Character",@"Ý"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00DD");
 }
         
 - (void)test256
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00de;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00de;"];
     NSArray *tokens = @[@[@"Character",@"Þ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00DE");
 }
         
 - (void)test257
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00df;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00df;"];
     NSArray *tokens = @[@[@"Character",@"ß"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00DF");
 }
         
 - (void)test258
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e0;"];
     NSArray *tokens = @[@[@"Character",@"à"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E0");
 }
         
 - (void)test259
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e1;"];
     NSArray *tokens = @[@[@"Character",@"á"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E1");
 }
         
 - (void)test260
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e2;"];
     NSArray *tokens = @[@[@"Character",@"â"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E2");
 }
         
 - (void)test261
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e3;"];
     NSArray *tokens = @[@[@"Character",@"ã"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E3");
 }
         
 - (void)test262
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e4;"];
     NSArray *tokens = @[@[@"Character",@"ä"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E4");
 }
         
 - (void)test263
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e5;"];
     NSArray *tokens = @[@[@"Character",@"å"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E5");
 }
         
 - (void)test264
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e6;"];
     NSArray *tokens = @[@[@"Character",@"æ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E6");
 }
         
 - (void)test265
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e7;"];
     NSArray *tokens = @[@[@"Character",@"ç"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E7");
 }
         
 - (void)test266
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e8;"];
     NSArray *tokens = @[@[@"Character",@"è"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E8");
 }
         
 - (void)test267
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00e9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e9;"];
     NSArray *tokens = @[@[@"Character",@"é"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00E9");
 }
         
 - (void)test268
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ea;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ea;"];
     NSArray *tokens = @[@[@"Character",@"ê"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00EA");
 }
         
 - (void)test269
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00eb;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00eb;"];
     NSArray *tokens = @[@[@"Character",@"ë"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00EB");
 }
         
 - (void)test270
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ec;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ec;"];
     NSArray *tokens = @[@[@"Character",@"ì"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00EC");
 }
         
 - (void)test271
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ed;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ed;"];
     NSArray *tokens = @[@[@"Character",@"í"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00ED");
 }
         
 - (void)test272
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ee;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ee;"];
     NSArray *tokens = @[@[@"Character",@"î"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00EE");
 }
         
 - (void)test273
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ef;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ef;"];
     NSArray *tokens = @[@[@"Character",@"ï"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00EF");
 }
         
 - (void)test274
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f0;"];
     NSArray *tokens = @[@[@"Character",@"ð"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F0");
 }
         
 - (void)test275
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f1;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f1;"];
     NSArray *tokens = @[@[@"Character",@"ñ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F1");
 }
         
 - (void)test276
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f2;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f2;"];
     NSArray *tokens = @[@[@"Character",@"ò"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F2");
 }
         
 - (void)test277
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f3;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f3;"];
     NSArray *tokens = @[@[@"Character",@"ó"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F3");
 }
         
 - (void)test278
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f4;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f4;"];
     NSArray *tokens = @[@[@"Character",@"ô"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F4");
 }
         
 - (void)test279
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f5;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f5;"];
     NSArray *tokens = @[@[@"Character",@"õ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F5");
 }
         
 - (void)test280
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f6;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f6;"];
     NSArray *tokens = @[@[@"Character",@"ö"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F6");
 }
         
 - (void)test281
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f7;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f7;"];
     NSArray *tokens = @[@[@"Character",@"÷"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F7");
 }
         
 - (void)test282
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f8;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f8;"];
     NSArray *tokens = @[@[@"Character",@"ø"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F8");
 }
         
 - (void)test283
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00f9;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f9;"];
     NSArray *tokens = @[@[@"Character",@"ù"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00F9");
 }
         
 - (void)test284
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00fa;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fa;"];
     NSArray *tokens = @[@[@"Character",@"ú"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00FA");
 }
         
 - (void)test285
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00fb;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fb;"];
     NSArray *tokens = @[@[@"Character",@"û"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00FB");
 }
         
 - (void)test286
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00fc;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fc;"];
     NSArray *tokens = @[@[@"Character",@"ü"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00FC");
 }
         
 - (void)test287
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00fd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fd;"];
     NSArray *tokens = @[@[@"Character",@"ý"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00FD");
 }
         
 - (void)test288
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00fe;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fe;"];
     NSArray *tokens = @[@[@"Character",@"þ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00FE");
 }
         
 - (void)test289
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x00ff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ff;"];
     NSArray *tokens = @[@[@"Character",@"ÿ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+00FF");
 }
         
 - (void)test290
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xd7ff;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd7ff;"];
     NSArray *tokens = @[@[@"Character",@"퟿"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+D7FF");
 }
         
 - (void)test291
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xe000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xe000;"];
     NSArray *tokens = @[@[@"Character",@""]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+E000");
 }
         
 - (void)test292
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdcf;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdcf;"];
     NSArray *tokens = @[@[@"Character",@"﷏"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+FDCF");
 }
         
 - (void)test293
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfdf0;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdf0;"];
     NSArray *tokens = @[@[@"Character",@"ﷰ"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+FDF0");
 }
         
 - (void)test294
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xfffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffd;"];
     NSArray *tokens = @[@[@"Character",@"�"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+FFFD");
 }
         
 - (void)test295
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x10000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10000;"];
     NSArray *tokens = @[@[@"Character",@"𐀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+10000");
 }
         
 - (void)test296
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x1fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1fffd;"];
     NSArray *tokens = @[@[@"Character",@"🿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+1FFFD");
 }
         
 - (void)test297
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x20000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x20000;"];
     NSArray *tokens = @[@[@"Character",@"𠀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+20000");
 }
         
 - (void)test298
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x2fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2fffd;"];
     NSArray *tokens = @[@[@"Character",@"𯿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+2FFFD");
 }
         
 - (void)test299
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x30000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x30000;"];
     NSArray *tokens = @[@[@"Character",@"𰀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+30000");
 }
         
 - (void)test300
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x3fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3fffd;"];
     NSArray *tokens = @[@[@"Character",@"𿿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+3FFFD");
 }
         
 - (void)test301
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x40000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x40000;"];
     NSArray *tokens = @[@[@"Character",@"񀀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+40000");
 }
         
 - (void)test302
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x4fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4fffd;"];
     NSArray *tokens = @[@[@"Character",@"񏿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+4FFFD");
 }
         
 - (void)test303
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x50000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x50000;"];
     NSArray *tokens = @[@[@"Character",@"񐀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+50000");
 }
         
 - (void)test304
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x5fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5fffd;"];
     NSArray *tokens = @[@[@"Character",@"񟿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+5FFFD");
 }
         
 - (void)test305
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x60000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x60000;"];
     NSArray *tokens = @[@[@"Character",@"񠀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+60000");
 }
         
 - (void)test306
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x6fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6fffd;"];
     NSArray *tokens = @[@[@"Character",@"񯿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+6FFFD");
 }
         
 - (void)test307
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x70000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x70000;"];
     NSArray *tokens = @[@[@"Character",@"񰀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+70000");
 }
         
 - (void)test308
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x7fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7fffd;"];
     NSArray *tokens = @[@[@"Character",@"񿿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+7FFFD");
 }
         
 - (void)test309
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x80000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x80000;"];
     NSArray *tokens = @[@[@"Character",@"򀀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+80000");
 }
         
 - (void)test310
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x8fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8fffd;"];
     NSArray *tokens = @[@[@"Character",@"򏿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+8FFFD");
 }
         
 - (void)test311
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x90000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x90000;"];
     NSArray *tokens = @[@[@"Character",@"򐀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+90000");
 }
         
 - (void)test312
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x9fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9fffd;"];
     NSArray *tokens = @[@[@"Character",@"򟿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+9FFFD");
 }
         
 - (void)test313
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xa0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xa0000;"];
     NSArray *tokens = @[@[@"Character",@"򠀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+A0000");
 }
         
 - (void)test314
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xafffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xafffd;"];
     NSArray *tokens = @[@[@"Character",@"򯿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+AFFFD");
 }
         
 - (void)test315
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xb0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xb0000;"];
     NSArray *tokens = @[@[@"Character",@"򰀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+B0000");
 }
         
 - (void)test316
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xbfffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbfffd;"];
     NSArray *tokens = @[@[@"Character",@"򿿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+BFFFD");
 }
         
 - (void)test317
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xc0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xc0000;"];
     NSArray *tokens = @[@[@"Character",@"󀀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+C0000");
 }
         
 - (void)test318
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xcfffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcfffd;"];
     NSArray *tokens = @[@[@"Character",@"󏿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+CFFFD");
 }
         
 - (void)test319
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xd0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd0000;"];
     NSArray *tokens = @[@[@"Character",@"󐀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+D0000");
 }
         
 - (void)test320
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xdfffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfffd;"];
     NSArray *tokens = @[@[@"Character",@"󟿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+DFFFD");
 }
         
 - (void)test321
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xe0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xe0000;"];
     NSArray *tokens = @[@[@"Character",@"󠀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+E0000");
 }
         
 - (void)test322
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xefffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xefffd;"];
     NSArray *tokens = @[@[@"Character",@"󯿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+EFFFD");
 }
         
 - (void)test323
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xf0000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xf0000;"];
     NSArray *tokens = @[@[@"Character",@"󰀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+F0000");
 }
         
 - (void)test324
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#xffffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffffd;"];
     NSArray *tokens = @[@[@"Character",@"󿿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+FFFFD");
 }
         
 - (void)test325
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x100000;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x100000;"];
     NSArray *tokens = @[@[@"Character",@"􀀀"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+100000");
 }
         
 - (void)test326
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&#x10fffd;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10fffd;"];
     NSArray *tokens = @[@[@"Character",@"􏿽"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Valid numeric entity character U+10FFFD");
 }

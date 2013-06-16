@@ -31,7 +31,7 @@ END
         
 - (void)test#{i}
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:#{input}];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:#{input}];
     NSArray *tokens = #{output};
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", #{description});
 }

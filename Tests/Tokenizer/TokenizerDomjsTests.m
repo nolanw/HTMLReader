@@ -11,98 +11,98 @@
         
 - (void)test0
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<?\r"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\r"];
     NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\n"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"CR in bogus comment state");
 }
         
 - (void)test1
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<?\r\n"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\r\n"];
     NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\n"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"CRLF in bogus comment state");
 }
         
 - (void)test2
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"\\x00"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\\x00"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"\\uFFFD"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"NUL in RCDATA and RAWTEXT");
 }
         
 - (void)test3
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"﻿foo﻿bar"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"﻿foo﻿bar"];
     NSArray *tokens = @[@[@"Character",@"﻿foo﻿bar"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"leading U+FEFF must pass through");
 }
         
 - (void)test4
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&NotEqualTilde;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&NotEqualTilde;"];
     NSArray *tokens = @[@[@"Character",@"≂̸"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Non BMP-charref in in RCDATA");
 }
         
 - (void)test5
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"&NotEqualTild;"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&NotEqualTild;"];
     NSArray *tokens = @[@"ParseError",@[@"Character",@"&NotEqualTild;"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Bad charref in in RCDATA");
 }
         
 - (void)test6
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</XMP>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</XMP>"];
     NSArray *tokens = @[@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"lowercase endtags in RCDATA and RAWTEXT");
 }
         
 - (void)test7
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</ XMP>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</ XMP>"];
     NSArray *tokens = @[@[@"Character",@"</ XMP>"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
 }
         
 - (void)test8
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</xm>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm>"];
     NSArray *tokens = @[@[@"Character",@"</xm>"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
 }
         
 - (void)test9
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</xm "];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm "];
     NSArray *tokens = @[@[@"Character",@"</xm "]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
 }
         
 - (void)test10
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"</xm/"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm/"];
     NSArray *tokens = @[@[@"Character",@"</xm/"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
 }
         
 - (void)test11
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<p id=\"&NotEqualTilde;\">"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<p id=\"&NotEqualTilde;\">"];
     NSArray *tokens = @[@[@"StartTag",@"p",@{@"id":@"≂̸"}]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Non BMP-charref in attribute");
 }
         
 - (void)test12
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<!----!\\x00-->"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!\\x00-->"];
     NSArray *tokens = @[@"ParseError",@[@"Comment",@"--!\\uFFFD"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"--!NUL in comment ");
 }
         
 - (void)test13
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"<!DOCTYPE html "];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE html "];
     NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"html",[NSNull null],[NSNull null],@NO]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"space EOF after doctype ");
 }

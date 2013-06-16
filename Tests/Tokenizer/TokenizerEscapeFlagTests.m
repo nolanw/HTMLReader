@@ -11,35 +11,35 @@
         
 - (void)test0
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo<!--</xmp>--></xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!--</xmp>--></xmp>"];
     NSArray *tokens = @[@[@"Character",@"foo<!--"],@[@"EndTag",@"xmp"],@[@"Character",@"-->"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Commented close tag in RCDATA or RAWTEXT");
 }
         
 - (void)test1
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo<!-->baz</xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!-->baz</xmp>"];
     NSArray *tokens = @[@[@"Character",@"foo<!-->baz"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Bogus comment in RCDATA or RAWTEXT");
 }
         
 - (void)test2
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo<!--></xmp><!-->baz</xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!--></xmp><!-->baz</xmp>"];
     NSArray *tokens = @[@[@"Character",@"foo<!-->"],@[@"EndTag",@"xmp"],@"ParseError",@[@"Comment",@""],@[@"Character",@"baz"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"End tag surrounded by bogus comment in RCDATA or RAWTEXT");
 }
         
 - (void)test3
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@" &amp; <!-- &amp; --> &amp; </xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@" &amp; <!-- &amp; --> &amp; </xmp>"];
     NSArray *tokens = @[@[@"Character",@" & <!-- & --> & "],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Commented entities in RCDATA");
 }
         
 - (void)test4
 {
-    HTMLTokenizer *tokenizer = [HTMLTokenizer tokenizerWithString:@"foo<!-- x --x>x-- >x--!>x--<></xmp>"];
+    HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!-- x --x>x-- >x--!>x--<></xmp>"];
     NSArray *tokens = @[@[@"Character",@"foo<!-- x --x>x-- >x--!>x--<>"],@[@"EndTag",@"xmp"]];
     STAssertEqualObjects(tokenizer.allObjects, tokens, @"%@", @"Incorrect comment ending sequences in RCDATA or RAWTEXT");
 }
