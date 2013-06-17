@@ -67,7 +67,7 @@
             NSString *data;
             BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
             if (ok) {
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:data];
             }
             if (_scanner.isAtEnd) {
                 _done = YES;
@@ -84,8 +84,8 @@
                     break;
                 case 0:
                     [self emitParseError];
-                    [self emit:[[HTMLCharacterToken alloc] initWithData:@"\0"]];
                     [_scanner scanString:@"\0" intoString:nil];
+                    [self emitCharacterWithFormat:@"\0"];
                     break;
             }
             break;
@@ -98,7 +98,7 @@
             if (data.length == 0) {
                 data = @"&";
             }
-            [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+            [self emitCharacterWithFormat:data];
             break;
         }
             
@@ -107,7 +107,7 @@
             NSString *data;
             BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
             if (ok) {
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:data];
             }
             if (_scanner.isAtEnd) {
                 _done = YES;
@@ -124,8 +124,8 @@
                     break;
                 case 0:
                     [self emitParseError];
-                    [self emit:[[HTMLCharacterToken alloc] initWithData:@"\uFFFD"]];
                     [_scanner scanString:@"\0" intoString:nil];
+                    [self emitCharacterWithFormat:@"\uFFFD"];
                     break;
             }
             break;
@@ -138,7 +138,7 @@
             if (data.length == 0) {
                 data = @"&";
             }
-            [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+            [self emitCharacterWithFormat:data];
             break;
         }
             
@@ -148,7 +148,7 @@
             NSString *data;
             BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
             if (ok) {
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:data];
             }
             if (_scanner.isAtEnd) {
                 _done = YES;
@@ -165,8 +165,8 @@
                     break;
                 case 0:
                     [self emitParseError];
-                    [self emit:[[HTMLCharacterToken alloc] initWithData:@"\uFFFD"]];
                     [_scanner scanString:@"\0" intoString:nil];
+                    [self emitCharacterWithFormat:@"\uFFFD"];
                     break;
             }
             break;
@@ -177,7 +177,7 @@
             NSString *data;
             BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
             if (ok) {
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:data];
             }
             if (_scanner.isAtEnd) {
                 _done = YES;
@@ -185,7 +185,7 @@
             }
             if ([_scanner.string characterAtIndex:_scanner.scanLocation] == 0) {
                 [self emitParseError];
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"\uFFFD"]];
+                [self emitCharacterWithFormat:@"\uFFFD"];
             }
             break;
         }
@@ -194,7 +194,7 @@
             if (_scanner.isAtEnd) {
                 [self emitParseError];
                 _state = HTMLTokenizerDataState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"<"]];
+                [self emitCharacterWithFormat:@"<"];
                 break;
             }
             unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -222,7 +222,7 @@
                     } else {
                         [self emitParseError];
                         _state = HTMLTokenizerDataState;
-                        [self emit:[[HTMLCharacterToken alloc] initWithData:@"<"]];
+                        [self emitCharacterWithFormat:@"<"];
                     }
                     break;
             }
@@ -233,7 +233,7 @@
             if (_scanner.isAtEnd) {
                 [self emitParseError];
                 _state = HTMLTokenizerDataState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"</"]];
+                [self emitCharacterWithFormat:@"</"];
                 break;
             }
             unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -285,8 +285,7 @@
                     break;
                 case '>':
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     _scanner.scanLocation++;
                     break;
                 case 0:
@@ -305,7 +304,7 @@
         case HTMLTokenizerRCDATALessThanSignState:
             if (_scanner.isAtEnd || [_scanner.string characterAtIndex:_scanner.scanLocation] != '/') {
                 _state = HTMLTokenizerRCDATAState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"<"]];
+                [self emitCharacterWithFormat:@"<"];
             } else {
                 _temporaryBuffer = [NSMutableString new];
                 _state = HTMLTokenizerRCDATAEndTagOpenState;
@@ -316,7 +315,7 @@
         case HTMLTokenizerRCDATAEndTagOpenState: {
             if (_scanner.isAtEnd) {
                 _state = HTMLTokenizerRCDATAState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"</"]];
+                [self emitCharacterWithFormat:@"</"];
                 break;
             }
             unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -329,7 +328,7 @@
                 _scanner.scanLocation++;
             } else {
                 _state = HTMLTokenizerRCDATAState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"</"]];
+                [self emitCharacterWithFormat:@"</"];
             }
             break;
         }
@@ -337,8 +336,7 @@
         case HTMLTokenizerRCDATAEndTagNameState: {
             if (_scanner.isAtEnd) {
                 _state = HTMLTokenizerRCDATAState;
-                NSString *data = [NSString stringWithFormat:@"</%@", _temporaryBuffer];
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:@"</%@", _temporaryBuffer];
                 break;
             }
             unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -363,8 +361,7 @@
                 case '>':
                     if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
                         _state = HTMLTokenizerDataState;
-                        [self emit:_currentToken];
-                        _currentToken = nil;
+                        [self emitCurrentToken];
                         _scanner.scanLocation++;
                         goto done;
                     }
@@ -377,8 +374,7 @@
                 _scanner.scanLocation++;
             } else {
                 _state = HTMLTokenizerRCDATAState;
-                NSString *data = [NSString stringWithFormat:@"</%@", _temporaryBuffer];
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:@"</%@", _temporaryBuffer];
             }
         done:
             break;
@@ -387,7 +383,7 @@
         case HTMLTokenizerRAWTEXTLessThanSignState:
             if (_scanner.isAtEnd || [_scanner.string characterAtIndex:_scanner.scanLocation] != '/') {
                 _state = HTMLTokenizerRAWTEXTState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"<"]];
+                [self emitCharacterWithFormat:@"<"];
             } else {
                 _temporaryBuffer = [NSMutableString new];
                 _state = HTMLTokenizerRAWTEXTEndTagOpenState;
@@ -398,7 +394,7 @@
         case HTMLTokenizerRAWTEXTEndTagOpenState: {
             if (_scanner.isAtEnd) {
                 _state = HTMLTokenizerRAWTEXTState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"</"]];
+                [self emitCharacterWithFormat:@"</"];
                 break;
             }
             unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -411,7 +407,7 @@
                 _scanner.scanLocation++;
             } else {
                 _state = HTMLTokenizerRAWTEXTState;
-                [self emit:[[HTMLCharacterToken alloc] initWithData:@"</"]];
+                [self emitCharacterWithFormat:@"</"];
             }
             break;
         }
@@ -419,8 +415,7 @@
         case HTMLTokenizerRAWTEXTEndTagNameState: {
             if (_scanner.isAtEnd) {
                 _state = HTMLTokenizerRAWTEXTState;
-                NSString *data = [NSString stringWithFormat:@"</%@", _temporaryBuffer];
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:@"</%@", _temporaryBuffer];
                 break;
             }
             unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -444,8 +439,7 @@
                 case '>':
                     if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
                         _state = HTMLTokenizerDataState;
-                        [self emit:_currentToken];
-                        _currentToken = nil;
+                        [self emitCurrentToken];
                         _scanner.scanLocation++;
                         goto doneRAWTEXTEndTagNameState;
                     }
@@ -458,8 +452,7 @@
                 _scanner.scanLocation++;
             } else {
                 _state = HTMLTokenizerRAWTEXTState;
-                NSString *data = [NSString stringWithFormat:@"</%@", _temporaryBuffer];
-                [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+                [self emitCharacterWithFormat:@"</%@", _temporaryBuffer];
             }
         doneRAWTEXTEndTagNameState:
             break;
@@ -485,7 +478,7 @@
                     break;
                 case '>':
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
+                    [self emitCurrentToken];
                     _scanner.scanLocation++;
                     break;
                 case 0:
@@ -547,8 +540,7 @@
                         [self emitParseError];
                     }
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     break;
                 case 0:
                     [self emitParseError];
@@ -590,8 +582,7 @@
                     break;
                 case '>':
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     break;
                 case 0:
                     [self emitParseError];
@@ -651,8 +642,7 @@
                 case '>':
                     [self emitParseError];
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     break;
                 case '<':
                 case '=':
@@ -761,8 +751,7 @@
                     break;
                 case '>':
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     _scanner.scanLocation++;
                     break;
                 case 0:
@@ -813,8 +802,7 @@
                     break;
                 case '>':
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     _scanner.scanLocation++;
                     break;
                 default:
@@ -834,8 +822,7 @@
                 case '>':
                     [_currentToken setSelfClosingFlag:YES];
                     _state = HTMLTokenizerDataState;
-                    [self emit:_currentToken];
-                    _currentToken = nil;
+                    [self emitCurrentToken];
                     _scanner.scanLocation++;
                     break;
                 default:
@@ -877,6 +864,21 @@
 - (void)emitParseError
 {
     [self emit:[HTMLParseErrorToken new]];
+}
+
+- (void)emitCharacterWithFormat:(NSString *)format, ...
+{
+    va_list args;
+    va_start(args, format);
+    NSString *data = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
+}
+
+- (void)emitCurrentToken
+{
+    [self emit:_currentToken];
+    _currentToken = nil;
 }
 
 - (NSString *)attemptToConsumeCharacterReference
@@ -3592,7 +3594,8 @@ static const struct {
 
 - (BOOL)isEqual:(HTMLCharacterToken *)other
 {
-    return ([other isKindOfClass:[HTMLCharacterToken class]] && [other.data isEqualToString:self.data]);
+    return ([other isKindOfClass:[HTMLCharacterToken class]] &&
+            [other.data isEqualToString:self.data]);
 }
 
 - (NSUInteger)hash
