@@ -20,6 +20,19 @@ NSArray * ReifiedTokensForTestTokens(NSArray *testTokens)
         if ([tokenType isEqualToString:@"Character"]) {
             [tokens addObject:[[HTMLCharacterToken alloc] initWithData:test[1]]];
             continue;
+        } else if ([tokenType isEqualToString:@"Comment"]) {
+            [tokens addObject:[[HTMLCharacterToken alloc] initWithData:test[1]]];
+            continue;
+        } else if ([tokenType isEqualToString:@"StartTag"]) {
+            HTMLStartTagToken *startTag = [[HTMLStartTagToken alloc] initWithTagName:test[1]];
+            for (NSString *name in test[2]) {
+                [startTag addAttributeWithName:name value:[test[2] objectForKey:name]];
+            }
+            [tokens addObject:startTag];
+            continue;
+        } else if ([tokenType isEqualToString:@"EndTag"]) {
+            [tokens addObject:[[HTMLEndTagToken alloc] initWithTagName:test[1]]];
+            continue;
         }
         [tokens addObject:[NSNull null]];
     }

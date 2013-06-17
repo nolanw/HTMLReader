@@ -98,9 +98,24 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @interface HTMLTagToken : NSObject
 
+// Designated initializer.
+- (id)initWithTagName:(NSString *)tagName;
+
+- (void)addAttributeWithName:(NSString *)name value:(NSString *)value;
+
 @property (readonly, nonatomic) NSString *tagName;
-@property (readonly, nonatomic) BOOL selfClosing;
+@property (readonly, nonatomic) BOOL selfClosingFlag;
 @property (readonly, nonatomic) NSArray *attributes;
+
+@end
+
+@interface HTMLAttribute : NSObject
+
+// Designated initializer.
+- (id)initWithName:(NSString *)name value:(NSString *)value;
+
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) NSString *value;
 
 @end
 
@@ -114,6 +129,9 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @interface HTMLCommentToken : NSObject
 
+// Designated initializer.
+- (id)initWithData:(NSString *)data;
+
 @property (readonly, nonatomic) NSString *data;
 
 @end
@@ -124,10 +142,6 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 - (id)initWithData:(NSString *)data;
 
 @property (readonly, nonatomic) NSString *data;
-
-@end
-
-@interface HTMLEndOfFileToken : NSObject
 
 @end
 

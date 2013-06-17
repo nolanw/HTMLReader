@@ -13,6 +13,15 @@
 - (void)appendStringToTagName:(NSString *)string;
 - (void)appendCharacterToTagName:(unichar)character;
 
+- (void)setSelfClosingFlag:(BOOL)flag;
+
+- (void)addNewAttribute;
+- (void)appendCharacterToLastAttributeName:(unichar)character;
+- (void)setLastAttributeValue:(NSString *)string;
+- (void)appendCharacterToLastAttributeValue:(unichar)character;
+- (void)appendStringToLastAttributeValue:(NSString *)string;
+- (BOOL)removeLastAttributeIfDuplicateName;
+
 @end
 
 @implementation HTMLTokenizer
@@ -21,6 +30,8 @@
     HTMLTokenizerState _state;
     NSMutableArray *_tokenQueue;
     id _currentToken;
+    uint32_t _additionalAllowedCharacter;
+    HTMLTokenizerState _sourceAttributeValueState;
 }
 
 - (id)initWithString:(NSString *)string state:(HTMLTokenizerState)state
@@ -64,6 +75,7 @@
             
         case HTMLTokenizerCharacterReferenceInDataState: {
             _state = HTMLTokenizerDataState;
+            _additionalAllowedCharacter = NSNotFound;
             NSString *data = [self attemptToConsumeCharacterReference];
             if (data.length == 0) {
                 data = @"&";
@@ -100,6 +112,7 @@
             
         case HTMLTokenizerCharacterReferenceInRCDATAState: {
             _state = HTMLTokenizerRCDATAState;
+            _additionalAllowedCharacter = NSNotFound;
             NSString *data = [self attemptToConsumeCharacterReference];
             if (data.length == 0) {
                 data = @"&";
@@ -262,6 +275,395 @@
             break;
         }
             
+        case HTMLTokenizerBeforeAttributeNameState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '/':
+                    _state = HTMLTokenizerSelfClosingStartTagState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken addNewAttribute];
+                    [_currentToken appendCharacterToLastAttributeName:0xFFFD];
+                    [_currentToken setLastAttributeValue:@""];
+                    _state = HTMLTokenizerAttributeNameState;
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                case '\'':
+                case '<':
+                case '=':
+                    [self emitParseError];
+                    // fallthrough
+                default:
+                    [_currentToken addNewAttribute];
+                    unichar toAppend = nextInputCharacter + isupper(nextInputCharacter) ? 0x0020 : 0;
+                    [_currentToken appendCharacterToLastAttributeName:toAppend];
+                    [_currentToken setLastAttributeValue:@""];
+                    _state = HTMLTokenizerAttributeNameState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+        }
+            
+        case HTMLTokenizerAttributeNameState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    if ([_currentToken removeLastAttributeIfDuplicateName]) {
+                        [self emitParseError];
+                    }
+                    _state = HTMLTokenizerAfterAttributeNameState;
+                    break;
+                case '/':
+                    if ([_currentToken removeLastAttributeIfDuplicateName]) {
+                        [self emitParseError];
+                    }
+                    _state = HTMLTokenizerSelfClosingStartTagState;
+                    break;
+                case '=':
+                    if ([_currentToken removeLastAttributeIfDuplicateName]) {
+                        [self emitParseError];
+                    }
+                    _state = HTMLTokenizerBeforeAttributeValueState;
+                    break;
+                case '>':
+                    if ([_currentToken removeLastAttributeIfDuplicateName]) {
+                        [self emitParseError];
+                    }
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _currentToken = nil;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToLastAttributeName:0xFFFD];
+                    break;
+                case '"':
+                case '\'':
+                case '<':
+                    [self emitParseError];
+                    // fallthrough
+                default: {
+                    unichar toAppend = nextInputCharacter + isupper(nextInputCharacter) ? 0x0020 : 0;
+                    [_currentToken appendCharacterToLastAttributeName:toAppend];
+                    break;
+                }
+            }
+            _scanner.scanLocation++;
+            break;
+        }
+            
+        case HTMLTokenizerAfterAttributeNameState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    break;
+                case '/':
+                    _state = HTMLTokenizerSelfClosingStartTagState;
+                    break;
+                case '=':
+                    _state = HTMLTokenizerBeforeAttributeValueState;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _currentToken = nil;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken addNewAttribute];
+                    [_currentToken appendCharacterToLastAttributeName:0xFFFD];
+                    [_currentToken setLastAttributeValue:@""];
+                    _state = HTMLTokenizerAttributeNameState;
+                    break;
+                case '"':
+                case '\'':
+                case '<':
+                    [self emitParseError];
+                    // fallthrough
+                default:
+                    [_currentToken addNewAttribute];
+                    unichar toAppend = nextInputCharacter + isupper(nextInputCharacter) ? 0x0020 : 0;
+                    [_currentToken appendCharacterToLastAttributeName:toAppend];
+                    [_currentToken setLastAttributeValue:@""];
+                    _state = HTMLTokenizerAttributeNameState;
+                    break;
+            }
+            _scanner.scanLocation++;
+            break;
+        }
+            
+        case HTMLTokenizerBeforeAttributeValueState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    _state = HTMLTokenizerAttributeValueDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '&':
+                    _state = HTMLTokenizerAttributeValueUnquotedState;
+                    break;
+                case '\'':
+                    _state = HTMLTokenizerAttributeValueSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToLastAttributeValue:0xFFFD];
+                    _state = HTMLTokenizerAttributeValueUnquotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _currentToken = nil;
+                    break;
+                case '<':
+                case '=':
+                case '`':
+                    [self emitParseError];
+                    // fallthrough
+                default:
+                    [_currentToken appendCharacterToLastAttributeValue:nextInputCharacter];
+                    _state = HTMLTokenizerAttributeValueUnquotedState;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAttributeValueDoubleQuotedState: {
+            NSCharacterSet *anythingElse = [[NSCharacterSet characterSetWithCharactersInString:@"\"&\0"] invertedSet];
+            NSString *data;
+            BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
+            if (ok) {
+                [_currentToken appendStringToLastAttributeValue:data];
+            }
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '"':
+                    _state = HTMLTokenizerAfterAttributeValueQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '&':
+                    _state = HTMLTokenizerCharacterReferenceInAttributeValueState;
+                    _additionalAllowedCharacter = '"';
+                    _sourceAttributeValueState = HTMLTokenizerAttributeValueDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToLastAttributeValue:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAttributeValueSingleQuotedState: {
+            NSCharacterSet *anythingElse = [[NSCharacterSet characterSetWithCharactersInString:@"'&\0"] invertedSet];
+            NSString *data;
+            BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
+            if (ok) {
+                [_currentToken appendStringToLastAttributeValue:data];
+            }
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
+                case '\'':
+                    _state = HTMLTokenizerAfterAttributeValueQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '&':
+                    _state = HTMLTokenizerCharacterReferenceInAttributeValueState;
+                    _additionalAllowedCharacter = '\'';
+                    _sourceAttributeValueState = HTMLTokenizerAttributeValueSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToLastAttributeValue:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+    
+        case HTMLTokenizerAttributeValueUnquotedState: {
+            NSCharacterSet *anythingElse = [[NSCharacterSet characterSetWithCharactersInString:@"\t\n\f &>\0\"'<=`"] invertedSet];
+            NSString *data;
+            BOOL ok = [_scanner scanCharactersFromSet:anythingElse intoString:&data];
+            if (ok) {
+                [_currentToken appendStringToLastAttributeValue:data];
+            }
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerBeforeAttributeNameState;
+                    _scanner.scanLocation++;
+                    break;
+                case '&':
+                    _state = HTMLTokenizerCharacterReferenceInAttributeValueState;
+                    _additionalAllowedCharacter = '>';
+                    _sourceAttributeValueState = HTMLTokenizerAttributeValueUnquotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _currentToken = nil;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToLastAttributeValue:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                case '\'':
+                case '<':
+                case '=':
+                case '`':
+                    [self emitParseError];
+                    [_currentToken appendCharacterToLastAttributeValue:nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+    
+        case HTMLTokenizerCharacterReferenceInAttributeValueState: {
+            NSString *characters = [self attemptToConsumeCharacterReference];
+            if (!characters) {
+                characters = @"&";
+            }
+            [_currentToken appendStringToLastAttributeValue:characters];
+            _state = _sourceAttributeValueState;
+            break;
+        }
+    
+        case HTMLTokenizerAfterAttributeValueQuotedState:
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerBeforeAttributeNameState;
+                    _scanner.scanLocation++;
+                    break;
+                case '/':
+                    _state = HTMLTokenizerSelfClosingStartTagState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _currentToken = nil;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    _state = HTMLTokenizerBeforeAttributeNameState;
+                    break;
+            }
+            break;
+    
+        case HTMLTokenizerSelfClosingStartTagState:
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
+                case '>':
+                    [_currentToken setSelfClosingFlag:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emit:_currentToken];
+                    _currentToken = nil;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    _state = HTMLTokenizerBeforeAttributeNameState;
+                    break;
+            }
+            break;
+            
+        case HTMLTokenizerBogusCommentState: {
+            NSString *data;
+            BOOL ok = [_scanner scanUpToString:@">" intoString:&data];
+            if (!ok) data = nil;
+            [self emit:[[HTMLCommentToken alloc] initWithData:data]];
+            _state = HTMLTokenizerDataState;
+            break;
+        }
+    
         default:
             NSLog(@"unimplemented state %@", @(_state));
             _scanner.scanLocation = _scanner.string.length;
@@ -283,7 +685,11 @@
 {
     if (_scanner.isAtEnd) return nil;
     NSUInteger initialScanLocation = _scanner.scanLocation;
-    switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
+    unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+    if (_additionalAllowedCharacter != NSNotFound && nextInputCharacter == _additionalAllowedCharacter) {
+        return nil;
+    }
+    switch (nextInputCharacter) {
         case '\t':
         case '\n':
         case '\f':
@@ -2720,9 +3126,33 @@ static const struct {
 
 @end
 
+@interface HTMLAttribute ()
+
+- (void)appendCharacterToName:(unichar)character;
+- (void)setValue:(NSString *)value;
+- (void)appendCharacterToValue:(unichar)character;
+- (void)appendStringToValue:(NSString *)string;
+
+@end
+
+
 @implementation HTMLTagToken
 {
     NSMutableString *_tagName;
+    BOOL _selfClosingFlag;
+    NSMutableArray *_attributes;
+}
+
+- (id)initWithTagName:(NSString *)tagName
+{
+    if (!(self = [super init])) return nil;
+    _tagName = [NSMutableString stringWithString:tagName];
+    return self;
+}
+
+- (void)addAttributeWithName:(NSString *)name value:(NSString *)value
+{
+    [_attributes addObject:[[HTMLAttribute alloc] initWithName:name value:value]];
 }
 
 - (NSString *)tagName
@@ -2730,14 +3160,19 @@ static const struct {
     return [_tagName copy];
 }
 
-- (BOOL)selfClosing
+- (BOOL)selfClosingFlag
 {
-    return NO;
+    return _selfClosingFlag;
+}
+
+- (void)setSelfClosingFlag:(BOOL)flag
+{
+    _selfClosingFlag = flag;
 }
 
 - (NSArray *)attributes
 {
-    return nil;
+    return [_attributes copy];
 }
 
 - (void)appendStringToTagName:(NSString *)string
@@ -2751,6 +3186,123 @@ static const struct {
     [self appendStringToTagName:[NSString stringWithFormat:@"%C", character]];
 }
 
+- (void)addNewAttribute
+{
+    if (!_attributes) _attributes = [NSMutableArray new];
+    [_attributes addObject:[HTMLAttribute new]];
+}
+
+- (void)appendCharacterToLastAttributeName:(unichar)character
+{
+    [_attributes.lastObject appendCharacterToName:character];
+}
+
+- (void)setLastAttributeValue:(NSString *)string
+{
+    [_attributes.lastObject setValue:string];
+}
+
+- (void)appendCharacterToLastAttributeValue:(unichar)character
+{
+    [_attributes.lastObject appendCharacterToValue:character];
+}
+
+- (void)appendStringToLastAttributeValue:(NSString *)string
+{
+    [_attributes.lastObject appendStringToValue:string];
+}
+
+- (BOOL)removeLastAttributeIfDuplicateName
+{
+    if (_attributes.count <= 1) return NO;
+    NSString *lastAttributeName = [_attributes.lastObject name];
+    for (NSUInteger i = 0; i < _attributes.count - 1; i++) {
+        if ([[_attributes[i] name] isEqualToString:lastAttributeName]) {
+            [_attributes removeLastObject];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(HTMLTagToken *)other
+{
+    return ([other isKindOfClass:self.class] &&
+            [other.tagName isEqual:self.tagName] &&
+            other.selfClosingFlag == self.selfClosingFlag &&
+            [other.attributes isEqual:self.attributes]);
+}
+
+- (NSUInteger)hash
+{
+    return self.tagName.hash + self.attributes.hash;
+}
+
+@end
+
+@implementation HTMLAttribute
+{
+    NSMutableString *_name;
+    NSMutableString *_value;
+}
+
+- (id)initWithName:(NSString *)name value:(NSString *)value
+{
+    if (!(self = [super init])) return nil;
+    _name = [NSMutableString stringWithString:name];
+    _value = [NSMutableString stringWithString:value];
+    return self;
+}
+
+- (NSString *)name
+{
+    return [_name copy];;
+}
+
+- (NSString *)value
+{
+    return [_value copy];
+}
+
+- (void)setValue:(NSString *)value
+{
+    _value = [NSMutableString stringWithString:value];
+}
+
+- (void)appendCharacterToName:(unichar)character
+{
+    if (!_name) _name = [NSMutableString new];
+    [_name appendFormat:@"%C", character];
+}
+
+- (void)appendCharacterToValue:(unichar)character
+{
+    if (!_value) _value = [NSMutableString new];
+    [_value appendFormat:@"%C", character];
+}
+
+- (void)appendStringToValue:(NSString *)string
+{
+    if (!_value) _value = [NSMutableString new];
+    [_value appendString:string];
+}
+
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(HTMLAttribute *)other
+{
+    return ([other isKindOfClass:[HTMLAttribute class]] &&
+            [other.name isEqualToString:self.name] &&
+            [other.value isEqualToString:self.value]);
+}
+
+- (NSUInteger)hash
+{
+    return self.name.hash + self.value.hash;
+}
+
 @end
 
 @implementation HTMLStartTagToken
@@ -2762,10 +3314,33 @@ static const struct {
 @end
 
 @implementation HTMLCommentToken
+{
+    NSString *_data;
+}
+
+- (id)initWithData:(NSString *)data
+{
+    if (!(self = [super init])) return nil;
+    _data = [data copy];
+    return self;
+}
 
 - (NSString *)data
 {
-    return nil;
+    return _data;
+}
+
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(HTMLCommentToken *)other
+{
+    return ([other isKindOfClass:[HTMLCommentToken class]] &&
+            [other.data isEqualToString:self.data]);
+}
+
+- (NSUInteger)hash
+{
+    return self.data.hash;
 }
 
 @end
@@ -2803,10 +3378,6 @@ static const struct {
 {
     return self.data.hash;
 }
-
-@end
-
-@implementation HTMLEndOfFileToken
 
 @end
 
