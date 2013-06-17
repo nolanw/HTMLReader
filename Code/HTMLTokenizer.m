@@ -348,21 +348,21 @@
                 case '\n':
                 case '\f':
                 case ' ':
-                    if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
+                    if ([self currentTagIsAppropriateEndTagToken]) {
                         _state = HTMLTokenizerBeforeAttributeNameState;
                         _scanner.scanLocation++;
                         goto done;
                     }
                     break;
                 case '/':
-                    if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
+                    if ([self currentTagIsAppropriateEndTagToken]) {
                         _state = HTMLTokenizerSelfClosingStartTagState;
                         _scanner.scanLocation++;
                         goto done;
                     }
                     break;
                 case '>':
-                    if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
+                    if ([self currentTagIsAppropriateEndTagToken]) {
                         _state = HTMLTokenizerDataState;
                         [self emitCurrentToken];
                         _scanner.scanLocation++;
@@ -427,20 +427,20 @@
                 case '\n':
                 case '\f':
                 case ' ':
-                    if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
+                    if ([self currentTagIsAppropriateEndTagToken]) {
                         _state = HTMLTokenizerBeforeAttributeNameState;
                         _scanner.scanLocation++;
                         goto doneRAWTEXTEndTagNameState;
                     }
                 case '/':
-                    if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
+                    if ([self currentTagIsAppropriateEndTagToken]) {
                         _state = HTMLTokenizerSelfClosingStartTagState;
                         _scanner.scanLocation++;
                         goto doneRAWTEXTEndTagNameState;
                     }
                     break;
                 case '>':
-                    if ([[_currentToken tagName] isEqualToString:_mostRecentEmittedStartTagName]) {
+                    if ([self currentTagIsAppropriateEndTagToken]) {
                         _state = HTMLTokenizerDataState;
                         [self emitCurrentToken];
                         _scanner.scanLocation++;
@@ -901,6 +901,13 @@
 {
     [self flushCharacterBuffer];
     _done = YES;
+}
+
+- (BOOL)currentTagIsAppropriateEndTagToken
+{
+    HTMLEndTagToken *token = _currentToken;
+    return ([token isKindOfClass:[HTMLEndTagToken class]] &&
+            [token.tagName isEqualToString:_mostRecentEmittedStartTagName]);
 }
 
 - (NSString *)attemptToConsumeCharacterReference
