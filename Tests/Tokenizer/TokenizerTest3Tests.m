@@ -11,13600 +11,13600 @@
         
 - (void)test0
 {
-    NSArray *tokens = @[];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"");
     }
 }
         
 - (void)test1
 {
-    NSArray *tokens = @[@[@"Character",@"\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\\u0009");
     }
 }
         
 - (void)test2
 {
-    NSArray *tokens = @[@[@"Character",@"\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\\u000A");
     }
 }
         
 - (void)test3
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\\u000B");
     }
 }
         
 - (void)test4
 {
-    NSArray *tokens = @[@[@"Character",@"\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\\u000C");
     }
 }
         
 - (void)test5
 {
-    NSArray *tokens = @[@[@"Character",@" "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@" "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@" " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @" ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @" ");
     }
 }
         
 - (void)test6
 {
-    NSArray *tokens = @[@[@"Character",@"!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"!");
     }
 }
         
 - (void)test7
 {
-    NSArray *tokens = @[@[@"Character",@"\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\"");
     }
 }
         
 - (void)test8
 {
-    NSArray *tokens = @[@[@"Character",@"%"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"%"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"%" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"%");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"%");
     }
 }
         
 - (void)test9
 {
-    NSArray *tokens = @[@[@"Character",@"&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"&");
     }
 }
         
 - (void)test10
 {
-    NSArray *tokens = @[@[@"Character",@"'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"'");
     }
 }
         
 - (void)test11
 {
-    NSArray *tokens = @[@[@"Character",@","]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@","]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"," state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @",");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @",");
     }
 }
         
 - (void)test12
 {
-    NSArray *tokens = @[@[@"Character",@"-"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"-"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"-");
     }
 }
         
 - (void)test13
 {
-    NSArray *tokens = @[@[@"Character",@"."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @".");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @".");
     }
 }
         
 - (void)test14
 {
-    NSArray *tokens = @[@[@"Character",@"/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"/");
     }
 }
         
 - (void)test15
 {
-    NSArray *tokens = @[@[@"Character",@"0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"0");
     }
 }
         
 - (void)test16
 {
-    NSArray *tokens = @[@[@"Character",@"1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"1");
     }
 }
         
 - (void)test17
 {
-    NSArray *tokens = @[@[@"Character",@"9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"9");
     }
 }
         
 - (void)test18
 {
-    NSArray *tokens = @[@[@"Character",@";"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@";"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@";" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @";");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @";");
     }
 }
         
 - (void)test19
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<");
     }
 }
         
 - (void)test20
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<"],@"ParseError",@[@"Character",@"\x00"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<"],@"ParseError",@[@"Character",@"\x00"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\\u0000");
     }
 }
         
 - (void)test21
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\\u0009");
     }
 }
         
 - (void)test22
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\\u000A");
     }
 }
         
 - (void)test23
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Character",@"<\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Character",@"<\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\\u000B");
     }
 }
         
 - (void)test24
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\\u000C");
     }
 }
         
 - (void)test25
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"< "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"< "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"< " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"< ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"< ");
     }
 }
         
 - (void)test26
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!");
     }
 }
         
 - (void)test27
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\\u0000");
     }
 }
         
 - (void)test28
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\\u0009");
     }
 }
         
 - (void)test29
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\\u000A");
     }
 }
         
 - (void)test30
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\\u000B");
     }
 }
         
 - (void)test31
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\\u000C");
     }
 }
         
 - (void)test32
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<! " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<! ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<! ");
     }
 }
         
 - (void)test33
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!!");
     }
 }
         
 - (void)test34
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\"");
     }
 }
         
 - (void)test35
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!&");
     }
 }
         
 - (void)test36
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!'");
     }
 }
         
 - (void)test37
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-");
     }
 }
         
 - (void)test38
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--");
     }
 }
         
 - (void)test39
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\\u0000");
     }
 }
         
 - (void)test40
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\\u0009");
     }
 }
         
 - (void)test41
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\\u000A");
     }
 }
         
 - (void)test42
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\\u000B");
     }
 }
         
 - (void)test43
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\\u000C");
     }
 }
         
 - (void)test44
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- ");
     }
 }
         
 - (void)test45
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@" �"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@" �"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- \x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \\u0000");
     }
 }
         
 - (void)test46
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" \t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" \t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- \t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \\u0009");
     }
 }
         
 - (void)test47
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" \n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" \n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- \n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \\u000A");
     }
 }
         
 - (void)test48
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@" \x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@" \x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- \x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \\u000B");
     }
 }
         
 - (void)test49
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" \f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" \f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- \f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \\u000C");
     }
 }
         
 - (void)test50
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"  "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"  "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--  " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--  ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--  ");
     }
 }
         
 - (void)test51
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" !"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" !"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- !" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- !");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- !");
     }
 }
         
 - (void)test52
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" \""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" \""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- \"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \"");
     }
 }
         
 - (void)test53
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" &"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" &"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- &" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- &");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- &");
     }
 }
         
 - (void)test54
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" '"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" '"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- '" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- '");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- '");
     }
 }
         
 - (void)test55
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" ,"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" ,"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- ," state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- ,");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- ,");
     }
 }
         
 - (void)test56
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -");
     }
 }
         
 - (void)test57
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@" -�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@" -�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\\u0000");
     }
 }
         
 - (void)test58
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\\u0009");
     }
 }
         
 - (void)test59
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\\u000A");
     }
 }
         
 - (void)test60
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@" -\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@" -\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\\u000B");
     }
 }
         
 - (void)test61
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\\u000C");
     }
 }
         
 - (void)test62
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" - "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" - "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- - " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- - ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- - ");
     }
 }
         
 - (void)test63
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -!");
     }
 }
         
 - (void)test64
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\"");
     }
 }
         
 - (void)test65
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -&");
     }
 }
         
 - (void)test66
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -'");
     }
 }
         
 - (void)test67
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -,"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -,"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -," state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -,");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -,");
     }
 }
         
 - (void)test68
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- --" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- --");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- --");
     }
 }
         
 - (void)test69
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -.");
     }
 }
         
 - (void)test70
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -/");
     }
 }
         
 - (void)test71
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -0");
     }
 }
         
 - (void)test72
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -1");
     }
 }
         
 - (void)test73
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -9");
     }
 }
         
 - (void)test74
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -<");
     }
 }
         
 - (void)test75
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -=");
     }
 }
         
 - (void)test76
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" ->"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" ->"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- ->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- ->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- ->");
     }
 }
         
 - (void)test77
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -?");
     }
 }
         
 - (void)test78
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -@");
     }
 }
         
 - (void)test79
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -A");
     }
 }
         
 - (void)test80
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -B");
     }
 }
         
 - (void)test81
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -Y");
     }
 }
         
 - (void)test82
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -Z");
     }
 }
         
 - (void)test83
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -`");
     }
 }
         
 - (void)test84
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -a");
     }
 }
         
 - (void)test85
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -b");
     }
 }
         
 - (void)test86
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -y");
     }
 }
         
 - (void)test87
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -z");
     }
 }
         
 - (void)test88
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -{");
     }
 }
         
 - (void)test89
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" -􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" -􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- -􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- -\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- -\\uDBC0\\uDC00");
     }
 }
         
 - (void)test90
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" ."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" ."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- ." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- .");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- .");
     }
 }
         
 - (void)test91
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" /"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" /"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- /" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- /");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- /");
     }
 }
         
 - (void)test92
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" 0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" 0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- 0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- 0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- 0");
     }
 }
         
 - (void)test93
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" 1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" 1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- 1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- 1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- 1");
     }
 }
         
 - (void)test94
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" 9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" 9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- 9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- 9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- 9");
     }
 }
         
 - (void)test95
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" <"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" <"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- <" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- <");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- <");
     }
 }
         
 - (void)test96
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" ="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" ="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- =" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- =");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- =");
     }
 }
         
 - (void)test97
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" >"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" >"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- >");
     }
 }
         
 - (void)test98
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" ?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" ?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- ?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- ?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- ?");
     }
 }
         
 - (void)test99
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" @"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" @"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- @" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- @");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- @");
     }
 }
         
 - (void)test100
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- A");
     }
 }
         
 - (void)test101
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- B");
     }
 }
         
 - (void)test102
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- Y");
     }
 }
         
 - (void)test103
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- Z");
     }
 }
         
 - (void)test104
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" `"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" `"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- `" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- `");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- `");
     }
 }
         
 - (void)test105
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- a");
     }
 }
         
 - (void)test106
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- b");
     }
 }
         
 - (void)test107
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- y");
     }
 }
         
 - (void)test108
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- z");
     }
 }
         
 - (void)test109
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" @{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" @{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- {" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- {");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- {");
     }
 }
         
 - (void)test110
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" 􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" 􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-- 􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-- \\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-- \\uDBC0\\uDC00");
     }
 }
         
 - (void)test111
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--!");
     }
 }
         
 - (void)test112
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\"");
     }
 }
         
 - (void)test113
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--&");
     }
 }
         
 - (void)test114
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--'");
     }
 }
         
 - (void)test115
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@","]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@","]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--," state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--,");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--,");
     }
 }
         
 - (void)test116
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---");
     }
 }
         
 - (void)test117
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\\u0000");
     }
 }
         
 - (void)test118
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\\u0009");
     }
 }
         
 - (void)test119
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\\u000A");
     }
 }
         
 - (void)test120
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\\u000B");
     }
 }
         
 - (void)test121
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\\u000C");
     }
 }
         
 - (void)test122
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"- "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"- "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--- " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--- ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--- ");
     }
 }
         
 - (void)test123
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---!");
     }
 }
         
 - (void)test124
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\"");
     }
 }
         
 - (void)test125
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---&");
     }
 }
         
 - (void)test126
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---'");
     }
 }
         
 - (void)test127
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-,"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-,"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---," state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---,");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---,");
     }
 }
         
 - (void)test128
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----");
     }
 }
         
 - (void)test129
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\\u0000");
     }
 }
         
 - (void)test130
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\\u0009");
     }
 }
         
 - (void)test131
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\\u000A");
     }
 }
         
 - (void)test132
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"Comment",@"--\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"Comment",@"--\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\\u000B");
     }
 }
         
 - (void)test133
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\\u000C");
     }
 }
         
 - (void)test134
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-- "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-- "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---- ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---- ");
     }
 }
         
 - (void)test135
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-- "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-- "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- -" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---- -");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---- -");
     }
 }
         
 - (void)test136
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-- "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-- "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- --" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---- --");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---- --");
     }
 }
         
 - (void)test137
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-- "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-- "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- -->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---- -->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---- -->");
     }
 }
         
 - (void)test138
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"--  "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"--  "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----  -->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----  -->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----  -->");
     }
 }
         
 - (void)test139
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-- a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-- a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- a-->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---- a-->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---- a-->");
     }
 }
         
 - (void)test140
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!");
     }
 }
         
 - (void)test141
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!>");
     }
 }
         
 - (void)test142
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--!a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--!a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!a");
     }
 }
         
 - (void)test143
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--!a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--!a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!a-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!a-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!a-");
     }
 }
         
 - (void)test144
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--!a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--!a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!a--" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!a--");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!a--");
     }
 }
         
 - (void)test145
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"--!a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"--!a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!a-->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!a-->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!a-->");
     }
 }
         
 - (void)test146
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!-");
     }
 }
         
 - (void)test147
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!--" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!--");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!--");
     }
 }
         
 - (void)test148
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"--!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"--!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!-->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----!-->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----!-->");
     }
 }
         
 - (void)test149
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\"");
     }
 }
         
 - (void)test150
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----&");
     }
 }
         
 - (void)test151
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----'");
     }
 }
         
 - (void)test152
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--,"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--,"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----," state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----,");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----,");
     }
 }
         
 - (void)test153
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-----" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-----");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-----");
     }
 }
         
 - (void)test154
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----.");
     }
 }
         
 - (void)test155
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----/");
     }
 }
         
 - (void)test156
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----0");
     }
 }
         
 - (void)test157
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----1");
     }
 }
         
 - (void)test158
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----9");
     }
 }
         
 - (void)test159
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----<");
     }
 }
         
 - (void)test160
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----=");
     }
 }
         
 - (void)test161
 {
-    NSArray *tokens = @[@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---->");
     }
 }
         
 - (void)test162
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----?");
     }
 }
         
 - (void)test163
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----@");
     }
 }
         
 - (void)test164
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----A");
     }
 }
         
 - (void)test165
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----B");
     }
 }
         
 - (void)test166
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----Y");
     }
 }
         
 - (void)test167
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----Z");
     }
 }
         
 - (void)test168
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----`");
     }
 }
         
 - (void)test169
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----a");
     }
 }
         
 - (void)test170
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----b");
     }
 }
         
 - (void)test171
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----y");
     }
 }
         
 - (void)test172
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----z");
     }
 }
         
 - (void)test173
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----{");
     }
 }
         
 - (void)test174
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"--􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"--􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!----\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!----\\uDBC0\\uDC00");
     }
 }
         
 - (void)test175
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---.");
     }
 }
         
 - (void)test176
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---/");
     }
 }
         
 - (void)test177
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---0");
     }
 }
         
 - (void)test178
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---1");
     }
 }
         
 - (void)test179
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---9");
     }
 }
         
 - (void)test180
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---<");
     }
 }
         
 - (void)test181
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---=");
     }
 }
         
 - (void)test182
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--->");
     }
 }
         
 - (void)test183
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---?");
     }
 }
         
 - (void)test184
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---@");
     }
 }
         
 - (void)test185
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---A");
     }
 }
         
 - (void)test186
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---B");
     }
 }
         
 - (void)test187
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---Y");
     }
 }
         
 - (void)test188
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---Z");
     }
 }
         
 - (void)test189
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---`");
     }
 }
         
 - (void)test190
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---a");
     }
 }
         
 - (void)test191
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---b");
     }
 }
         
 - (void)test192
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---y");
     }
 }
         
 - (void)test193
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---z");
     }
 }
         
 - (void)test194
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---{");
     }
 }
         
 - (void)test195
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---\\uDBC0\\uDC00");
     }
 }
         
 - (void)test196
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--.");
     }
 }
         
 - (void)test197
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--/");
     }
 }
         
 - (void)test198
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--0");
     }
 }
         
 - (void)test199
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--1");
     }
 }
         
 - (void)test200
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--9");
     }
 }
         
 - (void)test201
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--<");
     }
 }
         
 - (void)test202
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--=");
     }
 }
         
 - (void)test203
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!-->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!-->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!-->");
     }
 }
         
 - (void)test204
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--?");
     }
 }
         
 - (void)test205
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--@");
     }
 }
         
 - (void)test206
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--A");
     }
 }
         
 - (void)test207
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--B");
     }
 }
         
 - (void)test208
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--Y");
     }
 }
         
 - (void)test209
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--Z");
     }
 }
         
 - (void)test210
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--`");
     }
 }
         
 - (void)test211
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--a");
     }
 }
         
 - (void)test212
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--b");
     }
 }
         
 - (void)test213
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--y");
     }
 }
         
 - (void)test214
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--z");
     }
 }
         
 - (void)test215
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--{");
     }
 }
         
 - (void)test216
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!--􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!--\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!--\\uDBC0\\uDC00");
     }
 }
         
 - (void)test217
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!/");
     }
 }
         
 - (void)test218
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!0");
     }
 }
         
 - (void)test219
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!1");
     }
 }
         
 - (void)test220
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!9");
     }
 }
         
 - (void)test221
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!<");
     }
 }
         
 - (void)test222
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!=");
     }
 }
         
 - (void)test223
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!>");
     }
 }
         
 - (void)test224
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!?");
     }
 }
         
 - (void)test225
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!@");
     }
 }
         
 - (void)test226
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!A");
     }
 }
         
 - (void)test227
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!B");
     }
 }
         
 - (void)test228
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE");
     }
 }
         
 - (void)test229
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"�",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"�",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u0000");
     }
 }
         
 - (void)test230
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"\b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"\b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u0008");
     }
 }
         
 - (void)test231
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u0009");
     }
 }
         
 - (void)test232
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u000A");
     }
 }
         
 - (void)test233
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x0b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x0b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u000B");
     }
 }
         
 - (void)test234
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u000C");
     }
 }
         
 - (void)test235
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u000D");
     }
 }
         
 - (void)test236
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x1f",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x1f",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\u001F");
     }
 }
         
 - (void)test237
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE ");
     }
 }
         
 - (void)test238
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"�",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"�",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u0000");
     }
 }
         
 - (void)test239
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u0008");
     }
 }
         
 - (void)test240
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u0009");
     }
 }
         
 - (void)test241
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u000A");
     }
 }
         
 - (void)test242
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x0b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x0b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u000B");
     }
 }
         
 - (void)test243
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u000C");
     }
 }
         
 - (void)test244
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u000D");
     }
 }
         
 - (void)test245
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x1f",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\x1f",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\u001F");
     }
 }
         
 - (void)test246
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE  " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE  ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE  ");
     }
 }
         
 - (void)test247
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"!",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"!",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE !" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE !");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE !");
     }
 }
         
 - (void)test248
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"\"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"\"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE \"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \"");
     }
 }
         
 - (void)test249
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"&",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"&",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE &" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE &");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE &");
     }
 }
         
 - (void)test250
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"'",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"'",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE '" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE '");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE '");
     }
 }
         
 - (void)test251
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"-",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"-",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE -" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE -");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE -");
     }
 }
         
 - (void)test252
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"/",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"/",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE /" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE /");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE /");
     }
 }
         
 - (void)test253
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"0",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"0",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE 0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE 0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE 0");
     }
 }
         
 - (void)test254
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"1",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"1",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE 1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE 1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE 1");
     }
 }
         
 - (void)test255
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"9",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"9",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE 9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE 9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE 9");
     }
 }
         
 - (void)test256
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"<",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"<",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE <" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE <");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE <");
     }
 }
         
 - (void)test257
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"=",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"=",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE =" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE =");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE =");
     }
 }
         
 - (void)test258
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE >");
     }
 }
         
 - (void)test259
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"?",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"?",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE ?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE ?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE ?");
     }
 }
         
 - (void)test260
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"@",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"@",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE @" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE @");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE @");
     }
 }
         
 - (void)test261
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE A");
     }
 }
         
 - (void)test262
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE B");
     }
 }
         
 - (void)test263
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE Y");
     }
 }
         
 - (void)test264
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE Z");
     }
 }
         
 - (void)test265
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"@[",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"@[",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE [" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE [");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE [");
     }
 }
         
 - (void)test266
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"`",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"`",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE `" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE `");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE `");
     }
 }
         
 - (void)test267
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a");
     }
 }
         
 - (void)test268
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a�",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a�",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u0000");
     }
 }
         
 - (void)test269
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u0008");
     }
 }
         
 - (void)test270
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u0009");
     }
 }
         
 - (void)test271
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u000A");
     }
 }
         
 - (void)test272
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x0b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x0b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u000B");
     }
 }
         
 - (void)test273
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u000C");
     }
 }
         
 - (void)test274
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u000D");
     }
 }
         
 - (void)test275
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x1f",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x1f",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\u001F");
     }
 }
         
 - (void)test276
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a ");
     }
 }
         
 - (void)test277
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u0000");
     }
 }
         
 - (void)test278
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u0008");
     }
 }
         
 - (void)test279
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u0009");
     }
 }
         
 - (void)test280
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u000A");
     }
 }
         
 - (void)test281
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u000B");
     }
 }
         
 - (void)test282
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u000C");
     }
 }
         
 - (void)test283
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u000D");
     }
 }
         
 - (void)test284
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\u001F");
     }
 }
         
 - (void)test285
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a  " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a  ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a  ");
     }
 }
         
 - (void)test286
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a !" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a !");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a !");
     }
 }
         
 - (void)test287
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a \"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \"");
     }
 }
         
 - (void)test288
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a &" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a &");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a &");
     }
 }
         
 - (void)test289
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a '" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a '");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a '");
     }
 }
         
 - (void)test290
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a -" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a -");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a -");
     }
 }
         
 - (void)test291
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a /" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a /");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a /");
     }
 }
         
 - (void)test292
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a 0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a 0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a 0");
     }
 }
         
 - (void)test293
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a 1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a 1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a 1");
     }
 }
         
 - (void)test294
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a 9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a 9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a 9");
     }
 }
         
 - (void)test295
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a <" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a <");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a <");
     }
 }
         
 - (void)test296
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a =" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a =");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a =");
     }
 }
         
 - (void)test297
 {
-    NSArray *tokens = @[@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a >");
     }
 }
         
 - (void)test298
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a ?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a ?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a ?");
     }
 }
         
 - (void)test299
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a @" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a @");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a @");
     }
 }
         
 - (void)test300
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a A");
     }
 }
         
 - (void)test301
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a B");
     }
 }
         
 - (void)test302
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC");
     }
 }
         
 - (void)test303
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u0000");
     }
 }
         
 - (void)test304
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u0008");
     }
 }
         
 - (void)test305
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u0009");
     }
 }
         
 - (void)test306
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u000A");
     }
 }
         
 - (void)test307
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u000B");
     }
 }
         
 - (void)test308
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u000C");
     }
 }
         
 - (void)test309
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u000D");
     }
 }
         
 - (void)test310
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\u001F");
     }
 }
         
 - (void)test311
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC ");
     }
 }
         
 - (void)test312
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC!");
     }
 }
         
 - (void)test313
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"");
     }
 }
         
 - (void)test314
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\\u0000");
     }
 }
         
 - (void)test315
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\\u0009");
     }
 }
         
 - (void)test316
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\\u000A");
     }
 }
         
 - (void)test317
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\\u000B");
     }
 }
         
 - (void)test318
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\\u000C");
     }
 }
         
 - (void)test319
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\" " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\" ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\" ");
     }
 }
         
 - (void)test320
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"!");
     }
 }
         
 - (void)test321
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\"");
     }
 }
         
 - (void)test322
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"#",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"#",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"#");
     }
 }
         
 - (void)test323
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"&");
     }
 }
         
 - (void)test324
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"'",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"'",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"'");
     }
 }
         
 - (void)test325
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"-");
     }
 }
         
 - (void)test326
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"/");
     }
 }
         
 - (void)test327
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"0");
     }
 }
         
 - (void)test328
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"1");
     }
 }
         
 - (void)test329
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"9");
     }
 }
         
 - (void)test330
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"<");
     }
 }
         
 - (void)test331
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"=");
     }
 }
         
 - (void)test332
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\">");
     }
 }
         
 - (void)test333
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"?");
     }
 }
         
 - (void)test334
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"@");
     }
 }
         
 - (void)test335
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"A");
     }
 }
         
 - (void)test336
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"B");
     }
 }
         
 - (void)test337
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"Y");
     }
 }
         
 - (void)test338
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"Z");
     }
 }
         
 - (void)test339
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"`");
     }
 }
         
 - (void)test340
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"a");
     }
 }
         
 - (void)test341
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"b");
     }
 }
         
 - (void)test342
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"y");
     }
 }
         
 - (void)test343
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"z");
     }
 }
         
 - (void)test344
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"{");
     }
 }
         
 - (void)test345
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC\"􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\"\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\"\\uDBC0\\uDC00");
     }
 }
         
 - (void)test346
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC#");
     }
 }
         
 - (void)test347
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC&");
     }
 }
         
 - (void)test348
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'");
     }
 }
         
 - (void)test349
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\\u0000");
     }
 }
         
 - (void)test350
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\\u0009");
     }
 }
         
 - (void)test351
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\\u000A");
     }
 }
         
 - (void)test352
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\\u000B");
     }
 }
         
 - (void)test353
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\\u000C");
     }
 }
         
 - (void)test354
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC' ");
     }
 }
         
 - (void)test355
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'!");
     }
 }
         
 - (void)test356
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\"");
     }
 }
         
 - (void)test357
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'&");
     }
 }
         
 - (void)test358
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''");
     }
 }
         
 - (void)test359
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u0000");
     }
 }
         
 - (void)test360
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u0008");
     }
 }
         
 - (void)test361
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u0009");
     }
 }
         
 - (void)test362
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u000A");
     }
 }
         
 - (void)test363
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u000B");
     }
 }
         
 - (void)test364
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u000C");
     }
 }
         
 - (void)test365
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u000D");
     }
 }
         
 - (void)test366
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\u001F");
     }
 }
         
 - (void)test367
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'' ");
     }
 }
         
 - (void)test368
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''!");
     }
 }
         
 - (void)test369
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\"");
     }
 }
         
 - (void)test370
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''#");
     }
 }
         
 - (void)test371
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''&");
     }
 }
         
 - (void)test372
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'''");
     }
 }
         
 - (void)test373
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''(");
     }
 }
         
 - (void)test374
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''-");
     }
 }
         
 - (void)test375
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''/");
     }
 }
         
 - (void)test376
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''0");
     }
 }
         
 - (void)test377
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''1");
     }
 }
         
 - (void)test378
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''9");
     }
 }
         
 - (void)test379
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''<");
     }
 }
         
 - (void)test380
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''=");
     }
 }
         
 - (void)test381
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''>");
     }
 }
         
 - (void)test382
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''?");
     }
 }
         
 - (void)test383
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''@");
     }
 }
         
 - (void)test384
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''A");
     }
 }
         
 - (void)test385
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''B");
     }
 }
         
 - (void)test386
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''Y");
     }
 }
         
 - (void)test387
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''Z");
     }
 }
         
 - (void)test388
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''`");
     }
 }
         
 - (void)test389
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''a");
     }
 }
         
 - (void)test390
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''b");
     }
 }
         
 - (void)test391
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''y");
     }
 }
         
 - (void)test392
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''z");
     }
 }
         
 - (void)test393
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''{");
     }
 }
         
 - (void)test394
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC''􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC''\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC''\\uDBC0\\uDC00");
     }
 }
         
 - (void)test395
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"(",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"(",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'(");
     }
 }
         
 - (void)test396
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'-");
     }
 }
         
 - (void)test397
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'/");
     }
 }
         
 - (void)test398
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'0");
     }
 }
         
 - (void)test399
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'1");
     }
 }
         
 - (void)test400
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'9");
     }
 }
         
 - (void)test401
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'<");
     }
 }
         
 - (void)test402
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'=");
     }
 }
         
 - (void)test403
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'>");
     }
 }
         
 - (void)test404
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'?");
     }
 }
         
 - (void)test405
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'@");
     }
 }
         
 - (void)test406
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'A");
     }
 }
         
 - (void)test407
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'B");
     }
 }
         
 - (void)test408
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'Y");
     }
 }
         
 - (void)test409
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'Z");
     }
 }
         
 - (void)test410
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'`");
     }
 }
         
 - (void)test411
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'a");
     }
 }
         
 - (void)test412
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'b");
     }
 }
         
 - (void)test413
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'y");
     }
 }
         
 - (void)test414
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'z");
     }
 }
         
 - (void)test415
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'{");
     }
 }
         
 - (void)test416
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC'􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC'\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC'\\uDBC0\\uDC00");
     }
 }
         
 - (void)test417
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC(");
     }
 }
         
 - (void)test418
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC-");
     }
 }
         
 - (void)test419
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC/");
     }
 }
         
 - (void)test420
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC0");
     }
 }
         
 - (void)test421
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC1");
     }
 }
         
 - (void)test422
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC9");
     }
 }
         
 - (void)test423
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC<");
     }
 }
         
 - (void)test424
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC=");
     }
 }
         
 - (void)test425
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC>");
     }
 }
         
 - (void)test426
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC?");
     }
 }
         
 - (void)test427
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC@");
     }
 }
         
 - (void)test428
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICA");
     }
 }
         
 - (void)test429
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICB");
     }
 }
         
 - (void)test430
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICY");
     }
 }
         
 - (void)test431
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICZ");
     }
 }
         
 - (void)test432
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC`");
     }
 }
         
 - (void)test433
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICa");
     }
 }
         
 - (void)test434
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICb" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICb");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICb");
     }
 }
         
 - (void)test435
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICy" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICy");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICy");
     }
 }
         
 - (void)test436
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLICz" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLICz");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLICz");
     }
 }
         
 - (void)test437
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC{");
     }
 }
         
 - (void)test438
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a PUBLIC􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a PUBLIC\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a PUBLIC\\uDBC0\\uDC00");
     }
 }
         
 - (void)test439
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM");
     }
 }
         
 - (void)test440
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u0000");
     }
 }
         
 - (void)test441
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u0008");
     }
 }
         
 - (void)test442
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u0009");
     }
 }
         
 - (void)test443
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u000A");
     }
 }
         
 - (void)test444
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u000B");
     }
 }
         
 - (void)test445
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u000C");
     }
 }
         
 - (void)test446
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u000D");
     }
 }
         
 - (void)test447
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\u001F");
     }
 }
         
 - (void)test448
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM ");
     }
 }
         
 - (void)test449
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM!");
     }
 }
         
 - (void)test450
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"");
     }
 }
         
 - (void)test451
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\\u0000");
     }
 }
         
 - (void)test452
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\\u0009");
     }
 }
         
 - (void)test453
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\\u000A");
     }
 }
         
 - (void)test454
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\\u000B");
     }
 }
         
 - (void)test455
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\\u000C");
     }
 }
         
 - (void)test456
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\" " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\" ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\" ");
     }
 }
         
 - (void)test457
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"!");
     }
 }
         
 - (void)test458
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\"");
     }
 }
         
 - (void)test459
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"#",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"#",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"#");
     }
 }
         
 - (void)test460
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"&");
     }
 }
         
 - (void)test461
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"'",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"'",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"'");
     }
 }
         
 - (void)test462
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"-");
     }
 }
         
 - (void)test463
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"/");
     }
 }
         
 - (void)test464
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"0");
     }
 }
         
 - (void)test465
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"1");
     }
 }
         
 - (void)test466
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"9");
     }
 }
         
 - (void)test467
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"<");
     }
 }
         
 - (void)test468
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"=");
     }
 }
         
 - (void)test469
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\">");
     }
 }
         
 - (void)test470
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"?");
     }
 }
         
 - (void)test471
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"@");
     }
 }
         
 - (void)test472
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"A");
     }
 }
         
 - (void)test473
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"B");
     }
 }
         
 - (void)test474
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"Y");
     }
 }
         
 - (void)test475
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"Z");
     }
 }
         
 - (void)test476
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"`");
     }
 }
         
 - (void)test477
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"a");
     }
 }
         
 - (void)test478
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"b");
     }
 }
         
 - (void)test479
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"y");
     }
 }
         
 - (void)test480
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"z");
     }
 }
         
 - (void)test481
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"{");
     }
 }
         
 - (void)test482
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM\"􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\"\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\"\\uDBC0\\uDC00");
     }
 }
         
 - (void)test483
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM#");
     }
 }
         
 - (void)test484
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM&");
     }
 }
         
 - (void)test485
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'");
     }
 }
         
 - (void)test486
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\\u0000");
     }
 }
         
 - (void)test487
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\\u0009");
     }
 }
         
 - (void)test488
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\\u000A");
     }
 }
         
 - (void)test489
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\\u000B");
     }
 }
         
 - (void)test490
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\\u000C");
     }
 }
         
 - (void)test491
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM' ");
     }
 }
         
 - (void)test492
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'!");
     }
 }
         
 - (void)test493
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\"");
     }
 }
         
 - (void)test494
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'&");
     }
 }
         
 - (void)test495
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''");
     }
 }
         
 - (void)test496
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u0000");
     }
 }
         
 - (void)test497
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u0008");
     }
 }
         
 - (void)test498
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u0009");
     }
 }
         
 - (void)test499
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u000A");
     }
 }
         
 - (void)test500
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u000B");
     }
 }
         
 - (void)test501
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u000C");
     }
 }
         
 - (void)test502
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u000D");
     }
 }
         
 - (void)test503
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\u001F");
     }
 }
         
 - (void)test504
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'' ");
     }
 }
         
 - (void)test505
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''!");
     }
 }
         
 - (void)test506
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\"");
     }
 }
         
 - (void)test507
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''&");
     }
 }
         
 - (void)test508
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'''");
     }
 }
         
 - (void)test509
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''-");
     }
 }
         
 - (void)test510
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''/");
     }
 }
         
 - (void)test511
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''0");
     }
 }
         
 - (void)test512
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''1");
     }
 }
         
 - (void)test513
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''9");
     }
 }
         
 - (void)test514
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''<");
     }
 }
         
 - (void)test515
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''=");
     }
 }
         
 - (void)test516
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''>");
     }
 }
         
 - (void)test517
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''?");
     }
 }
         
 - (void)test518
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''@");
     }
 }
         
 - (void)test519
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''A");
     }
 }
         
 - (void)test520
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''B");
     }
 }
         
 - (void)test521
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''Y");
     }
 }
         
 - (void)test522
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''Z");
     }
 }
         
 - (void)test523
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''`");
     }
 }
         
 - (void)test524
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''a");
     }
 }
         
 - (void)test525
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''b");
     }
 }
         
 - (void)test526
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''y");
     }
 }
         
 - (void)test527
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''z");
     }
 }
         
 - (void)test528
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''{");
     }
 }
         
 - (void)test529
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM''􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM''\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM''\\uDBC0\\uDC00");
     }
 }
         
 - (void)test530
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"(",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"(",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'(");
     }
 }
         
 - (void)test531
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'-");
     }
 }
         
 - (void)test532
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'/");
     }
 }
         
 - (void)test533
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'0");
     }
 }
         
 - (void)test534
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'1");
     }
 }
         
 - (void)test535
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'9");
     }
 }
         
 - (void)test536
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'<");
     }
 }
         
 - (void)test537
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'=");
     }
 }
         
 - (void)test538
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'>");
     }
 }
         
 - (void)test539
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'?");
     }
 }
         
 - (void)test540
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'@");
     }
 }
         
 - (void)test541
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'A");
     }
 }
         
 - (void)test542
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'B");
     }
 }
         
 - (void)test543
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'Y");
     }
 }
         
 - (void)test544
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'Z");
     }
 }
         
 - (void)test545
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'`");
     }
 }
         
 - (void)test546
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'a");
     }
 }
         
 - (void)test547
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'b");
     }
 }
         
 - (void)test548
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'y");
     }
 }
         
 - (void)test549
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'z");
     }
 }
         
 - (void)test550
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'{");
     }
 }
         
 - (void)test551
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM'􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM'\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM'\\uDBC0\\uDC00");
     }
 }
         
 - (void)test552
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM(");
     }
 }
         
 - (void)test553
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM-");
     }
 }
         
 - (void)test554
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM/");
     }
 }
         
 - (void)test555
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM0");
     }
 }
         
 - (void)test556
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM1");
     }
 }
         
 - (void)test557
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM9");
     }
 }
         
 - (void)test558
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM<");
     }
 }
         
 - (void)test559
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM=");
     }
 }
         
 - (void)test560
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM>");
     }
 }
         
 - (void)test561
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM?");
     }
 }
         
 - (void)test562
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM@");
     }
 }
         
 - (void)test563
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMA");
     }
 }
         
 - (void)test564
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMB");
     }
 }
         
 - (void)test565
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMY");
     }
 }
         
 - (void)test566
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMZ");
     }
 }
         
 - (void)test567
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM`");
     }
 }
         
 - (void)test568
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMa");
     }
 }
         
 - (void)test569
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMb" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMb");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMb");
     }
 }
         
 - (void)test570
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMy" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMy");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMy");
     }
 }
         
 - (void)test571
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEMz" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEMz");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEMz");
     }
 }
         
 - (void)test572
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM{");
     }
 }
         
 - (void)test573
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a SYSTEM􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a SYSTEM\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a SYSTEM\\uDBC0\\uDC00");
     }
 }
         
 - (void)test574
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a Y");
     }
 }
         
 - (void)test575
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a Z");
     }
 }
         
 - (void)test576
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a `" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a `");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a `");
     }
 }
         
 - (void)test577
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a");
     }
 }
         
 - (void)test578
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\\u0000");
     }
 }
         
 - (void)test579
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\\u0009");
     }
 }
         
 - (void)test580
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\\u000A");
     }
 }
         
 - (void)test581
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\\u000B");
     }
 }
         
 - (void)test582
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\\u000C");
     }
 }
         
 - (void)test583
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a ");
     }
 }
         
 - (void)test584
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a!");
     }
 }
         
 - (void)test585
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\"");
     }
 }
         
 - (void)test586
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a&");
     }
 }
         
 - (void)test587
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a'");
     }
 }
         
 - (void)test588
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a-");
     }
 }
         
 - (void)test589
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a/");
     }
 }
         
 - (void)test590
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a0");
     }
 }
         
 - (void)test591
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a1");
     }
 }
         
 - (void)test592
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a9");
     }
 }
         
 - (void)test593
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a<");
     }
 }
         
 - (void)test594
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a=");
     }
 }
         
 - (void)test595
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a>");
     }
 }
         
 - (void)test596
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a?");
     }
 }
         
 - (void)test597
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a@");
     }
 }
         
 - (void)test598
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a aA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a aA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a aA");
     }
 }
         
 - (void)test599
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a aB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a aB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a aB");
     }
 }
         
 - (void)test600
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a aY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a aY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a aY");
     }
 }
         
 - (void)test601
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a aZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a aZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a aZ");
     }
 }
         
 - (void)test602
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a`");
     }
 }
         
 - (void)test603
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a aa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a aa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a aa");
     }
 }
         
 - (void)test604
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a ab" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a ab");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a ab");
     }
 }
         
 - (void)test605
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a ay" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a ay");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a ay");
     }
 }
         
 - (void)test606
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a az" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a az");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a az");
     }
 }
         
 - (void)test607
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a{");
     }
 }
         
 - (void)test608
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a a􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a a\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a a\\uDBC0\\uDC00");
     }
 }
         
 - (void)test609
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a b");
     }
 }
         
 - (void)test610
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a y");
     }
 }
         
 - (void)test611
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a z");
     }
 }
         
 - (void)test612
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a {" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a {");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a {");
     }
 }
         
 - (void)test613
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a 􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a \\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a \\uDBC0\\uDC00");
     }
 }
         
 - (void)test614
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a!",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a!",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a!");
     }
 }
         
 - (void)test615
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a\"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a\"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\"");
     }
 }
         
 - (void)test616
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a&",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a&",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a&");
     }
 }
         
 - (void)test617
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a'",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a'",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a'");
     }
 }
         
 - (void)test618
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a-",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a-",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a-");
     }
 }
         
 - (void)test619
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a/",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a/",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a/");
     }
 }
         
 - (void)test620
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a0",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a0",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a0");
     }
 }
         
 - (void)test621
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a1",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a1",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a1");
     }
 }
         
 - (void)test622
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a9",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a9",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a9");
     }
 }
         
 - (void)test623
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a<",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a<",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a<");
     }
 }
         
 - (void)test624
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a=",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a=",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a=");
     }
 }
         
 - (void)test625
 {
-    NSArray *tokens = @[@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a>");
     }
 }
         
 - (void)test626
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a?",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a?",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a?");
     }
 }
         
 - (void)test627
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a@",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a@",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a@");
     }
 }
         
 - (void)test628
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE aA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE aA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE aA");
     }
 }
         
 - (void)test629
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE aB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE aB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE aB");
     }
 }
         
 - (void)test630
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE aY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE aY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE aY");
     }
 }
         
 - (void)test631
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE aZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE aZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE aZ");
     }
 }
         
 - (void)test632
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a@[",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a@[",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a[" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a[");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a[");
     }
 }
         
 - (void)test633
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a`",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a`",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a`");
     }
 }
         
 - (void)test634
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE aa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE aa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE aa");
     }
 }
         
 - (void)test635
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE ab" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE ab");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE ab");
     }
 }
         
 - (void)test636
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE ay" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE ay");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE ay");
     }
 }
         
 - (void)test637
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE az" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE az");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE az");
     }
 }
         
 - (void)test638
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a@{",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a@{",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a{");
     }
 }
         
 - (void)test639
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a􀀀",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a􀀀",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE a􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE a\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE a\\uDBC0\\uDC00");
     }
 }
         
 - (void)test640
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE b");
     }
 }
         
 - (void)test641
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE y");
     }
 }
         
 - (void)test642
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE z");
     }
 }
         
 - (void)test643
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"@{",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"@{",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE {" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE {");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE {");
     }
 }
         
 - (void)test644
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"􀀀",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"􀀀",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE 􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE \\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE \\uDBC0\\uDC00");
     }
 }
         
 - (void)test645
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"!",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"!",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE!");
     }
 }
         
 - (void)test646
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"\"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\"");
     }
 }
         
 - (void)test647
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"&",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"&",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE&");
     }
 }
         
 - (void)test648
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"'",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"'",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE'");
     }
 }
         
 - (void)test649
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"-",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"-",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE-");
     }
 }
         
 - (void)test650
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"/",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"/",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE/");
     }
 }
         
 - (void)test651
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"0",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"0",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE0");
     }
 }
         
 - (void)test652
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"1",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"1",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE1");
     }
 }
         
 - (void)test653
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"9",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"9",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE9");
     }
 }
         
 - (void)test654
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"<",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"<",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE<");
     }
 }
         
 - (void)test655
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"=",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"=",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE=");
     }
 }
         
 - (void)test656
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE>");
     }
 }
         
 - (void)test657
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"?",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"?",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE?");
     }
 }
         
 - (void)test658
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"@",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"@",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE@");
     }
 }
         
 - (void)test659
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEA");
     }
 }
         
 - (void)test660
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEB");
     }
 }
         
 - (void)test661
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEY");
     }
 }
         
 - (void)test662
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEZ");
     }
 }
         
 - (void)test663
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"`",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"`",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE`");
     }
 }
         
 - (void)test664
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa");
     }
 }
         
 - (void)test665
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a�",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a�",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u0000");
     }
 }
         
 - (void)test666
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u0008");
     }
 }
         
 - (void)test667
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u0009");
     }
 }
         
 - (void)test668
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u000A");
     }
 }
         
 - (void)test669
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x0b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x0b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u000B");
     }
 }
         
 - (void)test670
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u000C");
     }
 }
         
 - (void)test671
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u000D");
     }
 }
         
 - (void)test672
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x1f",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\x1f",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\u001F");
     }
 }
         
 - (void)test673
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa ");
     }
 }
         
 - (void)test674
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u0000");
     }
 }
         
 - (void)test675
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u0008");
     }
 }
         
 - (void)test676
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u0009");
     }
 }
         
 - (void)test677
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u000A");
     }
 }
         
 - (void)test678
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u000B");
     }
 }
         
 - (void)test679
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u000C");
     }
 }
         
 - (void)test680
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u000D");
     }
 }
         
 - (void)test681
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\u001F");
     }
 }
         
 - (void)test682
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa  " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa  ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa  ");
     }
 }
         
 - (void)test683
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa !" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa !");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa !");
     }
 }
         
 - (void)test684
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa \"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \"");
     }
 }
         
 - (void)test685
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa &" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa &");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa &");
     }
 }
         
 - (void)test686
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa '" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa '");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa '");
     }
 }
         
 - (void)test687
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa -" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa -");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa -");
     }
 }
         
 - (void)test688
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa /" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa /");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa /");
     }
 }
         
 - (void)test689
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa 0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa 0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa 0");
     }
 }
         
 - (void)test690
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa 1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa 1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa 1");
     }
 }
         
 - (void)test691
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa 9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa 9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa 9");
     }
 }
         
 - (void)test692
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa <" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa <");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa <");
     }
 }
         
 - (void)test693
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa =" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa =");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa =");
     }
 }
         
 - (void)test694
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa >");
     }
 }
         
 - (void)test695
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa ?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa ?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa ?");
     }
 }
         
 - (void)test696
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa @" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa @");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa @");
     }
 }
         
 - (void)test697
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa A");
     }
 }
         
 - (void)test698
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa B");
     }
 }
         
 - (void)test699
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC");
     }
 }
         
 - (void)test700
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u0000");
     }
 }
         
 - (void)test701
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u0008");
     }
 }
         
 - (void)test702
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u0009");
     }
 }
         
 - (void)test703
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u000A");
     }
 }
         
 - (void)test704
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u000B");
     }
 }
         
 - (void)test705
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u000C");
     }
 }
         
 - (void)test706
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u000D");
     }
 }
         
 - (void)test707
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\u001F");
     }
 }
         
 - (void)test708
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC ");
     }
 }
         
 - (void)test709
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC!");
     }
 }
         
 - (void)test710
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"");
     }
 }
         
 - (void)test711
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\\u0000");
     }
 }
         
 - (void)test712
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\\u0009");
     }
 }
         
 - (void)test713
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\\u000A");
     }
 }
         
 - (void)test714
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\\u000B");
     }
 }
         
 - (void)test715
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\\u000C");
     }
 }
         
 - (void)test716
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\" " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\" ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\" ");
     }
 }
         
 - (void)test717
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"!");
     }
 }
         
 - (void)test718
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\"");
     }
 }
         
 - (void)test719
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"#",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"#",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"#");
     }
 }
         
 - (void)test720
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"&");
     }
 }
         
 - (void)test721
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"'",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"'",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"'");
     }
 }
         
 - (void)test722
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"-");
     }
 }
         
 - (void)test723
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"/");
     }
 }
         
 - (void)test724
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"0");
     }
 }
         
 - (void)test725
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"1");
     }
 }
         
 - (void)test726
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"9");
     }
 }
         
 - (void)test727
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"<");
     }
 }
         
 - (void)test728
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"=");
     }
 }
         
 - (void)test729
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\">");
     }
 }
         
 - (void)test730
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"?");
     }
 }
         
 - (void)test731
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"@");
     }
 }
         
 - (void)test732
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"A");
     }
 }
         
 - (void)test733
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"B");
     }
 }
         
 - (void)test734
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"Y");
     }
 }
         
 - (void)test735
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"Z");
     }
 }
         
 - (void)test736
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"`");
     }
 }
         
 - (void)test737
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"a");
     }
 }
         
 - (void)test738
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"b");
     }
 }
         
 - (void)test739
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"y");
     }
 }
         
 - (void)test740
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"z");
     }
 }
         
 - (void)test741
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"{");
     }
 }
         
 - (void)test742
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC\"􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\"\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\"\\uDBC0\\uDC00");
     }
 }
         
 - (void)test743
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC#");
     }
 }
         
 - (void)test744
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC&");
     }
 }
         
 - (void)test745
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'");
     }
 }
         
 - (void)test746
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"�",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\\u0000");
     }
 }
         
 - (void)test747
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\t",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\\u0009");
     }
 }
         
 - (void)test748
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\n",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\\u000A");
     }
 }
         
 - (void)test749
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\x0b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\\u000B");
     }
 }
         
 - (void)test750
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\f",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\\u000C");
     }
 }
         
 - (void)test751
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@" ",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC' ");
     }
 }
         
 - (void)test752
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"!",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'!");
     }
 }
         
 - (void)test753
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"\"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\"");
     }
 }
         
 - (void)test754
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"&",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'&");
     }
 }
         
 - (void)test755
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''");
     }
 }
         
 - (void)test756
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u0000");
     }
 }
         
 - (void)test757
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u0008");
     }
 }
         
 - (void)test758
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u0009");
     }
 }
         
 - (void)test759
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u000A");
     }
 }
         
 - (void)test760
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u000B");
     }
 }
         
 - (void)test761
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u000C");
     }
 }
         
 - (void)test762
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u000D");
     }
 }
         
 - (void)test763
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\u001F");
     }
 }
         
 - (void)test764
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'' ");
     }
 }
         
 - (void)test765
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''!");
     }
 }
         
 - (void)test766
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\"");
     }
 }
         
 - (void)test767
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''#");
     }
 }
         
 - (void)test768
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''&");
     }
 }
         
 - (void)test769
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'''");
     }
 }
         
 - (void)test770
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''(");
     }
 }
         
 - (void)test771
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''-");
     }
 }
         
 - (void)test772
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''/");
     }
 }
         
 - (void)test773
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''0");
     }
 }
         
 - (void)test774
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''1");
     }
 }
         
 - (void)test775
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''9");
     }
 }
         
 - (void)test776
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''<");
     }
 }
         
 - (void)test777
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''=");
     }
 }
         
 - (void)test778
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''>");
     }
 }
         
 - (void)test779
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''?");
     }
 }
         
 - (void)test780
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''@");
     }
 }
         
 - (void)test781
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''A");
     }
 }
         
 - (void)test782
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''B");
     }
 }
         
 - (void)test783
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''Y");
     }
 }
         
 - (void)test784
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''Z");
     }
 }
         
 - (void)test785
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''`");
     }
 }
         
 - (void)test786
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''a");
     }
 }
         
 - (void)test787
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''b");
     }
 }
         
 - (void)test788
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''y");
     }
 }
         
 - (void)test789
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''z");
     }
 }
         
 - (void)test790
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''{");
     }
 }
         
 - (void)test791
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC''􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC''\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC''\\uDBC0\\uDC00");
     }
 }
         
 - (void)test792
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"(",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"(",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'(");
     }
 }
         
 - (void)test793
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"-",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'-");
     }
 }
         
 - (void)test794
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"/",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'/");
     }
 }
         
 - (void)test795
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"0",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'0");
     }
 }
         
 - (void)test796
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"1",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'1");
     }
 }
         
 - (void)test797
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"9",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'9");
     }
 }
         
 - (void)test798
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"<",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'<");
     }
 }
         
 - (void)test799
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"=",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'=");
     }
 }
         
 - (void)test800
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'>");
     }
 }
         
 - (void)test801
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"?",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'?");
     }
 }
         
 - (void)test802
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'@");
     }
 }
         
 - (void)test803
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"A",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'A");
     }
 }
         
 - (void)test804
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"B",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'B");
     }
 }
         
 - (void)test805
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'Y");
     }
 }
         
 - (void)test806
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"Z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'Z");
     }
 }
         
 - (void)test807
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"`",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'`");
     }
 }
         
 - (void)test808
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"a",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'a");
     }
 }
         
 - (void)test809
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"b",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'b");
     }
 }
         
 - (void)test810
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"y",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'y");
     }
 }
         
 - (void)test811
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"z",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'z");
     }
 }
         
 - (void)test812
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"@{",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'{");
     }
 }
         
 - (void)test813
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",@"􀀀",[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC'􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC'\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC'\\uDBC0\\uDC00");
     }
 }
         
 - (void)test814
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC(");
     }
 }
         
 - (void)test815
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC-");
     }
 }
         
 - (void)test816
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC/");
     }
 }
         
 - (void)test817
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC0");
     }
 }
         
 - (void)test818
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC1");
     }
 }
         
 - (void)test819
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC9");
     }
 }
         
 - (void)test820
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC<");
     }
 }
         
 - (void)test821
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC=");
     }
 }
         
 - (void)test822
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC>");
     }
 }
         
 - (void)test823
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC?");
     }
 }
         
 - (void)test824
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC@");
     }
 }
         
 - (void)test825
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICA");
     }
 }
         
 - (void)test826
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICB");
     }
 }
         
 - (void)test827
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICY");
     }
 }
         
 - (void)test828
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICZ");
     }
 }
         
 - (void)test829
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC`");
     }
 }
         
 - (void)test830
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICa");
     }
 }
         
 - (void)test831
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICb" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICb");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICb");
     }
 }
         
 - (void)test832
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICy" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICy");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICy");
     }
 }
         
 - (void)test833
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLICz" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLICz");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLICz");
     }
 }
         
 - (void)test834
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC{");
     }
 }
         
 - (void)test835
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa PUBLIC􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa PUBLIC\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa PUBLIC\\uDBC0\\uDC00");
     }
 }
         
 - (void)test836
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM");
     }
 }
         
 - (void)test837
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u0000");
     }
 }
         
 - (void)test838
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u0008");
     }
 }
         
 - (void)test839
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u0009");
     }
 }
         
 - (void)test840
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u000A");
     }
 }
         
 - (void)test841
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u000B");
     }
 }
         
 - (void)test842
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u000C");
     }
 }
         
 - (void)test843
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u000D");
     }
 }
         
 - (void)test844
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\u001F");
     }
 }
         
 - (void)test845
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM ");
     }
 }
         
 - (void)test846
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM!");
     }
 }
         
 - (void)test847
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"");
     }
 }
         
 - (void)test848
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\\u0000");
     }
 }
         
 - (void)test849
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\\u0009");
     }
 }
         
 - (void)test850
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\\u000A");
     }
 }
         
 - (void)test851
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\\u000B");
     }
 }
         
 - (void)test852
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\\u000C");
     }
 }
         
 - (void)test853
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\" " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\" ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\" ");
     }
 }
         
 - (void)test854
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"!");
     }
 }
         
 - (void)test855
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\"");
     }
 }
         
 - (void)test856
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"#",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"#",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"#");
     }
 }
         
 - (void)test857
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"&");
     }
 }
         
 - (void)test858
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"'",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"'",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"'");
     }
 }
         
 - (void)test859
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"-");
     }
 }
         
 - (void)test860
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"/");
     }
 }
         
 - (void)test861
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"0");
     }
 }
         
 - (void)test862
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"1");
     }
 }
         
 - (void)test863
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"9");
     }
 }
         
 - (void)test864
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"<");
     }
 }
         
 - (void)test865
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"=");
     }
 }
         
 - (void)test866
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\">");
     }
 }
         
 - (void)test867
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"?");
     }
 }
         
 - (void)test868
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"@");
     }
 }
         
 - (void)test869
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"A");
     }
 }
         
 - (void)test870
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"B");
     }
 }
         
 - (void)test871
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"Y");
     }
 }
         
 - (void)test872
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"Z");
     }
 }
         
 - (void)test873
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"`");
     }
 }
         
 - (void)test874
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"a");
     }
 }
         
 - (void)test875
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"b");
     }
 }
         
 - (void)test876
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"y");
     }
 }
         
 - (void)test877
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"z");
     }
 }
         
 - (void)test878
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"{");
     }
 }
         
 - (void)test879
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM\"􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\"\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\"\\uDBC0\\uDC00");
     }
 }
         
 - (void)test880
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM#" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM#");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM#");
     }
 }
         
 - (void)test881
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM&");
     }
 }
         
 - (void)test882
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'");
     }
 }
         
 - (void)test883
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"�",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\\u0000");
     }
 }
         
 - (void)test884
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\t",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\\u0009");
     }
 }
         
 - (void)test885
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\n",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\\u000A");
     }
 }
         
 - (void)test886
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\x0b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\\u000B");
     }
 }
         
 - (void)test887
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\f",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\\u000C");
     }
 }
         
 - (void)test888
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@" ",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM' ");
     }
 }
         
 - (void)test889
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"!",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'!");
     }
 }
         
 - (void)test890
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"\"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\"");
     }
 }
         
 - (void)test891
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"&",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'&");
     }
 }
         
 - (void)test892
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''");
     }
 }
         
 - (void)test893
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u0000");
     }
 }
         
 - (void)test894
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u0008");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u0008");
     }
 }
         
 - (void)test895
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u0009");
     }
 }
         
 - (void)test896
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u000A");
     }
 }
         
 - (void)test897
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u000B");
     }
 }
         
 - (void)test898
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u000C");
     }
 }
         
 - (void)test899
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u000D");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u000D");
     }
 }
         
 - (void)test900
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\x1f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\u001F");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\u001F");
     }
 }
         
 - (void)test901
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'' " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'' ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'' ");
     }
 }
         
 - (void)test902
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''!");
     }
 }
         
 - (void)test903
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\"");
     }
 }
         
 - (void)test904
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''&");
     }
 }
         
 - (void)test905
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'''" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'''");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'''");
     }
 }
         
 - (void)test906
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''-");
     }
 }
         
 - (void)test907
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''/");
     }
 }
         
 - (void)test908
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''0");
     }
 }
         
 - (void)test909
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''1");
     }
 }
         
 - (void)test910
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''9");
     }
 }
         
 - (void)test911
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''<");
     }
 }
         
 - (void)test912
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''=");
     }
 }
         
 - (void)test913
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''>");
     }
 }
         
 - (void)test914
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''?");
     }
 }
         
 - (void)test915
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''@");
     }
 }
         
 - (void)test916
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''A");
     }
 }
         
 - (void)test917
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''B");
     }
 }
         
 - (void)test918
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''Y");
     }
 }
         
 - (void)test919
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''Z");
     }
 }
         
 - (void)test920
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''`");
     }
 }
         
 - (void)test921
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''a");
     }
 }
         
 - (void)test922
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''b");
     }
 }
         
 - (void)test923
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''y");
     }
 }
         
 - (void)test924
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''z");
     }
 }
         
 - (void)test925
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''{");
     }
 }
         
 - (void)test926
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM''􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM''\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM''\\uDBC0\\uDC00");
     }
 }
         
 - (void)test927
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"(",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"(",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'(");
     }
 }
         
 - (void)test928
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"-",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'-");
     }
 }
         
 - (void)test929
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"/",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'/");
     }
 }
         
 - (void)test930
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"0",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'0");
     }
 }
         
 - (void)test931
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"1",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'1");
     }
 }
         
 - (void)test932
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"9",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'9");
     }
 }
         
 - (void)test933
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"<",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'<");
     }
 }
         
 - (void)test934
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"=",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'=");
     }
 }
         
 - (void)test935
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'>");
     }
 }
         
 - (void)test936
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"?",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'?");
     }
 }
         
 - (void)test937
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'@");
     }
 }
         
 - (void)test938
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"A",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'A");
     }
 }
         
 - (void)test939
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"B",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'B");
     }
 }
         
 - (void)test940
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'Y");
     }
 }
         
 - (void)test941
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"Z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'Z");
     }
 }
         
 - (void)test942
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"`",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'`");
     }
 }
         
 - (void)test943
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"a",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'a");
     }
 }
         
 - (void)test944
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"b",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'b");
     }
 }
         
 - (void)test945
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"y",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'y");
     }
 }
         
 - (void)test946
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"z",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'z");
     }
 }
         
 - (void)test947
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"@{",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'{");
     }
 }
         
 - (void)test948
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],@"􀀀",@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM'􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM'\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM'\\uDBC0\\uDC00");
     }
 }
         
 - (void)test949
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM(" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM(");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM(");
     }
 }
         
 - (void)test950
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM-");
     }
 }
         
 - (void)test951
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM/");
     }
 }
         
 - (void)test952
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM0");
     }
 }
         
 - (void)test953
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM1");
     }
 }
         
 - (void)test954
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM9");
     }
 }
         
 - (void)test955
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM<");
     }
 }
         
 - (void)test956
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM=");
     }
 }
         
 - (void)test957
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM>");
     }
 }
         
 - (void)test958
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM?");
     }
 }
         
 - (void)test959
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM@");
     }
 }
         
 - (void)test960
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMA");
     }
 }
         
 - (void)test961
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMB");
     }
 }
         
 - (void)test962
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMY");
     }
 }
         
 - (void)test963
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMZ");
     }
 }
         
 - (void)test964
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM`");
     }
 }
         
 - (void)test965
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMa");
     }
 }
         
 - (void)test966
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMb" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMb");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMb");
     }
 }
         
 - (void)test967
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMy" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMy");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMy");
     }
 }
         
 - (void)test968
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEMz" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEMz");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEMz");
     }
 }
         
 - (void)test969
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM{");
     }
 }
         
 - (void)test970
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa SYSTEM􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa SYSTEM\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa SYSTEM\\uDBC0\\uDC00");
     }
 }
         
 - (void)test971
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa Y");
     }
 }
         
 - (void)test972
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa Z");
     }
 }
         
 - (void)test973
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa `" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa `");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa `");
     }
 }
         
 - (void)test974
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a");
     }
 }
         
 - (void)test975
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\\u0000");
     }
 }
         
 - (void)test976
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\\u0009");
     }
 }
         
 - (void)test977
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\\u000A");
     }
 }
         
 - (void)test978
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\\u000B");
     }
 }
         
 - (void)test979
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\\u000C");
     }
 }
         
 - (void)test980
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a ");
     }
 }
         
 - (void)test981
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a!");
     }
 }
         
 - (void)test982
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\"");
     }
 }
         
 - (void)test983
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a&");
     }
 }
         
 - (void)test984
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a'");
     }
 }
         
 - (void)test985
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a-");
     }
 }
         
 - (void)test986
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a/");
     }
 }
         
 - (void)test987
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a0");
     }
 }
         
 - (void)test988
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a1");
     }
 }
         
 - (void)test989
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a9");
     }
 }
         
 - (void)test990
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a<");
     }
 }
         
 - (void)test991
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a=");
     }
 }
         
 - (void)test992
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a>");
     }
 }
         
 - (void)test993
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a?");
     }
 }
         
 - (void)test994
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a@");
     }
 }
         
 - (void)test995
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa aA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa aA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa aA");
     }
 }
         
 - (void)test996
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa aB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa aB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa aB");
     }
 }
         
 - (void)test997
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa aY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa aY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa aY");
     }
 }
         
 - (void)test998
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa aZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa aZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa aZ");
     }
 }
         
 - (void)test999
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a`");
     }
 }
         
 - (void)test1000
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa aa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa aa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa aa");
     }
 }
         
 - (void)test1001
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa ab" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa ab");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa ab");
     }
 }
         
 - (void)test1002
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa ay" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa ay");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa ay");
     }
 }
         
 - (void)test1003
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa az" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa az");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa az");
     }
 }
         
 - (void)test1004
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a{");
     }
 }
         
 - (void)test1005
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa a􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa a\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa a\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1006
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa b");
     }
 }
         
 - (void)test1007
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa y");
     }
 }
         
 - (void)test1008
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa z");
     }
 }
         
 - (void)test1009
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa {" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa {");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa {");
     }
 }
         
 - (void)test1010
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa 􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa \\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa \\uDBC0\\uDC00");
     }
 }
         
 - (void)test1011
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a!",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a!",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa!");
     }
 }
         
 - (void)test1012
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\"",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a\"",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\"");
     }
 }
         
 - (void)test1013
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a&",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a&",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa&");
     }
 }
         
 - (void)test1014
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a'",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a'",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa'");
     }
 }
         
 - (void)test1015
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a-",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a-",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa-");
     }
 }
         
 - (void)test1016
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a/",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a/",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa/");
     }
 }
         
 - (void)test1017
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a0",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a0",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa0");
     }
 }
         
 - (void)test1018
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a1",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a1",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa1");
     }
 }
         
 - (void)test1019
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a9",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a9",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa9");
     }
 }
         
 - (void)test1020
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a<",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a<",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa<");
     }
 }
         
 - (void)test1021
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a=",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a=",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa=");
     }
 }
         
 - (void)test1022
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"a",[NSNull null],[NSNull null],@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa>");
     }
 }
         
 - (void)test1023
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a?",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a?",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa?");
     }
 }
         
 - (void)test1024
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a@",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a@",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa@");
     }
 }
         
 - (void)test1025
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEaA" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEaA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEaA");
     }
 }
         
 - (void)test1026
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEaB" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEaB");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEaB");
     }
 }
         
 - (void)test1027
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEaY" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEaY");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEaY");
     }
 }
         
 - (void)test1028
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEaZ" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEaZ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEaZ");
     }
 }
         
 - (void)test1029
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a@[",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a@[",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa[" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa[");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa[");
     }
 }
         
 - (void)test1030
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a`",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a`",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa`");
     }
 }
         
 - (void)test1031
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"aa",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEaa" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEaa");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEaa");
     }
 }
         
 - (void)test1032
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ab",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEab" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEab");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEab");
     }
 }
         
 - (void)test1033
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"ay",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEay" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEay");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEay");
     }
 }
         
 - (void)test1034
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"az",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEaz" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEaz");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEaz");
     }
 }
         
 - (void)test1035
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a@{",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a@{",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa{");
     }
 }
         
 - (void)test1036
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a􀀀",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"a􀀀",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEa􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEa\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEa\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1037
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"b",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEb" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEb");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEb");
     }
 }
         
 - (void)test1038
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"y",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEy" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEy");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEy");
     }
 }
         
 - (void)test1039
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"z",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPEz" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPEz");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPEz");
     }
 }
         
 - (void)test1040
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"@{",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"@{",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE{");
     }
 }
         
 - (void)test1041
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"DOCTYPE",@"􀀀",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"DOCTYPE",@"􀀀",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!DOCTYPE\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!DOCTYPE\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1042
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!Y");
     }
 }
         
 - (void)test1043
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!Z");
     }
 }
         
 - (void)test1044
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!`");
     }
 }
         
 - (void)test1045
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!a");
     }
 }
         
 - (void)test1046
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!b");
     }
 }
         
 - (void)test1047
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!y");
     }
 }
         
 - (void)test1048
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!z");
     }
 }
         
 - (void)test1049
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!{");
     }
 }
         
 - (void)test1050
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1051
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\"");
     }
 }
         
 - (void)test1052
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<&");
     }
 }
         
 - (void)test1053
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<'");
     }
 }
         
 - (void)test1054
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<-"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<-"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<-");
     }
 }
         
 - (void)test1055
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<."]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<."]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<." state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<.");
     }
 }
         
 - (void)test1056
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"</"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"</"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</");
     }
 }
         
 - (void)test1057
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\\u0000");
     }
 }
         
 - (void)test1058
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\\u0009");
     }
 }
         
 - (void)test1059
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\\u000A");
     }
 }
         
 - (void)test1060
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\\u000B");
     }
 }
         
 - (void)test1061
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\\u000C");
     }
 }
         
 - (void)test1062
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@" "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@" "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</ " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</ ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</ ");
     }
 }
         
 - (void)test1063
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</!");
     }
 }
         
 - (void)test1064
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\"");
     }
 }
         
 - (void)test1065
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</&");
     }
 }
         
 - (void)test1066
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</'");
     }
 }
         
 - (void)test1067
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"-"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"-"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</-");
     }
 }
         
 - (void)test1068
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<//" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<//");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<//");
     }
 }
         
 - (void)test1069
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</0");
     }
 }
         
 - (void)test1070
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</1");
     }
 }
         
 - (void)test1071
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</9");
     }
 }
         
 - (void)test1072
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</<");
     }
 }
         
 - (void)test1073
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</=");
     }
 }
         
 - (void)test1074
 {
-    NSArray *tokens = @[@"ParseError"];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError"]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</>");
     }
 }
         
 - (void)test1075
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</?");
     }
 }
         
 - (void)test1076
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</@");
     }
 }
         
 - (void)test1077
 {
-    NSArray *tokens = @[@[@"EndTag",@"a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</A>");
     }
 }
         
 - (void)test1078
 {
-    NSArray *tokens = @[@[@"EndTag",@"b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</B>");
     }
 }
         
 - (void)test1079
 {
-    NSArray *tokens = @[@[@"EndTag",@"y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</Y>");
     }
 }
         
 - (void)test1080
 {
-    NSArray *tokens = @[@[@"EndTag",@"z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</Z>");
     }
 }
         
 - (void)test1081
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@["]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@["]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</[" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</[");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</[");
     }
 }
         
 - (void)test1082
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</`");
     }
 }
         
 - (void)test1083
 {
-    NSArray *tokens = @[@[@"EndTag",@"a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</a>");
     }
 }
         
 - (void)test1084
 {
-    NSArray *tokens = @[@[@"EndTag",@"b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</b>");
     }
 }
         
 - (void)test1085
 {
-    NSArray *tokens = @[@[@"EndTag",@"y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</y>");
     }
 }
         
 - (void)test1086
 {
-    NSArray *tokens = @[@[@"EndTag",@"z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</z>");
     }
 }
         
 - (void)test1087
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</{");
     }
 }
         
 - (void)test1088
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"</\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"</\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1089
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<0");
     }
 }
         
 - (void)test1090
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<1");
     }
 }
         
 - (void)test1091
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<9");
     }
 }
         
 - (void)test1092
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<"],@"ParseError",@[@"Character",@"<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<"],@"ParseError",@[@"Character",@"<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<<");
     }
 }
         
 - (void)test1093
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<=");
     }
 }
         
 - (void)test1094
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<>"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<>"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<>");
     }
 }
         
 - (void)test1095
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?");
     }
 }
         
 - (void)test1096
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?�"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?�"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\\u0000");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\\u0000");
     }
 }
         
 - (void)test1097
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\t"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?\t"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\t" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\\u0009");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\\u0009");
     }
 }
         
 - (void)test1098
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\\u000A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\\u000A");
     }
 }
         
 - (void)test1099
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"?\x0b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"?\x0b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\x0b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\\u000B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\\u000B");
     }
 }
         
 - (void)test1100
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\f"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?\f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\\u000C");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\\u000C");
     }
 }
         
 - (void)test1101
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"? "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"? "]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<? " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<? ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<? ");
     }
 }
         
 - (void)test1102
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?!"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?!"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?!" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?!");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?!");
     }
 }
         
 - (void)test1103
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?\""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\"" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\"");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\"");
     }
 }
         
 - (void)test1104
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?&"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?&"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?&" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?&");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?&");
     }
 }
         
 - (void)test1105
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?'"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?'"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?'" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?'");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?'");
     }
 }
         
 - (void)test1106
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?-"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?-"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?-" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?-");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?-");
     }
 }
         
 - (void)test1107
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?/"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?/");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?/");
     }
 }
         
 - (void)test1108
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?0"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?0"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?0" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?0");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?0");
     }
 }
         
 - (void)test1109
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?1"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?1"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?1" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?1");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?1");
     }
 }
         
 - (void)test1110
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?9"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?9"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?9" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?9");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?9");
     }
 }
         
 - (void)test1111
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?<"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?<");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?<");
     }
 }
         
 - (void)test1112
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?=");
     }
 }
         
 - (void)test1113
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?>");
     }
 }
         
 - (void)test1114
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"??"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"??"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<??" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<??");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<??");
     }
 }
         
 - (void)test1115
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?@");
     }
 }
         
 - (void)test1116
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?A");
     }
 }
         
 - (void)test1117
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?B");
     }
 }
         
 - (void)test1118
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?Y");
     }
 }
         
 - (void)test1119
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?Z");
     }
 }
         
 - (void)test1120
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?`");
     }
 }
         
 - (void)test1121
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?a");
     }
 }
         
 - (void)test1122
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?b");
     }
 }
         
 - (void)test1123
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?y");
     }
 }
         
 - (void)test1124
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?z");
     }
 }
         
 - (void)test1125
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?{");
     }
 }
         
 - (void)test1126
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<?\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<?\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1127
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<@");
     }
 }
         
 - (void)test1128
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<A>");
     }
 }
         
 - (void)test1129
 {
-    NSArray *tokens = @[@[@"StartTag",@"b",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"b",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<B>");
     }
 }
         
 - (void)test1130
 {
-    NSArray *tokens = @[@[@"StartTag",@"y",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"y",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<Y>");
     }
 }
         
 - (void)test1131
 {
-    NSArray *tokens = @[@[@"StartTag",@"z",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"z",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<Z>");
     }
 }
         
 - (void)test1132
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<@["]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<@["]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<[" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<[");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<[");
     }
 }
         
 - (void)test1133
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<`");
     }
 }
         
 - (void)test1134
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a>");
     }
 }
         
 - (void)test1135
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a�",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a�",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u0000>");
     }
 }
         
 - (void)test1136
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a\b",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a\b",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u0008>");
     }
 }
         
 - (void)test1137
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u0009>");
     }
 }
         
 - (void)test1138
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u000A>");
     }
 }
         
 - (void)test1139
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a\x0b",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a\x0b",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u000B>");
     }
 }
         
 - (void)test1140
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u000C>");
     }
 }
         
 - (void)test1141
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u000D>");
     }
 }
         
 - (void)test1142
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a\x1f",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a\x1f",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\u001F>");
     }
 }
         
 - (void)test1143
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a >");
     }
 }
         
 - (void)test1144
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"�":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"�":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u0000>");
     }
 }
         
 - (void)test1145
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"\b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"\b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u0008>");
     }
 }
         
 - (void)test1146
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u0009>");
     }
 }
         
 - (void)test1147
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u000A>");
     }
 }
         
 - (void)test1148
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"\x0b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"\x0b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u000B>");
     }
 }
         
 - (void)test1149
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u000C>");
     }
 }
         
 - (void)test1150
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u000D>");
     }
 }
         
 - (void)test1151
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"\x1f":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"\x1f":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\u001F>");
     }
 }
         
 - (void)test1152
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a  >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a  >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a  >");
     }
 }
         
 - (void)test1153
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"!":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"!":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a !>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a !>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a !>");
     }
 }
         
 - (void)test1154
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"\"":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"\"":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a \">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \">");
     }
 }
         
 - (void)test1155
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"#":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"#":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a #>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a #>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a #>");
     }
 }
         
 - (void)test1156
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"&":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"&":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a &>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a &>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a &>");
     }
 }
         
 - (void)test1157
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"'":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"'":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a '>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a '>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a '>");
     }
 }
         
 - (void)test1158
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"(":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"(":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a (>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a (>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a (>");
     }
 }
         
 - (void)test1159
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"-":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"-":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a ->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a ->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a ->");
     }
 }
         
 - (void)test1160
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@".":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@".":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a .>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a .>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a .>");
     }
 }
         
 - (void)test1161
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a />" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a />");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a />");
     }
 }
         
 - (void)test1162
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"0":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"0":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a 0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a 0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a 0>");
     }
 }
         
 - (void)test1163
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"1":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"1":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a 1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a 1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a 1>");
     }
 }
         
 - (void)test1164
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"9":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"9":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a 9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a 9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a 9>");
     }
 }
         
 - (void)test1165
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"<":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"<":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a <>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a <>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a <>");
     }
 }
         
 - (void)test1166
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"=":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"=":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a =>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a =>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a =>");
     }
 }
         
 - (void)test1167
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a >");
     }
 }
         
 - (void)test1168
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"?":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"?":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a ?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a ?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a ?>");
     }
 }
         
 - (void)test1169
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"@":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"@":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a @>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a @>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a @>");
     }
 }
         
 - (void)test1170
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a A>");
     }
 }
         
 - (void)test1171
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a B>");
     }
 }
         
 - (void)test1172
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a Y>");
     }
 }
         
 - (void)test1173
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a Z>");
     }
 }
         
 - (void)test1174
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"@[":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"@[":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a [>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a [>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a [>");
     }
 }
         
 - (void)test1175
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"`":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"`":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a `>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a `>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a `>");
     }
 }
         
 - (void)test1176
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a>");
     }
 }
         
 - (void)test1177
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a�":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a�":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u0000>");
     }
 }
         
 - (void)test1178
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a\b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a\b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u0008>");
     }
 }
         
 - (void)test1179
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u0009>");
     }
 }
         
 - (void)test1180
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u000A>");
     }
 }
         
 - (void)test1181
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a\x0b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a\x0b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u000B>");
     }
 }
         
 - (void)test1182
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u000C>");
     }
 }
         
 - (void)test1183
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u000D>");
     }
 }
         
 - (void)test1184
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a\x1f":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a\x1f":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\u001F>");
     }
 }
         
 - (void)test1185
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a >");
     }
 }
         
 - (void)test1186
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"�":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"�":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u0000>");
     }
 }
         
 - (void)test1187
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u0008>");
     }
 }
         
 - (void)test1188
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u0009>");
     }
 }
         
 - (void)test1189
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u000A>");
     }
 }
         
 - (void)test1190
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x0b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x0b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u000B>");
     }
 }
         
 - (void)test1191
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u000C>");
     }
 }
         
 - (void)test1192
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u000D>");
     }
 }
         
 - (void)test1193
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x1f":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x1f":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\u001F>");
     }
 }
         
 - (void)test1194
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a  >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a  >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a  >");
     }
 }
         
 - (void)test1195
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"!":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"!":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a !>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a !>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a !>");
     }
 }
         
 - (void)test1196
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\"":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\"":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a \">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \">");
     }
 }
         
 - (void)test1197
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"#":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"#":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a #>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a #>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a #>");
     }
 }
         
 - (void)test1198
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"&":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"&":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a &>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a &>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a &>");
     }
 }
         
 - (void)test1199
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"'":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"'":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a '>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a '>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a '>");
     }
 }
         
 - (void)test1200
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"(":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"(":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a (>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a (>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a (>");
     }
 }
         
 - (void)test1201
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"-":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"-":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a ->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a ->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a ->");
     }
 }
         
 - (void)test1202
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@".":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@".":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a .>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a .>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a .>");
     }
 }
         
 - (void)test1203
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a />" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a />");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a />");
     }
 }
         
 - (void)test1204
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"0":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"0":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a 0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a 0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a 0>");
     }
 }
         
 - (void)test1205
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"1":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"1":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a 1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a 1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a 1>");
     }
 }
         
 - (void)test1206
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"9":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"9":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a 9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a 9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a 9>");
     }
 }
         
 - (void)test1207
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"<":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"<":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a <>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a <>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a <>");
     }
 }
         
 - (void)test1208
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a =>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a =>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a =>");
     }
 }
         
 - (void)test1209
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a >");
     }
 }
         
 - (void)test1210
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"?":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"?":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a ?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a ?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a ?>");
     }
 }
         
 - (void)test1211
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"@":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"@":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a @>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a @>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a @>");
     }
 }
         
 - (void)test1212
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a A>");
     }
 }
         
 - (void)test1213
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a B>");
     }
 }
         
 - (void)test1214
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a Y>");
     }
 }
         
 - (void)test1215
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a Z>");
     }
 }
         
 - (void)test1216
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"@[":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"@[":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a [>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a [>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a [>");
     }
 }
         
 - (void)test1217
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"`":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"`":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a `>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a `>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a `>");
     }
 }
         
 - (void)test1218
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a a>");
     }
 }
         
 - (void)test1219
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a b>");
     }
 }
         
 - (void)test1220
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a y>");
     }
 }
         
 - (void)test1221
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a z>");
     }
 }
         
 - (void)test1222
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"@{":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"@{":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a {>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a {>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a {>");
     }
 }
         
 - (void)test1223
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"",@"􀀀":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"",@"􀀀":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a 􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a \\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a \\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1224
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a!":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a!":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a!>");
     }
 }
         
 - (void)test1225
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a\"":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a\"":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\">");
     }
 }
         
 - (void)test1226
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a#":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a#":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a#>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a#>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a#>");
     }
 }
         
 - (void)test1227
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a&":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a&":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a&>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a&>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a&>");
     }
 }
         
 - (void)test1228
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a'":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a'":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a'>");
     }
 }
         
 - (void)test1229
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a(":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a(":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a(>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a(>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a(>");
     }
 }
         
 - (void)test1230
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a-":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a-":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a->");
     }
 }
         
 - (void)test1231
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a.":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a.":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a.>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a.>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a.>");
     }
 }
         
 - (void)test1232
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a/>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a/>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a/>");
     }
 }
         
 - (void)test1233
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a0":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a0":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a0>");
     }
 }
         
 - (void)test1234
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a1":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a1":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a1>");
     }
 }
         
 - (void)test1235
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a9":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a9":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a9>");
     }
 }
         
 - (void)test1236
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a<":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a<":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a<>");
     }
 }
         
 - (void)test1237
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=>");
     }
 }
         
 - (void)test1238
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"�"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"�"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u0000>");
     }
 }
         
 - (void)test1239
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u0008>");
     }
 }
         
 - (void)test1240
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u0009>");
     }
 }
         
 - (void)test1241
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u000A>");
     }
 }
         
 - (void)test1242
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x0b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x0b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u000B>");
     }
 }
         
 - (void)test1243
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u000C>");
     }
 }
         
 - (void)test1244
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u000D>");
     }
 }
         
 - (void)test1245
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x1f"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x1f"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\u001F>");
     }
 }
         
 - (void)test1246
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a= >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a= >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a= >");
     }
 }
         
 - (void)test1247
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"!"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"!"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=!>");
     }
 }
         
 - (void)test1248
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\">");
     }
 }
         
 - (void)test1249
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"�"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"�"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\x00\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\\u0000\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\\u0000\">");
     }
 }
         
 - (void)test1250
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\t"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\t"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\t\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\\u0009\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\\u0009\">");
     }
 }
         
 - (void)test1251
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\n"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\n"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\n\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\\u000A\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\\u000A\">");
     }
 }
         
 - (void)test1252
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x0b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x0b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\x0b\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\\u000B\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\\u000B\">");
     }
 }
         
 - (void)test1253
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\f"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\f"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\f\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\\u000C\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\\u000C\">");
     }
 }
         
 - (void)test1254
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@" "}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@" "}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\" \">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\" \">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\" \">");
     }
 }
         
 - (void)test1255
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"!"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"!"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"!\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"!\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"!\">");
     }
 }
         
 - (void)test1256
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\">");
     }
 }
         
 - (void)test1257
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"#"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"#"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"#\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"#\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"#\">");
     }
 }
         
 - (void)test1258
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"%"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"%"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"%\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"%\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"%\">");
     }
 }
         
 - (void)test1259
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"&"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"&"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"&\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"&\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"&\">");
     }
 }
         
 - (void)test1260
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"'"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"'"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"'\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"'\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"'\">");
     }
 }
         
 - (void)test1261
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"-"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"-"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"-\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"-\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"-\">");
     }
 }
         
 - (void)test1262
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"/"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"/"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"/\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"/\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"/\">");
     }
 }
         
 - (void)test1263
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"0"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"0"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"0\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"0\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"0\">");
     }
 }
         
 - (void)test1264
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"1"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"1"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"1\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"1\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"1\">");
     }
 }
         
 - (void)test1265
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"9"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"9"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"9\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"9\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"9\">");
     }
 }
         
 - (void)test1266
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"<"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"<"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"<\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"<\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"<\">");
     }
 }
         
 - (void)test1267
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"="}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"="}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"=\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"=\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"=\">");
     }
 }
         
 - (void)test1268
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@">"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@">"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\">\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\">\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\">\">");
     }
 }
         
 - (void)test1269
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"?"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"?"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"?\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"?\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"?\">");
     }
 }
         
 - (void)test1270
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"@"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"@"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"@\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"@\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"@\">");
     }
 }
         
 - (void)test1271
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"A"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"A"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"A\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"A\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"A\">");
     }
 }
         
 - (void)test1272
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"B"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"B"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"B\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"B\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"B\">");
     }
 }
         
 - (void)test1273
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"Y"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"Y"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"Y\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"Y\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"Y\">");
     }
 }
         
 - (void)test1274
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"Z"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"Z"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"Z\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"Z\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"Z\">");
     }
 }
         
 - (void)test1275
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"`"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"`"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"`\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"`\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"`\">");
     }
 }
         
 - (void)test1276
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"a\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"a\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"a\">");
     }
 }
         
 - (void)test1277
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"b\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"b\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"b\">");
     }
 }
         
 - (void)test1278
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"y"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"y"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"y\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"y\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"y\">");
     }
 }
         
 - (void)test1279
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"z"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"z"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"z\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"z\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"z\">");
     }
 }
         
 - (void)test1280
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"@{"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"@{"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"{\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"{\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"{\">");
     }
 }
         
 - (void)test1281
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"􀀀"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"􀀀"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=\"􀀀\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\"\\uDBC0\\uDC00\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\"\\uDBC0\\uDC00\">");
     }
 }
         
 - (void)test1282
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"#"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"#"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=#>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=#>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=#>");
     }
 }
         
 - (void)test1283
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"%"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"%"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=%>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=%>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=%>");
     }
 }
         
 - (void)test1284
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"&"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"&"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=&>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=&>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=&>");
     }
 }
         
 - (void)test1285
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''>");
     }
 }
         
 - (void)test1286
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"�"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"�"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='\x00'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\\u0000'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\\u0000'>");
     }
 }
         
 - (void)test1287
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\t"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\t"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='\t'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\\u0009'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\\u0009'>");
     }
 }
         
 - (void)test1288
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\n"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\n"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='\n'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\\u000A'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\\u000A'>");
     }
 }
         
 - (void)test1289
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x0b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"\x0b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='\x0b'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\\u000B'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\\u000B'>");
     }
 }
         
 - (void)test1290
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\f"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\f"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='\f'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\\u000C'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\\u000C'>");
     }
 }
         
 - (void)test1291
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@" "}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@" "}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=' '>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=' '>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=' '>");
     }
 }
         
 - (void)test1292
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"!"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"!"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='!'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='!'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='!'>");
     }
 }
         
 - (void)test1293
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"\""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"\""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='\"'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\"'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\"'>");
     }
 }
         
 - (void)test1294
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"%"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"%"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='%'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='%'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='%'>");
     }
 }
         
 - (void)test1295
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"&"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"&"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='&'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='&'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='&'>");
     }
 }
         
 - (void)test1296
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''>");
     }
 }
         
 - (void)test1297
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"�":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"�":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u0000>");
     }
 }
         
 - (void)test1298
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u0008>");
     }
 }
         
 - (void)test1299
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u0009>");
     }
 }
         
 - (void)test1300
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u000A>");
     }
 }
         
 - (void)test1301
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x0b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x0b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u000B>");
     }
 }
         
 - (void)test1302
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u000C>");
     }
 }
         
 - (void)test1303
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u000D>");
     }
 }
         
 - (void)test1304
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x1f":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\x1f":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\u001F>");
     }
 }
         
 - (void)test1305
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='' >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='' >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='' >");
     }
 }
         
 - (void)test1306
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"!":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"!":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''!>");
     }
 }
         
 - (void)test1307
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\"":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"\"":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\">");
     }
 }
         
 - (void)test1308
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"&":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"&":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''&>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''&>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''&>");
     }
 }
         
 - (void)test1309
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"'":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"'":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='''>");
     }
 }
         
 - (void)test1310
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"-":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"-":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''->");
     }
 }
         
 - (void)test1311
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@".":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@".":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''.>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''.>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''.>");
     }
 }
         
 - (void)test1312
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''/>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''/>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''/>");
     }
 }
         
 - (void)test1313
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"0":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"0":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''0>");
     }
 }
         
 - (void)test1314
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"1":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"1":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''1>");
     }
 }
         
 - (void)test1315
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"9":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"9":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''9>");
     }
 }
         
 - (void)test1316
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"<":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"<":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''<>");
     }
 }
         
 - (void)test1317
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"=":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"=":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''=>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''=>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''=>");
     }
 }
         
 - (void)test1318
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''>");
     }
 }
         
 - (void)test1319
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"?":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"?":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''?>");
     }
 }
         
 - (void)test1320
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"@":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"@":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''@>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''@>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''@>");
     }
 }
         
 - (void)test1321
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''A>");
     }
 }
         
 - (void)test1322
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''B>");
     }
 }
         
 - (void)test1323
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''Y>");
     }
 }
         
 - (void)test1324
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''Z>");
     }
 }
         
 - (void)test1325
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"`":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"`":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''`>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''`>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''`>");
     }
 }
         
 - (void)test1326
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''a>");
     }
 }
         
 - (void)test1327
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''b>");
     }
 }
         
 - (void)test1328
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''y>");
     }
 }
         
 - (void)test1329
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''z>");
     }
 }
         
 - (void)test1330
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"@{":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"@{":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''{>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''{>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''{>");
     }
 }
         
 - (void)test1331
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"􀀀":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"",@"􀀀":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=''􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=''\\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=''\\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1332
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"("}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"("}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='('>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='('>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='('>");
     }
 }
         
 - (void)test1333
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"-"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"-"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='-'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='-'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='-'>");
     }
 }
         
 - (void)test1334
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"/"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"/"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='/'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='/'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='/'>");
     }
 }
         
 - (void)test1335
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"0"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"0"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='0'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='0'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='0'>");
     }
 }
         
 - (void)test1336
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"1"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"1"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='1'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='1'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='1'>");
     }
 }
         
 - (void)test1337
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"9"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"9"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='9'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='9'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='9'>");
     }
 }
         
 - (void)test1338
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"<"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"<"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='<'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='<'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='<'>");
     }
 }
         
 - (void)test1339
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"="}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"="}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='='>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='='>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='='>");
     }
 }
         
 - (void)test1340
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@">"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@">"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='>'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='>'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='>'>");
     }
 }
         
 - (void)test1341
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"?"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"?"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='?'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='?'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='?'>");
     }
 }
         
 - (void)test1342
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"@"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"@"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='@'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='@'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='@'>");
     }
 }
         
 - (void)test1343
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"A"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"A"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='A'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='A'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='A'>");
     }
 }
         
 - (void)test1344
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"B"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"B"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='B'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='B'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='B'>");
     }
 }
         
 - (void)test1345
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"Y"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"Y"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='Y'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='Y'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='Y'>");
     }
 }
         
 - (void)test1346
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"Z"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"Z"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='Z'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='Z'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='Z'>");
     }
 }
         
 - (void)test1347
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"`"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"`"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='`'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='`'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='`'>");
     }
 }
         
 - (void)test1348
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='a'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='a'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='a'>");
     }
 }
         
 - (void)test1349
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='b'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='b'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='b'>");
     }
 }
         
 - (void)test1350
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"y"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"y"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='y'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='y'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='y'>");
     }
 }
         
 - (void)test1351
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"z"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"z"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='z'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='z'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='z'>");
     }
 }
         
 - (void)test1352
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"@{"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"@{"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='{'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='{'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='{'>");
     }
 }
         
 - (void)test1353
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"􀀀"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"􀀀"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a='􀀀'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a='\\uDBC0\\uDC00'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a='\\uDBC0\\uDC00'>");
     }
 }
         
 - (void)test1354
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"("}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"("}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=(>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=(>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=(>");
     }
 }
         
 - (void)test1355
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"-"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"-"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=->");
     }
 }
         
 - (void)test1356
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"/"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"/"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=/>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=/>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=/>");
     }
 }
         
 - (void)test1357
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"0"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"0"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=0>");
     }
 }
         
 - (void)test1358
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"1"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"1"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=1>");
     }
 }
         
 - (void)test1359
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"9"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"9"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=9>");
     }
 }
         
 - (void)test1360
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"<"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"<"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=<>");
     }
 }
         
 - (void)test1361
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"="}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"="}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a==>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a==>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a==>");
     }
 }
         
 - (void)test1362
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=>");
     }
 }
         
 - (void)test1363
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"?"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"?"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=?>");
     }
 }
         
 - (void)test1364
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"@"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"@"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=@>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=@>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=@>");
     }
 }
         
 - (void)test1365
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"A"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"A"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=A>");
     }
 }
         
 - (void)test1366
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"B"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"B"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=B>");
     }
 }
         
 - (void)test1367
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"Y"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"Y"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=Y>");
     }
 }
         
 - (void)test1368
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"Z"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"Z"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=Z>");
     }
 }
         
 - (void)test1369
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"`"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"`"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=`>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=`>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=`>");
     }
 }
         
 - (void)test1370
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a>");
     }
 }
         
 - (void)test1371
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a�"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a�"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u0000>");
     }
 }
         
 - (void)test1372
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u0008>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u0008>");
     }
 }
         
 - (void)test1373
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u0009>");
     }
 }
         
 - (void)test1374
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u000A>");
     }
 }
         
 - (void)test1375
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\x0b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\x0b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u000B>");
     }
 }
         
 - (void)test1376
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u000C>");
     }
 }
         
 - (void)test1377
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\r>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u000D>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u000D>");
     }
 }
         
 - (void)test1378
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\x1f"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\x1f"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\x1f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\u001F>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\u001F>");
     }
 }
         
 - (void)test1379
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a >");
     }
 }
         
 - (void)test1380
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a!"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a!"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a!>");
     }
 }
         
 - (void)test1381
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a\""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\">");
     }
 }
         
 - (void)test1382
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a#"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a#"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a#>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a#>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a#>");
     }
 }
         
 - (void)test1383
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a%"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a%"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a%>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a%>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a%>");
     }
 }
         
 - (void)test1384
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a&"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a&"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a&>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a&>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a&>");
     }
 }
         
 - (void)test1385
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a'"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a'"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a'>");
     }
 }
         
 - (void)test1386
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a("}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a("}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a(>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a(>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a(>");
     }
 }
         
 - (void)test1387
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a-"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a-"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a->");
     }
 }
         
 - (void)test1388
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a/"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a/"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a/>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a/>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a/>");
     }
 }
         
 - (void)test1389
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a0"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a0"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a0>");
     }
 }
         
 - (void)test1390
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a1"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a1"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a1>");
     }
 }
         
 - (void)test1391
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a9"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a9"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a9>");
     }
 }
         
 - (void)test1392
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a<"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a<"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a<>");
     }
 }
         
 - (void)test1393
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a="}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a="}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a=>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a=>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a=>");
     }
 }
         
 - (void)test1394
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a>");
     }
 }
         
 - (void)test1395
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a?"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a?"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a?>");
     }
 }
         
 - (void)test1396
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a@"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a@"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a@>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a@>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a@>");
     }
 }
         
 - (void)test1397
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"aA"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"aA"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=aA>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=aA>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=aA>");
     }
 }
         
 - (void)test1398
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"aB"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"aB"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=aB>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=aB>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=aB>");
     }
 }
         
 - (void)test1399
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"aY"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"aY"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=aY>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=aY>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=aY>");
     }
 }
         
 - (void)test1400
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"aZ"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"aZ"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=aZ>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=aZ>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=aZ>");
     }
 }
         
 - (void)test1401
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a`"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@"a`"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a`>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a`>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a`>");
     }
 }
         
 - (void)test1402
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"aa"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"aa"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=aa>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=aa>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=aa>");
     }
 }
         
 - (void)test1403
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"ab"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"ab"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=ab>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=ab>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=ab>");
     }
 }
         
 - (void)test1404
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"ay"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"ay"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=ay>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=ay>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=ay>");
     }
 }
         
 - (void)test1405
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"az"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"az"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=az>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=az>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=az>");
     }
 }
         
 - (void)test1406
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a@{"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a@{"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a{>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a{>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a{>");
     }
 }
         
 - (void)test1407
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"a􀀀"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"a􀀀"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=a􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=a\\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=a\\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1408
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"b"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"b"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=b>");
     }
 }
         
 - (void)test1409
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"y"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"y"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=y>");
     }
 }
         
 - (void)test1410
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"z"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"z"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=z>");
     }
 }
         
 - (void)test1411
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"@{"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"@{"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a={>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a={>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a={>");
     }
 }
         
 - (void)test1412
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@"􀀀"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@"􀀀"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a=􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a=\\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a=\\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1413
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a>");
     }
 }
         
 - (void)test1414
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a?":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a?":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a?>");
     }
 }
         
 - (void)test1415
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a@":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a@":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a@>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a@>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a@>");
     }
 }
         
 - (void)test1416
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"aa":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"aa":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a aA>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a aA>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a aA>");
     }
 }
         
 - (void)test1417
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"ab":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"ab":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a aB>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a aB>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a aB>");
     }
 }
         
 - (void)test1418
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"ay":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"ay":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a aY>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a aY>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a aY>");
     }
 }
         
 - (void)test1419
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"az":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"az":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a aZ>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a aZ>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a aZ>");
     }
 }
         
 - (void)test1420
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a@[":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a@[":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a[>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a[>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a[>");
     }
 }
         
 - (void)test1421
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a`":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a`":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a`>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a`>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a`>");
     }
 }
         
 - (void)test1422
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"aa":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"aa":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a aa>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a aa>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a aa>");
     }
 }
         
 - (void)test1423
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"ab":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"ab":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a ab>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a ab>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a ab>");
     }
 }
         
 - (void)test1424
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"ay":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"ay":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a ay>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a ay>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a ay>");
     }
 }
         
 - (void)test1425
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"az":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"az":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a az>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a az>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a az>");
     }
 }
         
 - (void)test1426
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a@{":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a@{":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a{>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a{>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a{>");
     }
 }
         
 - (void)test1427
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"a􀀀":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"a􀀀":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a a􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a a\\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a a\\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1428
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a b>");
     }
 }
         
 - (void)test1429
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a y>");
     }
 }
         
 - (void)test1430
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a z>");
     }
 }
         
 - (void)test1431
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"@{":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"@{":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a {>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a {>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a {>");
     }
 }
         
 - (void)test1432
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{@"􀀀":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{@"􀀀":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a 􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a \\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a \\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1433
 {
-    NSArray *tokens = @[@[@"StartTag",@"a!",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a!",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a!>");
     }
 }
         
 - (void)test1434
 {
-    NSArray *tokens = @[@[@"StartTag",@"a\"",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a\"",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\">");
     }
 }
         
 - (void)test1435
 {
-    NSArray *tokens = @[@[@"StartTag",@"a&",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a&",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a&>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a&>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a&>");
     }
 }
         
 - (void)test1436
 {
-    NSArray *tokens = @[@[@"StartTag",@"a'",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a'",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a'>");
     }
 }
         
 - (void)test1437
 {
-    NSArray *tokens = @[@[@"StartTag",@"a-",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a-",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a->");
     }
 }
         
 - (void)test1438
 {
-    NSArray *tokens = @[@[@"StartTag",@"a.",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a.",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a.>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a.>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a.>");
     }
 }
         
 - (void)test1439
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/>");
     }
 }
         
 - (void)test1440
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"�":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"�":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/\x00>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\\u0000>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\\u0000>");
     }
 }
         
 - (void)test1441
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/\t>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\\u0009>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\\u0009>");
     }
 }
         
 - (void)test1442
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/\n>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\\u000A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\\u000A>");
     }
 }
         
 - (void)test1443
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"\x0b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"\x0b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/\x0b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\\u000B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\\u000B>");
     }
 }
         
 - (void)test1444
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/\f>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\\u000C>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\\u000C>");
     }
 }
         
 - (void)test1445
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/ >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/ >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/ >");
     }
 }
         
 - (void)test1446
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"!":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"!":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/!>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/!>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/!>");
     }
 }
         
 - (void)test1447
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"\"":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"\"":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\">");
     }
 }
         
 - (void)test1448
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"&":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"&":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/&>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/&>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/&>");
     }
 }
         
 - (void)test1449
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"'":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"'":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/'>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/'>");
     }
 }
         
 - (void)test1450
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"-":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"-":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/->");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/->");
     }
 }
         
 - (void)test1451
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a//>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a//>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a//>");
     }
 }
         
 - (void)test1452
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"0":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"0":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/0>");
     }
 }
         
 - (void)test1453
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"1":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"1":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/1>");
     }
 }
         
 - (void)test1454
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"9":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"9":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/9>");
     }
 }
         
 - (void)test1455
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"<":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"<":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/<>");
     }
 }
         
 - (void)test1456
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"=":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"StartTag",@"a",@{@"=":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/=>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/=>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/=>");
     }
 }
         
 - (void)test1457
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{},@YES]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{},@YES]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/>");
     }
 }
         
 - (void)test1458
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"?":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"?":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/?>");
     }
 }
         
 - (void)test1459
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"@":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"@":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/@>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/@>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/@>");
     }
 }
         
 - (void)test1460
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/A>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/A>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/A>");
     }
 }
         
 - (void)test1461
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/B>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/B>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/B>");
     }
 }
         
 - (void)test1462
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/Y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/Y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/Y>");
     }
 }
         
 - (void)test1463
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/Z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/Z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/Z>");
     }
 }
         
 - (void)test1464
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"`":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"`":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/`>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/`>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/`>");
     }
 }
         
 - (void)test1465
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"a":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/a>");
     }
 }
         
 - (void)test1466
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"b":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"b":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/b>");
     }
 }
         
 - (void)test1467
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"y":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"y":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/y>");
     }
 }
         
 - (void)test1468
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"z":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"z":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/z>");
     }
 }
         
 - (void)test1469
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"@{":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"@{":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/{>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/{>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/{>");
     }
 }
         
 - (void)test1470
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"a",@{@"􀀀":@""}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"a",@{@"􀀀":@""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a/􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a/\\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a/\\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1471
 {
-    NSArray *tokens = @[@[@"StartTag",@"a0",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a0",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a0>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a0>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a0>");
     }
 }
         
 - (void)test1472
 {
-    NSArray *tokens = @[@[@"StartTag",@"a1",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a1",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a1>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a1>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a1>");
     }
 }
         
 - (void)test1473
 {
-    NSArray *tokens = @[@[@"StartTag",@"a9",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a9",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a9>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a9>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a9>");
     }
 }
         
 - (void)test1474
 {
-    NSArray *tokens = @[@[@"StartTag",@"a<",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a<",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a<>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a<>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a<>");
     }
 }
         
 - (void)test1475
 {
-    NSArray *tokens = @[@[@"StartTag",@"a=",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a=",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a=>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a=>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a=>");
     }
 }
         
 - (void)test1476
 {
-    NSArray *tokens = @[@[@"StartTag",@"a",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a>");
     }
 }
         
 - (void)test1477
 {
-    NSArray *tokens = @[@[@"StartTag",@"a?",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a?",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a?>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a?>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a?>");
     }
 }
         
 - (void)test1478
 {
-    NSArray *tokens = @[@[@"StartTag",@"a@",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a@",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a@>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a@>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a@>");
     }
 }
         
 - (void)test1479
 {
-    NSArray *tokens = @[@[@"StartTag",@"aa",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"aa",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<aA>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<aA>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<aA>");
     }
 }
         
 - (void)test1480
 {
-    NSArray *tokens = @[@[@"StartTag",@"ab",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"ab",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<aB>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<aB>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<aB>");
     }
 }
         
 - (void)test1481
 {
-    NSArray *tokens = @[@[@"StartTag",@"ay",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"ay",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<aY>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<aY>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<aY>");
     }
 }
         
 - (void)test1482
 {
-    NSArray *tokens = @[@[@"StartTag",@"az",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"az",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<aZ>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<aZ>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<aZ>");
     }
 }
         
 - (void)test1483
 {
-    NSArray *tokens = @[@[@"StartTag",@"a@[",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a@[",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a[>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a[>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a[>");
     }
 }
         
 - (void)test1484
 {
-    NSArray *tokens = @[@[@"StartTag",@"a`",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a`",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a`>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a`>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a`>");
     }
 }
         
 - (void)test1485
 {
-    NSArray *tokens = @[@[@"StartTag",@"aa",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"aa",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<aa>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<aa>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<aa>");
     }
 }
         
 - (void)test1486
 {
-    NSArray *tokens = @[@[@"StartTag",@"ab",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"ab",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<ab>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<ab>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<ab>");
     }
 }
         
 - (void)test1487
 {
-    NSArray *tokens = @[@[@"StartTag",@"ay",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"ay",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<ay>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<ay>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<ay>");
     }
 }
         
 - (void)test1488
 {
-    NSArray *tokens = @[@[@"StartTag",@"az",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"az",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<az>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<az>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<az>");
     }
 }
         
 - (void)test1489
 {
-    NSArray *tokens = @[@[@"StartTag",@"a@{",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a@{",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a{>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a{>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a{>");
     }
 }
         
 - (void)test1490
 {
-    NSArray *tokens = @[@[@"StartTag",@"a􀀀",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"a􀀀",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<a􀀀>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<a\\uDBC0\\uDC00>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<a\\uDBC0\\uDC00>");
     }
 }
         
 - (void)test1491
 {
-    NSArray *tokens = @[@[@"StartTag",@"b",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"b",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<b>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<b>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<b>");
     }
 }
         
 - (void)test1492
 {
-    NSArray *tokens = @[@[@"StartTag",@"y",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"y",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<y>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<y>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<y>");
     }
 }
         
 - (void)test1493
 {
-    NSArray *tokens = @[@[@"StartTag",@"z",@{}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"z",@{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<z>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<z>");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<z>");
     }
 }
         
 - (void)test1494
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<{");
     }
 }
         
 - (void)test1495
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"<􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"<􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<\\uDBC0\\uDC00");
     }
 }
         
 - (void)test1496
 {
-    NSArray *tokens = @[@[@"Character",@"="]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"="]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"=" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"=");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"=");
     }
 }
         
 - (void)test1497
 {
-    NSArray *tokens = @[@[@"Character",@">"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@">"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @">");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @">");
     }
 }
         
 - (void)test1498
 {
-    NSArray *tokens = @[@[@"Character",@"?"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"?"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"?" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"?");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"?");
     }
 }
         
 - (void)test1499
 {
-    NSArray *tokens = @[@[@"Character",@"@"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"@"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"@" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"@");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"@");
     }
 }
         
 - (void)test1500
 {
-    NSArray *tokens = @[@[@"Character",@"A"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"A"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"A");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"A");
     }
 }
         
 - (void)test1501
 {
-    NSArray *tokens = @[@[@"Character",@"B"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"B"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"B" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"B");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"B");
     }
 }
         
 - (void)test1502
 {
-    NSArray *tokens = @[@[@"Character",@"Y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"Y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"Y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Y");
     }
 }
         
 - (void)test1503
 {
-    NSArray *tokens = @[@[@"Character",@"Z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"Z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"Z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Z");
     }
 }
         
 - (void)test1504
 {
-    NSArray *tokens = @[@[@"Character",@"`"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"`"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"`" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"`");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"`");
     }
 }
         
 - (void)test1505
 {
-    NSArray *tokens = @[@[@"Character",@"a"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"a"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"a");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"a");
     }
 }
         
 - (void)test1506
 {
-    NSArray *tokens = @[@[@"Character",@"b"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"b"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"b" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"b");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"b");
     }
 }
         
 - (void)test1507
 {
-    NSArray *tokens = @[@[@"Character",@"y"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"y"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"y" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"y");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"y");
     }
 }
         
 - (void)test1508
 {
-    NSArray *tokens = @[@[@"Character",@"z"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"z"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"z" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"z");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"z");
     }
 }
         
 - (void)test1509
 {
-    NSArray *tokens = @[@[@"Character",@"@{"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"@{"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"{" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"{");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"{");
     }
 }
         
 - (void)test1510
 {
-    NSArray *tokens = @[@[@"Character",@"􀀀"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"􀀀"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"􀀀" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"\\uDBC0\\uDC00");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\\uDBC0\\uDC00");
     }
 }
 

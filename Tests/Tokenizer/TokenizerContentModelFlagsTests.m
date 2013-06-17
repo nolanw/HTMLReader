@@ -11,109 +11,109 @@
         
 - (void)test0
 {
-    NSArray *tokens = @[@[@"Character",@"<head>&body;"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"<head>&body;"]]);
     for (NSString *state in @[@"PLAINTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<head>&body;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"PLAINTEXT content model flag");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"PLAINTEXT content model flag");
     }
 }
         
 - (void)test1
 {
-    NSArray *tokens = @[@[@"Character",@"foo"],@[@"EndTag",@"xmp"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag closing RCDATA or RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag closing RCDATA or RAWTEXT");
     }
 }
         
 - (void)test2
 {
-    NSArray *tokens = @[@[@"Character",@"foo"],@[@"EndTag",@"xmp"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xMp>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag closing RCDATA or RAWTEXT (case-insensitivity)");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag closing RCDATA or RAWTEXT (case-insensitivity)");
     }
 }
         
 - (void)test3
 {
-    NSArray *tokens = @[@[@"Character",@"foo"],@"ParseError"];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo"],@"ParseError"]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag closing RCDATA or RAWTEXT (ending with space)");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag closing RCDATA or RAWTEXT (ending with space)");
     }
 }
         
 - (void)test4
 {
-    NSArray *tokens = @[@[@"Character",@"foo</xmp"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo</xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag closing RCDATA or RAWTEXT (ending with EOF)");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag closing RCDATA or RAWTEXT (ending with EOF)");
     }
 }
         
 - (void)test5
 {
-    NSArray *tokens = @[@[@"Character",@"foo"],@"ParseError"];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo"],@"ParseError"]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag closing RCDATA or RAWTEXT (ending with slash)");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag closing RCDATA or RAWTEXT (ending with slash)");
     }
 }
         
 - (void)test6
 {
-    NSArray *tokens = @[@[@"Character",@"foo</xmp<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo</xmp<"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp<" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag not closing RCDATA or RAWTEXT (ending with left-angle-bracket)");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag not closing RCDATA or RAWTEXT (ending with left-angle-bracket)");
     }
 }
         
 - (void)test7
 {
-    NSArray *tokens = @[@[@"Character",@"</foo>bar"],@[@"EndTag",@"xmp"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</foo>bar"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</foo>bar</xmp>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag with incorrect name in RCDATA or RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag with incorrect name in RCDATA or RAWTEXT");
     }
 }
         
 - (void)test8
 {
-    NSArray *tokens = @[@[@"Character",@"</foo>bar</xmpaar>"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</foo>bar</xmpaar>"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</foo>bar</xmpaar>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag with incorrect name in RCDATA or RAWTEXT (starting like correct name)");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag with incorrect name in RCDATA or RAWTEXT (starting like correct name)");
     }
 }
         
 - (void)test9
 {
-    NSArray *tokens = @[@[@"Character",@"foo"],@[@"EndTag",@"xmp"],@[@"EndTag",@"baz"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo"],@[@"EndTag",@"xmp"],@[@"EndTag",@"baz"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo</xmp></baz>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"End tag closing RCDATA or RAWTEXT, switching back to PCDATA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag closing RCDATA or RAWTEXT, switching back to PCDATA");
     }
 }
         
 - (void)test10
 {
-    NSArray *tokens = @[@[@"Character",@"&foo;"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"&foo;"]]);
     for (NSString *state in @[@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&foo;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"RAWTEXT w/ something looking like an entity");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"RAWTEXT w/ something looking like an entity");
     }
 }
         
 - (void)test11
 {
-    NSArray *tokens = @[@[@"Character",@"<"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"<"]]);
     for (NSString *state in @[@"RCDATA state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&lt;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"RCDATA w/ an entity");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"RCDATA w/ an entity");
     }
 }
 

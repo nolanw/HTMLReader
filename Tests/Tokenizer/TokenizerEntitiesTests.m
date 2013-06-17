@@ -11,631 +11,631 @@
         
 - (void)test0
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"h",@{@"a":@"&noti;"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"h",@{@"a":@"&noti;"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&noti;'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Undefined named entity in attribute value ending in semicolon and whose name starts with a known entity name.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Undefined named entity in attribute value ending in semicolon and whose name starts with a known entity name.");
     }
 }
         
 - (void)test1
 {
-    NSArray *tokens = @[@"ParseError",@[@"StartTag",@"h",@{@"a":@"&lang="}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"StartTag",@"h",@{@"a":@"&lang="}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&lang='>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Entity name followed by the equals sign in an attribute value.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Entity name followed by the equals sign in an attribute value.");
     }
 }
         
 - (void)test2
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"\r"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"\r"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#013;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"CR as numeric entity");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"CR as numeric entity");
     }
 }
         
 - (void)test3
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"\r"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"\r"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00D;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"CR as hexadecimal numeric entity");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"CR as hexadecimal numeric entity");
     }
 }
         
 - (void)test4
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"€"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"€"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0128;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 EURO SIGN numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 EURO SIGN numeric entity.");
     }
 }
         
 - (void)test5
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0129;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
     }
 }
         
 - (void)test6
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‚"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‚"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0130;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SINGLE LOW-9 QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SINGLE LOW-9 QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test7
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"ƒ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"ƒ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0131;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LETTER F WITH HOOK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LETTER F WITH HOOK numeric entity.");
     }
 }
         
 - (void)test8
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"„"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"„"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0132;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 DOUBLE LOW-9 QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 DOUBLE LOW-9 QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test9
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"…"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"…"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0133;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 HORIZONTAL ELLIPSIS numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 HORIZONTAL ELLIPSIS numeric entity.");
     }
 }
         
 - (void)test10
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"†"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"†"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0134;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 DAGGER numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 DAGGER numeric entity.");
     }
 }
         
 - (void)test11
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‡"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‡"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0135;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 DOUBLE DAGGER numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 DOUBLE DAGGER numeric entity.");
     }
 }
         
 - (void)test12
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"ˆ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"ˆ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0136;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 MODIFIER LETTER CIRCUMFLEX ACCENT numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 MODIFIER LETTER CIRCUMFLEX ACCENT numeric entity.");
     }
 }
         
 - (void)test13
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‰"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‰"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0137;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 PER MILLE SIGN numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 PER MILLE SIGN numeric entity.");
     }
 }
         
 - (void)test14
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Š"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Š"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0138;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LETTER S WITH CARON numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LETTER S WITH CARON numeric entity.");
     }
 }
         
 - (void)test15
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‹"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‹"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0139;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SINGLE LEFT-POINTING ANGLE QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SINGLE LEFT-POINTING ANGLE QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test16
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Œ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Œ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0140;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LIGATURE OE numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LIGATURE OE numeric entity.");
     }
 }
         
 - (void)test17
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0141;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
     }
 }
         
 - (void)test18
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Ž"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Ž"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0142;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LETTER Z WITH CARON numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LETTER Z WITH CARON numeric entity.");
     }
 }
         
 - (void)test19
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0143;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
     }
 }
         
 - (void)test20
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0144;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
     }
 }
         
 - (void)test21
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‘"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‘"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0145;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LEFT SINGLE QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LEFT SINGLE QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test22
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"’"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"’"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0146;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 RIGHT SINGLE QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 RIGHT SINGLE QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test23
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"“"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"“"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0147;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LEFT DOUBLE QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LEFT DOUBLE QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test24
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"”"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"”"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0148;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 RIGHT DOUBLE QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 RIGHT DOUBLE QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test25
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"•"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"•"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0149;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 BULLET numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 BULLET numeric entity.");
     }
 }
         
 - (void)test26
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"–"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"–"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0150;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 EN DASH numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 EN DASH numeric entity.");
     }
 }
         
 - (void)test27
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"—"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"—"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0151;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 EM DASH numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 EM DASH numeric entity.");
     }
 }
         
 - (void)test28
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"˜"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"˜"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0152;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SMALL TILDE numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SMALL TILDE numeric entity.");
     }
 }
         
 - (void)test29
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"™"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"™"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0153;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 TRADE MARK SIGN numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 TRADE MARK SIGN numeric entity.");
     }
 }
         
 - (void)test30
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"š"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"š"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0154;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LETTER S WITH CARON numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LETTER S WITH CARON numeric entity.");
     }
 }
         
 - (void)test31
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"›"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"›"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0155;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SINGLE RIGHT-POINTING ANGLE QUOTATION MARK numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SINGLE RIGHT-POINTING ANGLE QUOTATION MARK numeric entity.");
     }
 }
         
 - (void)test32
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"œ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"œ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0156;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LIGATURE OE numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LIGATURE OE numeric entity.");
     }
 }
         
 - (void)test33
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#0157;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR numeric entity.");
     }
 }
         
 - (void)test34
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"€"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"€"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x080;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 EURO SIGN hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 EURO SIGN hexadecimal numeric entity.");
     }
 }
         
 - (void)test35
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x081;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
     }
 }
         
 - (void)test36
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‚"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‚"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x082;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SINGLE LOW-9 QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SINGLE LOW-9 QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test37
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"ƒ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"ƒ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x083;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LETTER F WITH HOOK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LETTER F WITH HOOK hexadecimal numeric entity.");
     }
 }
         
 - (void)test38
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"„"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"„"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x084;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 DOUBLE LOW-9 QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 DOUBLE LOW-9 QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test39
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"…"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"…"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x085;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 HORIZONTAL ELLIPSIS hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 HORIZONTAL ELLIPSIS hexadecimal numeric entity.");
     }
 }
         
 - (void)test40
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"†"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"†"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x086;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 DAGGER hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 DAGGER hexadecimal numeric entity.");
     }
 }
         
 - (void)test41
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‡"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‡"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x087;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 DOUBLE DAGGER hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 DOUBLE DAGGER hexadecimal numeric entity.");
     }
 }
         
 - (void)test42
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"ˆ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"ˆ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x088;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 MODIFIER LETTER CIRCUMFLEX ACCENT hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 MODIFIER LETTER CIRCUMFLEX ACCENT hexadecimal numeric entity.");
     }
 }
         
 - (void)test43
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‰"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‰"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x089;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 PER MILLE SIGN hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 PER MILLE SIGN hexadecimal numeric entity.");
     }
 }
         
 - (void)test44
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Š"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Š"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x08A;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LETTER S WITH CARON hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LETTER S WITH CARON hexadecimal numeric entity.");
     }
 }
         
 - (void)test45
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‹"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‹"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x08B;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SINGLE LEFT-POINTING ANGLE QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SINGLE LEFT-POINTING ANGLE QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test46
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Œ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Œ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x08C;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LIGATURE OE hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LIGATURE OE hexadecimal numeric entity.");
     }
 }
         
 - (void)test47
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x08D;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
     }
 }
         
 - (void)test48
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Ž"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Ž"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x08E;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LETTER Z WITH CARON hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LETTER Z WITH CARON hexadecimal numeric entity.");
     }
 }
         
 - (void)test49
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x08F;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
     }
 }
         
 - (void)test50
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x090;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
     }
 }
         
 - (void)test51
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"‘"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"‘"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x091;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LEFT SINGLE QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LEFT SINGLE QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test52
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"’"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"’"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x092;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 RIGHT SINGLE QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 RIGHT SINGLE QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test53
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"“"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"“"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x093;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LEFT DOUBLE QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LEFT DOUBLE QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test54
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"”"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"”"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x094;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 RIGHT DOUBLE QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 RIGHT DOUBLE QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test55
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"•"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"•"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x095;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 BULLET hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 BULLET hexadecimal numeric entity.");
     }
 }
         
 - (void)test56
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"–"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"–"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x096;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 EN DASH hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 EN DASH hexadecimal numeric entity.");
     }
 }
         
 - (void)test57
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"—"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"—"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x097;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 EM DASH hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 EM DASH hexadecimal numeric entity.");
     }
 }
         
 - (void)test58
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"˜"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"˜"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x098;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SMALL TILDE hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SMALL TILDE hexadecimal numeric entity.");
     }
 }
         
 - (void)test59
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"™"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"™"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x099;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 TRADE MARK SIGN hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 TRADE MARK SIGN hexadecimal numeric entity.");
     }
 }
         
 - (void)test60
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"š"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"š"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x09A;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LETTER S WITH CARON hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LETTER S WITH CARON hexadecimal numeric entity.");
     }
 }
         
 - (void)test61
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"›"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"›"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x09B;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 SINGLE RIGHT-POINTING ANGLE QUOTATION MARK hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 SINGLE RIGHT-POINTING ANGLE QUOTATION MARK hexadecimal numeric entity.");
     }
 }
         
 - (void)test62
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"œ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"œ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x09C;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LIGATURE OE hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LIGATURE OE hexadecimal numeric entity.");
     }
 }
         
 - (void)test63
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@""]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@""]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x09D;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 REPLACEMENT CHAR hexadecimal numeric entity.");
     }
 }
         
 - (void)test64
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"ž"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"ž"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x09E;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN SMALL LETTER Z WITH CARON hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN SMALL LETTER Z WITH CARON hexadecimal numeric entity.");
     }
 }
         
 - (void)test65
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"Ÿ"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"Ÿ"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x09F;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Windows-1252 LATIN CAPITAL LETTER Y WITH DIAERESIS hexadecimal numeric entity.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Windows-1252 LATIN CAPITAL LETTER Y WITH DIAERESIS hexadecimal numeric entity.");
     }
 }
         
 - (void)test66
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"aa"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"aa"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#97a" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Decimal numeric entity followed by hex character a.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Decimal numeric entity followed by hex character a.");
     }
 }
         
 - (void)test67
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"aA"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"aA"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#97A" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Decimal numeric entity followed by hex character A.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Decimal numeric entity followed by hex character A.");
     }
 }
         
 - (void)test68
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"af"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"af"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#97f" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Decimal numeric entity followed by hex character f.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Decimal numeric entity followed by hex character f.");
     }
 }
         
 - (void)test69
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"aF"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"aF"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#97F" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Decimal numeric entity followed by hex character A.");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Decimal numeric entity followed by hex character A.");
     }
 }
 

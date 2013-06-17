@@ -11,10 +11,10 @@
         
 - (void)test0
 {
-    NSArray *tokens = @[@"ParseError",@"ParseError",@[@"Comment",@"-- >"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@"ParseError",@[@"Comment",@"-- >"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!---- >" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"<!---- >");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"<!---- >");
     }
 }
 

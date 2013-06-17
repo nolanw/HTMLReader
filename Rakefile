@@ -32,10 +32,10 @@ END
         
 - (void)test#{i}
 {
-    NSArray *tokens = #{output};
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(#{output});
     for (NSString *state in #{states}) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:#{input} state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", #{description});
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", #{description});
     }
 }
 END

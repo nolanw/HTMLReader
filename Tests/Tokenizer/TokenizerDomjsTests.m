@@ -11,127 +11,127 @@
         
 - (void)test0
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\r" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"CR in bogus comment state");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"CR in bogus comment state");
     }
 }
         
 - (void)test1
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"?\n"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"?\n"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<?\r\n" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"CRLF in bogus comment state");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"CRLF in bogus comment state");
     }
 }
         
 - (void)test2
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"\\U0000FFFD"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"\\U0000FFFD"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"\\x00" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"NUL in RCDATA and RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"NUL in RCDATA and RAWTEXT");
     }
 }
         
 - (void)test3
 {
-    NSArray *tokens = @[@[@"Character",@"﻿foo﻿bar"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"﻿foo﻿bar"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"﻿foo﻿bar" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"leading U+FEFF must pass through");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"leading U+FEFF must pass through");
     }
 }
         
 - (void)test4
 {
-    NSArray *tokens = @[@[@"Character",@"≂̸"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"≂̸"]]);
     for (NSString *state in @[@"RCDATA state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&NotEqualTilde;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Non BMP-charref in in RCDATA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Non BMP-charref in in RCDATA");
     }
 }
         
 - (void)test5
 {
-    NSArray *tokens = @[@"ParseError",@[@"Character",@"&NotEqualTild;"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Character",@"&NotEqualTild;"]]);
     for (NSString *state in @[@"RCDATA state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&NotEqualTild;" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Bad charref in in RCDATA");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Bad charref in in RCDATA");
     }
 }
         
 - (void)test6
 {
-    NSArray *tokens = @[@[@"EndTag",@"xmp"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</XMP>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"lowercase endtags in RCDATA and RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"lowercase endtags in RCDATA and RAWTEXT");
     }
 }
         
 - (void)test7
 {
-    NSArray *tokens = @[@[@"Character",@"</ XMP>"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</ XMP>"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</ XMP>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"bad endtag in RCDATA and RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
         
 - (void)test8
 {
-    NSArray *tokens = @[@[@"Character",@"</xm>"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</xm>"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"bad endtag in RCDATA and RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
         
 - (void)test9
 {
-    NSArray *tokens = @[@[@"Character",@"</xm "]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</xm "]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"bad endtag in RCDATA and RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
         
 - (void)test10
 {
-    NSArray *tokens = @[@[@"Character",@"</xm/"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</xm/"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm/" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"bad endtag in RCDATA and RAWTEXT");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
         
 - (void)test11
 {
-    NSArray *tokens = @[@[@"StartTag",@"p",@{@"id":@"≂̸"}]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag",@"p",@{@"id":@"≂̸"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<p id=\"&NotEqualTilde;\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"Non BMP-charref in attribute");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Non BMP-charref in attribute");
     }
 }
         
 - (void)test12
 {
-    NSArray *tokens = @[@"ParseError",@[@"Comment",@"--!\\U0000FFFD"]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"Comment",@"--!\\U0000FFFD"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!----!\\x00-->" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"--!NUL in comment ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"--!NUL in comment ");
     }
 }
         
 - (void)test13
 {
-    NSArray *tokens = @[@"ParseError",@[@"DOCTYPE",@"html",[NSNull null],[NSNull null],@NO]];
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError",@[@"DOCTYPE",@"html",[NSNull null],[NSNull null],@NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE html " state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, ReifiedTokensForTestTokens(tokens), @"%@", @"space EOF after doctype ");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"space EOF after doctype ");
     }
 }
 
