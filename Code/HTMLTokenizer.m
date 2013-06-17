@@ -41,8 +41,11 @@
 - (id)initWithString:(NSString *)string
 {
     if (!(self = [super init])) return nil;
+    string = [string stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+    string = [string stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
     _scanner = [NSScanner scannerWithString:string];
     _scanner.charactersToBeSkipped = nil;
+    _scanner.caseSensitive = YES;
     _state = HTMLTokenizerDataState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
@@ -212,7 +215,7 @@
                 case '?':
                     [self emitParseError];
                     _state = HTMLTokenizerBogusCommentState;
-                    [_scanner scanString:@"?" intoString:nil];
+                    // TODO the spec says to consume the ?, but the bogus comment state needs it, and it seems easier to just not consume it. Is there some reason to consume it then rewind in the bogus comment state?
                     break;
                 default:
                     if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
@@ -995,11 +998,16 @@
         default: {
             // TODO "Consume the *maximum number of characters possible*"
             // TODO html5lib tests give a parse error on e.g. "&ccirc" (note no semicolon), but I can't see why according to the HTML spec.
+            NSString *longestScanned;
             NSString *characters;
             for (size_t i = 0; i < sizeof(NamedCharacterReferences) / sizeof(NamedCharacterReferences[0]); i++) {
-                if ([_scanner scanString:NamedCharacterReferences[i].name intoString:nil]) {
-                    characters = NamedCharacterReferences[i].characters;
-                    break;
+                NSString *scan;
+                if ([_scanner scanString:NamedCharacterReferences[i].name intoString:&scan]) {
+                    if (scan.length > longestScanned.length) {
+                        longestScanned = scan;
+                        characters = NamedCharacterReferences[i].characters;
+                    }
+                    _scanner.scanLocation = initialScanLocation;
                 }
             }
             if (!characters) {
@@ -1011,6 +1019,7 @@
                 }
                 _scanner.scanLocation = initialScanLocation;
             } else {
+                [_scanner scanString:longestScanned intoString:nil];
                 if ([_scanner.string characterAtIndex:(_scanner.scanLocation - 1)] != ';') {
                     [self emitParseError];
                 }
@@ -3583,6 +3592,11 @@ static const struct {
 }
 
 #pragma mark - NSObject
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p <!-- %@ --> >", self.class, self, self.data];
+}
 
 - (BOOL)isEqual:(HTMLCommentToken *)other
 {

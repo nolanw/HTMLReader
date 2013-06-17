@@ -21,7 +21,7 @@ NSArray * ReifiedTokensForTestTokens(NSArray *testTokens)
             [tokens addObject:[[HTMLCharacterToken alloc] initWithData:test[1]]];
             continue;
         } else if ([tokenType isEqualToString:@"Comment"]) {
-            [tokens addObject:[[HTMLCharacterToken alloc] initWithData:test[1]]];
+            [tokens addObject:[[HTMLCommentToken alloc] initWithData:test[1]]];
             continue;
         } else if ([tokenType isEqualToString:@"StartTag"]) {
             HTMLStartTagToken *startTag = [[HTMLStartTagToken alloc] initWithTagName:test[1]];
