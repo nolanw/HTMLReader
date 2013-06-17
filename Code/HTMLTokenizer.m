@@ -34,6 +34,7 @@
     HTMLTokenizerState _sourceAttributeValueState;
     NSMutableString *_temporaryBuffer;
     NSString *_mostRecentEmittedStartTagName;
+    BOOL _done;
 }
 
 - (id)initWithString:(NSString *)string
@@ -68,7 +69,10 @@
             if (ok) {
                 [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
             }
-            if (_scanner.isAtEnd) break;
+            if (_scanner.isAtEnd) {
+                _done = YES;
+                break;
+            }
             switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
                 case '&':
                     _state = HTMLTokenizerCharacterReferenceInDataState;
@@ -105,7 +109,10 @@
             if (ok) {
                 [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
             }
-            if (_scanner.isAtEnd) break;
+            if (_scanner.isAtEnd) {
+                _done = YES;
+                break;
+            }
             switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
                 case '&':
                     _state = HTMLTokenizerCharacterReferenceInRCDATAState;
@@ -143,7 +150,10 @@
             if (ok) {
                 [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
             }
-            if (_scanner.isAtEnd) break;
+            if (_scanner.isAtEnd) {
+                _done = YES;
+                break;
+            }
             switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
                 case '<':
                     if (_state == HTMLTokenizerRAWTEXTState) {
@@ -169,7 +179,10 @@
             if (ok) {
                 [self emit:[[HTMLCharacterToken alloc] initWithData:data]];
             }
-            if (_scanner.isAtEnd) break;
+            if (_scanner.isAtEnd) {
+                _done = YES;
+                break;
+            }
             if ([_scanner.string characterAtIndex:_scanner.scanLocation] == 0) {
                 [self emitParseError];
                 [self emit:[[HTMLCharacterToken alloc] initWithData:@"\uFFFD"]];
@@ -835,7 +848,12 @@
         case HTMLTokenizerBogusCommentState: {
             NSString *data;
             BOOL ok = [_scanner scanUpToString:@">" intoString:&data];
-            if (!ok) data = nil;
+            if (ok) {
+                data = [data stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"];
+            } else {
+                data = @"";
+            }
+            [_scanner scanString:@">" intoString:nil];
             [self emit:[[HTMLCommentToken alloc] initWithData:data]];
             _state = HTMLTokenizerDataState;
             break;
@@ -843,7 +861,7 @@
     
         default:
             NSLog(@"unimplemented state %@", @(_state));
-            _scanner.scanLocation = _scanner.string.length;
+            _done = YES;
             break;
     }
 }
@@ -3261,23 +3279,20 @@ static const struct {
 
 - (id)nextObject
 {
-    while (!_scanner.isAtEnd && _tokenQueue.count == 0) {
+    while (!_done && _tokenQueue.count == 0) {
         [self resume];
     }
-    if (_tokenQueue.count > 0) {
-        id token = _tokenQueue[0];
-        [_tokenQueue removeObjectAtIndex:0];
-        return token;
-    } else {
-        return nil;
-    }
+    if (_tokenQueue.count == 0) return nil;
+    id token = _tokenQueue[0];
+    [_tokenQueue removeObjectAtIndex:0];
+    return token;
 }
 
 #pragma mark - NSObject
 
 - (id)init
 {
-    return [self initWithString:nil state:HTMLTokenizerDataState];
+    return [self initWithString:nil];
 }
 
 @end
