@@ -14,6 +14,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo<!--"],@[@"EndTag",@"xmp"],@[@"Character",@"-->"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!--</xmp>--></xmp>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Commented close tag in RCDATA or RAWTEXT");
     }
 }
@@ -23,6 +24,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo<!-->baz"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!-->baz</xmp>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Bogus comment in RCDATA or RAWTEXT");
     }
 }
@@ -32,6 +34,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo<!-->"],@[@"EndTag",@"xmp"],@"ParseError",@[@"Comment",@""],@[@"Character",@"baz"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!--></xmp><!-->baz</xmp>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"End tag surrounded by bogus comment in RCDATA or RAWTEXT");
     }
 }
@@ -41,6 +44,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@" & <!-- & --> & "],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@" &amp; <!-- &amp; --> &amp; </xmp>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Commented entities in RCDATA");
     }
 }
@@ -50,6 +54,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"foo<!-- x --x>x-- >x--!>x--<>"],@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"foo<!-- x --x>x-- >x--!>x--<></xmp>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Incorrect comment ending sequences in RCDATA or RAWTEXT");
     }
 }

@@ -83,7 +83,7 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 @interface HTMLTokenizer : NSEnumerator
 
 // Designated initializer.
-- (id)initWithString:(NSString *)string state:(HTMLTokenizerState)state;
+- (id)initWithString:(NSString *)string;
 
 @end
 
@@ -146,5 +146,12 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 @end
 
 @interface HTMLParseErrorToken : NSObject
+
+@end
+
+@interface HTMLTokenizer (Testing)
+
+- (id)initWithString:(NSString *)string state:(HTMLTokenizerState)state;
+- (void)setLastStartTag:(NSString *)tagName;
 
 @end

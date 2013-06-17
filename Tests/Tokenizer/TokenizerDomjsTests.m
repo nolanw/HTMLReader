@@ -68,6 +68,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag",@"xmp"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</XMP>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"lowercase endtags in RCDATA and RAWTEXT");
     }
 }
@@ -77,6 +78,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</ XMP>"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</ XMP>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
@@ -86,6 +88,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</xm>"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm>" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
@@ -95,6 +98,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</xm "]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm " state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }
@@ -104,6 +108,7 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character",@"</xm/"]]);
     for (NSString *state in @[@"RCDATA state",@"RAWTEXT state"]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"</xm/" state:StateNamed(state)];
+        [tokenizer setLastStartTag:@"xmp"];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"bad endtag in RCDATA and RAWTEXT");
     }
 }

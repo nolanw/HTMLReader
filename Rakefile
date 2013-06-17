@@ -27,6 +27,9 @@ END
         input = happy_universal_character_names("@#{JSON.dump(test['input'])}")
         output = objc_literalize(JSON.dump(test['output']))
         states = objc_literalize(JSON.dump(test['initialStates'] || ['']))
+        if test['lastStartTag']
+          lastStartTag = objc_literalize(JSON.dump(test['lastStartTag']))
+        end
         description = "@#{JSON.dump(test['description'])}"
         objc << <<-END
         
@@ -35,6 +38,13 @@ END
     NSArray *expectedTokens = ReifiedTokensForTestTokens(#{output});
     for (NSString *state in #{states}) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:#{input} state:StateNamed(state)];
+END
+        if lastStartTag
+          objc << <<-END
+        [tokenizer setLastStartTag:#{lastStartTag}];
+END
+        end
+        objc << <<-END
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", #{description});
     }
 }
