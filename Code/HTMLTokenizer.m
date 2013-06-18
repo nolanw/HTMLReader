@@ -510,6 +510,7 @@
                     _scanner.scanLocation++;
                     break;
             }
+            break;
         }
             
         case HTMLTokenizerAttributeNameState: {
@@ -3315,7 +3316,7 @@ static const struct {
     { @"zwnj;", @"\U0000200C" },
 };
 
-#pragma mark - NSEnumerator
+#pragma mark NSEnumerator
 
 - (id)nextObject
 {
@@ -3328,7 +3329,7 @@ static const struct {
     return token;
 }
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (id)init
 {
@@ -3387,6 +3388,7 @@ static const struct {
 
 - (void)addAttributeWithName:(NSString *)name value:(NSString *)value
 {
+    if (!_attributes) _attributes = [NSMutableArray new];
     [_attributes addObject:[[HTMLAttribute alloc] initWithName:name value:value]];
 }
 
@@ -3460,7 +3462,7 @@ static const struct {
     return NO;
 }
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (BOOL)isEqual:(HTMLTagToken *)other
 {
@@ -3524,7 +3526,7 @@ static const struct {
     [_value appendString:string];
 }
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (BOOL)isEqual:(HTMLAttribute *)other
 {
@@ -3542,11 +3544,12 @@ static const struct {
 
 @implementation HTMLStartTagToken
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p <%@> >", self.class, self, self.tagName];
+    return [NSString stringWithFormat:@"<%@: %p <%@> %@ attribute%@ >", self.class, self, self.tagName,
+            @(self.attributes.count), self.attributes.count == 1 ? @"" : @"s"];
 }
 
 - (BOOL)isEqual:(HTMLStartTagToken *)other
@@ -3559,7 +3562,7 @@ static const struct {
 
 @implementation HTMLEndTagToken
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (NSString *)description
 {
@@ -3591,7 +3594,7 @@ static const struct {
     return _data;
 }
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (NSString *)description
 {
@@ -3628,7 +3631,7 @@ static const struct {
     return _data;
 }
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (NSString *)description
 {
@@ -3650,7 +3653,7 @@ static const struct {
 
 @implementation HTMLParseErrorToken
 
-#pragma mark - NSObject
+#pragma mark NSObject
 
 - (BOOL)isEqual:(id)other
 {
