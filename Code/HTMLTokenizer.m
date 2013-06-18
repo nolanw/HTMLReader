@@ -2165,8 +2165,11 @@
     if ([token isKindOfClass:[HTMLStartTagToken class]]) {
         _mostRecentEmittedStartTagName = [token tagName];
     }
-    if ([token isKindOfClass:[HTMLEndTagToken class]] && [token attributes].count > 0) {
-        [self emitParseError];
+    if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+        HTMLEndTagToken *endTag = token;
+        if (endTag.attributes.count > 0 || endTag.selfClosingFlag) {
+            [self emitParseError];
+        }
     }
     [self emitCore:token];
 }
