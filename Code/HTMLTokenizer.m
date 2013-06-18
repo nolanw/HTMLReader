@@ -24,6 +24,27 @@
 
 @end
 
+@interface HTMLDOCTYPEToken ()
+
+- (void)appendCharacterToName:(unichar)character;
+
+@property (nonatomic) BOOL forceQuirks;
+
+- (void)setPublicIdentifier:(NSString *)string;
+- (void)appendCharacterToPublicIdentifier:(unichar)character;
+
+- (void)setSystemIdentifier:(NSString *)string;
+- (void)appendCharacterToSystemIdentifier:(unichar)character;
+
+@end
+
+@interface HTMLCommentToken ()
+
+- (void)appendFormat:(NSString *)format, ...;
+
+@end
+
+
 @implementation HTMLTokenizer
 {
     NSScanner *_scanner;
@@ -464,6 +485,485 @@
             break;
         }
             
+        case HTMLTokenizerScriptDataLessThanSignState:
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataState;
+                [self bufferCharacterWithFormat:@"<"];
+                break;
+            }
+            switch ([_scanner.string characterAtIndex:_scanner.scanLocation]) {
+                case '/':
+                    _temporaryBuffer = [NSMutableString new];
+                    _state = HTMLTokenizerScriptDataEndTagOpenState;
+                    _scanner.scanLocation++;
+                    break;
+                case '!':
+                    _state = HTMLTokenizerScriptDataEscapeStartState;
+                    [self bufferCharacterWithFormat:@"<!"];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    _state = HTMLTokenizerScriptDataState;
+                    [self bufferCharacterWithFormat:@"<"];
+                    break;
+            }
+            break;
+            
+        case HTMLTokenizerScriptDataEndTagOpenState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataState;
+                [self bufferCharacterWithFormat:@"</"];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                _currentToken = [HTMLEndTagToken new];
+                unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020 : 0);
+                [_currentToken appendCharacterToTagName:toAppend];
+                [_temporaryBuffer appendFormat:@"%C", nextInputCharacter];
+                _state = HTMLTokenizerScriptDataEndTagNameState;
+                _scanner.scanLocation++;
+            } else {
+                _state = HTMLTokenizerScriptDataState;
+                [self bufferCharacterWithFormat:@"</"];
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEndTagNameState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataState;
+                [self bufferCharacterWithFormat:@"</%@", _temporaryBuffer];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    if ([self currentTagIsAppropriateEndTagToken]) {
+                        _state = HTMLTokenizerBeforeAttributeNameState;
+                        _scanner.scanLocation++;
+                        goto doneScriptDataEndTagNameState;
+                    }
+                    break;
+                case '/':
+                    if ([self currentTagIsAppropriateEndTagToken]) {
+                        _state = HTMLTokenizerSelfClosingStartTagState;
+                        _scanner.scanLocation++;
+                        goto doneScriptDataEndTagNameState;
+                    }
+                    break;
+                case '>':
+                    if ([self currentTagIsAppropriateEndTagToken]) {
+                        _state = HTMLTokenizerDataState;
+                        [self emitCurrentToken];
+                        _scanner.scanLocation++;
+                        goto doneScriptDataEndTagNameState;
+                    }
+                    break;
+            }
+            if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020 : 0);
+                [_currentToken appendCharacterToTagName:toAppend];
+                [_temporaryBuffer appendFormat:@"%C", nextInputCharacter];
+                _scanner.scanLocation++;
+            } else {
+                _state = HTMLTokenizerScriptDataState;
+                [self bufferCharacterWithFormat:@"</%@", _temporaryBuffer];
+            }
+        doneScriptDataEndTagNameState:
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEscapeStartState:
+            if (_scanner.isAtEnd || [_scanner.string characterAtIndex:_scanner.scanLocation] != '-') {
+                _state = HTMLTokenizerScriptDataState;
+            } else {
+                _state = HTMLTokenizerScriptDataEscapeStartDashState;
+                [self bufferCharacterWithFormat:@"-"];
+                _scanner.scanLocation++;
+            }
+            break;
+        
+        case HTMLTokenizerScriptDataEscapeStartDashState:
+            if (_scanner.isAtEnd || [_scanner.string characterAtIndex:_scanner.scanLocation] != '-') {
+                _state = HTMLTokenizerScriptDataState;
+            } else {
+                _state = HTMLTokenizerScriptDataEscapedDashDashState;
+                [self bufferCharacterWithFormat:@"-"];
+                _scanner.scanLocation++;
+            }
+            break;
+            
+        case HTMLTokenizerScriptDataEscapedState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerDataState;
+                [self emitParseError];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerScriptDataEscapedDashState;
+                    [self bufferCharacterWithFormat:@"-"];
+                    _scanner.scanLocation++;
+                    break;
+                case '<':
+                    _state = HTMLTokenizerScriptDataEscapedLessThanSignState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [self bufferCharacterWithFormat:@"%C", 0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEscapedDashState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerScriptDataEscapedDashDashState;
+                    [self bufferCharacterWithFormat:@"-"];
+                    _scanner.scanLocation++;
+                    break;
+                case '<':
+                    _state = HTMLTokenizerScriptDataEscapedLessThanSignState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    _state = HTMLTokenizerDataState;
+                    break;
+                default:
+                    _state = HTMLTokenizerScriptDataEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEscapedDashDashState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    [self bufferCharacterWithFormat:@"-"];
+                    break;
+                case '<':
+                    _state = HTMLTokenizerScriptDataEscapedLessThanSignState;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerScriptDataState;
+                    [self bufferCharacterWithFormat:@">"];
+                    break;
+                case 0:
+                    [self emitParseError];
+                    _state = HTMLTokenizerScriptDataEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", 0xFFFD];
+                    break;
+                default:
+                    _state = HTMLTokenizerScriptDataEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    break;
+            }
+            _scanner.scanLocation++;
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEscapedLessThanSignState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                [self bufferCharacterWithFormat:@"<"];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            if (nextInputCharacter == '/') {
+                _temporaryBuffer = [NSMutableString new];
+                _state = HTMLTokenizerScriptDataEscapedEndTagOpenState;
+                _scanner.scanLocation++;
+            } else if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                _temporaryBuffer = [NSMutableString new];
+                unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020 : 0);
+                [_temporaryBuffer appendFormat:@"%C", toAppend];
+                _state = HTMLTokenizerScriptDataDoubleEscapeStartState;
+                [self bufferCharacterWithFormat:@"<%C", nextInputCharacter];
+                _scanner.scanLocation++;
+            } else {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                [self bufferCharacterWithFormat:@"<"];
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEscapedEndTagOpenState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                [self bufferCharacterWithFormat:@"</"];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                _currentToken = [HTMLEndTagToken new];
+                unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020: 0);
+                [_currentToken appendCharacterToTagName:toAppend];
+                [_temporaryBuffer appendFormat:@"%C", nextInputCharacter];
+                _state = HTMLTokenizerScriptDataEscapedEndTagNameState;
+                _scanner.scanLocation++;
+            } else {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                [self bufferCharacterWithFormat:@"</"];
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataEscapedEndTagNameState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                [self bufferCharacterWithFormat:@"</%@", _temporaryBuffer];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    if ([self currentTagIsAppropriateEndTagToken]) {
+                        _state = HTMLTokenizerBeforeAttributeNameState;
+                        _scanner.scanLocation++;
+                        goto doneScriptDataEscapedEndTagNameState;
+                    }
+                    break;
+                case '/':
+                    if ([self currentTagIsAppropriateEndTagToken]) {
+                        _state = HTMLTokenizerSelfClosingStartTagState;
+                        _scanner.scanLocation++;
+                        goto doneScriptDataEscapedEndTagNameState;
+                    }
+                    break;
+                case '>':
+                    if ([self currentTagIsAppropriateEndTagToken]) {
+                        _state = HTMLTokenizerDataState;
+                        [self emitCurrentToken];
+                        _scanner.scanLocation++;
+                        goto doneScriptDataEscapedEndTagNameState;
+                    }
+                    break;
+            }
+            if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020 : 0);
+                [_currentToken appendCharacterToTagName:toAppend];
+                [_temporaryBuffer appendFormat:@"%C", nextInputCharacter];
+                _scanner.scanLocation++;
+            } else {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                [self bufferCharacterWithFormat:@"</%@", _temporaryBuffer];
+            }
+        doneScriptDataEscapedEndTagNameState:
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataDoubleEscapeStartState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataEscapedState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                case '/':
+                case '>':
+                    if ([_temporaryBuffer isEqualToString:@"script"]) {
+                        _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    } else {
+                        _state = HTMLTokenizerScriptDataEscapedState;
+                    }
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                        unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020 : 0);
+                        [_temporaryBuffer appendFormat:@"%C", toAppend];
+                        [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                        _scanner.scanLocation++;
+                    } else {
+                        _state = HTMLTokenizerScriptDataEscapedState;
+                    }
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataDoubleEscapedState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerScriptDataDoubleEscapedDashState;
+                    [self bufferCharacterWithFormat:@"-"];
+                    _scanner.scanLocation++;
+                    break;
+                case '<':
+                    _state = HTMLTokenizerScriptDataDoubleEscapedLessThanSignState;
+                    [self bufferCharacterWithFormat:@"<"];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [self bufferCharacterWithFormat:@"%C", 0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataDoubleEscapedDashState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerScriptDataDoubleEscapedDashDashState;
+                    [self bufferCharacterWithFormat:@"-"];
+                    _scanner.scanLocation++;
+                    break;
+                case '<':
+                    _state = HTMLTokenizerScriptDataDoubleEscapedLessThanSignState;
+                    [self bufferCharacterWithFormat:@"<"];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", 0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataDoubleEscapedDashDashState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    [self bufferCharacterWithFormat:@"-"];
+                    _scanner.scanLocation++;
+                    break;
+                case '<':
+                    _state = HTMLTokenizerScriptDataDoubleEscapedLessThanSignState;
+                    [self bufferCharacterWithFormat:@"<"];
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerScriptDataState;
+                    [self bufferCharacterWithFormat:@">"];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", 0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    [self bufferCharacterWithFormat:@"%C", 0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerScriptDataDoubleEscapedLessThanSignState:
+            if (_scanner.isAtEnd || [_scanner.string characterAtIndex:_scanner.scanLocation] != '/') {
+                _state = HTMLTokenizerScriptDataDoubleEscapedState;
+            } else {
+                _temporaryBuffer = [NSMutableString new];
+                _state = HTMLTokenizerScriptDataDoubleEscapeEndState;
+                [self bufferCharacterWithFormat:@"/"];
+                _scanner.scanLocation++;
+            }
+            break;
+            
+        case HTMLTokenizerScriptDataDoubleEscapeEndState: {
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                case '/':
+                case '>':
+                    if ([_temporaryBuffer isEqualToString:@"script"]) {
+                        _state = HTMLTokenizerScriptDataEscapedState;
+                    } else {
+                        _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    }
+                    [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    if (isupper(nextInputCharacter) || islower(nextInputCharacter)) {
+                        unichar toAppend = nextInputCharacter + (isupper(nextInputCharacter) ? 0x0020 : 0);
+                        [_temporaryBuffer appendFormat:@"%C", toAppend];
+                        [self bufferCharacterWithFormat:@"%C", nextInputCharacter];
+                        _scanner.scanLocation++;
+                    } else {
+                        _state = HTMLTokenizerScriptDataDoubleEscapedState;
+                    }
+                    break;
+            }
+            break;
+        }
+            
         case HTMLTokenizerBeforeAttributeNameState: {
             if (_scanner.isAtEnd) {
                 [self emitParseError];
@@ -852,9 +1352,812 @@
             _state = HTMLTokenizerDataState;
             break;
         }
-    
-        default:
-            NSLog(@"unimplemented state %@", @(_state));
+            
+        case HTMLTokenizerMarkupDeclarationOpenState: {
+            if ([_scanner scanString:@"--" intoString:nil]) {
+                _currentToken = [HTMLCommentToken new];
+                _state = HTMLTokenizerCommentStartState;
+                break;
+            }
+            _scanner.caseSensitive = NO;
+            if ([_scanner scanString:@"DOCTYPE" intoString:nil]) {
+                _state = HTMLTokenizerDOCTYPEState;
+                _scanner.caseSensitive = YES;
+                break;
+            }
+            _scanner.caseSensitive = YES;
+            // TODO if there is a current node and it is not an element in the HTML namespace and the next seven characters are a case-sensitive match for the string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after), then consume those characters and switch to the CDATA section state.
+            [self emitParseError];
+            _state = HTMLTokenizerBogusCommentState;
+            break;
+        }
+            
+        case HTMLTokenizerCommentStartState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerCommentStartDashState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"%C", (unichar)0xFFFD];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendFormat:@"%C", nextInputCharacter];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerCommentStartDashState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerCommentEndState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"-%C", (unichar)0xFFFD];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendFormat:@"-%C", nextInputCharacter];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerCommentState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerCommentEndDashState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"%C", (unichar)0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendFormat:@"%C", nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerCommentEndDashState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    _state = HTMLTokenizerCommentEndState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"-%C", (unichar)0xFFFD];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendFormat:@"-%C", nextInputCharacter];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerCommentEndState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"--%C", (unichar)0xFFFD];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+                case '!':
+                    [self emitParseError];
+                    _state = HTMLTokenizerCommentEndBangState;
+                    _scanner.scanLocation++;
+                    break;
+                case '-':
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"-"];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"--%C", nextInputCharacter];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerCommentEndBangState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '-':
+                    [_currentToken appendFormat:@"--!"];
+                    _state = HTMLTokenizerCommentEndDashState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendFormat:@"--!%C", (unichar)0xFFFD];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendFormat:@"--!%C", nextInputCharacter];
+                    _state = HTMLTokenizerCommentState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerDOCTYPEState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                _currentToken = [HTMLDOCTYPEToken new];
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerBeforeDOCTYPENameState;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    _state = HTMLTokenizerBeforeDOCTYPENameState;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerBeforeDOCTYPENameState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                _currentToken = [HTMLDOCTYPEToken new];
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    _currentToken = [HTMLDOCTYPEToken new];
+                    [_currentToken appendCharacterToName:0xFFFD];
+                    _state = HTMLTokenizerDOCTYPENameState;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    if (isupper(nextInputCharacter)) {
+                        _currentToken = [HTMLDOCTYPEToken new];
+                        [_currentToken appendCharacterToName:(nextInputCharacter + 0x0020)];
+                        _state = HTMLTokenizerDOCTYPENameState;
+                        _scanner.scanLocation++;
+                    } else {
+                        _currentToken = [HTMLDOCTYPEToken new];
+                        [_currentToken appendCharacterToName:nextInputCharacter];
+                        _state = HTMLTokenizerDOCTYPENameState;
+                        _scanner.scanLocation++;
+                    }
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerDOCTYPENameState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerAfterDOCTYPENameState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToName:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    if (isupper(nextInputCharacter)) {
+                        [_currentToken appendCharacterToName:(nextInputCharacter + 0x0020)];
+                    } else {
+                        [_currentToken appendCharacterToName:nextInputCharacter];
+                    }
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAfterDOCTYPENameState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            _scanner.caseSensitive = NO;
+            if ([_scanner scanString:@"PUBLIC" intoString:nil]) {
+                _state = HTMLTokenizerAfterDOCTYPEPublicKeywordState;
+                _scanner.caseSensitive = YES;
+                break;
+            } else if ([_scanner scanString:@"SYSTEM" intoString:nil]) {
+                _state = HTMLTokenizerAfterDOCTYPESystemKeywordState;
+                _scanner.caseSensitive = YES;
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAfterDOCTYPEPublicKeywordState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerBeforeDOCTYPEPublicIdentifierState;
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    [self emitParseError];
+                    [_currentToken setPublicIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '\'':
+                    [self emitParseError];
+                    [_currentToken setPublicIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerBeforeDOCTYPEPublicIdentifierState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    [_currentToken setPublicIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '\'':
+                    [_currentToken setPublicIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '"':
+                    _state = HTMLTokenizerAfterDOCTYPEPublicIdentifierState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToPublicIdentifier:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendCharacterToPublicIdentifier:nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\'':
+                    _state = HTMLTokenizerAfterDOCTYPEPublicIdentifierState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToPublicIdentifier:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendCharacterToPublicIdentifier:nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAfterDOCTYPEPublicIdentifierState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerBetweenDOCTYPEPublicAndSystemIdentifiersState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    [self emitParseError];
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '\'':
+                    [self emitParseError];
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerBetweenDOCTYPEPublicAndSystemIdentifiersState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '\'':
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAfterDOCTYPESystemKeywordState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _state = HTMLTokenizerBeforeDOCTYPESystemIdentifierState;
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    [self emitParseError];
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '\'':
+                    [self emitParseError];
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerBeforeDOCTYPESystemIdentifierState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '"':
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '\'':
+                    [_currentToken setSystemIdentifier:@""];
+                    _state = HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState;
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '"':
+                    _state = HTMLTokenizerAfterDOCTYPESystemIdentifierState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToSystemIdentifier:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendCharacterToSystemIdentifier:nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\'':
+                    _state = HTMLTokenizerAfterDOCTYPESystemIdentifierState;
+                    _scanner.scanLocation++;
+                    break;
+                case 0:
+                    [self emitParseError];
+                    [_currentToken appendCharacterToSystemIdentifier:0xFFFD];
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    [self emitParseError];
+                    [_currentToken setForceQuirks:YES];
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [_currentToken appendCharacterToSystemIdentifier:nextInputCharacter];
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerAfterDOCTYPESystemIdentifierState: {
+            if (_scanner.isAtEnd) {
+                [self emitParseError];
+                _state = HTMLTokenizerDataState;
+                [_currentToken setForceQuirks:YES];
+                [self emitCurrentToken];
+                break;
+            }
+            unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
+            switch (nextInputCharacter) {
+                case '\t':
+                case '\n':
+                case '\f':
+                case ' ':
+                    _scanner.scanLocation++;
+                    break;
+                case '>':
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                    _scanner.scanLocation++;
+                    break;
+                default:
+                    [self emitParseError];
+                    _state = HTMLTokenizerBogusDOCTYPEState;
+                    _scanner.scanLocation++;
+                    break;
+            }
+            break;
+        }
+            
+        case HTMLTokenizerBogusDOCTYPEState:
+            if (_scanner.isAtEnd) {
+                _state = HTMLTokenizerDataState;
+                [self emitCurrentToken];
+            } else {
+                if ([_scanner.string characterAtIndex:_scanner.scanLocation] == '>') {
+                    _state = HTMLTokenizerDataState;
+                    [self emitCurrentToken];
+                }
+                _scanner.scanLocation++;
+            }
+            break;
+            
+        case HTMLTokenizerCDATASectionState:
+            NSLog(@"unimplemented state");
             [self done];
             break;
     }
@@ -997,8 +2300,6 @@
             return Stringify(number);
         }
         default: {
-            // TODO "Consume the *maximum number of characters possible*"
-            // TODO html5lib tests give a parse error on e.g. "&ccirc" (note no semicolon), but I can't see why according to the HTML spec.
             NSString *longestScanned;
             NSString *characters;
             for (size_t i = 0; i < sizeof(NamedCharacterReferences) / sizeof(NamedCharacterReferences[0]); i++) {
@@ -3339,20 +4640,54 @@ static const struct {
 @end
 
 @implementation HTMLDOCTYPEToken
+{
+    NSMutableString *_name;
+    NSMutableString *_publicIdentifier;
+    NSMutableString *_systemIdentifier;
+}
 
 - (NSString *)name
 {
-    return nil;
+    return [_name copy];
+}
+
+- (void)appendCharacterToName:(unichar)character
+{
+    if (!_name) _name = [NSMutableString new];
+    [_name appendFormat:@"%C", character];
 }
 
 - (NSString *)publicIdentifier
 {
-    return nil;
+    return [_publicIdentifier copy];
 }
+
+- (void)setPublicIdentifier:(NSString *)string
+{
+    _publicIdentifier = [NSMutableString stringWithString:string];
+}
+
+- (void)appendCharacterToPublicIdentifier:(unichar)character
+{
+    if (!_publicIdentifier) _publicIdentifier = [NSMutableString new];
+    [_publicIdentifier appendFormat:@"%C", character];
+}
+
 
 - (NSString *)systemIdentifier
 {
-    return nil;
+    return [_systemIdentifier copy];
+}
+
+- (void)setSystemIdentifier:(NSString *)string
+{
+    _systemIdentifier = [NSMutableString stringWithString:string];
+}
+
+- (void)appendCharacterToSystemIdentifier:(unichar)character
+{
+    if (!_systemIdentifier) _systemIdentifier = [NSMutableString new];
+    [_systemIdentifier appendFormat:@"%C", character];
 }
 
 - (BOOL)forceQuirks
@@ -3579,19 +4914,27 @@ static const struct {
 
 @implementation HTMLCommentToken
 {
-    NSString *_data;
+    NSMutableString *_data;
 }
 
 - (id)initWithData:(NSString *)data
 {
     if (!(self = [super init])) return nil;
-    _data = [data copy];
+    _data = [NSMutableString stringWithString:data];
     return self;
 }
 
 - (NSString *)data
 {
     return _data;
+}
+
+- (void)appendFormat:(NSString *)format, ...
+{
+    va_list args;
+    va_start(args, format);
+    [_data appendString:[[NSString alloc] initWithFormat:format arguments:args]];
+    va_end(args);
 }
 
 #pragma mark NSObject
