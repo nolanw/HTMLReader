@@ -1347,7 +1347,7 @@
             
         case HTMLTokenizerMarkupDeclarationOpenState: {
             if ([_scanner scanString:@"--" intoString:nil]) {
-                _currentToken = [HTMLCommentToken new];
+                _currentToken = [[HTMLCommentToken alloc] initWithData:@""];
                 _state = HTMLTokenizerCommentStartState;
                 break;
             }
@@ -4940,6 +4940,7 @@ static const struct {
 
 - (void)appendFormat:(NSString *)format, ...
 {
+    if (!_data) _data = [NSMutableString new];
     va_list args;
     va_start(args, format);
     [_data appendString:[[NSString alloc] initWithFormat:format arguments:args]];
