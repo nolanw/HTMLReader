@@ -13,8 +13,6 @@
 - (void)appendStringToTagName:(NSString *)string;
 - (void)appendCharacterToTagName:(unichar)character;
 
-- (void)setSelfClosingFlag:(BOOL)flag;
-
 - (void)addNewAttribute;
 - (void)appendCharacterToLastAttributeName:(unichar)character;
 - (void)setLastAttributeValue:(NSString *)string;
@@ -27,13 +25,7 @@
 @interface HTMLDOCTYPEToken ()
 
 - (void)appendCharacterToName:(unichar)character;
-
-@property (nonatomic) BOOL forceQuirks;
-
-- (void)setPublicIdentifier:(NSString *)string;
 - (void)appendCharacterToPublicIdentifier:(unichar)character;
-
-- (void)setSystemIdentifier:(NSString *)string;
 - (void)appendCharacterToSystemIdentifier:(unichar)character;
 
 @end
@@ -4695,6 +4687,23 @@ static const struct {
     return NO;
 }
 
+#pragma mark NSObject
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p <!DOCTYPE %@ %@ %@> >", self.class, self, self.name,
+            self.publicIdentifier, self.systemIdentifier];
+}
+
+- (BOOL)isEqual:(HTMLDOCTYPEToken *)other
+{
+    #define AreNilOrEqual(a, b) ([(a) isEqual:(b)] || ((a) == nil && (b) == nil))
+    return ([other isKindOfClass:[HTMLDOCTYPEToken class]] &&
+            AreNilOrEqual(other.name, self.name) &&
+            AreNilOrEqual(other.publicIdentifier, self.publicIdentifier) &&
+            AreNilOrEqual(other.systemIdentifier, self.systemIdentifier));
+}
+
 @end
 
 @interface HTMLAttribute ()
@@ -4804,7 +4813,7 @@ static const struct {
     return ([other isKindOfClass:[HTMLTagToken class]] &&
             [other.tagName isEqualToString:self.tagName] &&
             other.selfClosingFlag == self.selfClosingFlag &&
-            ((other.attributes == nil && self.attributes == nil) || [other.attributes isEqual:self.attributes]));
+            AreNilOrEqual(other.attributes, self.attributes));
 }
 
 - (NSUInteger)hash

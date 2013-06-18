@@ -12,29 +12,31 @@ NSArray * ReifiedTokensForTestTokens(NSArray *testTokens)
 {
     NSMutableArray *tokens = [NSMutableArray new];
     for (id test in testTokens) {
-        if ([test isKindOfClass:[NSString class]]) {
-            [tokens addObject:[NSClassFromString([NSString stringWithFormat:@"HTML%@Token", test]) new]];
+        if ([test isKindOfClass:[NSString class]] && [test isEqual:@"ParseError"]) {
+            [tokens addObject:[HTMLParseErrorToken new]];
             continue;
         }
         NSString *tokenType = test[0];
         if ([tokenType isEqualToString:@"Character"]) {
             [tokens addObject:[[HTMLCharacterToken alloc] initWithData:test[1]]];
-            continue;
         } else if ([tokenType isEqualToString:@"Comment"]) {
             [tokens addObject:[[HTMLCommentToken alloc] initWithData:test[1]]];
-            continue;
         } else if ([tokenType isEqualToString:@"StartTag"]) {
             HTMLStartTagToken *startTag = [[HTMLStartTagToken alloc] initWithTagName:test[1]];
             for (NSString *name in test[2]) {
                 [startTag addAttributeWithName:name value:[test[2] objectForKey:name]];
             }
+            startTag.selfClosingFlag = [test count] == 4;
             [tokens addObject:startTag];
-            continue;
         } else if ([tokenType isEqualToString:@"EndTag"]) {
             [tokens addObject:[[HTMLEndTagToken alloc] initWithTagName:test[1]]];
-            continue;
+        } else if ([tokenType isEqualToString:@"DOCTYPE"]) {
+            HTMLDOCTYPEToken *doctype = [HTMLDOCTYPEToken new];
+            [doctype setValue:test[1] forKey:@"name"];
+            [doctype setValue:test[2] forKey:@"publicIdentifier"];
+            [doctype setValue:test[3] forKey:@"systemIdentifier"];
+            doctype.forceQuirks = ![test[4] boolValue];
         }
-        [tokens addObject:[NSNull null]];
     }
     return tokens;
 }

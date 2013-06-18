@@ -89,10 +89,10 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @interface HTMLDOCTYPEToken : NSObject
 
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSString *publicIdentifier;
-@property (readonly, nonatomic) NSString *systemIdentifier;
-@property (readonly, nonatomic) BOOL forceQuirks;
+@property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *publicIdentifier;
+@property (copy, nonatomic) NSString *systemIdentifier;
+@property (nonatomic) BOOL forceQuirks;
 
 @end
 
@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 - (void)addAttributeWithName:(NSString *)name value:(NSString *)value;
 
 @property (readonly, nonatomic) NSString *tagName;
-@property (readonly, nonatomic) BOOL selfClosingFlag;
+@property (nonatomic) BOOL selfClosingFlag;
 @property (readonly, nonatomic) NSArray *attributes;
 
 @end
