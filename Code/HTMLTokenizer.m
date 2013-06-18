@@ -4656,7 +4656,7 @@ static const struct {
 
 - (void)setPublicIdentifier:(NSString *)string
 {
-    _publicIdentifier = [NSMutableString stringWithString:string];
+    _publicIdentifier = [string mutableCopy];
 }
 
 - (void)appendCharacterToPublicIdentifier:(unichar)character
@@ -4673,18 +4673,13 @@ static const struct {
 
 - (void)setSystemIdentifier:(NSString *)string
 {
-    _systemIdentifier = [NSMutableString stringWithString:string];
+    _systemIdentifier = [string mutableCopy];
 }
 
 - (void)appendCharacterToSystemIdentifier:(unichar)character
 {
     if (!_systemIdentifier) _systemIdentifier = [NSMutableString new];
     [_systemIdentifier appendFormat:@"%C", character];
-}
-
-- (BOOL)forceQuirks
-{
-    return NO;
 }
 
 #pragma mark NSObject
