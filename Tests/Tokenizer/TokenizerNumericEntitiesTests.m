@@ -9,7 +9,7 @@
 
 @implementation TokenizerNumericEntitiesTests
         
-- (void)test0
+- (void)test000
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
@@ -18,7 +18,7 @@
     }
 }
         
-- (void)test1
+- (void)test001
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0001]]]);
     for (NSString *state in @[@""]) {
@@ -27,7 +27,7 @@
     }
 }
         
-- (void)test2
+- (void)test002
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0002]]]);
     for (NSString *state in @[@""]) {
@@ -36,7 +36,7 @@
     }
 }
         
-- (void)test3
+- (void)test003
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0003]]]);
     for (NSString *state in @[@""]) {
@@ -45,7 +45,7 @@
     }
 }
         
-- (void)test4
+- (void)test004
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0004]]]);
     for (NSString *state in @[@""]) {
@@ -54,7 +54,7 @@
     }
 }
         
-- (void)test5
+- (void)test005
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0005]]]);
     for (NSString *state in @[@""]) {
@@ -63,7 +63,7 @@
     }
 }
         
-- (void)test6
+- (void)test006
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0006]]]);
     for (NSString *state in @[@""]) {
@@ -72,7 +72,7 @@
     }
 }
         
-- (void)test7
+- (void)test007
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0007]]]);
     for (NSString *state in @[@""]) {
@@ -81,7 +81,7 @@
     }
 }
         
-- (void)test8
+- (void)test008
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"\b"]]);
     for (NSString *state in @[@""]) {
@@ -90,7 +90,7 @@
     }
 }
         
-- (void)test9
+- (void)test009
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x000b]]]);
     for (NSString *state in @[@""]) {
@@ -99,7 +99,7 @@
     }
 }
         
-- (void)test10
+- (void)test010
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x000e]]]);
     for (NSString *state in @[@""]) {
@@ -108,7 +108,7 @@
     }
 }
         
-- (void)test11
+- (void)test011
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x000f]]]);
     for (NSString *state in @[@""]) {
@@ -117,7 +117,7 @@
     }
 }
         
-- (void)test12
+- (void)test012
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0010]]]);
     for (NSString *state in @[@""]) {
@@ -126,7 +126,7 @@
     }
 }
         
-- (void)test13
+- (void)test013
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0011]]]);
     for (NSString *state in @[@""]) {
@@ -135,7 +135,7 @@
     }
 }
         
-- (void)test14
+- (void)test014
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0012]]]);
     for (NSString *state in @[@""]) {
@@ -144,7 +144,7 @@
     }
 }
         
-- (void)test15
+- (void)test015
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0013]]]);
     for (NSString *state in @[@""]) {
@@ -153,7 +153,7 @@
     }
 }
         
-- (void)test16
+- (void)test016
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0014]]]);
     for (NSString *state in @[@""]) {
@@ -162,7 +162,7 @@
     }
 }
         
-- (void)test17
+- (void)test017
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0015]]]);
     for (NSString *state in @[@""]) {
@@ -171,7 +171,7 @@
     }
 }
         
-- (void)test18
+- (void)test018
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0016]]]);
     for (NSString *state in @[@""]) {
@@ -180,7 +180,7 @@
     }
 }
         
-- (void)test19
+- (void)test019
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0017]]]);
     for (NSString *state in @[@""]) {
@@ -189,7 +189,7 @@
     }
 }
         
-- (void)test20
+- (void)test020
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0018]]]);
     for (NSString *state in @[@""]) {
@@ -198,7 +198,7 @@
     }
 }
         
-- (void)test21
+- (void)test021
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0019]]]);
     for (NSString *state in @[@""]) {
@@ -207,7 +207,7 @@
     }
 }
         
-- (void)test22
+- (void)test022
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001a]]]);
     for (NSString *state in @[@""]) {
@@ -216,7 +216,7 @@
     }
 }
         
-- (void)test23
+- (void)test023
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001b]]]);
     for (NSString *state in @[@""]) {
@@ -225,7 +225,7 @@
     }
 }
         
-- (void)test24
+- (void)test024
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001c]]]);
     for (NSString *state in @[@""]) {
@@ -234,7 +234,7 @@
     }
 }
         
-- (void)test25
+- (void)test025
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001d]]]);
     for (NSString *state in @[@""]) {
@@ -243,7 +243,7 @@
     }
 }
         
-- (void)test26
+- (void)test026
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001e]]]);
     for (NSString *state in @[@""]) {
@@ -252,7 +252,7 @@
     }
 }
         
-- (void)test27
+- (void)test027
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001f]]]);
     for (NSString *state in @[@""]) {
@@ -261,7 +261,7 @@
     }
 }
         
-- (void)test28
+- (void)test028
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @""]]);
     for (NSString *state in @[@""]) {
@@ -270,7 +270,7 @@
     }
 }
         
-- (void)test29
+- (void)test029
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
@@ -279,7 +279,7 @@
     }
 }
         
-- (void)test30
+- (void)test030
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
@@ -288,7 +288,7 @@
     }
 }
         
-- (void)test31
+- (void)test031
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷐"]]);
     for (NSString *state in @[@""]) {
@@ -297,7 +297,7 @@
     }
 }
         
-- (void)test32
+- (void)test032
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷑"]]);
     for (NSString *state in @[@""]) {
@@ -306,7 +306,7 @@
     }
 }
         
-- (void)test33
+- (void)test033
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷒"]]);
     for (NSString *state in @[@""]) {
@@ -315,7 +315,7 @@
     }
 }
         
-- (void)test34
+- (void)test034
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷓"]]);
     for (NSString *state in @[@""]) {
@@ -324,7 +324,7 @@
     }
 }
         
-- (void)test35
+- (void)test035
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷔"]]);
     for (NSString *state in @[@""]) {
@@ -333,7 +333,7 @@
     }
 }
         
-- (void)test36
+- (void)test036
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷕"]]);
     for (NSString *state in @[@""]) {
@@ -342,7 +342,7 @@
     }
 }
         
-- (void)test37
+- (void)test037
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷖"]]);
     for (NSString *state in @[@""]) {
@@ -351,7 +351,7 @@
     }
 }
         
-- (void)test38
+- (void)test038
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷗"]]);
     for (NSString *state in @[@""]) {
@@ -360,7 +360,7 @@
     }
 }
         
-- (void)test39
+- (void)test039
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷘"]]);
     for (NSString *state in @[@""]) {
@@ -369,7 +369,7 @@
     }
 }
         
-- (void)test40
+- (void)test040
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷙"]]);
     for (NSString *state in @[@""]) {
@@ -378,7 +378,7 @@
     }
 }
         
-- (void)test41
+- (void)test041
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷚"]]);
     for (NSString *state in @[@""]) {
@@ -387,7 +387,7 @@
     }
 }
         
-- (void)test42
+- (void)test042
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷛"]]);
     for (NSString *state in @[@""]) {
@@ -396,7 +396,7 @@
     }
 }
         
-- (void)test43
+- (void)test043
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷜"]]);
     for (NSString *state in @[@""]) {
@@ -405,7 +405,7 @@
     }
 }
         
-- (void)test44
+- (void)test044
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷝"]]);
     for (NSString *state in @[@""]) {
@@ -414,7 +414,7 @@
     }
 }
         
-- (void)test45
+- (void)test045
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷞"]]);
     for (NSString *state in @[@""]) {
@@ -423,7 +423,7 @@
     }
 }
         
-- (void)test46
+- (void)test046
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷟"]]);
     for (NSString *state in @[@""]) {
@@ -432,7 +432,7 @@
     }
 }
         
-- (void)test47
+- (void)test047
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷠"]]);
     for (NSString *state in @[@""]) {
@@ -441,7 +441,7 @@
     }
 }
         
-- (void)test48
+- (void)test048
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷡"]]);
     for (NSString *state in @[@""]) {
@@ -450,7 +450,7 @@
     }
 }
         
-- (void)test49
+- (void)test049
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷢"]]);
     for (NSString *state in @[@""]) {
@@ -459,7 +459,7 @@
     }
 }
         
-- (void)test50
+- (void)test050
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷣"]]);
     for (NSString *state in @[@""]) {
@@ -468,7 +468,7 @@
     }
 }
         
-- (void)test51
+- (void)test051
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷤"]]);
     for (NSString *state in @[@""]) {
@@ -477,7 +477,7 @@
     }
 }
         
-- (void)test52
+- (void)test052
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷥"]]);
     for (NSString *state in @[@""]) {
@@ -486,7 +486,7 @@
     }
 }
         
-- (void)test53
+- (void)test053
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷦"]]);
     for (NSString *state in @[@""]) {
@@ -495,7 +495,7 @@
     }
 }
         
-- (void)test54
+- (void)test054
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷧"]]);
     for (NSString *state in @[@""]) {
@@ -504,7 +504,7 @@
     }
 }
         
-- (void)test55
+- (void)test055
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷨"]]);
     for (NSString *state in @[@""]) {
@@ -513,7 +513,7 @@
     }
 }
         
-- (void)test56
+- (void)test056
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷩"]]);
     for (NSString *state in @[@""]) {
@@ -522,7 +522,7 @@
     }
 }
         
-- (void)test57
+- (void)test057
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷪"]]);
     for (NSString *state in @[@""]) {
@@ -531,7 +531,7 @@
     }
 }
         
-- (void)test58
+- (void)test058
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷫"]]);
     for (NSString *state in @[@""]) {
@@ -540,7 +540,7 @@
     }
 }
         
-- (void)test59
+- (void)test059
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷬"]]);
     for (NSString *state in @[@""]) {
@@ -549,7 +549,7 @@
     }
 }
         
-- (void)test60
+- (void)test060
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷭"]]);
     for (NSString *state in @[@""]) {
@@ -558,7 +558,7 @@
     }
 }
         
-- (void)test61
+- (void)test061
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷮"]]);
     for (NSString *state in @[@""]) {
@@ -567,7 +567,7 @@
     }
 }
         
-- (void)test62
+- (void)test062
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷯"]]);
     for (NSString *state in @[@""]) {
@@ -576,7 +576,7 @@
     }
 }
         
-- (void)test63
+- (void)test063
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"￾"]]);
     for (NSString *state in @[@""]) {
@@ -585,7 +585,7 @@
     }
 }
         
-- (void)test64
+- (void)test064
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"￿"]]);
     for (NSString *state in @[@""]) {
@@ -594,7 +594,7 @@
     }
 }
         
-- (void)test65
+- (void)test065
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"🿾"]]);
     for (NSString *state in @[@""]) {
@@ -603,7 +603,7 @@
     }
 }
         
-- (void)test66
+- (void)test066
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"🿿"]]);
     for (NSString *state in @[@""]) {
@@ -612,7 +612,7 @@
     }
 }
         
-- (void)test67
+- (void)test067
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𯿾"]]);
     for (NSString *state in @[@""]) {
@@ -621,7 +621,7 @@
     }
 }
         
-- (void)test68
+- (void)test068
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𯿿"]]);
     for (NSString *state in @[@""]) {
@@ -630,7 +630,7 @@
     }
 }
         
-- (void)test69
+- (void)test069
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𿿾"]]);
     for (NSString *state in @[@""]) {
@@ -639,7 +639,7 @@
     }
 }
         
-- (void)test70
+- (void)test070
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𿿿"]]);
     for (NSString *state in @[@""]) {
@@ -648,7 +648,7 @@
     }
 }
         
-- (void)test71
+- (void)test071
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񏿾"]]);
     for (NSString *state in @[@""]) {
@@ -657,7 +657,7 @@
     }
 }
         
-- (void)test72
+- (void)test072
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񏿿"]]);
     for (NSString *state in @[@""]) {
@@ -666,7 +666,7 @@
     }
 }
         
-- (void)test73
+- (void)test073
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񟿾"]]);
     for (NSString *state in @[@""]) {
@@ -675,7 +675,7 @@
     }
 }
         
-- (void)test74
+- (void)test074
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񟿿"]]);
     for (NSString *state in @[@""]) {
@@ -684,7 +684,7 @@
     }
 }
         
-- (void)test75
+- (void)test075
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񯿾"]]);
     for (NSString *state in @[@""]) {
@@ -693,7 +693,7 @@
     }
 }
         
-- (void)test76
+- (void)test076
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񯿿"]]);
     for (NSString *state in @[@""]) {
@@ -702,7 +702,7 @@
     }
 }
         
-- (void)test77
+- (void)test077
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񿿾"]]);
     for (NSString *state in @[@""]) {
@@ -711,7 +711,7 @@
     }
 }
         
-- (void)test78
+- (void)test078
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񿿿"]]);
     for (NSString *state in @[@""]) {
@@ -720,7 +720,7 @@
     }
 }
         
-- (void)test79
+- (void)test079
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򏿾"]]);
     for (NSString *state in @[@""]) {
@@ -729,7 +729,7 @@
     }
 }
         
-- (void)test80
+- (void)test080
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򏿿"]]);
     for (NSString *state in @[@""]) {
@@ -738,7 +738,7 @@
     }
 }
         
-- (void)test81
+- (void)test081
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򟿾"]]);
     for (NSString *state in @[@""]) {
@@ -747,7 +747,7 @@
     }
 }
         
-- (void)test82
+- (void)test082
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򟿿"]]);
     for (NSString *state in @[@""]) {
@@ -756,7 +756,7 @@
     }
 }
         
-- (void)test83
+- (void)test083
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򯿾"]]);
     for (NSString *state in @[@""]) {
@@ -765,7 +765,7 @@
     }
 }
         
-- (void)test84
+- (void)test084
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򯿿"]]);
     for (NSString *state in @[@""]) {
@@ -774,7 +774,7 @@
     }
 }
         
-- (void)test85
+- (void)test085
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򿿾"]]);
     for (NSString *state in @[@""]) {
@@ -783,7 +783,7 @@
     }
 }
         
-- (void)test86
+- (void)test086
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򿿿"]]);
     for (NSString *state in @[@""]) {
@@ -792,7 +792,7 @@
     }
 }
         
-- (void)test87
+- (void)test087
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󏿾"]]);
     for (NSString *state in @[@""]) {
@@ -801,7 +801,7 @@
     }
 }
         
-- (void)test88
+- (void)test088
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󏿿"]]);
     for (NSString *state in @[@""]) {
@@ -810,7 +810,7 @@
     }
 }
         
-- (void)test89
+- (void)test089
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󟿾"]]);
     for (NSString *state in @[@""]) {
@@ -819,7 +819,7 @@
     }
 }
         
-- (void)test90
+- (void)test090
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󟿿"]]);
     for (NSString *state in @[@""]) {
@@ -828,7 +828,7 @@
     }
 }
         
-- (void)test91
+- (void)test091
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󯿾"]]);
     for (NSString *state in @[@""]) {
@@ -837,7 +837,7 @@
     }
 }
         
-- (void)test92
+- (void)test092
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󯿿"]]);
     for (NSString *state in @[@""]) {
@@ -846,7 +846,7 @@
     }
 }
         
-- (void)test93
+- (void)test093
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󿿾"]]);
     for (NSString *state in @[@""]) {
@@ -855,7 +855,7 @@
     }
 }
         
-- (void)test94
+- (void)test094
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󿿿"]]);
     for (NSString *state in @[@""]) {
@@ -864,7 +864,7 @@
     }
 }
         
-- (void)test95
+- (void)test095
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"􏿾"]]);
     for (NSString *state in @[@""]) {
@@ -873,7 +873,7 @@
     }
 }
         
-- (void)test96
+- (void)test096
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"􏿿"]]);
     for (NSString *state in @[@""]) {
@@ -882,7 +882,7 @@
     }
 }
         
-- (void)test97
+- (void)test097
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\t"]]);
     for (NSString *state in @[@""]) {
@@ -891,7 +891,7 @@
     }
 }
         
-- (void)test98
+- (void)test098
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\n"]]);
     for (NSString *state in @[@""]) {
@@ -900,7 +900,7 @@
     }
 }
         
-- (void)test99
+- (void)test099
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @" "]]);
     for (NSString *state in @[@""]) {

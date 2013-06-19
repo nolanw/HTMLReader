@@ -9,7 +9,7 @@
 
 @implementation TokenizerTest1Tests
         
-- (void)test0
+- (void)test00
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"DOCTYPE", @"html", [NSNull null], [NSNull null], @YES]]);
     for (NSString *state in @[@""]) {
@@ -18,7 +18,7 @@
     }
 }
         
-- (void)test1
+- (void)test01
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"DOCTYPE", @"html", [NSNull null], [NSNull null], @YES]]);
     for (NSString *state in @[@""]) {
@@ -27,7 +27,7 @@
     }
 }
         
-- (void)test2
+- (void)test02
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"DOCTYPE", @"html", [NSNull null], [NSNull null], @YES]]);
     for (NSString *state in @[@""]) {
@@ -36,7 +36,7 @@
     }
 }
         
-- (void)test3
+- (void)test03
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"DOCTYPE", @"html", [NSNull null], [NSNull null], @NO]]);
     for (NSString *state in @[@""]) {
@@ -45,7 +45,7 @@
     }
 }
         
-- (void)test4
+- (void)test04
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Comment", @"DOC"]]);
     for (NSString *state in @[@""]) {
@@ -54,7 +54,7 @@
     }
 }
         
-- (void)test5
+- (void)test05
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"DOCTYPE", @"foo", [NSNull null], [NSNull null], @YES]]);
     for (NSString *state in @[@""]) {
@@ -63,7 +63,7 @@
     }
 }
         
-- (void)test6
+- (void)test06
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{}]]);
     for (NSString *state in @[@""]) {
@@ -72,7 +72,7 @@
     }
 }
         
-- (void)test7
+- (void)test07
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError"]);
     for (NSString *state in @[@""]) {
@@ -81,7 +81,7 @@
     }
 }
         
-- (void)test8
+- (void)test08
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"<>"]]);
     for (NSString *state in @[@""]) {
@@ -90,7 +90,7 @@
     }
 }
         
-- (void)test9
+- (void)test09
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{@"a": @"b"}]]);
     for (NSString *state in @[@""]) {

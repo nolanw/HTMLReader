@@ -9,7 +9,7 @@
 
 @implementation TokenizerContentModelFlagsTests
         
-- (void)test0
+- (void)test00
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"<head>&body;"]]);
     for (NSString *state in @[@"PLAINTEXT state"]) {
@@ -19,7 +19,7 @@
     }
 }
         
-- (void)test1
+- (void)test01
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo"], @[@"EndTag", @"xmp"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -29,7 +29,7 @@
     }
 }
         
-- (void)test2
+- (void)test02
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo"], @[@"EndTag", @"xmp"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -39,7 +39,7 @@
     }
 }
         
-- (void)test3
+- (void)test03
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo"], @"ParseError"]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -49,7 +49,7 @@
     }
 }
         
-- (void)test4
+- (void)test04
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo</xmp"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -59,7 +59,7 @@
     }
 }
         
-- (void)test5
+- (void)test05
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo"], @"ParseError"]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -69,7 +69,7 @@
     }
 }
         
-- (void)test6
+- (void)test06
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo</xmp<"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -79,7 +79,7 @@
     }
 }
         
-- (void)test7
+- (void)test07
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"</foo>bar"], @[@"EndTag", @"xmp"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -89,7 +89,7 @@
     }
 }
         
-- (void)test8
+- (void)test08
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"</foo>bar</xmpaar>"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -99,7 +99,7 @@
     }
 }
         
-- (void)test9
+- (void)test09
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"foo"], @[@"EndTag", @"xmp"], @[@"EndTag", @"baz"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {

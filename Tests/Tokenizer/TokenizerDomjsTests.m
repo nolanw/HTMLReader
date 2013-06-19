@@ -9,7 +9,7 @@
 
 @implementation TokenizerDomjsTests
         
-- (void)test0
+- (void)test00
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Comment", @"?\n"]]);
     for (NSString *state in @[@""]) {
@@ -18,7 +18,7 @@
     }
 }
         
-- (void)test1
+- (void)test01
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Comment", @"?\n"]]);
     for (NSString *state in @[@""]) {
@@ -27,7 +27,7 @@
     }
 }
         
-- (void)test2
+- (void)test02
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0xFFFD]]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -36,7 +36,7 @@
     }
 }
         
-- (void)test3
+- (void)test03
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"﻿foo﻿bar"]]);
     for (NSString *state in @[@""]) {
@@ -45,7 +45,7 @@
     }
 }
         
-- (void)test4
+- (void)test04
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"≂̸"]]);
     for (NSString *state in @[@"RCDATA state"]) {
@@ -54,7 +54,7 @@
     }
 }
         
-- (void)test5
+- (void)test05
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"&NotEqualTild;"]]);
     for (NSString *state in @[@"RCDATA state"]) {
@@ -63,7 +63,7 @@
     }
 }
         
-- (void)test6
+- (void)test06
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"EndTag", @"xmp"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -73,7 +73,7 @@
     }
 }
         
-- (void)test7
+- (void)test07
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"</ XMP>"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -83,7 +83,7 @@
     }
 }
         
-- (void)test8
+- (void)test08
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"</xm>"]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {
@@ -93,7 +93,7 @@
     }
 }
         
-- (void)test9
+- (void)test09
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"</xm "]]);
     for (NSString *state in @[@"RCDATA state", @"RAWTEXT state"]) {

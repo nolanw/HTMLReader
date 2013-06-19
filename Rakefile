@@ -35,7 +35,7 @@ END
         description = objc_literalize(test['description'])
         objc << <<-END
         
-- (void)test#{i}
+- (void)test#{i.to_s.rjust(json['tests'].size.to_s.length, '0')}
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(#{output});
     for (NSString *state in #{states}) {
