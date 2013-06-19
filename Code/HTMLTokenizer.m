@@ -2238,10 +2238,7 @@
         case '#': {
             [_scanner scanString:@"#" intoString:nil];
             _scanner.caseSensitive = NO;
-            BOOL hex = NO;
-            if ([_scanner scanString:@"x" intoString:nil]) {
-                hex = YES;
-            }
+            BOOL hex = [_scanner scanString:@"x" intoString:nil];
             _scanner.caseSensitive = YES;
             unsigned int number;
             BOOL ok;
@@ -2266,7 +2263,7 @@
             for (size_t i = 0; i < sizeof(ReplacementTable) / sizeof(ReplacementTable[0]); i++) {
                 if (ReplacementTable[i].number == number) {
                     [self emitParseError];
-                    return Stringify(number);
+                    return [NSString stringWithFormat:@"%C", ReplacementTable[i].replacement];
                 }
             }
             if ((number >= 0xD800 && number <= 0xDFFF) || number > 0x10FFFF) {
