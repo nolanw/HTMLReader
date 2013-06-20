@@ -253,7 +253,8 @@
                     } else {
                         [self emitParseError];
                         [self switchToState:HTMLTokenizerBogusCommentState];
-                        _scanner.scanLocation--;
+                        // SPEC The spec doesn't say to reconsume the input character. Instead, it says the bogus comment state is responsible for starting the comment at the character that caused a transition into the bogus comment state. But then we duplicate parse errors for invalid Unicode code points. Effectively what we want is to reconsume.
+                        [self reconsume:currentInputCharacter];
                     }
                     break;
             }
@@ -1013,7 +1014,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentAttribute appendFormatToValue:@"%uFFFD"];
+                    [_currentAttribute appendFormatToValue:@"\uFFFD"];
                     [self switchToState:HTMLTokenizerAttributeValueUnquotedState];
                     break;
                 case '>':
@@ -1188,19 +1189,27 @@
             }
             break;
             
-        case HTMLTokenizerBogusCommentState: {
-            NSString *data;
-            BOOL ok = [_scanner scanUpToString:@">" intoString:&data];
-            if (ok) {
-                data = [data stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"];
-            } else {
-                data = @"";
+        case HTMLTokenizerBogusCommentState:
+            _currentToken = [HTMLCommentToken new];
+            while (true) {
+                switch (currentInputCharacter = [self consumeNextInputCharacter]) {
+                    case EOF:
+                        [self reconsume:EOF];
+                        goto doneBogusCommentState;
+                    case '>':
+                        goto doneBogusCommentState;
+                    case '\0':
+                        [_currentToken appendFormat:@"\uFFFD"];
+                        break;
+                    default:
+                        [_currentToken appendFormat:@"%C", (unichar)currentInputCharacter];
+                        break;
+                }
             }
-            [_scanner scanString:@">" intoString:nil];
-            [self emit:[[HTMLCommentToken alloc] initWithData:data]];
+        doneBogusCommentState:
+            [self emitCurrentToken];
             [self switchToState:HTMLTokenizerDataState];
             break;
-        }
             
         case HTMLTokenizerMarkupDeclarationOpenState:
             if ([_scanner scanString:@"--" intoString:nil]) {
@@ -1238,6 +1247,7 @@
                 case EOF:
                     [self emitParseError];
                     [self switchToState:HTMLTokenizerDataState];
+                    [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -1903,18 +1913,31 @@
     } else if (_scanner.isAtEnd) {
         return EOF;
     } else {
-        return [_scanner.string characterAtIndex:_scanner.scanLocation++];
+        unichar character = [_scanner.string characterAtIndex:_scanner.scanLocation++];
+        #define InRange(a, b) (character >= (a) && character <= (b))
+        if (InRange(0x0001, 0x0008) ||
+            InRange(0x000E, 0x001F) ||
+            InRange(0x007F, 0x009F) ||
+            InRange(0xFDD0, 0xFDEF) ||
+            character == 0x000B ||
+            InRange(0xFFFE, 0xFFFF)
+            // TODO invalid code points above 0xFFFF (i.e. deal with surrogate pairs).
+            )
+        {
+            [self emitParseError];
+        }
+        return character;
     }
 }
 
 - (void)switchToState:(HTMLTokenizerState)state
 {
-    _state = state;
-    if (state == HTMLTokenizerAttributeNameState) {
+    if (_state == HTMLTokenizerAttributeNameState) {
         if ([_currentToken removeLastAttributeIfDuplicateName]) {
             [self emitParseError];
         }
     }
+    _state = state;
 }
 
 - (void)reconsume:(int)character
@@ -4668,6 +4691,11 @@ static const struct {
     return self;
 }
 
+- (id)init
+{
+    return [self initWithData:@""];
+}
+
 - (NSString *)data
 {
     return _data;
@@ -4675,7 +4703,6 @@ static const struct {
 
 - (void)appendFormat:(NSString *)format, ...
 {
-    if (!_data) _data = [NSMutableString new];
     va_list args;
     va_start(args, format);
     [_data appendString:[[NSString alloc] initWithFormat:format arguments:args]];
