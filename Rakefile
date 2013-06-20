@@ -93,7 +93,7 @@ end
 def objc_literalize_string(string, options = {})
   slashes = (if options[:doubleEscaped] then '\\\\' else '\\' end) * 2
   unichars = []
-  format = JSON.dump(string).gsub(/#{slashes}u(\h{4})/) do |hex|
+  format = JSON.dump(string).gsub(/(?<!#{slashes})#{slashes}u(\h{4})/) do |hex|
     unichars << "(unichar)0x#{$1}"
     "%C"
   end
