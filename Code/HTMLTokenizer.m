@@ -11,16 +11,31 @@
 // unichar is defined as a "type for Unicode characters", but it is actually a type for UTF-16 code units. We need a type for a Unicode code *point*.
 typedef uint32_t unicodepoint;
 
+// UTF-16 encodes code points U+10000 to U+10FFFF using surrogate pairs. NSString has few affordances for this, so we do much of it ourselves. These are some utility functions.
+
+static BOOL RequiresSurrogatePair(unicodepoint codepoint)
+{
+    return codepoint >= 0x10000 && codepoint <= 0x10FFFF;
+}
+
+static unichar LeadSurrogate(unicodepoint codepoint)
+{
+    return ((codepoint - 0x10000) >> 10) + 0xD800;
+}
+
+static unichar TrailSurrogate(unicodepoint codepoint)
+{
+    return ((codepoint - 0x10000) & 0x3FF) + 0xDC00;
+}
+
 // NSString has a format specifier for unichar, but nothing for a Unicode code point.
 // (While this would be a useful method to put in a category on NSMutableString, libraries should not pollute Foundation classes (even) with (prefixed) methods.)
 static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
 {
-    if (codepoint <= 0xFFFF) {
+    if (RequiresSurrogatePair(codepoint)) {
+        [self appendFormat:@"%C%C", LeadSurrogate(codepoint), TrailSurrogate(codepoint)];
+    } else if (codepoint <= 0xFFFF) {
         [self appendFormat:@"%C", (unichar)codepoint];
-    } else if (codepoint <= 0x10FFFF) {
-        [self appendFormat:@"%C%C",
-         (unichar)(((codepoint - 0x10000) >> 10) + 0xD800),
-         (unichar)(((codepoint - 0x10000) & 0x3FF) + 0xDC00)];
     } else {
         [self appendString:@"\uFFFD"];
     }
@@ -2139,10 +2154,15 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
                 number == 0xDFFFE || number == 0xDFFFF ||
                 number == 0xEFFFE || number == 0xEFFFF ||
                 number == 0xFFFFE || number == 0xFFFFF ||
-                number == 0x10FFFE || number == 0x10FFFF) {
-                    [self emitParseError];
+                number == 0x10FFFE || number == 0x10FFFF)
+            {
+                [self emitParseError];
             }
-            return Stringify(number);
+            if (number >= 0x10000) {
+                return [NSString stringWithFormat:@"%C%C", LeadSurrogate(number), TrailSurrogate(number)];
+            } else {
+                return [NSString stringWithFormat:@"%C", (unichar)number];
+            }
         }
         default: {
             NSString *longestScanned;
@@ -2174,15 +2194,6 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
             return characters;
         }
     }
-}
-
-static NSString * Stringify(const uint32_t character)
-{
-    NSStringEncoding hostUTF32Encoding = (NSHostByteOrder() == NS_LittleEndian
-                                          ? NSUTF32LittleEndianStringEncoding
-                                          : NSUTF32BigEndianStringEncoding);
-    return [[NSString alloc] initWithBytes:&character length:sizeof(character) encoding:hostUTF32Encoding];
-
 }
 
 static const struct {
