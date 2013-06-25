@@ -2118,8 +2118,8 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
             if (hex) {
                 ok = [_scanner scanHexInt:&number];
             } else {
-                long long scannedNumber;
-                ok = [_scanner scanLongLong:&scannedNumber];
+                int scannedNumber;
+                ok = [_scanner scanInt:&scannedNumber];
                 if (ok) {
                     number = scannedNumber;
                 }
