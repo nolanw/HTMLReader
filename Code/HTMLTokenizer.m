@@ -1168,7 +1168,7 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
             break;
     
         case HTMLTokenizerCharacterReferenceInAttributeValueState: {
-            NSString *characters = [self attemptToConsumeCharacterReference];
+            NSString *characters = [self attemptToConsumeCharacterReferenceAsPartOfAnAttribute];
             if (characters) {
                 [_currentAttribute appendStringToValue:characters];
             } else {
@@ -2084,6 +2084,16 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
 
 - (NSString *)attemptToConsumeCharacterReference
 {
+    return [self attemptToConsumeCharacterReferenceIsPartOfAnAttribute:NO];
+}
+
+- (NSString *)attemptToConsumeCharacterReferenceAsPartOfAnAttribute
+{
+    return [self attemptToConsumeCharacterReferenceIsPartOfAnAttribute:YES];
+}
+
+- (NSString *)attemptToConsumeCharacterReferenceIsPartOfAnAttribute:(BOOL)partOfAnAttribute
+{
     if (_scanner.isAtEnd) return nil;
     NSUInteger initialScanLocation = _scanner.scanLocation;
     unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
@@ -2190,6 +2200,16 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
             } else {
                 [_scanner scanString:longestScanned intoString:nil];
                 if ([_scanner.string characterAtIndex:(_scanner.scanLocation - 1)] != ';') {
+                    if (partOfAnAttribute) {
+                        if (!_scanner.isAtEnd) {
+                            unichar next = [_scanner.string characterAtIndex:_scanner.scanLocation];
+                            if (next == '=' || [[NSCharacterSet alphanumericCharacterSet] characterIsMember:next]) {
+                                _scanner.scanLocation = initialScanLocation;
+                                if (next == '=') [self emitParseError];
+                                return nil;
+                            }
+                        }
+                    }
                     [self emitParseError];
                 }
             }
