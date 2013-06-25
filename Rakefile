@@ -24,6 +24,7 @@ FileList['Tests/html5lib/tokenizer/*.test'].each do |testpath|
 @implementation #{name}
 END
       json['tests'].each_with_index do |test, i|
+        # http://wiki.whatwg.org/wiki/Parser_tests
         input = test['input']
         output = test['output']
         input = objc_literalize(input, doubleEscaped: test['doubleEscaped'])
