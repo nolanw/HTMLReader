@@ -1967,10 +1967,12 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
                 character = ((character - 0xD800) << 10) + (trail - 0xDC00) + 0x10000;
             } else {
                 // Lead surrogate with no trail.
+                [self emitParseError];
                 return 0xFFFD;
             }
         } else if (character >= 0xDC00 && character <= 0xDFFF) {
             // Trail surrogate with no lead.
+            [self emitParseError];
             return 0xFFFD;
         }
         #define InRange(a, b) (character >= (a) && character <= (b))
