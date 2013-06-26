@@ -11,7 +11,7 @@
         
 - (void)test00
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @"ParseError", @[@"DOCTYPE", @"", [NSNull null], [NSNull null], @NO]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @"ParseError", @[@"DOCTYPE", [NSNull null], [NSNull null], [NSNull null], @NO]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<!DOCTYPE>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"DOCTYPE without name");
@@ -191,7 +191,7 @@
         
 - (void)test20
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"&;"]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"&;"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&;" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Entity without a name");

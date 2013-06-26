@@ -77,16 +77,16 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"z", @{@"z": @"&"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<z z=\"&\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Allowed \" after ampersand in attribute value");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\" after ampersand in double-quoted attribute value");
     }
 }
         
 - (void)test08
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"z", @{@"z": @"&'"}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"z", @{@"z": @"&'"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<z z=\"&'\">" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Non-allowed ' after ampersand in attribute value");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"' after ampersand in double-quoted attribute value");
     }
 }
         
@@ -95,22 +95,22 @@
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"z", @{@"z": @"&"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<z z='&'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Allowed ' after ampersand in attribute value");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"' after ampersand in single-quoted attribute value");
     }
 }
         
 - (void)test10
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"z", @{@"z": @"&\""}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"z", @{@"z": @"&\""}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<z z='&\"'>" state:StateNamed(state)];
-        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Non-allowed \" after ampersand in attribute value");
+        STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"\" after ampersand in single-quoted attribute value");
     }
 }
         
 - (void)test11
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"z", @{@"z": @"&xlink_xmlns;"}], @[@"Character", @"bar"], @[@"StartTag", @"z", @{}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"z", @{@"z": @"&xlink_xmlns;"}], @[@"Character", @"bar"], @[@"StartTag", @"z", @{}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<z z='&xlink_xmlns;'>bar<z>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Text after bogus character reference");

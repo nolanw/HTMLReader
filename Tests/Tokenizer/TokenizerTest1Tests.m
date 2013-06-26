@@ -263,7 +263,7 @@
         
 - (void)test28
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"&f"]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"&f"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&f" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Unfinished entity");
@@ -326,7 +326,7 @@
         
 - (void)test35
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"I'm "], @"ParseError", @[@"Character", @"&no"]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"I'm &no"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"I'm &no" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Partial entity match at end of file");
@@ -335,7 +335,7 @@
         
 - (void)test36
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"&¬;"]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"&¬;"]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&¬;" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Non-ASCII character reference name");
@@ -371,7 +371,7 @@
         
 - (void)test40
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"h", @{@"a": @"&notx"}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{@"a": @"&notx"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&notx'>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Entity in attribute without semicolon ending in x");
@@ -380,7 +380,7 @@
         
 - (void)test41
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"h", @{@"a": @"&not1"}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{@"a": @"&not1"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&not1'>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Entity in attribute without semicolon ending in 1");
@@ -389,7 +389,7 @@
         
 - (void)test42
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"h", @{@"a": @"&noti"}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{@"a": @"&noti"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&noti'>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Entity in attribute without semicolon ending in i");

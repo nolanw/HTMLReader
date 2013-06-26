@@ -29,8 +29,8 @@ static id TokenForTest(id test)
         return [[HTMLEndTagToken alloc] initWithTagName:test[1]];
     } else if ([tokenType isEqualToString:@"DOCTYPE"]) {
         HTMLDOCTYPEToken *doctype = [HTMLDOCTYPEToken new];
-        doctype.name = test[1];
         #define NilOutNull(o) ([[NSNull null] isEqual:(o)] ? nil : o)
+        doctype.name = NilOutNull(test[1]);
         doctype.publicIdentifier = NilOutNull(test[2]);
         doctype.systemIdentifier = NilOutNull(test[3]);
         doctype.forceQuirks = ![test[4] boolValue];

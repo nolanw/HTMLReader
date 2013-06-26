@@ -11,7 +11,7 @@
         
 - (void)test00
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"h", @{@"a": @"&noti;"}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{@"a": @"&noti;"}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&noti;'>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Undefined named entity in attribute value ending in semicolon and whose name starts with a known entity name.");
@@ -20,7 +20,7 @@
         
 - (void)test01
 {
-    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"StartTag", @"h", @{@"a": @"&lang="}]]);
+    NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"StartTag", @"h", @{@"a": @"&lang="}]]);
     for (NSString *state in @[@""]) {
         HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"<h a='&lang='>" state:StateNamed(state)];
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Entity name followed by the equals sign in an attribute value.");
