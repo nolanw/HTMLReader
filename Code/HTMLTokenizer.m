@@ -93,8 +93,6 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
 - (id)initWithString:(NSString *)string
 {
     if (!(self = [super init])) return nil;
-    string = [string stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
     _scanner = [NSScanner scannerWithString:string];
     _scanner.charactersToBeSkipped = nil;
     _scanner.caseSensitive = YES;
@@ -2000,6 +1998,12 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
             InRange(0x10FFFE, 0x10FFFF))
         {
             [self emitParseError];
+        }
+        if (character == '\r') {
+            if (!_scanner.isAtEnd && [_scanner.string characterAtIndex:_scanner.scanLocation] == '\n') {
+                _scanner.scanLocation++;
+            }
+            return '\n';
         }
         return character;
     }
