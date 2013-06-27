@@ -1,41 +1,8 @@
 # HTMLReader TODO
 
-- Understand some tests.
-  - DOCTYPE token name: empty or nil?
-    - Tests seem to think the DOCTYPE token should always have an empty name. I think it could have a nil name.
-    - test 2
-      - test00
-    - test 3
-      - test0228, test0231, test0232, test0234, test0235, test0237, test0240, test0241, test0243, test0244, test0246, test0258, and test0656.
-  - Entities and parse errors.
-    - Tests seem to think these are parse errors, but I don't see it.
-      - Entities without semicolons.
-        - test 1
-          - test28, test35
-          - test40, test41, test42
-        - entities
-          - test01
-        - named entities
-    - Non-ASCII entities.
-      - test 1
-        - test 36
-    - Empty entities.
-      - test 2
-        - test20
-    - Supposedly invalid characters after &.
-      - test 4
-        - test08, test10
-    - Bogus character references.
-      - test 4
-        - test11
-    - Known entity match with ascii after, in an attribute.
-      - entities
-        - test 00
-- Pass some tests.
-  - domjs
-    - test12 (extra parse error)
-  - unicode chars problematic
-    - test2 (parse error between character tokens)
-  - Everything mentioned in "understand some tests".
+- Pass all tree construction tests.
+- Pass all tokenizer tests.
+  - domjs test12 fails (extra parse error).
+  - unicode chars problematic test2 fails (parse error between character tokens).
 - Fix lossy conversion from html5lib tests to SenTestCase tests.
   - For example, check domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)

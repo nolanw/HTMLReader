@@ -7,6 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C25D3A5177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A4177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m */; };
+		1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
+		1C25D3D7177BB8C400F7C10D /* TreeGenerationAdoption01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A9177BB8C300F7C10D /* TreeGenerationAdoption01Tests.m */; };
+		1C25D3D8177BB8C400F7C10D /* TreeGenerationAdoption02Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3AA177BB8C300F7C10D /* TreeGenerationAdoption02Tests.m */; };
+		1C25D3D9177BB8C400F7C10D /* TreeGenerationComments01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3AB177BB8C300F7C10D /* TreeGenerationComments01Tests.m */; };
+		1C25D3DA177BB8C400F7C10D /* TreeGenerationDoctype01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3AC177BB8C300F7C10D /* TreeGenerationDoctype01Tests.m */; };
+		1C25D3DB177BB8C400F7C10D /* TreeGenerationDomjsUnsafeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3AD177BB8C300F7C10D /* TreeGenerationDomjsUnsafeTests.m */; };
+		1C25D3DC177BB8C400F7C10D /* TreeGenerationEntities01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3AE177BB8C300F7C10D /* TreeGenerationEntities01Tests.m */; };
+		1C25D3DD177BB8C400F7C10D /* TreeGenerationEntities02Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3AF177BB8C300F7C10D /* TreeGenerationEntities02Tests.m */; };
+		1C25D3DE177BB8C400F7C10D /* TreeGenerationHtml5testComTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B0177BB8C300F7C10D /* TreeGenerationHtml5testComTests.m */; };
+		1C25D3DF177BB8C400F7C10D /* TreeGenerationInbody01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B1177BB8C300F7C10D /* TreeGenerationInbody01Tests.m */; };
+		1C25D3E0177BB8C400F7C10D /* TreeGenerationIsindexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B2177BB8C300F7C10D /* TreeGenerationIsindexTests.m */; };
+		1C25D3E1177BB8C400F7C10D /* TreeGenerationMainElementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B3177BB8C300F7C10D /* TreeGenerationMainElementTests.m */; };
+		1C25D3E2177BB8C400F7C10D /* TreeGenerationPendingSpecChangesPlainTextUnsafeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B4177BB8C300F7C10D /* TreeGenerationPendingSpecChangesPlainTextUnsafeTests.m */; };
+		1C25D3E3177BB8C400F7C10D /* TreeGenerationPendingSpecChangesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B5177BB8C300F7C10D /* TreeGenerationPendingSpecChangesTests.m */; };
+		1C25D3E4177BB8C400F7C10D /* TreeGenerationPlainTextUnsafeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B6177BB8C300F7C10D /* TreeGenerationPlainTextUnsafeTests.m */; };
+		1C25D3E5177BB8C400F7C10D /* TreeGenerationScriptdata01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B7177BB8C300F7C10D /* TreeGenerationScriptdata01Tests.m */; };
+		1C25D3E6177BB8C400F7C10D /* TreeGenerationTables01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B8177BB8C300F7C10D /* TreeGenerationTables01Tests.m */; };
+		1C25D3E7177BB8C400F7C10D /* TreeGenerationTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3B9177BB8C300F7C10D /* TreeGenerationTemplateTests.m */; };
+		1C25D3E8177BB8C400F7C10D /* TreeGenerationTests01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3BA177BB8C300F7C10D /* TreeGenerationTests01Tests.m */; };
+		1C25D3E9177BB8C400F7C10D /* TreeGenerationTests02Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3BB177BB8C300F7C10D /* TreeGenerationTests02Tests.m */; };
+		1C25D3EA177BB8C400F7C10D /* TreeGenerationTests03Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3BC177BB8C300F7C10D /* TreeGenerationTests03Tests.m */; };
+		1C25D3EB177BB8C400F7C10D /* TreeGenerationTests04Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3BD177BB8C300F7C10D /* TreeGenerationTests04Tests.m */; };
+		1C25D3EC177BB8C400F7C10D /* TreeGenerationTests05Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3BE177BB8C400F7C10D /* TreeGenerationTests05Tests.m */; };
+		1C25D3ED177BB8C400F7C10D /* TreeGenerationTests06Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3BF177BB8C400F7C10D /* TreeGenerationTests06Tests.m */; };
+		1C25D3EE177BB8C400F7C10D /* TreeGenerationTests07Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C0177BB8C400F7C10D /* TreeGenerationTests07Tests.m */; };
+		1C25D3EF177BB8C400F7C10D /* TreeGenerationTests08Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C1177BB8C400F7C10D /* TreeGenerationTests08Tests.m */; };
+		1C25D3F0177BB8C400F7C10D /* TreeGenerationTests09Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C2177BB8C400F7C10D /* TreeGenerationTests09Tests.m */; };
+		1C25D3F1177BB8C400F7C10D /* TreeGenerationTests10Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C3177BB8C400F7C10D /* TreeGenerationTests10Tests.m */; };
+		1C25D3F2177BB8C400F7C10D /* TreeGenerationTests11Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C4177BB8C400F7C10D /* TreeGenerationTests11Tests.m */; };
+		1C25D3F3177BB8C400F7C10D /* TreeGenerationTests12Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C5177BB8C400F7C10D /* TreeGenerationTests12Tests.m */; };
+		1C25D3F4177BB8C400F7C10D /* TreeGenerationTests14Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C6177BB8C400F7C10D /* TreeGenerationTests14Tests.m */; };
+		1C25D3F5177BB8C400F7C10D /* TreeGenerationTests15Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C7177BB8C400F7C10D /* TreeGenerationTests15Tests.m */; };
+		1C25D3F6177BB8C400F7C10D /* TreeGenerationTests16Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C8177BB8C400F7C10D /* TreeGenerationTests16Tests.m */; };
+		1C25D3F7177BB8C400F7C10D /* TreeGenerationTests17Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3C9177BB8C400F7C10D /* TreeGenerationTests17Tests.m */; };
+		1C25D3F8177BB8C400F7C10D /* TreeGenerationTests18Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3CA177BB8C400F7C10D /* TreeGenerationTests18Tests.m */; };
+		1C25D3F9177BB8C400F7C10D /* TreeGenerationTests19Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3CB177BB8C400F7C10D /* TreeGenerationTests19Tests.m */; };
+		1C25D3FA177BB8C400F7C10D /* TreeGenerationTests20Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3CC177BB8C400F7C10D /* TreeGenerationTests20Tests.m */; };
+		1C25D3FB177BB8C400F7C10D /* TreeGenerationTests21Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3CD177BB8C400F7C10D /* TreeGenerationTests21Tests.m */; };
+		1C25D3FC177BB8C400F7C10D /* TreeGenerationTests22Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3CE177BB8C400F7C10D /* TreeGenerationTests22Tests.m */; };
+		1C25D3FD177BB8C400F7C10D /* TreeGenerationTests23Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3CF177BB8C400F7C10D /* TreeGenerationTests23Tests.m */; };
+		1C25D3FE177BB8C400F7C10D /* TreeGenerationTests24Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D0177BB8C400F7C10D /* TreeGenerationTests24Tests.m */; };
+		1C25D3FF177BB8C400F7C10D /* TreeGenerationTests25Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D1177BB8C400F7C10D /* TreeGenerationTests25Tests.m */; };
+		1C25D400177BB8C400F7C10D /* TreeGenerationTests26Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D2177BB8C400F7C10D /* TreeGenerationTests26Tests.m */; };
+		1C25D401177BB8C400F7C10D /* TreeGenerationTestsInnerHTML1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D3177BB8C400F7C10D /* TreeGenerationTestsInnerHTML1Tests.m */; };
+		1C25D402177BB8C400F7C10D /* TreeGenerationTricky01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D4177BB8C400F7C10D /* TreeGenerationTricky01Tests.m */; };
+		1C25D403177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D5177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m */; };
+		1C25D404177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */; };
+		1C25D407177BB93700F7C10D /* HTMLTreeConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D406177BB93700F7C10D /* HTMLTreeConstructor.m */; };
+		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
 		1C640EA5176BCA0000919E5C /* TokenizerContentModelFlagsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */; };
 		1C640EA6176BCA0000919E5C /* TokenizerDomjsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */; };
 		1C640EA7176BCA0000919E5C /* TokenizerEntitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9A176BCA0000919E5C /* TokenizerEntitiesTests.m */; };
@@ -52,6 +102,60 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1C25D3A3177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeConstructionTestUtilities.h; sourceTree = "<group>"; };
+		1C25D3A4177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeConstructionTestUtilities.m; sourceTree = "<group>"; };
+		1C25D3A6177BB78600F7C10D /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocument.h; sourceTree = "<group>"; };
+		1C25D3A7177BB78600F7C10D /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
+		1C25D3A9177BB8C300F7C10D /* TreeGenerationAdoption01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationAdoption01Tests.m; sourceTree = "<group>"; };
+		1C25D3AA177BB8C300F7C10D /* TreeGenerationAdoption02Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationAdoption02Tests.m; sourceTree = "<group>"; };
+		1C25D3AB177BB8C300F7C10D /* TreeGenerationComments01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationComments01Tests.m; sourceTree = "<group>"; };
+		1C25D3AC177BB8C300F7C10D /* TreeGenerationDoctype01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationDoctype01Tests.m; sourceTree = "<group>"; };
+		1C25D3AD177BB8C300F7C10D /* TreeGenerationDomjsUnsafeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationDomjsUnsafeTests.m; sourceTree = "<group>"; };
+		1C25D3AE177BB8C300F7C10D /* TreeGenerationEntities01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationEntities01Tests.m; sourceTree = "<group>"; };
+		1C25D3AF177BB8C300F7C10D /* TreeGenerationEntities02Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationEntities02Tests.m; sourceTree = "<group>"; };
+		1C25D3B0177BB8C300F7C10D /* TreeGenerationHtml5testComTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationHtml5testComTests.m; sourceTree = "<group>"; };
+		1C25D3B1177BB8C300F7C10D /* TreeGenerationInbody01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationInbody01Tests.m; sourceTree = "<group>"; };
+		1C25D3B2177BB8C300F7C10D /* TreeGenerationIsindexTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationIsindexTests.m; sourceTree = "<group>"; };
+		1C25D3B3177BB8C300F7C10D /* TreeGenerationMainElementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationMainElementTests.m; sourceTree = "<group>"; };
+		1C25D3B4177BB8C300F7C10D /* TreeGenerationPendingSpecChangesPlainTextUnsafeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationPendingSpecChangesPlainTextUnsafeTests.m; sourceTree = "<group>"; };
+		1C25D3B5177BB8C300F7C10D /* TreeGenerationPendingSpecChangesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationPendingSpecChangesTests.m; sourceTree = "<group>"; };
+		1C25D3B6177BB8C300F7C10D /* TreeGenerationPlainTextUnsafeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationPlainTextUnsafeTests.m; sourceTree = "<group>"; };
+		1C25D3B7177BB8C300F7C10D /* TreeGenerationScriptdata01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationScriptdata01Tests.m; sourceTree = "<group>"; };
+		1C25D3B8177BB8C300F7C10D /* TreeGenerationTables01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTables01Tests.m; sourceTree = "<group>"; };
+		1C25D3B9177BB8C300F7C10D /* TreeGenerationTemplateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTemplateTests.m; sourceTree = "<group>"; };
+		1C25D3BA177BB8C300F7C10D /* TreeGenerationTests01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests01Tests.m; sourceTree = "<group>"; };
+		1C25D3BB177BB8C300F7C10D /* TreeGenerationTests02Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests02Tests.m; sourceTree = "<group>"; };
+		1C25D3BC177BB8C300F7C10D /* TreeGenerationTests03Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests03Tests.m; sourceTree = "<group>"; };
+		1C25D3BD177BB8C300F7C10D /* TreeGenerationTests04Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests04Tests.m; sourceTree = "<group>"; };
+		1C25D3BE177BB8C400F7C10D /* TreeGenerationTests05Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests05Tests.m; sourceTree = "<group>"; };
+		1C25D3BF177BB8C400F7C10D /* TreeGenerationTests06Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests06Tests.m; sourceTree = "<group>"; };
+		1C25D3C0177BB8C400F7C10D /* TreeGenerationTests07Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests07Tests.m; sourceTree = "<group>"; };
+		1C25D3C1177BB8C400F7C10D /* TreeGenerationTests08Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests08Tests.m; sourceTree = "<group>"; };
+		1C25D3C2177BB8C400F7C10D /* TreeGenerationTests09Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests09Tests.m; sourceTree = "<group>"; };
+		1C25D3C3177BB8C400F7C10D /* TreeGenerationTests10Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests10Tests.m; sourceTree = "<group>"; };
+		1C25D3C4177BB8C400F7C10D /* TreeGenerationTests11Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests11Tests.m; sourceTree = "<group>"; };
+		1C25D3C5177BB8C400F7C10D /* TreeGenerationTests12Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests12Tests.m; sourceTree = "<group>"; };
+		1C25D3C6177BB8C400F7C10D /* TreeGenerationTests14Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests14Tests.m; sourceTree = "<group>"; };
+		1C25D3C7177BB8C400F7C10D /* TreeGenerationTests15Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests15Tests.m; sourceTree = "<group>"; };
+		1C25D3C8177BB8C400F7C10D /* TreeGenerationTests16Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests16Tests.m; sourceTree = "<group>"; };
+		1C25D3C9177BB8C400F7C10D /* TreeGenerationTests17Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests17Tests.m; sourceTree = "<group>"; };
+		1C25D3CA177BB8C400F7C10D /* TreeGenerationTests18Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests18Tests.m; sourceTree = "<group>"; };
+		1C25D3CB177BB8C400F7C10D /* TreeGenerationTests19Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests19Tests.m; sourceTree = "<group>"; };
+		1C25D3CC177BB8C400F7C10D /* TreeGenerationTests20Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests20Tests.m; sourceTree = "<group>"; };
+		1C25D3CD177BB8C400F7C10D /* TreeGenerationTests21Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests21Tests.m; sourceTree = "<group>"; };
+		1C25D3CE177BB8C400F7C10D /* TreeGenerationTests22Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests22Tests.m; sourceTree = "<group>"; };
+		1C25D3CF177BB8C400F7C10D /* TreeGenerationTests23Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests23Tests.m; sourceTree = "<group>"; };
+		1C25D3D0177BB8C400F7C10D /* TreeGenerationTests24Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests24Tests.m; sourceTree = "<group>"; };
+		1C25D3D1177BB8C400F7C10D /* TreeGenerationTests25Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests25Tests.m; sourceTree = "<group>"; };
+		1C25D3D2177BB8C400F7C10D /* TreeGenerationTests26Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTests26Tests.m; sourceTree = "<group>"; };
+		1C25D3D3177BB8C400F7C10D /* TreeGenerationTestsInnerHTML1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTestsInnerHTML1Tests.m; sourceTree = "<group>"; };
+		1C25D3D4177BB8C400F7C10D /* TreeGenerationTricky01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTricky01Tests.m; sourceTree = "<group>"; };
+		1C25D3D5177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationWebkit01Tests.m; sourceTree = "<group>"; };
+		1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationWebkit02Tests.m; sourceTree = "<group>"; };
+		1C25D405177BB93700F7C10D /* HTMLTreeConstructor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeConstructor.h; sourceTree = "<group>"; };
+		1C25D406177BB93700F7C10D /* HTMLTreeConstructor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeConstructor.m; sourceTree = "<group>"; };
+		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
+		1C25D40917837A8A00F7C10D /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerContentModelFlagsTests.m; sourceTree = "<group>"; };
 		1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerDomjsTests.m; sourceTree = "<group>"; };
 		1C640E9A176BCA0000919E5C /* TokenizerEntitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerEntitiesTests.m; sourceTree = "<group>"; };
@@ -101,6 +205,61 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C25D346177BB71300F7C10D /* Tree Construction */ = {
+			isa = PBXGroup;
+			children = (
+				1C25D3A3177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.h */,
+				1C25D3A4177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m */,
+				1C25D3A9177BB8C300F7C10D /* TreeGenerationAdoption01Tests.m */,
+				1C25D3AA177BB8C300F7C10D /* TreeGenerationAdoption02Tests.m */,
+				1C25D3AB177BB8C300F7C10D /* TreeGenerationComments01Tests.m */,
+				1C25D3AC177BB8C300F7C10D /* TreeGenerationDoctype01Tests.m */,
+				1C25D3AD177BB8C300F7C10D /* TreeGenerationDomjsUnsafeTests.m */,
+				1C25D3AE177BB8C300F7C10D /* TreeGenerationEntities01Tests.m */,
+				1C25D3AF177BB8C300F7C10D /* TreeGenerationEntities02Tests.m */,
+				1C25D3B0177BB8C300F7C10D /* TreeGenerationHtml5testComTests.m */,
+				1C25D3B1177BB8C300F7C10D /* TreeGenerationInbody01Tests.m */,
+				1C25D3B2177BB8C300F7C10D /* TreeGenerationIsindexTests.m */,
+				1C25D3B3177BB8C300F7C10D /* TreeGenerationMainElementTests.m */,
+				1C25D3B4177BB8C300F7C10D /* TreeGenerationPendingSpecChangesPlainTextUnsafeTests.m */,
+				1C25D3B5177BB8C300F7C10D /* TreeGenerationPendingSpecChangesTests.m */,
+				1C25D3B6177BB8C300F7C10D /* TreeGenerationPlainTextUnsafeTests.m */,
+				1C25D3B7177BB8C300F7C10D /* TreeGenerationScriptdata01Tests.m */,
+				1C25D3B8177BB8C300F7C10D /* TreeGenerationTables01Tests.m */,
+				1C25D3B9177BB8C300F7C10D /* TreeGenerationTemplateTests.m */,
+				1C25D3BA177BB8C300F7C10D /* TreeGenerationTests01Tests.m */,
+				1C25D3BB177BB8C300F7C10D /* TreeGenerationTests02Tests.m */,
+				1C25D3BC177BB8C300F7C10D /* TreeGenerationTests03Tests.m */,
+				1C25D3BD177BB8C300F7C10D /* TreeGenerationTests04Tests.m */,
+				1C25D3BE177BB8C400F7C10D /* TreeGenerationTests05Tests.m */,
+				1C25D3BF177BB8C400F7C10D /* TreeGenerationTests06Tests.m */,
+				1C25D3C0177BB8C400F7C10D /* TreeGenerationTests07Tests.m */,
+				1C25D3C1177BB8C400F7C10D /* TreeGenerationTests08Tests.m */,
+				1C25D3C2177BB8C400F7C10D /* TreeGenerationTests09Tests.m */,
+				1C25D3C3177BB8C400F7C10D /* TreeGenerationTests10Tests.m */,
+				1C25D3C4177BB8C400F7C10D /* TreeGenerationTests11Tests.m */,
+				1C25D3C5177BB8C400F7C10D /* TreeGenerationTests12Tests.m */,
+				1C25D3C6177BB8C400F7C10D /* TreeGenerationTests14Tests.m */,
+				1C25D3C7177BB8C400F7C10D /* TreeGenerationTests15Tests.m */,
+				1C25D3C8177BB8C400F7C10D /* TreeGenerationTests16Tests.m */,
+				1C25D3C9177BB8C400F7C10D /* TreeGenerationTests17Tests.m */,
+				1C25D3CA177BB8C400F7C10D /* TreeGenerationTests18Tests.m */,
+				1C25D3CB177BB8C400F7C10D /* TreeGenerationTests19Tests.m */,
+				1C25D3CC177BB8C400F7C10D /* TreeGenerationTests20Tests.m */,
+				1C25D3CD177BB8C400F7C10D /* TreeGenerationTests21Tests.m */,
+				1C25D3CE177BB8C400F7C10D /* TreeGenerationTests22Tests.m */,
+				1C25D3CF177BB8C400F7C10D /* TreeGenerationTests23Tests.m */,
+				1C25D3D0177BB8C400F7C10D /* TreeGenerationTests24Tests.m */,
+				1C25D3D1177BB8C400F7C10D /* TreeGenerationTests25Tests.m */,
+				1C25D3D2177BB8C400F7C10D /* TreeGenerationTests26Tests.m */,
+				1C25D3D3177BB8C400F7C10D /* TreeGenerationTestsInnerHTML1Tests.m */,
+				1C25D3D4177BB8C400F7C10D /* TreeGenerationTricky01Tests.m */,
+				1C25D3D5177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m */,
+				1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */,
+			);
+			path = "Tree Construction";
+			sourceTree = "<group>";
+		};
 		1C640E97176BCA0000919E5C /* Tokenizer */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,8 +314,14 @@
 		1C9C3EBE176BC53900E982C9 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				1C25D3A6177BB78600F7C10D /* HTMLDocument.h */,
+				1C25D3A7177BB78600F7C10D /* HTMLDocument.m */,
+				1C25D40817837A8A00F7C10D /* HTMLParser.h */,
+				1C25D40917837A8A00F7C10D /* HTMLParser.m */,
 				1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */,
 				1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */,
+				1C25D405177BB93700F7C10D /* HTMLTreeConstructor.h */,
+				1C25D406177BB93700F7C10D /* HTMLTreeConstructor.m */,
 				1C9C3EBF176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Code;
@@ -174,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				1C640E97176BCA0000919E5C /* Tokenizer */,
+				1C25D346177BB71300F7C10D /* Tree Construction */,
 				1C9C3ED4176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Tests;
@@ -286,6 +452,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */,
+				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,
+				1C25D407177BB93700F7C10D /* HTMLTreeConstructor.m in Sources */,
+				1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +476,53 @@
 				1C640EB0176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m in Sources */,
 				1C640EB1176BCA0000919E5C /* TokenizerUnicodeCharsTests.m in Sources */,
 				1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */,
+				1C25D3A5177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m in Sources */,
+				1C25D3D7177BB8C400F7C10D /* TreeGenerationAdoption01Tests.m in Sources */,
+				1C25D3D8177BB8C400F7C10D /* TreeGenerationAdoption02Tests.m in Sources */,
+				1C25D3D9177BB8C400F7C10D /* TreeGenerationComments01Tests.m in Sources */,
+				1C25D3DA177BB8C400F7C10D /* TreeGenerationDoctype01Tests.m in Sources */,
+				1C25D3DB177BB8C400F7C10D /* TreeGenerationDomjsUnsafeTests.m in Sources */,
+				1C25D3DC177BB8C400F7C10D /* TreeGenerationEntities01Tests.m in Sources */,
+				1C25D3DD177BB8C400F7C10D /* TreeGenerationEntities02Tests.m in Sources */,
+				1C25D3DE177BB8C400F7C10D /* TreeGenerationHtml5testComTests.m in Sources */,
+				1C25D3DF177BB8C400F7C10D /* TreeGenerationInbody01Tests.m in Sources */,
+				1C25D3E0177BB8C400F7C10D /* TreeGenerationIsindexTests.m in Sources */,
+				1C25D3E1177BB8C400F7C10D /* TreeGenerationMainElementTests.m in Sources */,
+				1C25D3E2177BB8C400F7C10D /* TreeGenerationPendingSpecChangesPlainTextUnsafeTests.m in Sources */,
+				1C25D3E3177BB8C400F7C10D /* TreeGenerationPendingSpecChangesTests.m in Sources */,
+				1C25D3E4177BB8C400F7C10D /* TreeGenerationPlainTextUnsafeTests.m in Sources */,
+				1C25D3E5177BB8C400F7C10D /* TreeGenerationScriptdata01Tests.m in Sources */,
+				1C25D3E6177BB8C400F7C10D /* TreeGenerationTables01Tests.m in Sources */,
+				1C25D3E7177BB8C400F7C10D /* TreeGenerationTemplateTests.m in Sources */,
+				1C25D3E8177BB8C400F7C10D /* TreeGenerationTests01Tests.m in Sources */,
+				1C25D3E9177BB8C400F7C10D /* TreeGenerationTests02Tests.m in Sources */,
+				1C25D3EA177BB8C400F7C10D /* TreeGenerationTests03Tests.m in Sources */,
+				1C25D3EB177BB8C400F7C10D /* TreeGenerationTests04Tests.m in Sources */,
+				1C25D3EC177BB8C400F7C10D /* TreeGenerationTests05Tests.m in Sources */,
+				1C25D3ED177BB8C400F7C10D /* TreeGenerationTests06Tests.m in Sources */,
+				1C25D3EE177BB8C400F7C10D /* TreeGenerationTests07Tests.m in Sources */,
+				1C25D3EF177BB8C400F7C10D /* TreeGenerationTests08Tests.m in Sources */,
+				1C25D3F0177BB8C400F7C10D /* TreeGenerationTests09Tests.m in Sources */,
+				1C25D3F1177BB8C400F7C10D /* TreeGenerationTests10Tests.m in Sources */,
+				1C25D3F2177BB8C400F7C10D /* TreeGenerationTests11Tests.m in Sources */,
+				1C25D3F3177BB8C400F7C10D /* TreeGenerationTests12Tests.m in Sources */,
+				1C25D3F4177BB8C400F7C10D /* TreeGenerationTests14Tests.m in Sources */,
+				1C25D3F5177BB8C400F7C10D /* TreeGenerationTests15Tests.m in Sources */,
+				1C25D3F6177BB8C400F7C10D /* TreeGenerationTests16Tests.m in Sources */,
+				1C25D3F7177BB8C400F7C10D /* TreeGenerationTests17Tests.m in Sources */,
+				1C25D3F8177BB8C400F7C10D /* TreeGenerationTests18Tests.m in Sources */,
+				1C25D3F9177BB8C400F7C10D /* TreeGenerationTests19Tests.m in Sources */,
+				1C25D3FA177BB8C400F7C10D /* TreeGenerationTests20Tests.m in Sources */,
+				1C25D3FB177BB8C400F7C10D /* TreeGenerationTests21Tests.m in Sources */,
+				1C25D3FC177BB8C400F7C10D /* TreeGenerationTests22Tests.m in Sources */,
+				1C25D3FD177BB8C400F7C10D /* TreeGenerationTests23Tests.m in Sources */,
+				1C25D3FE177BB8C400F7C10D /* TreeGenerationTests24Tests.m in Sources */,
+				1C25D3FF177BB8C400F7C10D /* TreeGenerationTests25Tests.m in Sources */,
+				1C25D400177BB8C400F7C10D /* TreeGenerationTests26Tests.m in Sources */,
+				1C25D401177BB8C400F7C10D /* TreeGenerationTestsInnerHTML1Tests.m in Sources */,
+				1C25D402177BB8C400F7C10D /* TreeGenerationTricky01Tests.m in Sources */,
+				1C25D403177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m in Sources */,
+				1C25D404177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
