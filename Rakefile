@@ -49,7 +49,8 @@ END
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(#{output});
     for (NSString *state in #{states}) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:#{input} state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:#{input}];
+        tokenizer.state = StateNamed(state);
 END
         if lastStartTag
           objc << <<-END

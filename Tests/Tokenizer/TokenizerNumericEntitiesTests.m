@@ -13,7 +13,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0000");
     }
 }
@@ -22,7 +23,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0001]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0001;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0001;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0001");
     }
 }
@@ -31,7 +33,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0002]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0002;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0002;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0002");
     }
 }
@@ -40,7 +43,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0003]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0003;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0003;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0003");
     }
 }
@@ -49,7 +53,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0004]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0004;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0004;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0004");
     }
 }
@@ -58,7 +63,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0005]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0005;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0005;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0005");
     }
 }
@@ -67,7 +73,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0006]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0006;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0006;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0006");
     }
 }
@@ -76,7 +83,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0007]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0007;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0007;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0007");
     }
 }
@@ -85,7 +93,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"\b"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0008;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0008;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0008");
     }
 }
@@ -94,7 +103,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x000b]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+000B");
     }
 }
@@ -103,7 +113,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x000e]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+000E");
     }
 }
@@ -112,7 +123,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x000f]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+000F");
     }
 }
@@ -121,7 +133,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0010]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0010;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0010;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0010");
     }
 }
@@ -130,7 +143,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0011]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0011;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0011;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0011");
     }
 }
@@ -139,7 +153,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0012]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0012;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0012;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0012");
     }
 }
@@ -148,7 +163,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0013]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0013;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0013;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0013");
     }
 }
@@ -157,7 +173,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0014]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0014;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0014;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0014");
     }
 }
@@ -166,7 +183,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0015]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0015;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0015;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0015");
     }
 }
@@ -175,7 +193,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0016]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0016;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0016;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0016");
     }
 }
@@ -184,7 +203,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0017]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0017;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0017;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0017");
     }
 }
@@ -193,7 +213,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0018]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0018;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0018;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0018");
     }
 }
@@ -202,7 +223,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0019]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0019;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0019;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+0019");
     }
 }
@@ -211,7 +233,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001a]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+001A");
     }
 }
@@ -220,7 +243,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001b]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+001B");
     }
 }
@@ -229,7 +253,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001c]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+001C");
     }
 }
@@ -238,7 +263,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001d]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+001D");
     }
 }
@@ -247,7 +273,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001e]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+001E");
     }
 }
@@ -256,7 +283,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x001f]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x001f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+001F");
     }
 }
@@ -265,7 +293,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @""]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+007F");
     }
 }
@@ -274,7 +303,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd800;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd800;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+D800");
     }
 }
@@ -283,7 +313,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+DFFF");
     }
 }
@@ -292,7 +323,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷐"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD0");
     }
 }
@@ -301,7 +333,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷑"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD1");
     }
 }
@@ -310,7 +343,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷒"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD2");
     }
 }
@@ -319,7 +353,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷓"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD3");
     }
 }
@@ -328,7 +363,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷔"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD4");
     }
 }
@@ -337,7 +373,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷕"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD5");
     }
 }
@@ -346,7 +383,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷖"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD6");
     }
 }
@@ -355,7 +393,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷗"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD7");
     }
 }
@@ -364,7 +403,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷘"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD8");
     }
 }
@@ -373,7 +413,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷙"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdd9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDD9");
     }
 }
@@ -382,7 +423,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷚"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdda;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdda;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDDA");
     }
 }
@@ -391,7 +433,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷛"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddb;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddb;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDDB");
     }
 }
@@ -400,7 +443,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷜"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddc;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddc;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDDC");
     }
 }
@@ -409,7 +453,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷝"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDDD");
     }
 }
@@ -418,7 +463,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷞"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdde;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdde;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDDE");
     }
 }
@@ -427,7 +473,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷟"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddf;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfddf;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDDF");
     }
 }
@@ -436,7 +483,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷠"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE0");
     }
 }
@@ -445,7 +493,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷡"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE1");
     }
 }
@@ -454,7 +503,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷢"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE2");
     }
 }
@@ -463,7 +513,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷣"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE3");
     }
 }
@@ -472,7 +523,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷤"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE4");
     }
 }
@@ -481,7 +533,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷥"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE5");
     }
 }
@@ -490,7 +543,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷦"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE6");
     }
 }
@@ -499,7 +553,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷧"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE7");
     }
 }
@@ -508,7 +563,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷨"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE8");
     }
 }
@@ -517,7 +573,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷩"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfde9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDE9");
     }
 }
@@ -526,7 +583,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷪"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdea;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdea;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDEA");
     }
 }
@@ -535,7 +593,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷫"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdeb;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdeb;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDEB");
     }
 }
@@ -544,7 +603,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷬"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdec;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdec;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDEC");
     }
 }
@@ -553,7 +613,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷭"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfded;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfded;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDED");
     }
 }
@@ -562,7 +623,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷮"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdee;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdee;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDEE");
     }
 }
@@ -571,7 +633,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"﷯"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdef;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdef;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FDEF");
     }
 }
@@ -580,7 +643,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"￾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FFFE");
     }
 }
@@ -589,7 +653,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"￿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FFFF");
     }
 }
@@ -598,7 +663,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"🿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+1FFFE");
     }
 }
@@ -607,7 +673,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"🿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+1FFFF");
     }
 }
@@ -616,7 +683,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𯿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+2FFFE");
     }
 }
@@ -625,7 +693,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𯿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+2FFFF");
     }
 }
@@ -634,7 +703,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𿿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+3FFFE");
     }
 }
@@ -643,7 +713,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"𿿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+3FFFF");
     }
 }
@@ -652,7 +723,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񏿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+4FFFE");
     }
 }
@@ -661,7 +733,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񏿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+4FFFF");
     }
 }
@@ -670,7 +743,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񟿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+5FFFE");
     }
 }
@@ -679,7 +753,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񟿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+5FFFF");
     }
 }
@@ -688,7 +763,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񯿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+6FFFE");
     }
 }
@@ -697,7 +773,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񯿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+6FFFF");
     }
 }
@@ -706,7 +783,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񿿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+7FFFE");
     }
 }
@@ -715,7 +793,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"񿿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+7FFFF");
     }
 }
@@ -724,7 +803,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򏿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+8FFFE");
     }
 }
@@ -733,7 +813,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򏿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+8FFFF");
     }
 }
@@ -742,7 +823,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򟿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+9FFFE");
     }
 }
@@ -751,7 +833,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򟿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+9FFFF");
     }
 }
@@ -760,7 +843,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򯿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xafffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xafffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+AFFFE");
     }
 }
@@ -769,7 +853,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򯿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xaffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xaffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+AFFFF");
     }
 }
@@ -778,7 +863,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򿿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbfffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbfffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+BFFFE");
     }
 }
@@ -787,7 +873,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"򿿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+BFFFF");
     }
 }
@@ -796,7 +883,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󏿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcfffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcfffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+CFFFE");
     }
 }
@@ -805,7 +893,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󏿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+CFFFF");
     }
 }
@@ -814,7 +903,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󟿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+DFFFE");
     }
 }
@@ -823,7 +913,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󟿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+DFFFF");
     }
 }
@@ -832,7 +923,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󯿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xefffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xefffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+EFFFE");
     }
 }
@@ -841,7 +933,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󯿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xeffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xeffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+EFFFF");
     }
 }
@@ -850,7 +943,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󿿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FFFFE");
     }
 }
@@ -859,7 +953,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"󿿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+FFFFF");
     }
 }
@@ -868,7 +963,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"􏿾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10fffe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10fffe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+10FFFE");
     }
 }
@@ -877,7 +973,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", @"􏿿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10ffff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10ffff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid numeric entity character U+10FFFF");
     }
 }
@@ -886,7 +983,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\t"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0009;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0009;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0009");
     }
 }
@@ -895,7 +993,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\n"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x000a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+000A");
     }
 }
@@ -904,7 +1003,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @" "]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0020;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0020;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0020");
     }
 }
@@ -913,7 +1013,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"!"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0021;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0021;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0021");
     }
 }
@@ -922,7 +1023,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\""]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0022;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0022;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0022");
     }
 }
@@ -931,7 +1033,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"#"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0023;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0023;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0023");
     }
 }
@@ -940,7 +1043,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"$"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0024;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0024;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0024");
     }
 }
@@ -949,7 +1053,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"%"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0025;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0025;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0025");
     }
 }
@@ -958,7 +1063,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"&"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0026;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0026;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0026");
     }
 }
@@ -967,7 +1073,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"'"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0027;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0027;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0027");
     }
 }
@@ -976,7 +1083,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"("]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0028;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0028;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0028");
     }
 }
@@ -985,7 +1093,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @")"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0029;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0029;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0029");
     }
 }
@@ -994,7 +1103,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"*"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+002A");
     }
 }
@@ -1003,7 +1113,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"+"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+002B");
     }
 }
@@ -1012,7 +1123,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @","]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+002C");
     }
 }
@@ -1021,7 +1133,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"-"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+002D");
     }
 }
@@ -1030,7 +1143,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"."]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+002E");
     }
 }
@@ -1039,7 +1153,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"/"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x002f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+002F");
     }
 }
@@ -1048,7 +1163,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"0"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0030;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0030;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0030");
     }
 }
@@ -1057,7 +1173,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"1"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0031;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0031;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0031");
     }
 }
@@ -1066,7 +1183,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"2"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0032;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0032;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0032");
     }
 }
@@ -1075,7 +1193,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"3"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0033;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0033;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0033");
     }
 }
@@ -1084,7 +1203,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"4"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0034;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0034;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0034");
     }
 }
@@ -1093,7 +1213,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"5"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0035;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0035;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0035");
     }
 }
@@ -1102,7 +1223,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"6"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0036;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0036;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0036");
     }
 }
@@ -1111,7 +1233,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"7"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0037;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0037;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0037");
     }
 }
@@ -1120,7 +1243,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"8"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0038;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0038;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0038");
     }
 }
@@ -1129,7 +1253,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"9"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0039;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0039;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0039");
     }
 }
@@ -1138,7 +1263,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @":"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+003A");
     }
 }
@@ -1147,7 +1273,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @";"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+003B");
     }
 }
@@ -1156,7 +1283,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"<"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+003C");
     }
 }
@@ -1165,7 +1293,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"="]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+003D");
     }
 }
@@ -1174,7 +1303,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @">"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+003E");
     }
 }
@@ -1183,7 +1313,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"?"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x003f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+003F");
     }
 }
@@ -1192,7 +1323,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"@"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0040;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0040;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0040");
     }
 }
@@ -1201,7 +1333,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"A"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0041;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0041;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0041");
     }
 }
@@ -1210,7 +1343,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"B"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0042;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0042;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0042");
     }
 }
@@ -1219,7 +1353,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"C"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0043;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0043;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0043");
     }
 }
@@ -1228,7 +1363,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"D"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0044;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0044;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0044");
     }
 }
@@ -1237,7 +1373,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"E"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0045;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0045;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0045");
     }
 }
@@ -1246,7 +1383,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"F"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0046;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0046;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0046");
     }
 }
@@ -1255,7 +1393,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"G"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0047;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0047;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0047");
     }
 }
@@ -1264,7 +1403,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"H"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0048;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0048;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0048");
     }
 }
@@ -1273,7 +1413,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"I"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0049;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0049;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0049");
     }
 }
@@ -1282,7 +1423,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"J"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+004A");
     }
 }
@@ -1291,7 +1433,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"K"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+004B");
     }
 }
@@ -1300,7 +1443,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"L"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+004C");
     }
 }
@@ -1309,7 +1453,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"M"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+004D");
     }
 }
@@ -1318,7 +1463,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"N"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+004E");
     }
 }
@@ -1327,7 +1473,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"O"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x004f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+004F");
     }
 }
@@ -1336,7 +1483,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"P"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0050;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0050;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0050");
     }
 }
@@ -1345,7 +1493,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Q"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0051;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0051;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0051");
     }
 }
@@ -1354,7 +1503,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"R"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0052;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0052;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0052");
     }
 }
@@ -1363,7 +1513,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"S"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0053;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0053;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0053");
     }
 }
@@ -1372,7 +1523,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"T"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0054;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0054;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0054");
     }
 }
@@ -1381,7 +1533,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"U"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0055;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0055;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0055");
     }
 }
@@ -1390,7 +1543,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"V"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0056;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0056;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0056");
     }
 }
@@ -1399,7 +1553,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"W"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0057;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0057;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0057");
     }
 }
@@ -1408,7 +1563,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"X"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0058;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0058;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0058");
     }
 }
@@ -1417,7 +1573,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Y"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0059;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0059;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0059");
     }
 }
@@ -1426,7 +1583,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Z"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+005A");
     }
 }
@@ -1435,7 +1593,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"["]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+005B");
     }
 }
@@ -1444,7 +1603,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\\"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+005C");
     }
 }
@@ -1453,7 +1613,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"]"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+005D");
     }
 }
@@ -1462,7 +1623,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"^"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+005E");
     }
 }
@@ -1471,7 +1633,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"_"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x005f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+005F");
     }
 }
@@ -1480,7 +1643,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"`"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0060;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0060;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0060");
     }
 }
@@ -1489,7 +1653,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"a"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0061;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0061;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0061");
     }
 }
@@ -1498,7 +1663,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"b"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0062;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0062;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0062");
     }
 }
@@ -1507,7 +1673,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"c"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0063;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0063;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0063");
     }
 }
@@ -1516,7 +1683,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"d"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0064;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0064;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0064");
     }
 }
@@ -1525,7 +1693,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"e"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0065;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0065;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0065");
     }
 }
@@ -1534,7 +1703,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"f"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0066;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0066;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0066");
     }
 }
@@ -1543,7 +1713,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"g"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0067;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0067;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0067");
     }
 }
@@ -1552,7 +1723,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"h"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0068;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0068;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0068");
     }
 }
@@ -1561,7 +1733,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"i"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0069;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0069;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0069");
     }
 }
@@ -1570,7 +1743,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"j"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+006A");
     }
 }
@@ -1579,7 +1753,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"k"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+006B");
     }
 }
@@ -1588,7 +1763,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"l"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+006C");
     }
 }
@@ -1597,7 +1773,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"m"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+006D");
     }
 }
@@ -1606,7 +1783,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"n"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+006E");
     }
 }
@@ -1615,7 +1793,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"o"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006f;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x006f;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+006F");
     }
 }
@@ -1624,7 +1803,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"p"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0070;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0070;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0070");
     }
 }
@@ -1633,7 +1813,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"q"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0071;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0071;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0071");
     }
 }
@@ -1642,7 +1823,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"r"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0072;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0072;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0072");
     }
 }
@@ -1651,7 +1833,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"s"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0073;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0073;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0073");
     }
 }
@@ -1660,7 +1843,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"t"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0074;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0074;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0074");
     }
 }
@@ -1669,7 +1853,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"u"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0075;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0075;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0075");
     }
 }
@@ -1678,7 +1863,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"v"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0076;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0076;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0076");
     }
 }
@@ -1687,7 +1873,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"w"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0077;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0077;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0077");
     }
 }
@@ -1696,7 +1883,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"x"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0078;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0078;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0078");
     }
 }
@@ -1705,7 +1893,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"y"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0079;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x0079;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+0079");
     }
 }
@@ -1714,7 +1903,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"z"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007a;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007a;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+007A");
     }
 }
@@ -1723,7 +1913,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"{"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007b;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007b;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+007B");
     }
 }
@@ -1732,7 +1923,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"|"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007c;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007c;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+007C");
     }
 }
@@ -1741,7 +1933,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"}"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007d;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007d;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+007D");
     }
 }
@@ -1750,7 +1943,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"~"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007e;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x007e;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+007E");
     }
 }
@@ -1759,7 +1953,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @" "]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A0");
     }
 }
@@ -1768,7 +1963,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¡"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A1");
     }
 }
@@ -1777,7 +1973,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¢"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A2");
     }
 }
@@ -1786,7 +1983,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"£"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A3");
     }
 }
@@ -1795,7 +1993,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¤"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A4");
     }
 }
@@ -1804,7 +2003,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¥"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A5");
     }
 }
@@ -1813,7 +2013,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¦"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A6");
     }
 }
@@ -1822,7 +2023,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"§"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A7");
     }
 }
@@ -1831,7 +2033,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¨"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A8");
     }
 }
@@ -1840,7 +2043,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"©"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00a9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00A9");
     }
 }
@@ -1849,7 +2053,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ª"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00aa;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00aa;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00AA");
     }
 }
@@ -1858,7 +2063,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"«"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ab;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ab;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00AB");
     }
 }
@@ -1867,7 +2073,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¬"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ac;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ac;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00AC");
     }
 }
@@ -1876,7 +2083,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"­"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ad;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ad;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00AD");
     }
 }
@@ -1885,7 +2093,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"®"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ae;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ae;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00AE");
     }
 }
@@ -1894,7 +2103,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¯"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00af;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00af;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00AF");
     }
 }
@@ -1903,7 +2113,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"°"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B0");
     }
 }
@@ -1912,7 +2123,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"±"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B1");
     }
 }
@@ -1921,7 +2133,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"²"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B2");
     }
 }
@@ -1930,7 +2143,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"³"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B3");
     }
 }
@@ -1939,7 +2153,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"´"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B4");
     }
 }
@@ -1948,7 +2163,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"µ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B5");
     }
 }
@@ -1957,7 +2173,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¶"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B6");
     }
 }
@@ -1966,7 +2183,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"·"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B7");
     }
 }
@@ -1975,7 +2193,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¸"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B8");
     }
 }
@@ -1984,7 +2203,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¹"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00b9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00B9");
     }
 }
@@ -1993,7 +2213,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"º"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ba;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ba;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00BA");
     }
 }
@@ -2002,7 +2223,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"»"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bb;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bb;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00BB");
     }
 }
@@ -2011,7 +2233,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¼"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bc;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bc;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00BC");
     }
 }
@@ -2020,7 +2243,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"½"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00BD");
     }
 }
@@ -2029,7 +2253,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¾"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00be;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00be;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00BE");
     }
 }
@@ -2038,7 +2263,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"¿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bf;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00bf;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00BF");
     }
 }
@@ -2047,7 +2273,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"À"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C0");
     }
 }
@@ -2056,7 +2283,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Á"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C1");
     }
 }
@@ -2065,7 +2293,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Â"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C2");
     }
 }
@@ -2074,7 +2303,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ã"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C3");
     }
 }
@@ -2083,7 +2313,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ä"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C4");
     }
 }
@@ -2092,7 +2323,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Å"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C5");
     }
 }
@@ -2101,7 +2333,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Æ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C6");
     }
 }
@@ -2110,7 +2343,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ç"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C7");
     }
 }
@@ -2119,7 +2353,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"È"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C8");
     }
 }
@@ -2128,7 +2363,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"É"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00c9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00C9");
     }
 }
@@ -2137,7 +2373,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ê"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ca;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ca;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00CA");
     }
 }
@@ -2146,7 +2383,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ë"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cb;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cb;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00CB");
     }
 }
@@ -2155,7 +2393,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ì"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cc;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cc;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00CC");
     }
 }
@@ -2164,7 +2403,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Í"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00CD");
     }
 }
@@ -2173,7 +2413,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Î"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ce;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ce;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00CE");
     }
 }
@@ -2182,7 +2423,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ï"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cf;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00cf;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00CF");
     }
 }
@@ -2191,7 +2433,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ð"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D0");
     }
 }
@@ -2200,7 +2443,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ñ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D1");
     }
 }
@@ -2209,7 +2453,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ò"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D2");
     }
 }
@@ -2218,7 +2463,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ó"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D3");
     }
 }
@@ -2227,7 +2473,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ô"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D4");
     }
 }
@@ -2236,7 +2483,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Õ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D5");
     }
 }
@@ -2245,7 +2493,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ö"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D6");
     }
 }
@@ -2254,7 +2503,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"×"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D7");
     }
 }
@@ -2263,7 +2513,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ø"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D8");
     }
 }
@@ -2272,7 +2523,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ù"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00d9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00D9");
     }
 }
@@ -2281,7 +2533,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ú"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00da;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00da;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00DA");
     }
 }
@@ -2290,7 +2543,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Û"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00db;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00db;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00DB");
     }
 }
@@ -2299,7 +2553,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ü"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00dc;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00dc;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00DC");
     }
 }
@@ -2308,7 +2563,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Ý"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00dd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00dd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00DD");
     }
 }
@@ -2317,7 +2573,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"Þ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00de;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00de;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00DE");
     }
 }
@@ -2326,7 +2583,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ß"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00df;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00df;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00DF");
     }
 }
@@ -2335,7 +2593,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"à"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E0");
     }
 }
@@ -2344,7 +2603,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"á"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E1");
     }
 }
@@ -2353,7 +2613,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"â"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E2");
     }
 }
@@ -2362,7 +2623,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ã"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E3");
     }
 }
@@ -2371,7 +2633,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ä"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E4");
     }
 }
@@ -2380,7 +2643,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"å"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E5");
     }
 }
@@ -2389,7 +2653,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"æ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E6");
     }
 }
@@ -2398,7 +2663,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ç"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E7");
     }
 }
@@ -2407,7 +2673,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"è"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E8");
     }
 }
@@ -2416,7 +2683,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"é"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00e9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00E9");
     }
 }
@@ -2425,7 +2693,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ê"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ea;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ea;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00EA");
     }
 }
@@ -2434,7 +2703,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ë"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00eb;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00eb;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00EB");
     }
 }
@@ -2443,7 +2713,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ì"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ec;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ec;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00EC");
     }
 }
@@ -2452,7 +2723,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"í"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ed;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ed;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00ED");
     }
 }
@@ -2461,7 +2733,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"î"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ee;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ee;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00EE");
     }
 }
@@ -2470,7 +2743,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ï"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ef;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ef;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00EF");
     }
 }
@@ -2479,7 +2753,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ð"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F0");
     }
 }
@@ -2488,7 +2763,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ñ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f1;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f1;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F1");
     }
 }
@@ -2497,7 +2773,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ò"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f2;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f2;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F2");
     }
 }
@@ -2506,7 +2783,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ó"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f3;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f3;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F3");
     }
 }
@@ -2515,7 +2793,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ô"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f4;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f4;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F4");
     }
 }
@@ -2524,7 +2803,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"õ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f5;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f5;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F5");
     }
 }
@@ -2533,7 +2813,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ö"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f6;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f6;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F6");
     }
 }
@@ -2542,7 +2823,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"÷"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f7;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f7;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F7");
     }
 }
@@ -2551,7 +2833,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ø"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f8;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f8;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F8");
     }
 }
@@ -2560,7 +2843,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ù"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f9;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00f9;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00F9");
     }
 }
@@ -2569,7 +2853,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ú"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fa;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fa;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00FA");
     }
 }
@@ -2578,7 +2863,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"û"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fb;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fb;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00FB");
     }
 }
@@ -2587,7 +2873,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ü"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fc;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fc;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00FC");
     }
 }
@@ -2596,7 +2883,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ý"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00FD");
     }
 }
@@ -2605,7 +2893,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"þ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fe;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00fe;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00FE");
     }
 }
@@ -2614,7 +2903,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ÿ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x00ff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+00FF");
     }
 }
@@ -2623,7 +2913,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"퟿"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd7ff;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd7ff;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+D7FF");
     }
 }
@@ -2632,7 +2923,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @""]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xe000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xe000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+E000");
     }
 }
@@ -2641,7 +2933,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"﷏"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdcf;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdcf;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+FDCF");
     }
 }
@@ -2650,7 +2943,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"ﷰ"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdf0;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfdf0;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+FDF0");
     }
 }
@@ -2659,7 +2953,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"�"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xfffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+FFFD");
     }
 }
@@ -2668,7 +2963,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"𐀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+10000");
     }
 }
@@ -2677,7 +2973,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"🿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x1fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+1FFFD");
     }
 }
@@ -2686,7 +2983,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"𠀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x20000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x20000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+20000");
     }
 }
@@ -2695,7 +2993,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"𯿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x2fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+2FFFD");
     }
 }
@@ -2704,7 +3003,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"𰀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x30000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x30000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+30000");
     }
 }
@@ -2713,7 +3013,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"𿿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x3fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+3FFFD");
     }
 }
@@ -2722,7 +3023,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񀀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x40000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x40000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+40000");
     }
 }
@@ -2731,7 +3033,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񏿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x4fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+4FFFD");
     }
 }
@@ -2740,7 +3043,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񐀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x50000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x50000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+50000");
     }
 }
@@ -2749,7 +3053,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񟿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x5fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+5FFFD");
     }
 }
@@ -2758,7 +3063,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񠀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x60000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x60000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+60000");
     }
 }
@@ -2767,7 +3073,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񯿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x6fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+6FFFD");
     }
 }
@@ -2776,7 +3083,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񰀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x70000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x70000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+70000");
     }
 }
@@ -2785,7 +3093,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"񿿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x7fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+7FFFD");
     }
 }
@@ -2794,7 +3103,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򀀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x80000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x80000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+80000");
     }
 }
@@ -2803,7 +3113,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򏿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x8fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+8FFFD");
     }
 }
@@ -2812,7 +3123,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򐀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x90000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x90000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+90000");
     }
 }
@@ -2821,7 +3133,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򟿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x9fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+9FFFD");
     }
 }
@@ -2830,7 +3143,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򠀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xa0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xa0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+A0000");
     }
 }
@@ -2839,7 +3153,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򯿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xafffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xafffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+AFFFD");
     }
 }
@@ -2848,7 +3163,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򰀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xb0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xb0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+B0000");
     }
 }
@@ -2857,7 +3173,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"򿿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbfffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xbfffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+BFFFD");
     }
 }
@@ -2866,7 +3183,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󀀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xc0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xc0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+C0000");
     }
 }
@@ -2875,7 +3193,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󏿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcfffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xcfffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+CFFFD");
     }
 }
@@ -2884,7 +3203,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󐀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xd0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+D0000");
     }
 }
@@ -2893,7 +3213,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󟿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xdfffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+DFFFD");
     }
 }
@@ -2902,7 +3223,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󠀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xe0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xe0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+E0000");
     }
 }
@@ -2911,7 +3233,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󯿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xefffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xefffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+EFFFD");
     }
 }
@@ -2920,7 +3243,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󰀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xf0000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xf0000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+F0000");
     }
 }
@@ -2929,7 +3253,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"󿿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#xffffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+FFFFD");
     }
 }
@@ -2938,7 +3263,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"􀀀"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x100000;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x100000;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+100000");
     }
 }
@@ -2947,7 +3273,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"􏿽"]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10fffd;" state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:@"&#x10fffd;"];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Valid numeric entity character U+10FFFD");
     }
 }

@@ -13,7 +13,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0xFFFD]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"%C", (unichar)0xDFFF] state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"%C", (unichar)0xDFFF]];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid Unicode character U+DFFF");
     }
 }
@@ -22,7 +23,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0xFFFD]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"%C", (unichar)0xD800] state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"%C", (unichar)0xD800]];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid Unicode character U+D800");
     }
 }
@@ -31,7 +33,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"a%C", (unichar)0xFFFD]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"a%C", (unichar)0xDFFF] state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"a%C", (unichar)0xDFFF]];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid Unicode character U+DFFF with valid preceding character");
     }
 }
@@ -40,7 +43,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@"ParseError", @[@"Character", [NSString stringWithFormat:@"%Ca", (unichar)0xFFFD]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"%Ca", (unichar)0xD800] state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"%Ca", (unichar)0xD800]];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"Invalid Unicode character U+D800 with valid following character");
     }
 }
@@ -49,7 +53,8 @@
 {
     NSArray *expectedTokens = ReifiedTokensForTestTokens(@[@[@"Character", @"\n"], @"ParseError", @[@"Character", [NSString stringWithFormat:@"%C", (unichar)0x0000]]]);
     for (NSString *state in @[@""]) {
-        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"\r%C", (unichar)0x0000] state:StateNamed(state)];
+        HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:[NSString stringWithFormat:@"\r%C", (unichar)0x0000]];
+        tokenizer.state = StateNamed(state);
         STAssertEqualObjects(tokenizer.allObjects, expectedTokens, @"%@", @"CR followed by U+0000");
     }
 }

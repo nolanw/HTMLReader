@@ -57,17 +57,10 @@
     _scanner = [NSScanner scannerWithString:string];
     _scanner.charactersToBeSkipped = nil;
     _scanner.caseSensitive = YES;
-    _state = HTMLTokenizerDataState;
+    self.state = HTMLTokenizerDataState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
     _reconsume = NSNotFound;
-    return self;
-}
-
-- (id)initWithString:(NSString *)string state:(HTMLTokenizerState)state
-{
-    if (!(self = [self initWithString:string])) return nil;
-    _state = state;
     return self;
 }
 
@@ -79,7 +72,7 @@
 - (void)resume
 {
     int currentInputCharacter;
-    switch (_state) {
+    switch (self.state) {
         case HTMLTokenizerDataState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '&':
@@ -996,7 +989,7 @@
                     } else {
                         [_currentAttribute appendLongCharacterToName:currentInputCharacter];
                     }
-                    _state = HTMLTokenizerAttributeNameState;
+                    [self switchToState:HTMLTokenizerAttributeNameState];
                     break;
             }
             break;
@@ -1462,7 +1455,7 @@
                     } else {
                         [_currentToken appendLongCharacterToName:currentInputCharacter];
                     }
-                    _state = HTMLTokenizerDOCTYPENameState;
+                    [self switchToState:HTMLTokenizerDOCTYPENameState];
                     break;
             }
             break;
@@ -1982,12 +1975,12 @@
 
 - (void)switchToState:(HTMLTokenizerState)state
 {
-    if (_state == HTMLTokenizerAttributeNameState) {
+    if (self.state == HTMLTokenizerAttributeNameState) {
         if ([_currentToken removeLastAttributeIfDuplicateName]) {
             [self emitParseError];
         }
     }
-    _state = state;
+    self.state = state;
 }
 
 - (void)reconsume:(int)character
