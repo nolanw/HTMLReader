@@ -7,6 +7,7 @@
 //
 
 #import "HTMLNode.h"
+#import "HTMLString.h"
 
 @implementation HTMLElementNode
 {
@@ -59,12 +60,26 @@
 @end
 
 @implementation HTMLTextNode
+{
+    NSMutableString *_data;
+}
 
 - (id)initWithData:(NSString *)data
 {
     if (!(self = [super init])) return nil;
-    _data = [data copy];
+    _data = [NSMutableString stringWithString:data];
     return self;
+}
+
+- (void)appendLongCharacter:(UTF32Char)character
+{
+    if (!_data) _data = [NSMutableString new];
+    AppendLongCharacter(_data, character);
+}
+
+- (NSString *)data
+{
+    return [_data copy];
 }
 
 @end

@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 {
     HTMLTokenizer *_tokenizer;
     HTMLInsertionMode _insertionMode;
+    HTMLInsertionMode _originalInsertionMode;
     HTMLElementNode *_context;
     NSMutableArray *_stackOfOpenElements;
     HTMLElementNode *_headElementPointer;
@@ -73,12 +74,12 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     return [_errors copy];
 }
 
-- (void)resume:(id)nextToken
+- (void)resume:(id)currentToken
 {
     switch (_insertionMode) {
         case HTMLInitialInsertionMode:
-            if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = nextToken;
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
                 switch (token.data) {
                     case '\t':
                     case '\n':
@@ -88,11 +89,11 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                         return;
                 }
             }
-            if ([nextToken isKindOfClass:[HTMLCommentToken class]]) {
-                HTMLCommentToken *token = nextToken;
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                HTMLCommentToken *token = currentToken;
                 [self insertComment:token.data inNode:_document];
-            } else if ([nextToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
-                HTMLDOCTYPEToken *token = nextToken;
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                HTMLDOCTYPEToken *token = currentToken;
                 if (DOCTYPEIsParseError(token)) {
                     [self addParseError];
                 }
@@ -105,13 +106,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self addParseError];
                 _document.quirksMode = HTMLQuirksMode;
                 [self switchInsertionMode:HTMLBeforeHtmlInsertionMode];
-                [self resume:nextToken];
+                [self resume:currentToken];
             }
             break;
             
         case HTMLBeforeHtmlInsertionMode:
-            if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = nextToken;
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
                 switch (token.data) {
                     case '\t':
                     case '\n':
@@ -121,24 +122,27 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                         return;
                 }
             }
-            if ([nextToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+            if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
-            } else if ([nextToken isKindOfClass:[HTMLCommentToken class]]) {
-                HTMLCommentToken *token = nextToken;
+            } else if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                HTMLCommentToken *token = currentToken;
                 [self insertComment:token.data inNode:_document];
-            } else if ([nextToken isKindOfClass:[HTMLStartTagToken class]] &&
-                       [[nextToken tagName] isEqualToString:@"html"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
             {
-                HTMLElementNode *html = [self createElementForToken:nextToken];
+                if ([currentToken selfClosingFlag]) {
+                    [self addParseError];
+                }
+                HTMLElementNode *html = [self createElementForToken:currentToken];
                 [_document addChildNode:html];
                 [_stackOfOpenElements addObject:html];
                 [self switchInsertionMode:HTMLBeforeHeadInsertionMode];
-            } else if ([nextToken isKindOfClass:[HTMLEndTagToken class]] &&
-                       !([[nextToken tagName] isEqualToString:@"head"] ||
-                         [[nextToken tagName] isEqualToString:@"body"] ||
-                         [[nextToken tagName] isEqualToString:@"html"] ||
-                         [[nextToken tagName] isEqualToString:@"br"]))
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       !([[currentToken tagName] isEqualToString:@"head"] ||
+                         [[currentToken tagName] isEqualToString:@"body"] ||
+                         [[currentToken tagName] isEqualToString:@"html"] ||
+                         [[currentToken tagName] isEqualToString:@"br"]))
             {
                 [self addParseError];
                 return;
@@ -147,13 +151,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [_document addChildNode:html];
                 [_stackOfOpenElements addObject:html];
                 [self switchInsertionMode:HTMLBeforeHeadInsertionMode];
-                [self resume:nextToken];
+                [self resume:currentToken];
             }
             break;
             
         case HTMLBeforeHeadInsertionMode:
-            if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = nextToken;
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
                 switch (token.data) {
                     case '\t':
                     case '\n':
@@ -163,47 +167,134 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                         return;
                 }
             }
-            if ([nextToken isKindOfClass:[HTMLCommentToken class]]) {
-                HTMLCommentToken *token = nextToken;
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                HTMLCommentToken *token = currentToken;
                 [self insertComment:token.data inNode:nil];
-            } else if ([nextToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
-            } else if ([nextToken isKindOfClass:[HTMLStartTagToken class]] &&
-                       [[nextToken tagName] isEqualToString:@"html"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
             {
-                HTMLStartTagToken *token = nextToken;
-                [self addParseError];
-                HTMLElementNode *topElement = _stackOfOpenElements[0];
-                for (HTMLAttribute *attribute in token.attributes) {
-                    if (![[topElement.attributes valueForKey:@"name"] containsObject:attribute.name]) {
-                        [topElement addAttribute:attribute];
-                    }
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"head"])
+            {
+                if ([currentToken selfClosingFlag]) {
+                    [self addParseError];
                 }
-            } else if ([nextToken isKindOfClass:[HTMLStartTagToken class]] &&
-                       [[nextToken tagName] isEqualToString:@"head"])
-            {
-                HTMLElementNode *head = [self insertElementForToken:nextToken];
+                HTMLElementNode *head = [self insertElementForToken:currentToken];
                 _headElementPointer = head;
                 [self switchInsertionMode:HTMLInHeadInsertionMode];
-            } else if ([nextToken isKindOfClass:[HTMLEndTagToken class]] &&
-                       !([[nextToken tagName] isEqualToString:@"head"] ||
-                         [[nextToken tagName] isEqualToString:@"body"] ||
-                         [[nextToken tagName] isEqualToString:@"html"] ||
-                         [[nextToken tagName] isEqualToString:@"br"]))
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       !([[currentToken tagName] isEqualToString:@"head"] ||
+                         [[currentToken tagName] isEqualToString:@"body"] ||
+                         [[currentToken tagName] isEqualToString:@"html"] ||
+                         [[currentToken tagName] isEqualToString:@"br"]))
             {
                 [self addParseError];
                 return;
             } else {
+                if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [currentToken selfClosingFlag]) {
+                    [self addParseError];
+                }
                 [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"head"]];
                 HTMLElementNode *head = [[HTMLElementNode alloc] initWithTagName:@"head"];
                 _headElementPointer = head;
                 [self switchInsertionMode:HTMLInHeadInsertionMode];
-                [self resume:nextToken];
+                [self resume:currentToken];
             }
             break;
             
         case HTMLInHeadInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                switch (token.data) {
+                    case '\t':
+                    case '\n':
+                    case '\f':
+                    case '\r':
+                    case ' ':
+                        [self insertCharacter:token.data];
+                        return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       ([[currentToken tagName] isEqualToString:@"base"] ||
+                        [[currentToken tagName] isEqualToString:@"basefont"] ||
+                        [[currentToken tagName] isEqualToString:@"bgsound"] ||
+                        [[currentToken tagName] isEqualToString:@"link"]))
+            {
+                [self insertElementForToken:currentToken];
+                [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"meta"])
+            {
+                [self insertElementForToken:currentToken];
+                [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"title"])
+            {
+                [self insertElementForToken:currentToken];
+                _tokenizer.state = HTMLTokenizerRCDATAState;
+                _originalInsertionMode = _insertionMode;
+                [self switchInsertionMode:HTMLTextInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       ([[currentToken tagName] isEqualToString:@"noframes"] ||
+                        [[currentToken tagName] isEqualToString:@"style"]))
+            {
+                [self insertElementForToken:currentToken];
+                _tokenizer.state = HTMLTokenizerRAWTEXTState;
+                _originalInsertionMode = _insertionMode;
+                [self switchInsertionMode:HTMLTextInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"noscript"])
+            {
+                [self insertElementForToken:currentToken];
+                [self switchInsertionMode:HTMLInHeadNoscriptInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"script"])
+            {
+                id adjustedInsertionLocation = [self appropriatePlaceForInsertingANode];
+                HTMLElementNode *script = [self createElementForToken:currentToken];
+                [adjustedInsertionLocation addChildNode:script];
+                [_stackOfOpenElements addObject:script];
+                _tokenizer.state = HTMLTokenizerScriptDataState;
+                _originalInsertionMode = _insertionMode;
+                [self switchInsertionMode:HTMLTextInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"head"])
+            {
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLAfterHeadInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"head"])
+            {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       !([[currentToken tagName] isEqualToString:@"body"] ||
+                         [[currentToken tagName] isEqualToString:@"html"] ||
+                         [[currentToken tagName] isEqualToString:@"br"]))
+            {
+                [self addParseError];
+                return;
+            } else {
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLAfterHeadInsertionMode];
+                [self resume:currentToken];
+            }
+            break;
+            
         case HTMLInHeadNoscriptInsertionMode:
         case HTMLAfterHeadInsertionMode:
         case HTMLInBodyInsertionMode:
@@ -260,6 +351,30 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [adjustedInsertionLocation addChildNode:element];
     [_stackOfOpenElements addObject:element];
     return element;
+}
+
+- (void)insertCharacter:(UTF32Char)character
+{
+    id adjustedInsertionLocation = [self appropriatePlaceForInsertingANode];
+    if ([adjustedInsertionLocation isKindOfClass:[HTMLDocument class]]) return;
+    HTMLTextNode *textNode;
+    if ([[[adjustedInsertionLocation childNodes] lastObject] isKindOfClass:[HTMLTextNode class]]) {
+        textNode = [[adjustedInsertionLocation childNodes] lastObject];
+    } else {
+        textNode = [HTMLTextNode new];
+        [adjustedInsertionLocation addChildNode:textNode];
+    }
+    [textNode appendLongCharacter:character];
+}
+
+- (void)processToken:(id)token usingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
+{
+    HTMLInsertionMode oldMode = _insertionMode;
+    _insertionMode = insertionMode;
+    [self resume:token];
+    if (_insertionMode == insertionMode) {
+        _insertionMode = oldMode;
+    }
 }
 
 static BOOL DOCTYPEIsParseError(HTMLDOCTYPEToken *t)

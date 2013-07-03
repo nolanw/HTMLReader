@@ -41,7 +41,7 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
             if (![scanner scanUpToString:@"\"" intoString:&data]) {
                 data = nil;
             }
-            node = [[HTMLTextNode alloc] initWithData:data];
+            node = [[HTMLTextNode alloc] initWithData:data ?: @""];
         } else if ([scanner scanString:@"<!-- " intoString:nil]) {
             NSString *data;
             if (![scanner scanUpToString:@" -->" intoString:&data]) {

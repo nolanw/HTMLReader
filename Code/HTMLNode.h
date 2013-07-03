@@ -32,6 +32,8 @@
 
 - (id)initWithData:(NSString *)data;
 
+- (void)appendLongCharacter:(UTF32Char)character;
+
 @property (readonly, nonatomic) NSString *data;
 
 @end
