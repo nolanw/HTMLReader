@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "HTMLDocument.h"
-#import "HTMLTreeConstructor.h"
+#import "HTMLNode.h"
 
+// The tree construction stage of parsing HTML.
 @interface HTMLParser : NSObject
 
 // Designated initializer.

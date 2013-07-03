@@ -55,7 +55,6 @@
 		1C25D402177BB8C400F7C10D /* TreeGenerationTricky01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D4177BB8C400F7C10D /* TreeGenerationTricky01Tests.m */; };
 		1C25D403177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D5177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m */; };
 		1C25D404177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */; };
-		1C25D407177BB93700F7C10D /* HTMLTreeConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D406177BB93700F7C10D /* HTMLTreeConstructor.m */; };
 		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
 		1C640EA5176BCA0000919E5C /* TokenizerContentModelFlagsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */; };
 		1C640EA6176BCA0000919E5C /* TokenizerDomjsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */; };
@@ -77,6 +76,9 @@
 		1C9C3ECF176BC53900E982C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EBC176BC53900E982C9 /* Foundation.framework */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
 		1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */; };
+		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
+		1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E61783A95000754A8F /* HTMLAttribute.m */; };
+		1CACE9EA1783AA6600754A8F /* HTMLUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLUnicode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,8 +154,6 @@
 		1C25D3D4177BB8C400F7C10D /* TreeGenerationTricky01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationTricky01Tests.m; sourceTree = "<group>"; };
 		1C25D3D5177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationWebkit01Tests.m; sourceTree = "<group>"; };
 		1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationWebkit02Tests.m; sourceTree = "<group>"; };
-		1C25D405177BB93700F7C10D /* HTMLTreeConstructor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeConstructor.h; sourceTree = "<group>"; };
-		1C25D406177BB93700F7C10D /* HTMLTreeConstructor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeConstructor.m; sourceTree = "<group>"; };
 		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		1C25D40917837A8A00F7C10D /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerContentModelFlagsTests.m; sourceTree = "<group>"; };
@@ -180,6 +180,12 @@
 		1C9C3ED5176BC53900E982C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C9C789A176E35F900AFF16B /* HTMLTokenizerTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerTestUtilities.h; sourceTree = "<group>"; };
 		1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTestUtilities.m; sourceTree = "<group>"; };
+		1CACE9E21783A92F00754A8F /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		1CACE9E31783A92F00754A8F /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		1CACE9E51783A95000754A8F /* HTMLAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAttribute.h; sourceTree = "<group>"; };
+		1CACE9E61783A95000754A8F /* HTMLAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAttribute.m; sourceTree = "<group>"; };
+		1CACE9E81783AA6600754A8F /* HTMLUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLUnicode.h; sourceTree = "<group>"; };
+		1CACE9E91783AA6600754A8F /* HTMLUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLUnicode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,14 +320,18 @@
 		1C9C3EBE176BC53900E982C9 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				1CACE9E51783A95000754A8F /* HTMLAttribute.h */,
+				1CACE9E61783A95000754A8F /* HTMLAttribute.m */,
 				1C25D3A6177BB78600F7C10D /* HTMLDocument.h */,
 				1C25D3A7177BB78600F7C10D /* HTMLDocument.m */,
+				1CACE9E21783A92F00754A8F /* HTMLNode.h */,
+				1CACE9E31783A92F00754A8F /* HTMLNode.m */,
 				1C25D40817837A8A00F7C10D /* HTMLParser.h */,
 				1C25D40917837A8A00F7C10D /* HTMLParser.m */,
 				1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */,
 				1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */,
-				1C25D405177BB93700F7C10D /* HTMLTreeConstructor.h */,
-				1C25D406177BB93700F7C10D /* HTMLTreeConstructor.m */,
+				1CACE9E81783AA6600754A8F /* HTMLUnicode.h */,
+				1CACE9E91783AA6600754A8F /* HTMLUnicode.m */,
 				1C9C3EBF176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Code;
@@ -453,8 +463,10 @@
 			files = (
 				1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */,
 				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,
-				1C25D407177BB93700F7C10D /* HTMLTreeConstructor.m in Sources */,
 				1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */,
+				1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */,
+				1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */,
+				1CACE9EA1783AA6600754A8F /* HTMLUnicode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

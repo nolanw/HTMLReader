@@ -1,25 +1,15 @@
 //
-//  HTMLTreeConstructor.h
+//  HTMLNode.h
 //  HTMLReader
 //
-//  Created by Nolan Waite on 2013-06-26.
+//  Created by Nolan Waite on 2013-07-02.
 //  Copyright (c) 2013 Nolan Waite. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "HTMLDocument.h"
-#import "HTMLTokenizer.h"
-@class HTMLElementNode;
+#import "HTMLAttribute.h"
 
-@interface HTMLTreeConstructor : NSObject
-
-- (id)initWithDocument:(HTMLDocument *)document context:(HTMLElementNode *)context;
-
-@property (readonly, nonatomic) HTMLDocument *document;
-
-- (void)resume:(id)token;
-
-@end
+// Property names for these classes follow the DOM specification and do not attempt to follow Objective-C conventions.
 
 @interface HTMLElementNode : NSObject
 
@@ -55,5 +45,11 @@
 @end
 
 @interface HTMLDocumentTypeNode : NSObject
+
+- (id)initWithName:(NSString *)name publicId:(NSString *)publicId systemId:(NSString *)systemId;
+
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) NSString *publicId;
+@property (readonly, nonatomic) NSString *systemId;
 
 @end

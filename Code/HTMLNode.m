@@ -1,61 +1,12 @@
 //
-//  HTMLTreeConstructor.m
+//  HTMLNode.m
 //  HTMLReader
 //
-//  Created by Nolan Waite on 2013-06-26.
+//  Created by Nolan Waite on 2013-07-02.
 //  Copyright (c) 2013 Nolan Waite. All rights reserved.
 //
 
-#import "HTMLTreeConstructor.h"
-
-typedef NS_ENUM(NSInteger, HTMLInsertionMode)
-{
-    HTMLInitialInsertionMode,
-    HTMLBeforeHtmlInsertionMode,
-    HTMLBeforeheadInsertionMode,
-    HTMLInHeadInsertionMode,
-    HTMLInHeadNoscriptInsertionMode,
-    HTMLAfterHeadInsertionMode,
-    HTMLInBodyInsertionMode,
-    HTMLTextInsertionMode,
-    HTMLInTableInsertionMode,
-    HTMLInTableTextInsertionMode,
-    HTMLInCaptionInsertionMode,
-    HTMLInColumnGroupInsertionMode,
-    HTMLInTableBodyInsertionMode,
-    HTMLInRowInsertionMode,
-    HTMLInCellInsertionMode,
-    HTMLInSelectInsertionMode,
-    HTMLInSelectInTableInsertionMode,
-    HTMLInTemplateInsertionMode,
-    HTMLAfterBodyInsertionMode,
-    HTMLInFramesetInsertionMode,
-    HTMLAfterFramesetInsertionMode,
-    HTMLAfterAfterBodyInsertionMode,
-    HTMLAfterAfterFramesetInsertionMode,
-};
-
-@implementation HTMLTreeConstructor
-{
-    HTMLInsertionMode _insertionMode;
-    HTMLElementNode *_context;
-}
-
-- (id)initWithDocument:(HTMLDocument *)document context:(HTMLElementNode *)context
-{
-    if (!(self = [super init])) return nil;
-    _document = document;
-    _insertionMode = HTMLInitialInsertionMode;
-    _context = context;
-    return self;
-}
-
-- (void)resume:(id)token
-{
-    (void)token;
-}
-
-@end
+#import "HTMLNode.h"
 
 @implementation HTMLElementNode
 {
@@ -130,5 +81,14 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 @end
 
 @implementation HTMLDocumentTypeNode
+
+- (id)initWithName:(NSString *)name publicId:(NSString *)publicId systemId:(NSString *)systemId
+{
+    if (!(self = [super init])) return nil;
+    _name = [name copy];
+    _publicId = [publicId copy];
+    _systemId = [systemId copy];
+    return self;
+}
 
 @end

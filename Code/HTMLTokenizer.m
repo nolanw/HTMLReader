@@ -7,39 +7,7 @@
 //
 
 #import "HTMLTokenizer.h"
-
-// unichar is defined as a "type for Unicode characters", but it is actually a type for UTF-16 code units. We need a type for a Unicode code *point*.
-typedef uint32_t unicodepoint;
-
-// UTF-16 encodes code points U+10000 to U+10FFFF using surrogate pairs. NSString has few affordances for this, so we do much of it ourselves. These are some utility functions.
-
-static BOOL RequiresSurrogatePair(unicodepoint codepoint)
-{
-    return codepoint >= 0x10000 && codepoint <= 0x10FFFF;
-}
-
-static unichar LeadSurrogate(unicodepoint codepoint)
-{
-    return ((codepoint - 0x10000) >> 10) + 0xD800;
-}
-
-static unichar TrailSurrogate(unicodepoint codepoint)
-{
-    return ((codepoint - 0x10000) & 0x3FF) + 0xDC00;
-}
-
-// NSString has a format specifier for unichar, but nothing for a Unicode code point.
-// (While this would be a useful method to put in a category on NSMutableString, libraries should not pollute Foundation classes (even) with (prefixed) methods.)
-static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
-{
-    if (RequiresSurrogatePair(codepoint)) {
-        [self appendFormat:@"%C%C", LeadSurrogate(codepoint), TrailSurrogate(codepoint)];
-    } else if (codepoint <= 0xFFFF) {
-        [self appendFormat:@"%C", (unichar)codepoint];
-    } else {
-        [self appendString:@"\uFFFD"];
-    }
-}
+#import "HTMLAttribute.h"
 
 @interface HTMLTagToken ()
 
@@ -47,14 +15,6 @@ static void AppendCodePoint(NSMutableString *self, unicodepoint codepoint)
 
 - (void)addNewAttribute;
 - (BOOL)removeLastAttributeIfDuplicateName;
-
-@end
-
-@interface HTMLAttribute ()
-
-- (void)appendCodePointToName:(unicodepoint)codepoint;
-- (void)appendCodePointToValue:(unicodepoint)codepoint;
-- (void)appendStringToValue:(NSString *)string;
 
 @end
 
@@ -4674,79 +4634,6 @@ static const struct {
 - (NSUInteger)hash
 {
     return self.tagName.hash + self.attributes.hash;
-}
-
-@end
-
-@implementation HTMLAttribute
-{
-    NSMutableString *_name;
-    NSMutableString *_value;
-}
-
-- (id)init
-{
-    if (!(self = [super init])) return nil;
-    _name = [NSMutableString new];
-    _value = [NSMutableString new];
-    return self;
-}
-
-- (id)initWithName:(NSString *)name value:(NSString *)value
-{
-    if (!(self = [self init])) return nil;
-    [_name setString:name];
-    [_value setString:value];
-    return self;
-}
-
-- (NSString *)name
-{
-    return [_name copy];;
-}
-
-- (NSString *)value
-{
-    return [_value copy];
-}
-
-- (void)setValue:(NSString *)value
-{
-    [_value setString:value];
-}
-
-- (void)appendCodePointToName:(unicodepoint)codepoint
-{
-    AppendCodePoint(_name, codepoint);
-}
-
-- (void)appendCodePointToValue:(unicodepoint)codepoint
-{
-    AppendCodePoint(_value, codepoint);
-}
-
-- (void)appendStringToValue:(NSString *)string
-{
-    [_value appendString:string];
-}
-
-- (NSString *)keyValueDescription
-{
-    return [NSString stringWithFormat:@"%@='%@'", self.name, self.value];
-}
-
-#pragma mark NSObject
-
-- (BOOL)isEqual:(HTMLAttribute *)other
-{
-    return ([other isKindOfClass:[HTMLAttribute class]] &&
-            [other.name isEqualToString:self.name] &&
-            [other.value isEqualToString:self.value]);
-}
-
-- (NSUInteger)hash
-{
-    return self.name.hash + self.value.hash;
 }
 
 @end

@@ -80,6 +80,7 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
     HTMLTokenizerCDATASectionState,
 };
 
+// The tokenization stage of parsing HTML.
 @interface HTMLTokenizer : NSEnumerator
 
 // Designated initializer.
@@ -106,16 +107,6 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 @property (readonly, nonatomic) NSString *tagName;
 @property (nonatomic) BOOL selfClosingFlag;
 @property (readonly, nonatomic) NSArray *attributes;
-
-@end
-
-@interface HTMLAttribute : NSObject
-
-// Designated initializer.
-- (id)initWithName:(NSString *)name value:(NSString *)value;
-
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSString *value;
 
 @end
 

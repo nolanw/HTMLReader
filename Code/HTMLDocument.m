@@ -7,19 +7,33 @@
 //
 
 #import "HTMLDocument.h"
-#import "HTMLTreeConstructor.h"
 
 @implementation HTMLDocument
-
-- (id)initWithString:(NSString *)string
 {
-    return [self initWithString:string context:nil];
+    NSMutableArray *_childNodes;
 }
 
-- (id)initWithString:(NSString *)string context:(HTMLElementNode *)context
+- (id)init
 {
-    (void)string, (void)context;
-    return nil;
+    if (!(self = [super init])) return nil;
+    _childNodes = [NSMutableArray new];
+    return self;
+}
+
+- (NSArray *)childNodes
+{
+    return [_childNodes copy];
+}
+
+- (void)addChildNode:(id)node
+{
+    [_childNodes addObject:node];
+}
+
+- (void)setDoctype:(HTMLDocumentTypeNode *)doctype
+{
+    _doctype = doctype;
+    [_childNodes addObject:doctype];
 }
 
 @end
