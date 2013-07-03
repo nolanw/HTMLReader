@@ -7,6 +7,7 @@
 //
 
 #import "HTMLAttribute.h"
+#import "HTMLString.h"
 
 @implementation HTMLAttribute
 {
@@ -45,14 +46,14 @@
     [_value setString:value];
 }
 
-- (void)appendCodePointToName:(unicodepoint)codepoint
+- (void)appendLongCharacterToName:(UTF32Char)character
 {
-    AppendCodePoint(_name, codepoint);
+    AppendLongCharacter(_name, character);
 }
 
-- (void)appendCodePointToValue:(unicodepoint)codepoint
+- (void)appendLongCharacterToValue:(UTF32Char)character
 {
-    AppendCodePoint(_value, codepoint);
+    AppendLongCharacter(_value, character);
 }
 
 - (void)appendStringToValue:(NSString *)string

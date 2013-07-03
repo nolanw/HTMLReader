@@ -78,7 +78,7 @@
 		1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */; };
 		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
 		1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E61783A95000754A8F /* HTMLAttribute.m */; };
-		1CACE9EA1783AA6600754A8F /* HTMLUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLUnicode.m */; };
+		1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,8 +184,8 @@
 		1CACE9E31783A92F00754A8F /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
 		1CACE9E51783A95000754A8F /* HTMLAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAttribute.h; sourceTree = "<group>"; };
 		1CACE9E61783A95000754A8F /* HTMLAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAttribute.m; sourceTree = "<group>"; };
-		1CACE9E81783AA6600754A8F /* HTMLUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLUnicode.h; sourceTree = "<group>"; };
-		1CACE9E91783AA6600754A8F /* HTMLUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLUnicode.m; sourceTree = "<group>"; };
+		1CACE9E81783AA6600754A8F /* HTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLString.h; sourceTree = "<group>"; };
+		1CACE9E91783AA6600754A8F /* HTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLString.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,8 +330,8 @@
 				1C25D40917837A8A00F7C10D /* HTMLParser.m */,
 				1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */,
 				1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */,
-				1CACE9E81783AA6600754A8F /* HTMLUnicode.h */,
-				1CACE9E91783AA6600754A8F /* HTMLUnicode.m */,
+				1CACE9E81783AA6600754A8F /* HTMLString.h */,
+				1CACE9E91783AA6600754A8F /* HTMLString.m */,
 				1C9C3EBF176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Code;
@@ -466,7 +466,7 @@
 				1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */,
 				1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */,
 				1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */,
-				1CACE9EA1783AA6600754A8F /* HTMLUnicode.m in Sources */,
+				1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

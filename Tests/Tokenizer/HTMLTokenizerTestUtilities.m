@@ -7,6 +7,7 @@
 //
 
 #import "HTMLTokenizer.h"
+#import "HTMLString.h"
 
 static id TokenForTest(id test)
 {
@@ -15,7 +16,11 @@ static id TokenForTest(id test)
     }
     NSString *tokenType = test[0];
     if ([tokenType isEqualToString:@"Character"]) {
-        return [[HTMLCharacterToken alloc] initWithData:test[1]];
+        NSMutableArray *tokens = [NSMutableArray new];
+        EnumerateLongCharacters(test[1], ^(UTF32Char character) {
+            [tokens addObject:[[HTMLCharacterToken alloc] initWithData:character]];
+        });
+        return tokens;
     } else if ([tokenType isEqualToString:@"Comment"]) {
         return [[HTMLCommentToken alloc] initWithData:test[1]];
     } else if ([tokenType isEqualToString:@"StartTag"]) {
@@ -44,7 +49,12 @@ NSArray * ReifiedTokensForTestTokens(NSArray *testTokens)
 {
     NSMutableArray *tokens = [NSMutableArray new];
     for (id test in testTokens) {
-        [tokens addObject:TokenForTest(test)];
+        id token = TokenForTest(test);
+        if ([token isKindOfClass:[NSArray class]]) {
+            [tokens addObjectsFromArray:token];
+        } else {
+            [tokens addObject:token];
+        }
     }
     return tokens;
 }

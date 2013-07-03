@@ -8,10 +8,11 @@
 
 #import "HTMLTokenizer.h"
 #import "HTMLAttribute.h"
+#import "HTMLString.h"
 
 @interface HTMLTagToken ()
 
-- (void)appendCodePointToTagName:(unicodepoint)codepoint;
+- (void)appendLongCharacterToTagName:(UTF32Char)character;
 
 - (void)addNewAttribute;
 - (BOOL)removeLastAttributeIfDuplicateName;
@@ -20,16 +21,16 @@
 
 @interface HTMLDOCTYPEToken ()
 
-- (void)appendCodePointToName:(unicodepoint)codepoint;
-- (void)appendCodePointToPublicIdentifier:(unicodepoint)codepoint;
-- (void)appendCodePointToSystemIdentifier:(unicodepoint)codepoint;
+- (void)appendLongCharacterToName:(UTF32Char)character;
+- (void)appendLongCharacterToPublicIdentifier:(UTF32Char)character;
+- (void)appendLongCharacterToSystemIdentifier:(UTF32Char)character;
 
 @end
 
 @interface HTMLCommentToken ()
 
 - (void)appendString:(NSString *)string;
-- (void)appendCodePoint:(unicodepoint)codepoint;
+- (void)appendLongCharacter:(UTF32Char)character;
 
 @end
 
@@ -89,13 +90,13 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
                 case EOF:
-                    [self done];
+                    _done = YES;
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -105,9 +106,9 @@
             _additionalAllowedCharacter = NSNotFound;
             NSString *data = [self attemptToConsumeCharacterReference];
             if (data) {
-                [self emitCharacterTokenWithString:data];
+                [self emitCharacterTokensWithString:data];
             } else {
-                [self emitCharacterTokenWithCodePoint:'&'];
+                [self emitCharacterToken:'&'];
             }
             break;
         }
@@ -122,13 +123,13 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self done];
+                    _done = YES;
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -138,9 +139,9 @@
             _additionalAllowedCharacter = NSNotFound;
             NSString *data = [self attemptToConsumeCharacterReference];
             if (data) {
-                [self emitCharacterTokenWithString:data];
+                [self emitCharacterTokensWithString:data];
             } else {
-                [self emitCharacterTokenWithCodePoint:'&'];
+                [self emitCharacterToken:'&'];
             }
             break;
         }
@@ -152,13 +153,13 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self done];
+                    _done = YES;
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -170,13 +171,13 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self done];
+                    _done = YES;
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -185,13 +186,13 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self done];
+                    _done = YES;
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -213,12 +214,12 @@
                     if (isupper(currentInputCharacter) || islower(currentInputCharacter)) {
                         _currentToken = [HTMLStartTagToken new];
                         unichar toAppend = currentInputCharacter + (isupper(currentInputCharacter) ? 0x0020 : 0);
-                        [_currentToken appendCodePointToTagName:toAppend];
+                        [_currentToken appendLongCharacterToTagName:toAppend];
                         [self switchToState:HTMLTokenizerTagNameState];
                     } else {
                         [self emitParseError];
                         [self switchToState:HTMLTokenizerDataState];
-                        [self emitCharacterTokenWithCodePoint:'<'];
+                        [self emitCharacterToken:'<'];
                         [self reconsume:currentInputCharacter];
                     }
                     break;
@@ -234,14 +235,15 @@
                 case EOF:
                     [self emitParseError];
                     [self switchToState:HTMLTokenizerDataState];
-                    [self emitCharacterTokenWithString:@"</"];
+                    [self emitCharacterToken:'<'];
+                    [self emitCharacterToken:'/'];
                     [self reconsume:currentInputCharacter];
                     break;
                 default:
                     if (isupper(currentInputCharacter) || islower(currentInputCharacter)) {
                         _currentToken = [HTMLEndTagToken new];
                         unichar toAppend = currentInputCharacter + (isupper(currentInputCharacter) ? 0x0020 : 0);
-                        [_currentToken appendCodePointToTagName:toAppend];
+                        [_currentToken appendLongCharacterToTagName:toAppend];
                         [self switchToState:HTMLTokenizerTagNameState];
                     } else {
                         [self emitParseError];
@@ -270,7 +272,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePointToTagName:0xFFFD];
+                    [_currentToken appendLongCharacterToTagName:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -278,9 +280,9 @@
                     break;
                 default:
                     if (isupper(currentInputCharacter)) {
-                        [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
+                        [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
                     } else {
-                        [_currentToken appendCodePointToTagName:currentInputCharacter];
+                        [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                     }
                     break;
             }
@@ -294,7 +296,7 @@
                     break;
                 default:
                     [self switchToState:HTMLTokenizerRCDATAState];
-                    [self emitCharacterTokenWithCodePoint:'<'];
+                    [self emitCharacterToken:'<'];
                     [self reconsume:currentInputCharacter];
                     break;
             }
@@ -303,17 +305,18 @@
         case HTMLTokenizerRCDATAEndTagOpenState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerRCDATAEndTagNameState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerRCDATAEndTagNameState];
             } else {
                 [self switchToState:HTMLTokenizerRCDATAState];
-                [self emitCharacterTokenWithString:@"</"];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
@@ -344,15 +347,16 @@
                     break;
             }
             if (isupper(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else if (islower(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
                 [self switchToState:HTMLTokenizerRCDATAState];
-                [self emitCharacterTokenWithString:@"</"];
-                [self emitCharacterTokenWithString:_temporaryBuffer];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
+                [self emitCharacterTokensWithString:_temporaryBuffer];
                 [self reconsume:currentInputCharacter];
             }
         doneRCDATAEndTagNameState:
@@ -366,7 +370,7 @@
                     break;
                 default:
                     [self switchToState:HTMLTokenizerRAWTEXTState];
-                    [self emitCharacterTokenWithCodePoint:'<'];
+                    [self emitCharacterToken:'<'];
                     [self reconsume:currentInputCharacter];
                     break;
             }
@@ -375,17 +379,18 @@
         case HTMLTokenizerRAWTEXTEndTagOpenState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerRAWTEXTEndTagNameState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerRAWTEXTEndTagNameState];
             } else {
                 [self switchToState:HTMLTokenizerRAWTEXTState];
-                [self emitCharacterTokenWithString:@"</"];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
@@ -416,15 +421,16 @@
                     break;
             }
             if (isupper(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else if (islower(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
                 [self switchToState:HTMLTokenizerRAWTEXTState];
-                [self emitCharacterTokenWithString:@"</"];
-                [self emitCharacterTokenWithString:_temporaryBuffer];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
+                [self emitCharacterTokensWithString:_temporaryBuffer];
                 [self reconsume:currentInputCharacter];
             }
         doneRAWTEXTEndTagNameState:
@@ -438,11 +444,12 @@
                     break;
                 case '!':
                     [self switchToState:HTMLTokenizerScriptDataEscapeStartState];
-                    [self emitCharacterTokenWithString:@"<!"];
+                    [self emitCharacterToken:'<'];
+                    [self emitCharacterToken:'!'];
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataState];
-                    [self emitCharacterTokenWithCodePoint:'<'];
+                    [self emitCharacterToken:'<'];
                     [self reconsume:currentInputCharacter];
                     break;
             }
@@ -451,17 +458,18 @@
         case HTMLTokenizerScriptDataEndTagOpenState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerScriptDataEndTagNameState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerScriptDataEndTagNameState];
             } else {
                 [self switchToState:HTMLTokenizerScriptDataState];
-                [self emitCharacterTokenWithString:@"</"];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
@@ -492,15 +500,16 @@
                     break;
             }
             if (isupper(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else if (islower(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
                 [self switchToState:HTMLTokenizerScriptDataState];
-                [self emitCharacterTokenWithString:@"</"];
-                [self emitCharacterTokenWithString:_temporaryBuffer];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
+                [self emitCharacterTokensWithString:_temporaryBuffer];
                 [self reconsume:currentInputCharacter];
             }
         doneScriptDataEndTagNameState:
@@ -510,7 +519,7 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self switchToState:HTMLTokenizerScriptDataEscapeStartDashState];
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataState];
@@ -523,7 +532,7 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self switchToState:HTMLTokenizerScriptDataEscapedDashDashState];
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataState];
@@ -536,14 +545,14 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self switchToState:HTMLTokenizerScriptDataEscapedDashState];
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 case '<':
                     [self switchToState:HTMLTokenizerScriptDataEscapedLessThanSignState];
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self switchToState:HTMLTokenizerDataState];
@@ -551,7 +560,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -560,7 +569,7 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self switchToState:HTMLTokenizerScriptDataEscapedDashDashState];
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 case '<':
                     [self switchToState:HTMLTokenizerScriptDataEscapedLessThanSignState];
@@ -568,7 +577,7 @@
                 case '\0':
                     [self emitParseError];
                     [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -577,7 +586,7 @@
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -585,19 +594,19 @@
         case HTMLTokenizerScriptDataEscapedDashDashState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 case '<':
                     [self switchToState:HTMLTokenizerScriptDataEscapedLessThanSignState];
                     break;
                 case '>':
                     [self switchToState:HTMLTokenizerScriptDataState];
-                    [self emitCharacterTokenWithCodePoint:'>'];
+                    [self emitCharacterToken:'>'];
                     break;
                 case '\0':
                     [self emitParseError];
                     [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -606,7 +615,7 @@
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -620,19 +629,19 @@
                 default:
                     if (isupper(currentInputCharacter)) {
                         _temporaryBuffer = [NSMutableString new];
-                        AppendCodePoint(_temporaryBuffer, currentInputCharacter + 0x0020);
+                        AppendLongCharacter(_temporaryBuffer, currentInputCharacter + 0x0020);
                         [self switchToState:HTMLTokenizerScriptDataDoubleEscapeStartState];
-                        [self emitCharacterTokenWithCodePoint:'<'];
-                        [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                        [self emitCharacterToken:'<'];
+                        [self emitCharacterToken:currentInputCharacter];
                     } else if (islower(currentInputCharacter)) {
                         _temporaryBuffer = [NSMutableString new];
-                        AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                        AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                         [self switchToState:HTMLTokenizerScriptDataDoubleEscapeStartState];
-                        [self emitCharacterTokenWithCodePoint:'<'];
-                        [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                        [self emitCharacterToken:'<'];
+                        [self emitCharacterToken:currentInputCharacter];
                     } else {
                         [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                        [self emitCharacterTokenWithCodePoint:'<'];
+                        [self emitCharacterToken:'<'];
                         [self reconsume:currentInputCharacter];
                     }
                     break;
@@ -642,17 +651,18 @@
         case HTMLTokenizerScriptDataEscapedEndTagOpenState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerScriptDataEscapedEndTagNameState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                 [self switchToState:HTMLTokenizerScriptDataEscapedEndTagNameState];
             } else {
                 [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                [self emitCharacterTokenWithString:@"</"];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
@@ -683,15 +693,16 @@
                     break;
             }
             if (isupper(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter + 0x0020];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else if (islower(currentInputCharacter)) {
-                [_currentToken appendCodePointToTagName:currentInputCharacter];
-                AppendCodePoint(_temporaryBuffer, currentInputCharacter);
+                [_currentToken appendLongCharacterToTagName:currentInputCharacter];
+                AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
                 [self switchToState:HTMLTokenizerScriptDataEscapedState];
-                [self emitCharacterTokenWithString:@"</"];
-                [self emitCharacterTokenWithString:_temporaryBuffer];
+                [self emitCharacterToken:'<'];
+                [self emitCharacterToken:'/'];
+                [self emitCharacterTokensWithString:_temporaryBuffer];
                 [self reconsume:currentInputCharacter];
             }
         doneScriptDataEscapedEndTagNameState:
@@ -710,15 +721,15 @@
                     } else {
                         [self switchToState:HTMLTokenizerScriptDataEscapedState];
                     }
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
                 default:
                     if (isupper(currentInputCharacter)) {
-                        AppendCodePoint(_temporaryBuffer, currentInputCharacter + 0x0020);
-                        [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                        AppendLongCharacter(_temporaryBuffer, currentInputCharacter + 0x0020);
+                        [self emitCharacterToken:currentInputCharacter];
                     } else if (islower(currentInputCharacter)) {
-                        AppendCodePoint(_temporaryBuffer, currentInputCharacter);
-                        [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                        AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
+                        [self emitCharacterToken:currentInputCharacter];
                     } else {
                         [self switchToState:HTMLTokenizerScriptDataEscapedState];
                         [self reconsume:currentInputCharacter];
@@ -731,15 +742,15 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedDashState];
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 case '<':
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedLessThanSignState];
-                    [self emitCharacterTokenWithCodePoint:'<'];
+                    [self emitCharacterToken:'<'];
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -747,7 +758,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -756,16 +767,16 @@
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedDashDashState];
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 case '<':
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedLessThanSignState];
-                    [self emitCharacterTokenWithCodePoint:'<'];
+                    [self emitCharacterToken:'<'];
                     break;
                 case '\0':
                     [self emitParseError];
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -774,7 +785,7 @@
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -782,20 +793,20 @@
         case HTMLTokenizerScriptDataDoubleEscapedDashDashState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self emitCharacterTokenWithCodePoint:'-'];
+                    [self emitCharacterToken:'-'];
                     break;
                 case '<':
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedLessThanSignState];
-                    [self emitCharacterTokenWithCodePoint:'<'];
+                    [self emitCharacterToken:'<'];
                     break;
                 case '>':
                     [self switchToState:HTMLTokenizerScriptDataState];
-                    [self emitCharacterTokenWithCodePoint:'>'];
+                    [self emitCharacterToken:'>'];
                     break;
                 case '\0':
                     [self emitParseError];
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
-                    [self emitCharacterTokenWithCodePoint:0xFFFD];
+                    [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -804,7 +815,7 @@
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
@@ -814,7 +825,7 @@
                 case '/':
                     _temporaryBuffer = [NSMutableString new];
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapeEndState];
-                    [self emitCharacterTokenWithCodePoint:'/'];
+                    [self emitCharacterToken:'/'];
                     break;
                 default:
                     [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
@@ -836,15 +847,15 @@
                     } else {
                         [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
                     }
-                    [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                    [self emitCharacterToken:currentInputCharacter];
                     break;
                 default:
                     if (isupper(currentInputCharacter)) {
-                        AppendCodePoint(_temporaryBuffer, currentInputCharacter + 0x0020);
-                        [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                        AppendLongCharacter(_temporaryBuffer, currentInputCharacter + 0x0020);
+                        [self emitCharacterToken:currentInputCharacter];
                     } else if (islower(currentInputCharacter)) {
-                        AppendCodePoint(_temporaryBuffer, currentInputCharacter);
-                        [self emitCharacterTokenWithCodePoint:currentInputCharacter];
+                        AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
+                        [self emitCharacterToken:currentInputCharacter];
                     } else {
                         [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
                         [self reconsume:currentInputCharacter];
@@ -871,7 +882,7 @@
                     [self emitParseError];
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
-                    [_currentAttribute appendCodePointToName:0xFFFD];
+                    [_currentAttribute appendLongCharacterToName:0xFFFD];
                     [self switchToState:HTMLTokenizerAttributeNameState];
                     break;
                 case '"':
@@ -890,9 +901,9 @@
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
                     if (isupper(currentInputCharacter)) {
-                        [_currentAttribute appendCodePointToName:currentInputCharacter + 0x0020];
+                        [_currentAttribute appendLongCharacterToName:currentInputCharacter + 0x0020];
                     } else {
-                        [_currentAttribute appendCodePointToName:currentInputCharacter];
+                        [_currentAttribute appendLongCharacterToName:currentInputCharacter];
                     }
                     [self switchToState:HTMLTokenizerAttributeNameState];
                     break;
@@ -919,7 +930,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentAttribute appendCodePointToName:0xFFFD];
+                    [_currentAttribute appendLongCharacterToName:0xFFFD];
                     break;
                 case '"':
                 case '\'':
@@ -934,9 +945,9 @@
                 default:
                 anythingElseAttributeNameState:
                     if (isupper(currentInputCharacter)) {
-                        [_currentAttribute appendCodePointToName:currentInputCharacter + 0x0020];
+                        [_currentAttribute appendLongCharacterToName:currentInputCharacter + 0x0020];
                     } else {
-                        [_currentAttribute appendCodePointToName:currentInputCharacter];
+                        [_currentAttribute appendLongCharacterToName:currentInputCharacter];
                     }
                     break;
             }
@@ -963,7 +974,7 @@
                     [self emitParseError];
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
-                    [_currentAttribute appendCodePointToName:0xFFFD];
+                    [_currentAttribute appendLongCharacterToName:0xFFFD];
                     [self switchToState:HTMLTokenizerAttributeNameState];
                     break;
                 case '"':
@@ -981,9 +992,9 @@
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
                     if (isupper(currentInputCharacter)) {
-                        [_currentAttribute appendCodePointToName:currentInputCharacter + 0x0020];
+                        [_currentAttribute appendLongCharacterToName:currentInputCharacter + 0x0020];
                     } else {
-                        [_currentAttribute appendCodePointToName:currentInputCharacter];
+                        [_currentAttribute appendLongCharacterToName:currentInputCharacter];
                     }
                     _state = HTMLTokenizerAttributeNameState;
                     break;
@@ -1009,7 +1020,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentAttribute appendCodePointToValue:0xFFFD];
+                    [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     [self switchToState:HTMLTokenizerAttributeValueUnquotedState];
                     break;
                 case '>':
@@ -1029,7 +1040,7 @@
                     break;
                 default:
                 anythingElseBeforeAttributeValueState:
-                    [_currentAttribute appendCodePointToValue:currentInputCharacter];
+                    [_currentAttribute appendLongCharacterToValue:currentInputCharacter];
                     [self switchToState:HTMLTokenizerAttributeValueUnquotedState];
                     break;
             }
@@ -1047,7 +1058,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentAttribute appendCodePointToValue:0xFFFD];
+                    [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -1055,7 +1066,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentAttribute appendCodePointToValue:currentInputCharacter];
+                    [_currentAttribute appendLongCharacterToValue:currentInputCharacter];
                     break;
             }
             break;
@@ -1072,7 +1083,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentAttribute appendCodePointToValue:0xFFFD];
+                    [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -1080,7 +1091,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentAttribute appendCodePointToValue:currentInputCharacter];
+                    [_currentAttribute appendLongCharacterToValue:currentInputCharacter];
                     break;
             }
             break;
@@ -1104,7 +1115,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentAttribute appendCodePointToValue:0xFFFD];
+                    [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     break;
                 case '"':
                 case '\'':
@@ -1120,7 +1131,7 @@
                     break;
                 default:
                 anythingElseAttributeValueUnquotedState:
-                    [_currentAttribute appendCodePointToValue:currentInputCharacter];
+                    [_currentAttribute appendLongCharacterToValue:currentInputCharacter];
                     break;
             }
             break;
@@ -1130,7 +1141,7 @@
             if (characters) {
                 [_currentAttribute appendStringToValue:characters];
             } else {
-                [_currentAttribute appendCodePointToValue:'&'];
+                [_currentAttribute appendLongCharacterToValue:'&'];
             }
             [self switchToState:_sourceAttributeValueState];
             break;
@@ -1194,10 +1205,10 @@
                     case '>':
                         goto doneBogusCommentState;
                     case '\0':
-                        [_currentToken appendCodePoint:0xFFFD];
+                        [_currentToken appendLongCharacter:0xFFFD];
                         break;
                     default:
-                        [_currentToken appendCodePoint:currentInputCharacter];
+                        [_currentToken appendLongCharacter:currentInputCharacter];
                         break;
                 }
             }
@@ -1231,7 +1242,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePoint:0xFFFD];
+                    [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
                 case '>':
@@ -1246,7 +1257,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePoint:currentInputCharacter];
+                    [_currentToken appendLongCharacter:currentInputCharacter];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
             }
@@ -1259,8 +1270,8 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePoint:'-'];
-                    [_currentToken appendCodePoint:0xFFFD];
+                    [_currentToken appendLongCharacter:'-'];
+                    [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
                 case '>':
@@ -1275,8 +1286,8 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePoint:'-'];
-                    [_currentToken appendCodePoint:currentInputCharacter];
+                    [_currentToken appendLongCharacter:'-'];
+                    [_currentToken appendLongCharacter:currentInputCharacter];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
             }
@@ -1289,7 +1300,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePoint:0xFFFD];
+                    [_currentToken appendLongCharacter:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -1298,7 +1309,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePoint:currentInputCharacter];
+                    [_currentToken appendLongCharacter:currentInputCharacter];
                     break;
             }
             break;
@@ -1310,8 +1321,8 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePoint:'-'];
-                    [_currentToken appendCodePoint:0xFFFD];
+                    [_currentToken appendLongCharacter:'-'];
+                    [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
                 case EOF:
@@ -1321,8 +1332,8 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePoint:'-'];
-                    [_currentToken appendCodePoint:currentInputCharacter];
+                    [_currentToken appendLongCharacter:'-'];
+                    [_currentToken appendLongCharacter:currentInputCharacter];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
             }
@@ -1337,7 +1348,7 @@
                 case '\0':
                     [self emitParseError];
                     [_currentToken appendString:@"--"];
-                    [_currentToken appendCodePoint:0xFFFD];
+                    [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
                 case '!':
@@ -1346,7 +1357,7 @@
                     break;
                 case '-':
                     [self emitParseError];
-                    [_currentToken appendCodePoint:'-'];
+                    [_currentToken appendLongCharacter:'-'];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -1357,7 +1368,7 @@
                 default:
                     [self emitParseError];
                     [_currentToken appendString:@"--"];
-                    [_currentToken appendCodePoint:currentInputCharacter];
+                    [_currentToken appendLongCharacter:currentInputCharacter];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
             }
@@ -1386,7 +1397,7 @@
                     break;
                 default:
                     [_currentToken appendString:@"--!"];
-                    [_currentToken appendCodePoint:currentInputCharacter];
+                    [_currentToken appendLongCharacter:currentInputCharacter];
                     [self switchToState:HTMLTokenizerCommentState];
                     break;
             }
@@ -1426,7 +1437,7 @@
                 case '\0':
                     [self emitParseError];
                     _currentToken = [HTMLDOCTYPEToken new];
-                    [_currentToken appendCodePointToName:0xFFFD];
+                    [_currentToken appendLongCharacterToName:0xFFFD];
                     [self switchToState:HTMLTokenizerDOCTYPENameState];
                     break;
                 case '>':
@@ -1447,9 +1458,9 @@
                 default:
                     _currentToken = [HTMLDOCTYPEToken new];
                     if (isupper(currentInputCharacter)) {
-                        [_currentToken appendCodePointToName:currentInputCharacter + 0x0020];
+                        [_currentToken appendLongCharacterToName:currentInputCharacter + 0x0020];
                     } else {
-                        [_currentToken appendCodePointToName:currentInputCharacter];
+                        [_currentToken appendLongCharacterToName:currentInputCharacter];
                     }
                     _state = HTMLTokenizerDOCTYPENameState;
                     break;
@@ -1470,7 +1481,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePointToName:0xFFFD];
+                    [_currentToken appendLongCharacterToName:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
@@ -1481,9 +1492,9 @@
                     break;
                 default:
                     if (isupper(currentInputCharacter)) {
-                        [_currentToken appendCodePointToName:currentInputCharacter + 0x0020];
+                        [_currentToken appendLongCharacterToName:currentInputCharacter + 0x0020];
                     } else {
-                        [_currentToken appendCodePointToName:currentInputCharacter];
+                        [_currentToken appendLongCharacterToName:currentInputCharacter];
                     }
                     break;
             }
@@ -1607,7 +1618,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePointToPublicIdentifier:0xFFFD];
+                    [_currentToken appendLongCharacterToPublicIdentifier:0xFFFD];
                     break;
                 case '>':
                     [self emitParseError];
@@ -1623,7 +1634,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePointToPublicIdentifier:currentInputCharacter];
+                    [_currentToken appendLongCharacterToPublicIdentifier:currentInputCharacter];
                     break;
             }
             break;
@@ -1635,7 +1646,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePointToPublicIdentifier:0xFFFD];
+                    [_currentToken appendLongCharacterToPublicIdentifier:0xFFFD];
                     break;
                 case '>':
                     [self emitParseError];
@@ -1651,7 +1662,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePointToPublicIdentifier:currentInputCharacter];
+                    [_currentToken appendLongCharacterToPublicIdentifier:currentInputCharacter];
                     break;
             }
             break;
@@ -1809,7 +1820,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePointToSystemIdentifier:0xFFFD];
+                    [_currentToken appendLongCharacterToSystemIdentifier:0xFFFD];
                     break;
                 case '>':
                     [self emitParseError];
@@ -1825,7 +1836,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePointToSystemIdentifier:currentInputCharacter];
+                    [_currentToken appendLongCharacterToSystemIdentifier:currentInputCharacter];
                     break;
             }
             break;
@@ -1837,7 +1848,7 @@
                     break;
                 case '\0':
                     [self emitParseError];
-                    [_currentToken appendCodePointToSystemIdentifier:0xFFFD];
+                    [_currentToken appendLongCharacterToSystemIdentifier:0xFFFD];
                     break;
                 case '>':
                     [self emitParseError];
@@ -1853,7 +1864,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [_currentToken appendCodePointToSystemIdentifier:currentInputCharacter];
+                    [_currentToken appendLongCharacterToSystemIdentifier:currentInputCharacter];
                     break;
             }
             break;
@@ -1901,7 +1912,7 @@
             
         case HTMLTokenizerCDATASectionState:
             NSLog(@"unimplemented state");
-            [self done];
+            _done = YES;
             break;
     }
 }
@@ -1915,20 +1926,20 @@
     } else if (_scanner.isAtEnd) {
         return EOF;
     } else {
-        unicodepoint character = [_scanner.string characterAtIndex:_scanner.scanLocation++];
-        if (character >= 0xD800 && character <= 0xDBFF) {
+        int32_t character = [_scanner.string characterAtIndex:_scanner.scanLocation++];
+        if (CFStringIsSurrogateHighCharacter(character)) {
             // Got a lead surrogate. Check for trail.
-            unicodepoint trail = _scanner.isAtEnd ? 0xFFFD : [_scanner.string characterAtIndex:_scanner.scanLocation];
-            if (trail >= 0xDC00 && trail <= 0xDFFF) {
+            unichar trail = _scanner.isAtEnd ? 0xFFFD : [_scanner.string characterAtIndex:_scanner.scanLocation];
+            if (CFStringIsSurrogateLowCharacter(trail)) {
                 // Got a trail surrogate.
                 _scanner.scanLocation++;
-                character = ((character - 0xD800) << 10) + (trail - 0xDC00) + 0x10000;
+                character = CFStringGetLongCharacterForSurrogatePair(character, trail);
             } else {
                 // Lead surrogate with no trail.
                 [self emitParseError];
                 return 0xFFFD;
             }
-        } else if (character >= 0xDC00 && character <= 0xDFFF) {
+        } else if (CFStringIsSurrogateLowCharacter(character)) {
             // Trail surrogate with no lead.
             [self emitParseError];
             return 0xFFFD;
@@ -1986,7 +1997,6 @@
 
 - (void)emit:(id)token
 {
-    [self flushCharacterBuffer];
     if ([token isKindOfClass:[HTMLStartTagToken class]]) {
         _mostRecentEmittedStartTagName = [token tagName];
     }
@@ -2009,34 +2019,22 @@
     [self emit:[HTMLParseErrorToken new]];
 }
 
-- (void)emitCharacterTokenWithCodePoint:(unicodepoint)codepoint
+- (void)emitCharacterToken:(UTF32Char)character
 {
-    AppendCodePoint(_characterBuffer, codepoint);
+    [self emit:[[HTMLCharacterToken alloc] initWithData:character]];
 }
 
-- (void)emitCharacterTokenWithString:(NSString *)string
+- (void)emitCharacterTokensWithString:(NSString *)string
 {
-    [_characterBuffer appendString:string];
-}
-
-- (void)flushCharacterBuffer
-{
-    if (_characterBuffer.length > 0) {
-        [self emitCore:[[HTMLCharacterToken alloc] initWithData:_characterBuffer]];
-        _characterBuffer.string = @"";
-    }
+    EnumerateLongCharacters(string, ^(UTF32Char character) {
+        [self emitCharacterToken:character];
+    });
 }
 
 - (void)emitCurrentToken
 {
     [self emit:_currentToken];
     _currentToken = nil;
-}
-
-- (void)done
-{
-    [self flushCharacterBuffer];
-    _done = YES;
 }
 
 - (BOOL)currentTagIsAppropriateEndTagToken
@@ -2134,10 +2132,11 @@
             {
                 [self emitParseError];
             }
-            if (number >= 0x10000) {
-                return [NSString stringWithFormat:@"%C%C", LeadSurrogate(number), TrailSurrogate(number)];
+            unichar surrogates[2];
+            if (CFStringGetSurrogatePairForLongCharacter(number, surrogates)) {
+                return [NSString stringWithFormat:@"%C%C", surrogates[0], surrogates[1]];
             } else {
-                return [NSString stringWithFormat:@"%C", (unichar)number];
+                return [NSString stringWithFormat:@"%C", surrogates[0]];
             }
         }
         default: {
@@ -4493,10 +4492,10 @@ static const struct {
     return [_name copy];
 }
 
-- (void)appendCodePointToName:(unicodepoint)codepoint
+- (void)appendLongCharacterToName:(UTF32Char)character
 {
     if (!_name) _name = [NSMutableString new];
-    AppendCodePoint(_name, codepoint);
+    AppendLongCharacter(_name, character);
 }
 
 - (NSString *)publicIdentifier
@@ -4509,10 +4508,10 @@ static const struct {
     _publicIdentifier = [string mutableCopy];
 }
 
-- (void)appendCodePointToPublicIdentifier:(unicodepoint)codepoint
+- (void)appendLongCharacterToPublicIdentifier:(UTF32Char)character
 {
     if (!_publicIdentifier) _publicIdentifier = [NSMutableString new];
-    AppendCodePoint(_publicIdentifier, codepoint);
+    AppendLongCharacter(_publicIdentifier, character);
 }
 
 - (NSString *)systemIdentifier
@@ -4525,10 +4524,10 @@ static const struct {
     _systemIdentifier = [string mutableCopy];
 }
 
-- (void)appendCodePointToSystemIdentifier:(unicodepoint)codepoint
+- (void)appendLongCharacterToSystemIdentifier:(UTF32Char)character
 {
     if (!_systemIdentifier) _systemIdentifier = [NSMutableString new];
-    AppendCodePoint(_systemIdentifier, codepoint);
+    AppendLongCharacter(_systemIdentifier, character);
 }
 
 #pragma mark NSObject
@@ -4598,9 +4597,9 @@ static const struct {
     return [_attributes copy];
 }
 
-- (void)appendCodePointToTagName:(unicodepoint)codepoint
+- (void)appendLongCharacterToTagName:(UTF32Char)character
 {
-    AppendCodePoint(_tagName, codepoint);
+    AppendLongCharacter(_tagName, character);
 }
 
 - (void)addNewAttribute
@@ -4709,9 +4708,9 @@ static const struct {
     [_data appendString:string];
 }
 
-- (void)appendCodePoint:(unicodepoint)codepoint
+- (void)appendLongCharacter:(UTF32Char)character
 {
-    AppendCodePoint(_data, codepoint);
+    AppendLongCharacter(_data, character);
 }
 
 #pragma mark NSObject
@@ -4735,38 +4734,34 @@ static const struct {
 @end
 
 @implementation HTMLCharacterToken
-{
-    NSString *_data;
-}
 
-- (id)initWithData:(NSString *)data
+- (id)initWithData:(UTF32Char)data
 {
     if (!(self = [super init])) return nil;
-    _data = [data copy];
+    _data = data;
     return self;
-}
-
-- (NSString *)data
-{
-    return _data;
 }
 
 #pragma mark NSObject
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.data];
+    NSMutableString *description = [NSMutableString new];
+    [description appendFormat:@"<%@: %p '", self.class, self];
+    AppendLongCharacter(description, self.data);
+    [description appendString:@"'>"];
+    return description;
 }
 
 - (BOOL)isEqual:(HTMLCharacterToken *)other
 {
     return ([other isKindOfClass:[HTMLCharacterToken class]] &&
-            [other.data isEqualToString:self.data]);
+            other.data == self.data);
 }
 
 - (NSUInteger)hash
 {
-    return self.data.hash;
+    return self.data;
 }
 
 @end

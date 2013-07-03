@@ -130,9 +130,9 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 @interface HTMLCharacterToken : NSObject
 
 // Designated initializer.
-- (id)initWithData:(NSString *)data;
+- (id)initWithData:(UTF32Char)data;
 
-@property (readonly, nonatomic) NSString *data;
+@property (readonly, nonatomic) UTF32Char data;
 
 @end
 

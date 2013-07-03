@@ -77,6 +77,17 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 {
     switch (_insertionMode) {
         case HTMLInitialInsertionMode:
+            if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = nextToken;
+                switch (token.data) {
+                    case '\t':
+                    case '\n':
+                    case '\f':
+                    case '\r':
+                    case ' ':
+                        return;
+                }
+            }
             if ([nextToken isKindOfClass:[HTMLCommentToken class]]) {
                 HTMLCommentToken *token = nextToken;
                 [_document addChildNode:[[HTMLCommentNode alloc] initWithData:token.data]];
@@ -91,20 +102,6 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 _document.quirksMode = QuirksModeForDOCTYPE(token);
                 [self switchInsertionMode:HTMLBeforeHtmlInsertionMode];
             } else {
-                if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
-                    HTMLCharacterToken *token = nextToken;
-                    NSScanner *scanner = [NSScanner scannerWithString:token.data];
-                    scanner.charactersToBeSkipped = nil;
-                    scanner.caseSensitive = YES;
-                    [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\t\n\f\r "]
-                                        intoString:nil];
-                    if (scanner.isAtEnd) {
-                        break;
-                    } else {
-                        nextToken = [[HTMLCharacterToken alloc] initWithData:
-                                     [token.data substringFromIndex:scanner.scanLocation]];
-                    }
-                }
                 [self addParseError];
                 _document.quirksMode = HTMLQuirksMode;
                 [self switchInsertionMode:HTMLBeforeHtmlInsertionMode];
@@ -113,8 +110,20 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             break;
             
         case HTMLBeforeHtmlInsertionMode:
+            if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = nextToken;
+                switch (token.data) {
+                    case '\t':
+                    case '\n':
+                    case '\f':
+                    case '\r':
+                    case ' ':
+                        return;
+                }
+            }
             if ([nextToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
+                return;
             } else if ([nextToken isKindOfClass:[HTMLCommentToken class]]) {
                 HTMLCommentToken *token = nextToken;
                 [_document addChildNode:[[HTMLCommentNode alloc] initWithData:token.data]];
@@ -136,21 +145,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                          [[nextToken tagName] isEqualToString:@"br"]))
             {
                 [self addParseError];
+                return;
             } else {
-                if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
-                    HTMLCharacterToken *token = nextToken;
-                    NSScanner *scanner = [NSScanner scannerWithString:token.data];
-                    scanner.charactersToBeSkipped = nil;
-                    scanner.caseSensitive = YES;
-                    [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\t\n\f\r "]
-                                        intoString:nil];
-                    if (scanner.isAtEnd) {
-                        break;
-                    } else {
-                        nextToken = [[HTMLCharacterToken alloc] initWithData:
-                                     [token.data substringFromIndex:scanner.scanLocation]];
-                    }
-                }
                 HTMLElementNode *html = [[HTMLElementNode alloc] initWithTagName:@"html"];
                 [_document addChildNode:html];
                 [_stackOfOpenElements addObject:html];
@@ -160,6 +156,17 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             break;
             
         case HTMLBeforeHeadInsertionMode:
+            if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = nextToken;
+                switch (token.data) {
+                    case '\t':
+                    case '\n':
+                    case '\f':
+                    case '\r':
+                    case ' ':
+                        return;
+                }
+            }
             if ([nextToken isKindOfClass:[HTMLCommentToken class]]) {
                 HTMLCommentToken *token = nextToken;
                 HTMLCommentNode *comment = [[HTMLCommentNode alloc] initWithData:token.data];
@@ -167,6 +174,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [currentNode addChildNode:comment];
             } else if ([nextToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
+                return;
             } else if ([nextToken isKindOfClass:[HTMLStartTagToken class]] &&
                        [[nextToken tagName] isEqualToString:@"html"])
             {
@@ -196,21 +204,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                          [[nextToken tagName] isEqualToString:@"br"]))
             {
                 [self addParseError];
+                return;
             } else {
-                if ([nextToken isKindOfClass:[HTMLCharacterToken class]]) {
-                    HTMLCharacterToken *token = nextToken;
-                    NSScanner *scanner = [NSScanner scannerWithString:token.data];
-                    scanner.charactersToBeSkipped = nil;
-                    scanner.caseSensitive = YES;
-                    [scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\t\n\f\r "]
-                                        intoString:nil];
-                    if (scanner.isAtEnd) {
-                        break;
-                    } else {
-                        nextToken = [[HTMLCharacterToken alloc] initWithData:
-                                     [token.data substringFromIndex:scanner.scanLocation]];
-                    }
-                }
                 HTMLElementNode *head = [[HTMLElementNode alloc] initWithTagName:@"head"];
                 [_stackOfOpenElements.lastObject addChildNode:head];
                 _headElementPointer = head;
