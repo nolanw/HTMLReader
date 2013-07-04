@@ -9,26 +9,30 @@
 #import <Foundation/Foundation.h>
 #import "HTMLAttribute.h"
 
-// Property names for these classes follow the DOM specification and do not attempt to follow Objective-C conventions.
+// Property and method names for these classes follow the DOM specification and do not attempt to follow Objective-C conventions.
 
-@interface HTMLElementNode : NSObject
+@interface HTMLNode : NSObject <NSCopying>
+
+@property (readonly, nonatomic) HTMLNode *parentNode;
+@property (readonly, nonatomic) NSArray *childNodes;
+- (void)appendChild:(HTMLNode *)child;
+- (void)removeChild:(HTMLNode *)child;
+
+@end
+
+@interface HTMLElementNode : HTMLNode
 
 // Designated initializer.
 - (id)initWithTagName:(NSString *)tagName;
 
 @property (readonly, nonatomic) NSString *tagName;
 
-@property (readonly, nonatomic) NSArray *childNodes;
-
-- (void)addChildNode:(id)node;
-
 @property (readonly, nonatomic) NSArray *attributes;
-
-- (void)addAttribute:(HTMLAttribute *)attribute;
+- (void)addAttribute:(HTMLAttribute *)attribute;;
 
 @end
 
-@interface HTMLTextNode : NSObject
+@interface HTMLTextNode : HTMLNode
 
 - (id)initWithData:(NSString *)data;
 
@@ -38,7 +42,7 @@
 
 @end
 
-@interface HTMLCommentNode : NSObject
+@interface HTMLCommentNode : HTMLNode
 
 - (id)initWithData:(NSString *)data;
 
@@ -46,7 +50,7 @@
 
 @end
 
-@interface HTMLDocumentTypeNode : NSObject
+@interface HTMLDocumentTypeNode : HTMLNode
 
 - (id)initWithName:(NSString *)name publicId:(NSString *)publicId systemId:(NSString *)systemId;
 

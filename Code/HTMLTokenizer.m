@@ -4632,6 +4632,16 @@ static const struct {
 
 @implementation HTMLStartTagToken
 
+- (id)copyWithTagName:(NSString *)tagName
+{
+    HTMLStartTagToken *copy = [[self.class alloc] initWithTagName:tagName];
+    for (HTMLAttribute *attribute in self.attributes) {
+        [copy addAttributeWithName:attribute.name value:attribute.value];
+    }
+    copy.selfClosingFlag = self.selfClosingFlag;
+    return copy;
+}
+
 #pragma mark NSObject
 
 - (NSString *)description

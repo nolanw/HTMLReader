@@ -29,8 +29,8 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
         while (stack.count > spaces.length / 2) {
             [stack removeLastObject];
         }
-        id node;
-        id parentNode = stack.lastObject;
+        HTMLNode *node;
+        HTMLElementNode *parentNode = stack.lastObject;
         if ([scanner scanString:@"<" intoString:nil]) {
             NSString *tagName;
             if ([scanner scanUpToString:@">" intoString:&tagName]) {
@@ -71,7 +71,7 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
         if ([node isKindOfClass:[HTMLElementNode class]]) {
             [stack addObject:node];
         }
-        [parentNode addChildNode:node];
+        [parentNode appendChild:node];
     }];
     return roots;
 }

@@ -114,6 +114,8 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @interface HTMLStartTagToken : HTMLTagToken
 
+- (id)copyWithTagName:(NSString *)tagName;
+
 @end
 
 @interface HTMLEndTagToken : HTMLTagToken

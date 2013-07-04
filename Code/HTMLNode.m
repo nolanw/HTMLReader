@@ -9,18 +9,15 @@
 #import "HTMLNode.h"
 #import "HTMLString.h"
 
-@implementation HTMLElementNode
+@implementation HTMLNode
 {
     NSMutableArray *_childNodes;
-    NSMutableArray *_attributes;
 }
 
-- (id)initWithTagName:(NSString *)tagName
+- (id)init
 {
     if (!(self = [super init])) return nil;
-    _tagName = [tagName copy];
     _childNodes = [NSMutableArray new];
-    _attributes = [NSMutableArray new];
     return self;
 }
 
@@ -29,9 +26,42 @@
     return [_childNodes copy];
 }
 
-- (void)addChildNode:(id)node
+- (void)appendChild:(HTMLNode *)child
 {
-    [_childNodes addObject:node];
+    [child.parentNode removeChild:child];
+    [_childNodes addObject:child];
+    child->_parentNode = self;
+}
+
+- (void)removeChild:(HTMLNode *)child
+{
+    NSUInteger i = [_childNodes indexOfObject:child];
+    if (i != NSNotFound) {
+        [_childNodes removeObjectAtIndex:i];
+        child->_parentNode = nil;
+    }
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return [[self.class allocWithZone:zone] init];
+}
+
+@end
+
+@implementation HTMLElementNode
+{
+    NSMutableArray *_attributes;
+}
+
+- (id)initWithTagName:(NSString *)tagName
+{
+    if (!(self = [super init])) return nil;
+    _tagName = [tagName copy];
+    _attributes = [NSMutableArray new];
+    return self;
 }
 
 - (NSArray *)attributes
@@ -42,6 +72,16 @@
 - (void)addAttribute:(HTMLAttribute *)attribute
 {
     [_attributes addObject:attribute];
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    HTMLElementNode *copy = [super copyWithZone:zone];
+    copy->_tagName = self.tagName;
+    [copy->_attributes addObjectsFromArray:self.attributes];
+    return copy;
 }
 
 #pragma mark NSObject
@@ -57,6 +97,19 @@
             attributes, @(self.childNodes.count), self.childNodes.count == 1 ? @"" : @"s"];
 }
 
+- (BOOL)isEqual:(HTMLElementNode *)other
+{
+    return ([other isKindOfClass:[HTMLElementNode class]] &&
+            [other.tagName isEqualToString:self.tagName] &&
+            [other.attributes isEqual:self.attributes] &&
+            [other.childNodes isEqual:self.childNodes]);
+}
+
+- (NSUInteger)hash
+{
+    return self.tagName.hash ^ self.attributes.hash ^ self.childNodes.hash;
+}
+
 @end
 
 @implementation HTMLTextNode
@@ -64,22 +117,37 @@
     NSMutableString *_data;
 }
 
-- (id)initWithData:(NSString *)data
+- (id)init
 {
     if (!(self = [super init])) return nil;
-    _data = [NSMutableString stringWithString:data];
+    _data = [NSMutableString new];
+    return self;
+}
+
+- (id)initWithData:(NSString *)data
+{
+    if (!(self = [self init])) return nil;
+    [_data setString:data];
     return self;
 }
 
 - (void)appendLongCharacter:(UTF32Char)character
 {
-    if (!_data) _data = [NSMutableString new];
     AppendLongCharacter(_data, character);
 }
 
 - (NSString *)data
 {
     return [_data copy];
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    HTMLTextNode *copy = [super copyWithZone:zone];
+    [copy->_data setString:_data];
+    return copy;
 }
 
 @end
@@ -93,6 +161,15 @@
     return self;
 }
 
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    HTMLCommentNode *copy = [super copyWithZone:zone];
+    copy->_data = self.data;
+    return copy;
+}
+
 @end
 
 @implementation HTMLDocumentTypeNode
@@ -104,6 +181,17 @@
     _publicId = [publicId copy];
     _systemId = [systemId copy];
     return self;
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    HTMLDocumentTypeNode *copy = [super copyWithZone:zone];
+    copy->_name = self.name;
+    copy->_publicId = self.publicId;
+    copy->_systemId = self.systemId;
+    return copy;
 }
 
 @end
