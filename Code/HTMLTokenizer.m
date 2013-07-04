@@ -57,7 +57,7 @@
     _scanner = [NSScanner scannerWithString:string];
     _scanner.charactersToBeSkipped = nil;
     _scanner.caseSensitive = YES;
-    self.state = HTMLTokenizerDataState;
+    self.state = HTMLDataTokenizerState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
     _reconsume = NSNotFound;
@@ -73,13 +73,13 @@
 {
     int currentInputCharacter;
     switch (self.state) {
-        case HTMLTokenizerDataState:
+        case HTMLDataTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '&':
-                    [self switchToState:HTMLTokenizerCharacterReferenceInDataState];
+                    [self switchToState:HTMLCharacterReferenceInDataTokenizerState];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerTagOpenState];
+                    [self switchToState:HTMLTagOpenTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -94,8 +94,8 @@
             }
             break;
             
-        case HTMLTokenizerCharacterReferenceInDataState: {
-            [self switchToState:HTMLTokenizerDataState];
+        case HTMLCharacterReferenceInDataTokenizerState: {
+            [self switchToState:HTMLDataTokenizerState];
             _additionalAllowedCharacter = NSNotFound;
             NSString *data = [self attemptToConsumeCharacterReference];
             if (data) {
@@ -106,13 +106,13 @@
             break;
         }
             
-        case HTMLTokenizerRCDATAState:
+        case HTMLRCDATATokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '&':
-                    [self switchToState:HTMLTokenizerCharacterReferenceInRCDATAState];
+                    [self switchToState:HTMLCharacterReferenceInRCDATATokenizerState];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerRCDATALessThanSignState];
+                    [self switchToState:HTMLRCDATALessThanSignTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -127,8 +127,8 @@
             }
             break;
             
-        case HTMLTokenizerCharacterReferenceInRCDATAState: {
-            [self switchToState:HTMLTokenizerRCDATAState];
+        case HTMLCharacterReferenceInRCDATATokenizerState: {
+            [self switchToState:HTMLRCDATATokenizerState];
             _additionalAllowedCharacter = NSNotFound;
             NSString *data = [self attemptToConsumeCharacterReference];
             if (data) {
@@ -139,10 +139,10 @@
             break;
         }
             
-        case HTMLTokenizerRAWTEXTState:
+        case HTMLRAWTEXTTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '<':
-                    [self switchToState:HTMLTokenizerRAWTEXTLessThanSignState];
+                    [self switchToState:HTMLRAWTEXTLessThanSignTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -157,10 +157,10 @@
             }
             break;
             
-        case HTMLTokenizerScriptDataState:
+        case HTMLScriptDataTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataLessThanSignState];
+                    [self switchToState:HTMLScriptDataLessThanSignTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -175,7 +175,7 @@
             }
             break;
             
-        case HTMLTokenizerPLAINTEXTState:
+        case HTMLPLAINTEXTTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\0':
                     [self emitParseError];
@@ -190,17 +190,17 @@
             }
             break;
             
-        case HTMLTokenizerTagOpenState:
+        case HTMLTagOpenTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '!':
-                    [self switchToState:HTMLTokenizerMarkupDeclarationOpenState];
+                    [self switchToState:HTMLMarkupDeclarationOpenTokenizerState];
                     break;
                 case '/':
-                    [self switchToState:HTMLTokenizerEndTagOpenState];
+                    [self switchToState:HTMLEndTagOpenTokenizerState];
                     break;
                 case '?':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerBogusCommentState];
+                    [self switchToState:HTMLBogusCommentTokenizerState];
                     _scanner.scanLocation--;
                     break;
                 default:
@@ -208,10 +208,10 @@
                         _currentToken = [HTMLStartTagToken new];
                         unichar toAppend = currentInputCharacter + (isupper(currentInputCharacter) ? 0x0020 : 0);
                         [_currentToken appendLongCharacterToTagName:toAppend];
-                        [self switchToState:HTMLTokenizerTagNameState];
+                        [self switchToState:HTMLTagNameTokenizerState];
                     } else {
                         [self emitParseError];
-                        [self switchToState:HTMLTokenizerDataState];
+                        [self switchToState:HTMLDataTokenizerState];
                         [self emitCharacterToken:'<'];
                         [self reconsume:currentInputCharacter];
                     }
@@ -219,15 +219,15 @@
             }
             break;
             
-        case HTMLTokenizerEndTagOpenState:
+        case HTMLEndTagOpenTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '>':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCharacterToken:'<'];
                     [self emitCharacterToken:'/'];
                     [self reconsume:currentInputCharacter];
@@ -237,10 +237,10 @@
                         _currentToken = [HTMLEndTagToken new];
                         unichar toAppend = currentInputCharacter + (isupper(currentInputCharacter) ? 0x0020 : 0);
                         [_currentToken appendLongCharacterToTagName:toAppend];
-                        [self switchToState:HTMLTokenizerTagNameState];
+                        [self switchToState:HTMLTagNameTokenizerState];
                     } else {
                         [self emitParseError];
-                        [self switchToState:HTMLTokenizerBogusCommentState];
+                        [self switchToState:HTMLBogusCommentTokenizerState];
                         // SPEC The spec doesn't say to reconsume the input character. Instead, it says the bogus comment state is responsible for starting the comment at the character that caused a transition into the bogus comment state. But then we duplicate parse errors for invalid Unicode code points. Effectively what we want is to reconsume.
                         [self reconsume:currentInputCharacter];
                     }
@@ -248,19 +248,19 @@
             }
             break;
             
-        case HTMLTokenizerTagNameState:
+        case HTMLTagNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                    [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     break;
                 case '/':
-                    [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                    [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
@@ -269,7 +269,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     break;
                 default:
                     if (isupper(currentInputCharacter)) {
@@ -281,59 +281,59 @@
             }
             break;
             
-        case HTMLTokenizerRCDATALessThanSignState:
+        case HTMLRCDATALessThanSignTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '/':
                     _temporaryBuffer = [NSMutableString new];
-                    [self switchToState:HTMLTokenizerRCDATAEndTagOpenState];
+                    [self switchToState:HTMLRCDATAEndTagOpenTokenizerState];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerRCDATAState];
+                    [self switchToState:HTMLRCDATATokenizerState];
                     [self emitCharacterToken:'<'];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerRCDATAEndTagOpenState:
+        case HTMLRCDATAEndTagOpenTokenizerState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerRCDATAEndTagNameState];
+                [self switchToState:HTMLRCDATAEndTagNameTokenizerState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerRCDATAEndTagNameState];
+                [self switchToState:HTMLRCDATAEndTagNameTokenizerState];
             } else {
-                [self switchToState:HTMLTokenizerRCDATAState];
+                [self switchToState:HTMLRCDATATokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
             
-        case HTMLTokenizerRCDATAEndTagNameState:
+        case HTMLRCDATAEndTagNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                        [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                         goto doneRCDATAEndTagNameState;
                     }
                     break;
                 case '/':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                        [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                         goto doneRCDATAEndTagNameState;
                     }
                     break;
                 case '>':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerDataState];
+                        [self switchToState:HTMLDataTokenizerState];
                         [self emitCurrentToken];
                         goto doneRCDATAEndTagNameState;
                     }
@@ -346,7 +346,7 @@
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
-                [self switchToState:HTMLTokenizerRCDATAState];
+                [self switchToState:HTMLRCDATATokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self emitCharacterTokensWithString:_temporaryBuffer];
@@ -355,59 +355,59 @@
         doneRCDATAEndTagNameState:
             break;
             
-        case HTMLTokenizerRAWTEXTLessThanSignState:
+        case HTMLRAWTEXTLessThanSignTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '/':
                     _temporaryBuffer = [NSMutableString new];
-                    [self switchToState:HTMLTokenizerRAWTEXTEndTagOpenState];
+                    [self switchToState:HTMLRAWTEXTEndTagOpenTokenizerState];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerRAWTEXTState];
+                    [self switchToState:HTMLRAWTEXTTokenizerState];
                     [self emitCharacterToken:'<'];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerRAWTEXTEndTagOpenState:
+        case HTMLRAWTEXTEndTagOpenTokenizerState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerRAWTEXTEndTagNameState];
+                [self switchToState:HTMLRAWTEXTEndTagNameTokenizerState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerRAWTEXTEndTagNameState];
+                [self switchToState:HTMLRAWTEXTEndTagNameTokenizerState];
             } else {
-                [self switchToState:HTMLTokenizerRAWTEXTState];
+                [self switchToState:HTMLRAWTEXTTokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
             
-        case HTMLTokenizerRAWTEXTEndTagNameState:
+        case HTMLRAWTEXTEndTagNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                        [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                         goto doneRAWTEXTEndTagNameState;
                     }
                     break;
                 case '/':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                        [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                         goto doneRAWTEXTEndTagNameState;
                     }
                     break;
                 case '>':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerDataState];
+                        [self switchToState:HTMLDataTokenizerState];
                         [self emitCurrentToken];
                         goto doneRAWTEXTEndTagNameState;
                     }
@@ -420,7 +420,7 @@
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
-                [self switchToState:HTMLTokenizerRAWTEXTState];
+                [self switchToState:HTMLRAWTEXTTokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self emitCharacterTokensWithString:_temporaryBuffer];
@@ -429,64 +429,64 @@
         doneRAWTEXTEndTagNameState:
             break;
             
-        case HTMLTokenizerScriptDataLessThanSignState:
+        case HTMLScriptDataLessThanSignTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '/':
                     _temporaryBuffer = [NSMutableString new];
-                    [self switchToState:HTMLTokenizerScriptDataEndTagOpenState];
+                    [self switchToState:HTMLScriptDataEndTagOpenTokenizerState];
                     break;
                 case '!':
-                    [self switchToState:HTMLTokenizerScriptDataEscapeStartState];
+                    [self switchToState:HTMLScriptDataEscapeStartTokenizerState];
                     [self emitCharacterToken:'<'];
                     [self emitCharacterToken:'!'];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataState];
+                    [self switchToState:HTMLScriptDataTokenizerState];
                     [self emitCharacterToken:'<'];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataEndTagOpenState:
+        case HTMLScriptDataEndTagOpenTokenizerState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerScriptDataEndTagNameState];
+                [self switchToState:HTMLScriptDataEndTagNameTokenizerState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerScriptDataEndTagNameState];
+                [self switchToState:HTMLScriptDataEndTagNameTokenizerState];
             } else {
-                [self switchToState:HTMLTokenizerScriptDataState];
+                [self switchToState:HTMLScriptDataTokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
             
-        case HTMLTokenizerScriptDataEndTagNameState:
+        case HTMLScriptDataEndTagNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                        [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                         goto doneScriptDataEndTagNameState;
                     }
                     break;
                 case '/':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                        [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                         goto doneScriptDataEndTagNameState;
                     }
                     break;
                 case '>':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerDataState];
+                        [self switchToState:HTMLDataTokenizerState];
                         [self emitCurrentToken];
                         goto doneScriptDataEndTagNameState;
                     }
@@ -499,7 +499,7 @@
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
-                [self switchToState:HTMLTokenizerScriptDataState];
+                [self switchToState:HTMLScriptDataTokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self emitCharacterTokensWithString:_temporaryBuffer];
@@ -508,47 +508,47 @@
         doneScriptDataEndTagNameState:
             break;
             
-        case HTMLTokenizerScriptDataEscapeStartState:
+        case HTMLScriptDataEscapeStartTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerScriptDataEscapeStartDashState];
+                    [self switchToState:HTMLScriptDataEscapeStartDashTokenizerState];
                     [self emitCharacterToken:'-'];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataState];
+                    [self switchToState:HTMLScriptDataTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
         
-        case HTMLTokenizerScriptDataEscapeStartDashState:
+        case HTMLScriptDataEscapeStartDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerScriptDataEscapedDashDashState];
+                    [self switchToState:HTMLScriptDataEscapedDashDashTokenizerState];
                     [self emitCharacterToken:'-'];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataState];
+                    [self switchToState:HTMLScriptDataTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataEscapedState:
+        case HTMLScriptDataEscapedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerScriptDataEscapedDashState];
+                    [self switchToState:HTMLScriptDataEscapedDashTokenizerState];
                     [self emitCharacterToken:'-'];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataEscapedLessThanSignState];
+                    [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitParseError];
                     [self reconsume:EOF];
                     break;
@@ -558,82 +558,82 @@
             }
             break;
             
-        case HTMLTokenizerScriptDataEscapedDashState:
+        case HTMLScriptDataEscapedDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerScriptDataEscapedDashDashState];
+                    [self switchToState:HTMLScriptDataEscapedDashDashTokenizerState];
                     [self emitCharacterToken:'-'];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataEscapedLessThanSignState];
+                    [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                    [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                    [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataEscapedDashDashState:
+        case HTMLScriptDataEscapedDashDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self emitCharacterToken:'-'];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataEscapedLessThanSignState];
+                    [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerScriptDataState];
+                    [self switchToState:HTMLScriptDataTokenizerState];
                     [self emitCharacterToken:'>'];
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                    [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                    [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataEscapedLessThanSignState:
+        case HTMLScriptDataEscapedLessThanSignTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '/':
                     _temporaryBuffer = [NSMutableString new];
-                    [self switchToState:HTMLTokenizerScriptDataEscapedEndTagOpenState];
+                    [self switchToState:HTMLScriptDataEscapedEndTagOpenTokenizerState];
                     break;
                 default:
                     if (isupper(currentInputCharacter)) {
                         _temporaryBuffer = [NSMutableString new];
                         AppendLongCharacter(_temporaryBuffer, currentInputCharacter + 0x0020);
-                        [self switchToState:HTMLTokenizerScriptDataDoubleEscapeStartState];
+                        [self switchToState:HTMLScriptDataDoubleEscapeStartTokenizerState];
                         [self emitCharacterToken:'<'];
                         [self emitCharacterToken:currentInputCharacter];
                     } else if (islower(currentInputCharacter)) {
                         _temporaryBuffer = [NSMutableString new];
                         AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                        [self switchToState:HTMLTokenizerScriptDataDoubleEscapeStartState];
+                        [self switchToState:HTMLScriptDataDoubleEscapeStartTokenizerState];
                         [self emitCharacterToken:'<'];
                         [self emitCharacterToken:currentInputCharacter];
                     } else {
-                        [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                        [self switchToState:HTMLScriptDataEscapedTokenizerState];
                         [self emitCharacterToken:'<'];
                         [self reconsume:currentInputCharacter];
                     }
@@ -641,45 +641,45 @@
             }
             break;
             
-        case HTMLTokenizerScriptDataEscapedEndTagOpenState:
+        case HTMLScriptDataEscapedEndTagOpenTokenizerState:
             if (isupper(currentInputCharacter = [self consumeNextInputCharacter])) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter + 0x0020];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerScriptDataEscapedEndTagNameState];
+                [self switchToState:HTMLScriptDataEscapedEndTagNameTokenizerState];
             } else if (islower(currentInputCharacter)) {
                 _currentToken = [HTMLEndTagToken new];
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
-                [self switchToState:HTMLTokenizerScriptDataEscapedEndTagNameState];
+                [self switchToState:HTMLScriptDataEscapedEndTagNameTokenizerState];
             } else {
-                [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                [self switchToState:HTMLScriptDataEscapedTokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self reconsume:currentInputCharacter];
             }
             break;
     
-        case HTMLTokenizerScriptDataEscapedEndTagNameState:
+        case HTMLScriptDataEscapedEndTagNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                        [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                         goto doneScriptDataEscapedEndTagNameState;
                     }
                     break;
                 case '/':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                        [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                         goto doneScriptDataEscapedEndTagNameState;
                     }
                     break;
                 case '>':
                     if ([self currentTagIsAppropriateEndTagToken]) {
-                        [self switchToState:HTMLTokenizerDataState];
+                        [self switchToState:HTMLDataTokenizerState];
                         [self emitCurrentToken];
                         goto doneScriptDataEscapedEndTagNameState;
                     }
@@ -692,7 +692,7 @@
                 [_currentToken appendLongCharacterToTagName:currentInputCharacter];
                 AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
             } else {
-                [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                [self switchToState:HTMLScriptDataEscapedTokenizerState];
                 [self emitCharacterToken:'<'];
                 [self emitCharacterToken:'/'];
                 [self emitCharacterTokensWithString:_temporaryBuffer];
@@ -701,7 +701,7 @@
         doneScriptDataEscapedEndTagNameState:
             break;
             
-        case HTMLTokenizerScriptDataDoubleEscapeStartState:
+        case HTMLScriptDataDoubleEscapeStartTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -710,9 +710,9 @@
                 case '/':
                 case '>':
                     if ([_temporaryBuffer isEqualToString:@"script"]) {
-                        [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                        [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     } else {
-                        [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                        [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     }
                     [self emitCharacterToken:currentInputCharacter];
                     break;
@@ -724,21 +724,21 @@
                         AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                         [self emitCharacterToken:currentInputCharacter];
                     } else {
-                        [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                        [self switchToState:HTMLScriptDataEscapedTokenizerState];
                         [self reconsume:currentInputCharacter];
                     }
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataDoubleEscapedState:
+        case HTMLScriptDataDoubleEscapedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedDashState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedDashTokenizerState];
                     [self emitCharacterToken:'-'];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedLessThanSignState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedLessThanSignTokenizerState];
                     [self emitCharacterToken:'<'];
                     break;
                 case '\0':
@@ -747,7 +747,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -756,78 +756,78 @@
             }
             break;
             
-        case HTMLTokenizerScriptDataDoubleEscapedDashState:
+        case HTMLScriptDataDoubleEscapedDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedDashDashState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedDashDashTokenizerState];
                     [self emitCharacterToken:'-'];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedLessThanSignState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedLessThanSignTokenizerState];
                     [self emitCharacterToken:'<'];
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataDoubleEscapedDashDashState:
+        case HTMLScriptDataDoubleEscapedDashDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [self emitCharacterToken:'-'];
                     break;
                 case '<':
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedLessThanSignState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedLessThanSignTokenizerState];
                     [self emitCharacterToken:'<'];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerScriptDataState];
+                    [self switchToState:HTMLScriptDataTokenizerState];
                     [self emitCharacterToken:'>'];
                     break;
                 case '\0':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self emitCharacterToken:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataDoubleEscapedLessThanSignState:
+        case HTMLScriptDataDoubleEscapedLessThanSignTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '/':
                     _temporaryBuffer = [NSMutableString new];
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapeEndState];
+                    [self switchToState:HTMLScriptDataDoubleEscapeEndTokenizerState];
                     [self emitCharacterToken:'/'];
                     break;
                 default:
-                    [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                    [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerScriptDataDoubleEscapeEndState:
+        case HTMLScriptDataDoubleEscapeEndTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -836,9 +836,9 @@
                 case '/':
                 case '>':
                     if ([_temporaryBuffer isEqualToString:@"script"]) {
-                        [self switchToState:HTMLTokenizerScriptDataEscapedState];
+                        [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     } else {
-                        [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                        [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     }
                     [self emitCharacterToken:currentInputCharacter];
                     break;
@@ -850,14 +850,14 @@
                         AppendLongCharacter(_temporaryBuffer, currentInputCharacter);
                         [self emitCharacterToken:currentInputCharacter];
                     } else {
-                        [self switchToState:HTMLTokenizerScriptDataDoubleEscapedState];
+                        [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                         [self reconsume:currentInputCharacter];
                     }
                     break;
             }
             break;
     
-        case HTMLTokenizerBeforeAttributeNameState:
+        case HTMLBeforeAttributeNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -865,10 +865,10 @@
                 case ' ':
                     break;
                 case '/':
-                    [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                    [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
@@ -876,7 +876,7 @@
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
                     [_currentAttribute appendLongCharacterToName:0xFFFD];
-                    [self switchToState:HTMLTokenizerAttributeNameState];
+                    [self switchToState:HTMLAttributeNameTokenizerState];
                     break;
                 case '"':
                 case '\'':
@@ -886,7 +886,7 @@
                     goto anythingElseBeforeAttributeNameState;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -898,27 +898,27 @@
                     } else {
                         [_currentAttribute appendLongCharacterToName:currentInputCharacter];
                     }
-                    [self switchToState:HTMLTokenizerAttributeNameState];
+                    [self switchToState:HTMLAttributeNameTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerAttributeNameState:
+        case HTMLAttributeNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerAfterAttributeNameState];
+                    [self switchToState:HTMLAfterAttributeNameTokenizerState];
                     break;
                 case '/':
-                    [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                    [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                     break;
                 case '=':
-                    [self switchToState:HTMLTokenizerBeforeAttributeValueState];
+                    [self switchToState:HTMLBeforeAttributeValueTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
@@ -932,7 +932,7 @@
                     goto anythingElseAttributeNameState;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -946,7 +946,7 @@
             }
             break;
             
-        case HTMLTokenizerAfterAttributeNameState:
+        case HTMLAfterAttributeNameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -954,13 +954,13 @@
                 case ' ':
                     break;
                 case '/':
-                    [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                    [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                     break;
                 case '=':
-                    [self switchToState:HTMLTokenizerBeforeAttributeValueState];
+                    [self switchToState:HTMLBeforeAttributeValueTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
@@ -968,7 +968,7 @@
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
                     [_currentAttribute appendLongCharacterToName:0xFFFD];
-                    [self switchToState:HTMLTokenizerAttributeNameState];
+                    [self switchToState:HTMLAttributeNameTokenizerState];
                     break;
                 case '"':
                 case '\'':
@@ -977,7 +977,7 @@
                     goto anythingElseAfterAttributeNameState;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -989,12 +989,12 @@
                     } else {
                         [_currentAttribute appendLongCharacterToName:currentInputCharacter];
                     }
-                    [self switchToState:HTMLTokenizerAttributeNameState];
+                    [self switchToState:HTMLAttributeNameTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerBeforeAttributeValueState:
+        case HTMLBeforeAttributeValueTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1002,23 +1002,23 @@
                 case ' ':
                     break;
                 case '"':
-                    [self switchToState:HTMLTokenizerAttributeValueDoubleQuotedState];
+                    [self switchToState:HTMLAttributeValueDoubleQuotedTokenizerState];
                     break;
                 case '&':
-                    [self switchToState:HTMLTokenizerAttributeValueUnquotedState];
+                    [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
                 case '\'':
-                    [self switchToState:HTMLTokenizerAttributeValueSingleQuotedState];
+                    [self switchToState:HTMLAttributeValueSingleQuotedTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
                     [_currentAttribute appendLongCharacterToValue:0xFFFD];
-                    [self switchToState:HTMLTokenizerAttributeValueUnquotedState];
+                    [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '<':
@@ -1028,26 +1028,26 @@
                     goto anythingElseBeforeAttributeValueState;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
                 anythingElseBeforeAttributeValueState:
                     [_currentAttribute appendLongCharacterToValue:currentInputCharacter];
-                    [self switchToState:HTMLTokenizerAttributeValueUnquotedState];
+                    [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerAttributeValueDoubleQuotedState:
+        case HTMLAttributeValueDoubleQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '"':
-                    [self switchToState:HTMLTokenizerAfterAttributeValueQuotedState];
+                    [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
                     break;
                 case '&':
-                    [self switchToState:HTMLTokenizerCharacterReferenceInAttributeValueState];
+                    [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
                     _additionalAllowedCharacter = '"';
-                    _sourceAttributeValueState = HTMLTokenizerAttributeValueDoubleQuotedState;
+                    _sourceAttributeValueState = HTMLAttributeValueDoubleQuotedTokenizerState;
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1055,7 +1055,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -1064,15 +1064,15 @@
             }
             break;
             
-        case HTMLTokenizerAttributeValueSingleQuotedState:
+        case HTMLAttributeValueSingleQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\'':
-                    [self switchToState:HTMLTokenizerAfterAttributeValueQuotedState];
+                    [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
                     break;
                 case '&':
-                    [self switchToState:HTMLTokenizerCharacterReferenceInAttributeValueState];
+                    [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
                     _additionalAllowedCharacter = '\'';
-                    _sourceAttributeValueState = HTMLTokenizerAttributeValueSingleQuotedState;
+                    _sourceAttributeValueState = HTMLAttributeValueSingleQuotedTokenizerState;
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1080,7 +1080,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -1089,21 +1089,21 @@
             }
             break;
     
-        case HTMLTokenizerAttributeValueUnquotedState:
+        case HTMLAttributeValueUnquotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                    [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     break;
                 case '&':
-                    [self switchToState:HTMLTokenizerCharacterReferenceInAttributeValueState];
+                    [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
                     _additionalAllowedCharacter = '>';
-                    _sourceAttributeValueState = HTMLTokenizerAttributeValueUnquotedState;
+                    _sourceAttributeValueState = HTMLAttributeValueUnquotedTokenizerState;
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
@@ -1119,7 +1119,7 @@
                     goto anythingElseAttributeValueUnquotedState;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -1129,7 +1129,7 @@
             }
             break;
     
-        case HTMLTokenizerCharacterReferenceInAttributeValueState: {
+        case HTMLCharacterReferenceInAttributeValueTokenizerState: {
             NSString *characters = [self attemptToConsumeCharacterReferenceAsPartOfAnAttribute];
             if (characters) {
                 [_currentAttribute appendStringToValue:characters];
@@ -1140,55 +1140,55 @@
             break;
         }
     
-        case HTMLTokenizerAfterAttributeValueQuotedState:
+        case HTMLAfterAttributeValueQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                    [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     break;
                 case '/':
-                    [self switchToState:HTMLTokenizerSelfClosingStartTagState];
+                    [self switchToState:HTMLSelfClosingStartTagTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                    [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
     
-        case HTMLTokenizerSelfClosingStartTagState:
+        case HTMLSelfClosingStartTagTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '>':
                     [_currentToken setSelfClosingFlag:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerBeforeAttributeNameState];
+                    [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerBogusCommentState:
+        case HTMLBogusCommentTokenizerState:
             _currentToken = [HTMLCommentToken new];
             while (true) {
                 switch (currentInputCharacter = [self consumeNextInputCharacter]) {
@@ -1207,89 +1207,89 @@
             }
         doneBogusCommentState:
             [self emitCurrentToken];
-            [self switchToState:HTMLTokenizerDataState];
+            [self switchToState:HTMLDataTokenizerState];
             break;
             
-        case HTMLTokenizerMarkupDeclarationOpenState:
+        case HTMLMarkupDeclarationOpenTokenizerState:
             if ([_scanner scanString:@"--" intoString:nil]) {
                 _currentToken = [[HTMLCommentToken alloc] initWithData:@""];
-                [self switchToState:HTMLTokenizerCommentStartState];
+                [self switchToState:HTMLCommentStartTokenizerState];
                 break;
             }
             _scanner.caseSensitive = NO;
             if ([_scanner scanString:@"DOCTYPE" intoString:nil]) {
-                [self switchToState:HTMLTokenizerDOCTYPEState];
+                [self switchToState:HTMLDOCTYPETokenizerState];
                 goto doneMarkupDeclarationOpenState;
             }
             // TODO handle CDATA once tree construction is up
             [self emitParseError];
-            [self switchToState:HTMLTokenizerBogusCommentState];
+            [self switchToState:HTMLBogusCommentTokenizerState];
         doneMarkupDeclarationOpenState:
             _scanner.caseSensitive = YES;
             break;
             
-        case HTMLTokenizerCommentStartState:
+        case HTMLCommentStartTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerCommentStartDashState];
+                    [self switchToState:HTMLCommentStartDashTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
                     [_currentToken appendLongCharacter:0xFFFD];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
                     [_currentToken appendLongCharacter:currentInputCharacter];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerCommentStartDashState:
+        case HTMLCommentStartDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerCommentEndState];
+                    [self switchToState:HTMLCommentEndTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
                     [_currentToken appendLongCharacter:'-'];
                     [_currentToken appendLongCharacter:0xFFFD];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
                     [_currentToken appendLongCharacter:'-'];
                     [_currentToken appendLongCharacter:currentInputCharacter];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerCommentState:
+        case HTMLCommentTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerCommentEndDashState];
+                    [self switchToState:HTMLCommentEndDashTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1297,7 +1297,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
@@ -1307,46 +1307,46 @@
             }
             break;
             
-        case HTMLTokenizerCommentEndDashState:
+        case HTMLCommentEndDashTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
-                    [self switchToState:HTMLTokenizerCommentEndState];
+                    [self switchToState:HTMLCommentEndTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
                     [_currentToken appendLongCharacter:'-'];
                     [_currentToken appendLongCharacter:0xFFFD];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
                     [_currentToken appendLongCharacter:'-'];
                     [_currentToken appendLongCharacter:currentInputCharacter];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerCommentEndState:
+        case HTMLCommentEndTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
                     [self emitParseError];
                     [_currentToken appendString:@"--"];
                     [_currentToken appendLongCharacter:0xFFFD];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case '!':
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerCommentEndBangState];
+                    [self switchToState:HTMLCommentEndBangTokenizerState];
                     break;
                 case '-':
                     [self emitParseError];
@@ -1354,7 +1354,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
@@ -1362,51 +1362,51 @@
                     [self emitParseError];
                     [_currentToken appendString:@"--"];
                     [_currentToken appendLongCharacter:currentInputCharacter];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerCommentEndBangState:
+        case HTMLCommentEndBangTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '-':
                     [_currentToken appendString:@"--!"];
-                    [self switchToState:HTMLTokenizerCommentEndDashState];
+                    [self switchToState:HTMLCommentEndDashTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
                     [self emitParseError];
                     [_currentToken appendString:@"--!\uFFFD"];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
                     [_currentToken appendString:@"--!"];
                     [_currentToken appendLongCharacter:currentInputCharacter];
-                    [self switchToState:HTMLTokenizerCommentState];
+                    [self switchToState:HTMLCommentTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerDOCTYPEState:
+        case HTMLDOCTYPETokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBeforeDOCTYPENameState];
+                    [self switchToState:HTMLBeforeDOCTYPENameTokenizerState];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1414,13 +1414,13 @@
                     break;
                 default:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerBeforeDOCTYPENameState];
+                    [self switchToState:HTMLBeforeDOCTYPENameTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
             }
             break;
             
-        case HTMLTokenizerBeforeDOCTYPENameState:
+        case HTMLBeforeDOCTYPENameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1431,18 +1431,18 @@
                     [self emitParseError];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken appendLongCharacterToName:0xFFFD];
-                    [self switchToState:HTMLTokenizerDOCTYPENameState];
+                    [self switchToState:HTMLDOCTYPENameTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1455,21 +1455,21 @@
                     } else {
                         [_currentToken appendLongCharacterToName:currentInputCharacter];
                     }
-                    [self switchToState:HTMLTokenizerDOCTYPENameState];
+                    [self switchToState:HTMLDOCTYPENameTokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerDOCTYPENameState:
+        case HTMLDOCTYPENameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerAfterDOCTYPENameState];
+                    [self switchToState:HTMLAfterDOCTYPENameTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '\0':
@@ -1478,7 +1478,7 @@
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1493,7 +1493,7 @@
             }
             break;
             
-        case HTMLTokenizerAfterDOCTYPENameState:
+        case HTMLAfterDOCTYPENameTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1501,12 +1501,12 @@
                 case ' ':
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1515,47 +1515,47 @@
                     if (!_scanner.isAtEnd) _scanner.scanLocation--;
                     _scanner.caseSensitive = NO;
                     if ([_scanner scanString:@"PUBLIC" intoString:nil]) {
-                        [self switchToState:HTMLTokenizerAfterDOCTYPEPublicKeywordState];
+                        [self switchToState:HTMLAfterDOCTYPEPublicKeywordTokenizerState];
                     } else if ([_scanner scanString:@"SYSTEM" intoString:nil]) {
-                        [self switchToState:HTMLTokenizerAfterDOCTYPESystemKeywordState];
+                        [self switchToState:HTMLAfterDOCTYPESystemKeywordTokenizerState];
                     } else {
                         if (!_scanner.isAtEnd) _scanner.scanLocation++;
                         [self emitParseError];
                         [_currentToken setForceQuirks:YES];
-                        [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                        [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     }
                     _scanner.caseSensitive = YES;
                     break;
             }
             break;
             
-        case HTMLTokenizerAfterDOCTYPEPublicKeywordState:
+        case HTMLAfterDOCTYPEPublicKeywordTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBeforeDOCTYPEPublicIdentifierState];
+                    [self switchToState:HTMLBeforeDOCTYPEPublicIdentifierTokenizerState];
                     break;
                 case '"':
                     [self emitParseError];
                     [_currentToken setPublicIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState];
+                    [self switchToState:HTMLDOCTYPEPublicIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
                     [self emitParseError];
                     [_currentToken setPublicIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState];
+                    [self switchToState:HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1563,12 +1563,12 @@
                 default:
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerBeforeDOCTYPEPublicIdentifierState:
+        case HTMLBeforeDOCTYPEPublicIdentifierTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1577,21 +1577,21 @@
                     break;
                 case '"':
                     [_currentToken setPublicIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState];
+                    [self switchToState:HTMLDOCTYPEPublicIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
                     [_currentToken setPublicIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState];
+                    [self switchToState:HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1599,15 +1599,15 @@
                 default:
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerDOCTYPEPublicIdentifierDoubleQuotedState:
+        case HTMLDOCTYPEPublicIdentifierDoubleQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '"':
-                    [self switchToState:HTMLTokenizerAfterDOCTYPEPublicIdentifierState];
+                    [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1616,12 +1616,12 @@
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1632,10 +1632,10 @@
             }
             break;
             
-        case HTMLTokenizerDOCTYPEPublicIdentifierSingleQuotedState:
+        case HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\'':
-                    [self switchToState:HTMLTokenizerAfterDOCTYPEPublicIdentifierState];
+                    [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1644,12 +1644,12 @@
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1660,31 +1660,31 @@
             }
             break;
             
-        case HTMLTokenizerAfterDOCTYPEPublicIdentifierState:
+        case HTMLAfterDOCTYPEPublicIdentifierTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBetweenDOCTYPEPublicAndSystemIdentifiersState];
+                    [self switchToState:HTMLBetweenDOCTYPEPublicAndSystemIdentifiersTokenizerState];
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '"':
                     [self emitParseError];
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
                     [self emitParseError];
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1692,12 +1692,12 @@
                 default:
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerBetweenDOCTYPEPublicAndSystemIdentifiersState:
+        case HTMLBetweenDOCTYPEPublicAndSystemIdentifiersTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1705,20 +1705,20 @@
                 case ' ':
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '"':
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1726,38 +1726,38 @@
                 default:
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerAfterDOCTYPESystemKeywordState:
+        case HTMLAfterDOCTYPESystemKeywordTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
                 case '\f':
                 case ' ':
-                    [self switchToState:HTMLTokenizerBeforeDOCTYPESystemIdentifierState];
+                    [self switchToState:HTMLBeforeDOCTYPESystemIdentifierTokenizerState];
                     break;
                 case '"':
                     [self emitParseError];
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
                     [self emitParseError];
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1765,12 +1765,12 @@
                 default:
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerBeforeDOCTYPESystemIdentifierState:
+        case HTMLBeforeDOCTYPESystemIdentifierTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1779,21 +1779,21 @@
                     break;
                 case '"':
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
                     [_currentToken setSystemIdentifier:@""];
-                    [self switchToState:HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState];
+                    [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1801,15 +1801,15 @@
                 default:
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerDOCTYPESystemIdentifierDoubleQuotedState:
+        case HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '"':
-                    [self switchToState:HTMLTokenizerAfterDOCTYPESystemIdentifierState];
+                    [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1818,12 +1818,12 @@
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1834,10 +1834,10 @@
             }
             break;
             
-        case HTMLTokenizerDOCTYPESystemIdentifierSingleQuotedState:
+        case HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\'':
-                    [self switchToState:HTMLTokenizerAfterDOCTYPESystemIdentifierState];
+                    [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
                     break;
                 case '\0':
                     [self emitParseError];
@@ -1846,12 +1846,12 @@
                 case '>':
                     [self emitParseError];
                     [_currentToken setForceQuirks:YES];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1862,7 +1862,7 @@
             }
             break;
             
-        case HTMLTokenizerAfterDOCTYPESystemIdentifierState:
+        case HTMLAfterDOCTYPESystemIdentifierTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\t':
                 case '\n':
@@ -1870,31 +1870,31 @@
                 case ' ':
                     break;
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
                     [self emitParseError];
-                    [self switchToState:HTMLTokenizerBogusDOCTYPEState];
+                    [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
             break;
             
-        case HTMLTokenizerBogusDOCTYPEState:
+        case HTMLBogusDOCTYPETokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '>':
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self switchToState:HTMLTokenizerDataState];
+                    [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
@@ -1903,7 +1903,7 @@
             }
             break;
             
-        case HTMLTokenizerCDATASectionState:
+        case HTMLCDATASectionTokenizerState:
             NSLog(@"unimplemented state");
             _done = YES;
             break;
@@ -1975,7 +1975,7 @@
 
 - (void)switchToState:(HTMLTokenizerState)state
 {
-    if (self.state == HTMLTokenizerAttributeNameState) {
+    if (self.state == HTMLAttributeNameTokenizerState) {
         if ([_currentToken removeLastAttributeIfDuplicateName]) {
             [self emitParseError];
         }

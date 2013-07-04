@@ -65,9 +65,9 @@ HTMLTokenizerState StateNamed(NSString *name)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         states = @{
-            @"RCDATA state": @(HTMLTokenizerRCDATAState),
-            @"RAWTEXT state": @(HTMLTokenizerRAWTEXTState),
-            @"PLAINTEXT state": @(HTMLTokenizerPLAINTEXTState),
+            @"RCDATA state": @(HTMLRCDATATokenizerState),
+            @"RAWTEXT state": @(HTMLRAWTEXTTokenizerState),
+            @"PLAINTEXT state": @(HTMLPLAINTEXTTokenizerState),
         };
     });
     return [states[name] integerValue];

@@ -277,7 +277,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                        [[currentToken tagName] isEqualToString:@"title"])
             {
                 [self insertElementForToken:currentToken];
-                _tokenizer.state = HTMLTokenizerRCDATAState;
+                _tokenizer.state = HTMLRCDATATokenizerState;
                 _originalInsertionMode = _insertionMode;
                 [self switchInsertionMode:HTMLTextInsertionMode];
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
@@ -297,7 +297,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 HTMLElementNode *script = [self createElementForToken:currentToken];
                 [adjustedInsertionLocation appendChild:script];
                 [_stackOfOpenElements addObject:script];
-                _tokenizer.state = HTMLTokenizerScriptDataState;
+                _tokenizer.state = HTMLScriptDataTokenizerState;
                 _originalInsertionMode = _insertionMode;
                 [self switchInsertionMode:HTMLTextInsertionMode];
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
@@ -808,7 +808,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             {
                 [self insertElementForToken:currentToken];
                 _ignoreNextTokenIfLineFeed = YES;
-                _tokenizer.state = HTMLTokenizerRCDATAState;
+                _tokenizer.state = HTMLRCDATATokenizerState;
                 _originalInsertionMode = _insertionMode;
                 _framesetOkFlag = NO;
                 [self switchInsertionMode:HTMLTextInsertionMode];
@@ -1170,7 +1170,7 @@ create:;
 - (void)followGenericRawTextElementParsingAlgorithmForToken:(id)token
 {
     [self insertElementForToken:token];
-    _tokenizer.state = HTMLTokenizerRAWTEXTState;
+    _tokenizer.state = HTMLRAWTEXTTokenizerState;
     _originalInsertionMode = _insertionMode;
     [self switchInsertionMode:HTMLTextInsertionMode];
 }
