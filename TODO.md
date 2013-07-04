@@ -1,6 +1,8 @@
 # HTMLReader TODO
 
 - Pass all tree construction tests.
+- During tree construction, add a parse error anytime a start tag token is encountered with an unacknowledged self-closing flag. (This is parially complete.) (It would be awesome if we could do this by calling some kind of `-acknowledgeSelfClosingFlag` method.)
+- Look into this `<template>` stuff.
 - Pass all tokenizer tests.
   - domjs test12 fails (extra parse error).
   - unicode chars problematic test2 fails (parse error between character tokens).
