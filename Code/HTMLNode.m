@@ -33,6 +33,12 @@
     child->_parentNode = self;
 }
 
+- (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index
+{
+    [self appendChild:child];
+    [_childNodes exchangeObjectAtIndex:index withObjectAtIndex:_childNodes.count - 1];
+}
+
 - (void)removeChild:(HTMLNode *)child
 {
     NSUInteger i = [_childNodes indexOfObject:child];

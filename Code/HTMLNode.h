@@ -16,6 +16,7 @@
 @property (readonly, nonatomic) HTMLNode *parentNode;
 @property (readonly, nonatomic) NSArray *childNodes;
 - (void)appendChild:(HTMLNode *)child;
+- (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
 - (void)removeChild:(HTMLNode *)child;
 
 @end
