@@ -13,42 +13,42 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!doctype html></head> <head>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|   \" \"\n|   <body>\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test001
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!doctype html><form><div></form><div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|   <body>\n|     <form>\n|       <div>\n|         <div>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test002
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!doctype html><title>&amp;</title>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|     <title>\n|       \"&\"\n|   <body>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test003
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!doctype html><title><!--&amp;--></title>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|     <title>\n|       \"<!--&-->\"\n|   <body>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test004
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!doctype>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE >\n| <html>\n|   <head>\n|   <body>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test005
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!---x" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!-- -x -->\n| <html>\n|   <head>\n|   <body>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test006
@@ -57,77 +57,77 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<body>\n<div>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| \"\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test007
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\nfoo" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test008
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n<noframes>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test009
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n<div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test010
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n</html>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test011
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n</div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test012
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<form><form>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test013
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<button><button>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <button>\n|     <button>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test014
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><td></th>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test015
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><caption><td>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <caption>\n|       <tbody>\n|         <tr>\n|           <td>\n");
-    STAssertTrue(parser.errors.count == 4 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 4, fixture, nil);
 }
 
 - (void)test016
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><caption><div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <caption>\n|         <div>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test017
@@ -136,21 +136,21 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</caption><div>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <div>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test018
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><caption><div></caption>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <caption>\n|         <div>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test019
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><caption></table>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <caption>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test020
@@ -159,28 +159,28 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</table><div>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <div>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test021
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><caption></body></col></colgroup></html></tbody></td></tfoot></th></thead></tr>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <caption>\n");
-    STAssertTrue(parser.errors.count == 12 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 12, fixture, nil);
 }
 
 - (void)test022
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><caption><div></div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <caption>\n|         <div>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test023
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><td></body></caption></col></colgroup></html>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n");
-    STAssertTrue(parser.errors.count == 7 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 7, fixture, nil);
 }
 
 - (void)test024
@@ -189,14 +189,14 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</table></tbody></tfoot></thead></tr><div>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <div>\n");
-    STAssertTrue(parser.errors.count == 6 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 6, fixture, nil);
 }
 
 - (void)test025
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><colgroup>foo" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"foo\"\n|     <table>\n|       <colgroup>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test026
@@ -205,21 +205,21 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"foo<col>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <col>\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test027
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><colgroup></col>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <colgroup>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test028
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset><div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test029
@@ -228,14 +228,14 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</frameset><frame>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <frame>\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test030
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test031
@@ -244,14 +244,14 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</body><div>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <div>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test032
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|     <table>\n|       <tbody>\n|         <tr>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test033
@@ -260,7 +260,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</tr><td>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <td>\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test034
@@ -269,14 +269,14 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</tbody></tfoot></thead><td>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <td>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test035
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><div><td>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n");
-    STAssertTrue(parser.errors.count == 4 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 4, fixture, nil);
 }
 
 - (void)test036
@@ -285,14 +285,14 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<caption><col><colgroup><tbody><tfoot><thead><tr>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <tr>\n");
-    STAssertTrue(parser.errors.count == 7 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 7, fixture, nil);
 }
 
 - (void)test037
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tbody></thead>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test038
@@ -301,35 +301,35 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</table><tr>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <tr>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test039
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tbody></body></caption></col></colgroup></html></td></th></tr>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n");
-    STAssertTrue(parser.errors.count == 10 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 10, fixture, nil);
 }
 
 - (void)test040
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tbody></div>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n");
-    STAssertTrue(parser.errors.count == 4 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 4, fixture, nil);
 }
 
 - (void)test041
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><table>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|     <table>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test042
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n");
-    STAssertTrue(parser.errors.count == 13 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 13, fixture, nil);
 }
 
 - (void)test043
@@ -338,7 +338,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</table><tr>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <tbody>\n|   <tr>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test044
@@ -347,56 +347,56 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<body></body></html>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <head>\n| <body>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test045
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html><frameset></frameset></html> " context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \" \"\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test046
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"><html></html>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html \"-//W3C//DTD HTML 4.01//EN\" \"\">\n| <html>\n|   <head>\n|   <body>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test047
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<param><frameset></frameset>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test048
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<source><frameset></frameset>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test049
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<track><frameset></frameset>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 2 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test050
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</html><frameset></frameset>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 - (void)test051
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</body><frameset></frameset>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n");
-    STAssertTrue(parser.errors.count == 3 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 3, fixture, nil);
 }
 
 @end

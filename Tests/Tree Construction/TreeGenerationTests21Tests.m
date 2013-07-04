@@ -13,175 +13,175 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[foo]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test001
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<math><![CDATA[foo]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <math math>\n|       \"foo\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test002
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<div><![CDATA[foo]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|       <!-- [CDATA[foo]] -->\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test003
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[foo" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test004
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[foo" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test005
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test006
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test007
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[]] >]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"]] >\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test008
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[]] >]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"]] >\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test009
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[]]" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"]]\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test010
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[]" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"]\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test011
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[]>a" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"]>a\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test012
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!DOCTYPE html><svg><![CDATA[foo]]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo]\"\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test013
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!DOCTYPE html><svg><![CDATA[foo]]]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo]]\"\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test014
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!DOCTYPE html><svg><![CDATA[foo]]]]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo]]]\"\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test015
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><foreignObject><div><![CDATA[foo]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       <svg foreignObject>\n|         <div>\n|           <!-- [CDATA[foo]] -->\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test016
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<svg>]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<svg>\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test017
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[</svg>a]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"</svg>a\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test018
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<svg>a" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<svg>a\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test019
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[</svg>a" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"</svg>a\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test020
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<svg>]]><path>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<svg>\"\n|       <svg path>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test021
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<svg>]]></path>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<svg>\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test022
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<svg>]]><!--path-->" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<svg>\"\n|       <!-- path -->\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test023
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<svg>]]>path" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<svg>path\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test024
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[<!--svg-->]]>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"<!--svg-->\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 @end

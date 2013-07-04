@@ -15,7 +15,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"direct div content"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| \"direct div content\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test001
@@ -24,7 +24,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"direct textarea content"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| \"direct textarea content\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test002
@@ -33,7 +33,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"textarea content with <em>pseudo</em> <foo>markup"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| \"textarea content with <em>pseudo</em> <foo>markup\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test003
@@ -42,7 +42,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"this is &#x0043;DATA inside a <style> element"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| \"this is &#x0043;DATA inside a <style> element\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test004
@@ -51,7 +51,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"</plaintext>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| \"</plaintext>\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test005
@@ -60,7 +60,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"setting html's innerHTML"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <head>\n| <body>\n|   \"setting html's innerHTML\"\n");
-    STAssertTrue(parser.errors.count == 1 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test006
@@ -69,7 +69,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<title>setting head's innerHTML</title>"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <title>\n|   \"setting head's innerHTML\"\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 @end

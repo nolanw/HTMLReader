@@ -13,21 +13,21 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<isindex>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n|       <hr>\n|       <label>\n|         \"This is a searchable index. Enter search keywords: \"\n|         <input>\n|           name=\"isindex\"\n|       <hr>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test001
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<isindex name=\"A\" action=\"B\" prompt=\"C\" foo=\"D\">" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n|       action=\"B\"\n|       <hr>\n|       <label>\n|         \"C\"\n|         <input>\n|           foo=\"D\"\n|           name=\"isindex\"\n|       <hr>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test002
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<form><isindex>" context:nil];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n");
-    STAssertTrue(parser.errors.count == 0 && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 @end

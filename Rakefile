@@ -123,7 +123,7 @@ END
     end
     objc << <<-END
     NSArray *fixture = ReifiedTreeForTestDocument(#{objc_literalize(document)});
-    STAssertTrue(parser.errors.count == #{errors.split("\n").size} && [parser.document.childNodes isEqual:fixture], nil);
+    HTMLAssertParserState(parser, #{errors.split("\n").size}, fixture, nil);
 }
 
 END
