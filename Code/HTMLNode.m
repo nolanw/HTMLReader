@@ -158,6 +158,15 @@
 
 #pragma mark NSObject
 
+- (NSString *)description
+{
+    NSString *truncatedData = self.data;
+    if (truncatedData.length > 37) {
+        truncatedData = [[truncatedData substringToIndex:37] stringByAppendingString:@"…"];
+    }
+    return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, truncatedData];
+}
+
 - (BOOL)isEqual:(HTMLTextNode *)other
 {
     return ([other isKindOfClass:[HTMLTextNode class]] &&
@@ -192,10 +201,24 @@
 
 #pragma mark NSObject
 
+- (NSString *)description
+{
+    NSString *truncatedData = self.data;
+    if (truncatedData.length > 37) {
+        truncatedData = [[truncatedData substringToIndex:37] stringByAppendingString:@"…"];
+    }
+    return [NSString stringWithFormat:@"<%@: %p <!-- %@ --> >", self.class, self, truncatedData];
+}
+
 - (BOOL)isEqual:(HTMLCommentNode *)other{
     return ([other isKindOfClass:[HTMLCommentNode class]] &&
             [other.childNodes isEqual:self.childNodes] &&
             [other.data isEqualToString:self.data]);
+}
+
+- (NSUInteger)hash
+{
+    return self.childNodes.hash ^ _data.hash;
 }
 
 @end
@@ -224,6 +247,12 @@
 
 #pragma mark NSObject
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p <!DOCTYPE %@ '%@' '%@'> >",
+            self.class, self, self.name, self.publicId, self.systemId];
+}
+
 - (BOOL)isEqual:(HTMLDocumentTypeNode *)other
 {
     #define AreEqualOrNil(a, b) (((a) == nil && (b) == nil) || [(a) isEqual:(b)])
@@ -232,6 +261,11 @@
             [other.name isEqualToString:self.name] &&
             AreEqualOrNil(other.publicId, self.publicId) &&
             AreEqualOrNil(other.systemId, self.systemId));
+}
+
+- (NSUInteger)hash
+{
+    return self.childNodes.hash ^ _name.hash ^ _publicId.hash ^ _systemId.hash;
 }
 
 @end
