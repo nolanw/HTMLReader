@@ -397,15 +397,18 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
             {
                 [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"body"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"body"])
             {
                 [self insertElementForToken:currentToken];
                 _framesetOkFlag = NO;
                 [self switchInsertionMode:HTMLInBodyInsertionMode];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"frameset"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"frameset"])
             {
                 [self insertElementForToken:currentToken];
                 [self switchInsertionMode:HTMLInFramesetInsertionMode];
@@ -730,7 +733,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self insertElementForToken:currentToken];
                 [_stackOfOpenElements removeLastObject];
                 _framesetOkFlag = NO;
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"input"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"input"])
             {
                 HTMLStartTagToken *token = currentToken;
                 [self reconstructTheActiveFormattingElements];
@@ -746,11 +750,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 if (!type || ![type.value isEqualToString:@"hidden"]) {
                     _framesetOkFlag = NO;
                 }
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [@[ @"menuitem", @"param", @"source", @"track" ] containsObject:[currentToken tagName]])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"menuitem", @"param", @"source", @"track" ] containsObject:[currentToken tagName]])
             {
                 [self insertElementForToken:currentToken];
                 [_stackOfOpenElements removeLastObject];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"hr"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"hr"])
             {
                 if ([self elementInButtonScopeWithTagName:@"p"]) {
                     [self closePElement];
@@ -758,11 +764,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self insertElementForToken:currentToken];
                 [_stackOfOpenElements removeLastObject];
                 _framesetOkFlag = NO;
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"image"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"image"])
             {
                 [self addParseError];
                 [self reprocess:[currentToken copyWithTagName:@"img"]];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"isindex"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"isindex"])
             {
                 [self addParseError];
                 if (_formElementPointer) return;
@@ -806,7 +814,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [_stackOfOpenElements removeLastObject];
                 [_stackOfOpenElements removeLastObject];
                 _formElementPointer = nil;
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"textarea"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"textarea"])
             {
                 [self insertElementForToken:currentToken];
                 _ignoreNextTokenIfLineFeed = YES;
@@ -814,7 +823,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 _originalInsertionMode = _insertionMode;
                 _framesetOkFlag = NO;
                 [self switchInsertionMode:HTMLTextInsertionMode];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"xmp"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"xmp"])
             {
                 if ([self elementInButtonScopeWithTagName:@"p"]) {
                     [self closePElement];
@@ -822,14 +832,17 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self reconstructTheActiveFormattingElements];
                 _framesetOkFlag = NO;
                 [self followGenericRawTextElementParsingAlgorithmForToken:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"iframe"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"iframe"])
             {
                 _framesetOkFlag = NO;
                 [self followGenericRawTextElementParsingAlgorithmForToken:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"noembed"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"noembed"])
             {
                 [self followGenericRawTextElementParsingAlgorithmForToken:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"select"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"select"])
             {
                 [self reconstructTheActiveFormattingElements];
                 [self insertElementForToken:currentToken];
@@ -846,14 +859,16 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                         [self switchInsertionMode:HTMLInSelectInsertionMode];
                         break;
                 }
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [@[ @"optgroup", @"option" ] containsObject:[currentToken tagName]])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"optgroup", @"option" ] containsObject:[currentToken tagName]])
             {
                 if ([[_stackOfOpenElements.lastObject tagName] isEqualToString:@"option"]) {
                     [_stackOfOpenElements removeLastObject];
                 }
                 [self reconstructTheActiveFormattingElements];
                 [self insertElementForToken:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [@[ @"rp", @"rt" ] containsObject:[currentToken tagName]])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"rp", @"rt" ] containsObject:[currentToken tagName]])
             {
                 if ([self elementInScopeWithTagName:@"ruby"]) {
                     [self generateImpliedEndTags];
@@ -862,7 +877,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     }
                 }
                 [self insertElementForToken:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [@[ @"caption", @"col", @"colgroup", @"frame", @"head", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr" ] containsObject:[currentToken tagName]])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"caption", @"col", @"colgroup", @"frame", @"head", @"tbody", @"td", @"tfoot",
+                        @"th", @"thead", @"tr" ] containsObject:[currentToken tagName]])
             {
                 [self addParseError];
                 return;
@@ -874,7 +891,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 do {
                     if ([node.tagName isEqualToString:[currentToken tagName]]) {
                         [self generateImpliedEndTagsExceptForTagsNamed:[currentToken tagName]];
-                        if (![_stackOfOpenElements.lastObject isKindOfClass:[HTMLElementNode class]] || ![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                        if (![_stackOfOpenElements.lastObject isKindOfClass:[HTMLElementNode class]] ||
+                            ![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]])
+                        {
                             [self addParseError];
                         }
                         while (![_stackOfOpenElements.lastObject isEqual:node]) {
