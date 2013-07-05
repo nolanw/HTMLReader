@@ -35,7 +35,6 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     HTMLInCellInsertionMode,
     HTMLInSelectInsertionMode,
     HTMLInSelectInTableInsertionMode,
-    HTMLInTemplateInsertionMode,
     HTMLAfterBodyInsertionMode,
     HTMLInFramesetInsertionMode,
     HTMLAfterFramesetInsertionMode,
@@ -600,8 +599,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                      @"li", @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav",
                      @"noembed", @"noframes", @"noscript", @"object", @"ol", @"param", @"plaintext", @"pre",
                      @"script", @"section", @"select", @"source", @"style", @"summary", @"table", @"tbody",
-                     @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track",
-                     @"ul", @"wbr", @"xmp" ] containsObject:node.tagName])
+                     @"td", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul", @"wbr",
+                     @"xmp" ] containsObject:node.tagName])
                 {
                     goto done;
                 }
@@ -883,7 +882,18 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                         }
                         [_stackOfOpenElements removeLastObject];
                         break;
-                    } else if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center", @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed", @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style", @"summary", @"table", @"tbody", @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ] containsObject:node.tagName])
+                    } else if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
+                                @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
+                                @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
+                                @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame",
+                                @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header",
+                                @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li",
+                                @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav",
+                                @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param",
+                                @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style",
+                                @"summary", @"table", @"tbody", @"td", @"textarea", @"tfoot", @"th", @"thead",
+                                @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ]
+                                containsObject:node.tagName])
                     {
                         [self addParseError];
                         return;
@@ -1027,7 +1037,6 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         case HTMLInCellInsertionMode:
         case HTMLInSelectInsertionMode:
         case HTMLInSelectInTableInsertionMode:
-        case HTMLInTemplateInsertionMode:
         case HTMLAfterBodyInsertionMode:
         case HTMLInFramesetInsertionMode:
         case HTMLAfterFramesetInsertionMode:
@@ -1255,8 +1264,19 @@ create:;
             [self addParseError];
         }
         HTMLElementNode *furthestBlock;
-        for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement]; i < _stackOfOpenElements.count; i++) {
-            if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center", @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed", @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style", @"summary", @"table", @"tbody", @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ] containsObject:[_stackOfOpenElements[i] tagName]])
+        for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement];
+             i < _stackOfOpenElements.count; i++)
+        {
+            if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound",
+                 @"blockquote", @"body", @"br", @"button", @"caption", @"center", @"col", @"colgroup", @"dd",
+                 @"details", @"dir", @"div", @"dl", @"dt", @"embed", @"fieldset", @"figcaption", @"figure",
+                 @"footer", @"form", @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head",
+                 @"header", @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link",
+                 @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed",
+                 @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre", @"script",
+                 @"section", @"select", @"source", @"style", @"summary", @"table", @"tbody", @"td",
+                 @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ]
+                 containsObject:[_stackOfOpenElements[i] tagName]])
             {
                 furthestBlock = _stackOfOpenElements[i];
                 break;
