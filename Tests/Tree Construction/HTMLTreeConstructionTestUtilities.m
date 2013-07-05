@@ -31,7 +31,30 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
         }
         HTMLNode *node;
         HTMLElementNode *parentNode = stack.lastObject;
-        if ([scanner scanString:@"<" intoString:nil]) {
+        if ([scanner scanString:@"<!DOCTYPE " intoString:nil]) {
+            NSString *name;
+            [scanner scanUpToString:@" " intoString:&name];
+            if (scanner.isAtEnd) {
+                name = [name substringToIndex:name.length - 1];
+                node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:@"" systemId:@""];
+            } else {
+                [scanner scanString:@" \"" intoString:nil];
+                NSString *publicId;
+                [scanner scanUpToString:@"\" " intoString:&publicId];
+                [scanner scanString:@"\" \"" intoString:nil];
+                NSString *systemId;
+                [scanner scanUpToString:@"\">" intoString:&systemId];
+                node = [[HTMLDocumentTypeNode alloc] initWithName:name
+                                                         publicId:publicId ?: @""
+                                                         systemId:systemId ?: @""];
+            }
+        } else if ([scanner scanString:@"<!-- " intoString:nil]) {
+            NSString *data;
+            if (![scanner scanUpToString:@" -->" intoString:&data]) {
+                data = nil;
+            }
+            node = [[HTMLCommentNode alloc] initWithData:data];
+        } else if ([scanner scanString:@"<" intoString:nil]) {
             NSString *tagName;
             if ([scanner scanUpToString:@">" intoString:&tagName]) {
                 node = [[HTMLElementNode alloc] initWithTagName:tagName];
@@ -42,14 +65,6 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
                 data = nil;
             }
             node = [[HTMLTextNode alloc] initWithData:data ?: @""];
-        } else if ([scanner scanString:@"<!-- " intoString:nil]) {
-            NSString *data;
-            if (![scanner scanUpToString:@" -->" intoString:&data]) {
-                data = nil;
-            }
-            node = [[HTMLCommentNode alloc] initWithData:data];
-        } else if ([scanner scanString:@"<!DOCTYPE " intoString:nil]) {
-            node = [HTMLDocumentTypeNode new];
         } else {
             // Attribute
             NSString *name, *value;
