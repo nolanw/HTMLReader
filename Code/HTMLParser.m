@@ -101,6 +101,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 
 - (void)resume:(id)currentToken
 {
+    if ([currentToken isKindOfClass:[HTMLParseErrorToken class]]) return;
     if (_ignoreNextTokenIfLineFeed) {
         _ignoreNextTokenIfLineFeed = NO;
         if ([currentToken isKindOfClass:[HTMLCharacterToken class]] &&
