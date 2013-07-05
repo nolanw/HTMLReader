@@ -144,6 +144,10 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @end
 
+@interface HTMLEOFToken : NSObject
+
+@end
+
 @interface HTMLTokenizer (Testing)
 
 - (void)setLastStartTag:(NSString *)tagName;

@@ -4785,3 +4785,20 @@ static const struct {
 }
 
 @end
+
+@implementation HTMLEOFToken
+
+#pragma mark NSObject
+
+- (BOOL)isEqual:(id)other
+{
+    return [other isKindOfClass:[HTMLEOFToken class]];
+}
+
+- (NSUInteger)hash
+{
+    // Random constant.
+    return 1245524566;
+}
+
+@end

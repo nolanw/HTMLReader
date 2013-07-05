@@ -89,6 +89,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         [self resume:token];
         reconsumeAll();
     }
+    [_tokensToReconsume addObject:[HTMLEOFToken new]];
     reconsumeAll();
     return _document;
 }
