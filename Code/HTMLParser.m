@@ -1001,7 +1001,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                        [[currentToken tagName] isEqualToString:@"table"])
             {
                 [self addParseError];
-                if (![self tableElementInTableScope]) {
+                if (![self elementInTableScopeWithTagName:@"table"]) {
                     return;
                 }
                 while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"table"]) {
@@ -1013,7 +1013,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
                        [[currentToken tagName] isEqualToString:@"table"])
             {
-                if (![self tableElementInTableScope]) {
+                if (![self elementInTableScopeWithTagName:@"table"]) {
                     [self addParseError];
                     return;
                 }
@@ -1049,17 +1049,359 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             break;
             
         case HTMLInTableTextInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                if (token.data == 0) {
+                    [self addParseError];
+                    return;
+                } else {
+                    [_pendingTableCharacterTokens addObject:currentToken];
+                }
+            } else {
+                BOOL anyNonSpace = NO;
+                for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
+                    if (!(token.data == ' ' || token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r'))
+                    {
+                        anyNonSpace = YES;
+                        break;
+                    }
+                }
+                if (anyNonSpace) {
+                    // Same rules as "anything else" entry in the "in table" insertion mode.
+                    for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
+                        _fosterParenting = YES;
+                        [self processToken:token usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+                        _fosterParenting = NO;
+                    }
+                } else {
+                    for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
+                        [self insertCharacter:token.data];
+                    }
+                }
+                [self switchInsertionMode:_originalInsertionMode];
+                [self reprocess:currentToken];
+            }
+            break;
+            
         case HTMLInCaptionInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                [[currentToken tagName] isEqualToString:@"caption"])
+            {
+                if (![self elementInTableScopeWithTagName:@"caption"]) {
+                    [self addParseError];
+                    return;
+                }
+                [self generateImpliedEndTags];
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"caption"]) {
+                    [self addParseError];
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"caption"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self clearActiveFormattingElementsUpToLastMarker];
+                [self switchInsertionMode:HTMLInTableInsertionMode];
+            } else if (([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                        [@[ @"caption", @"col", @"colgroup", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr" ]
+                         containsObject:[currentToken tagName]]) ||
+                       ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                        [[currentToken tagName] isEqualToString:@"table"]))
+            {
+                [self addParseError];
+                if (![self elementInTableScopeWithTagName:@"caption"]) {
+                    return;
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"caption"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self clearActiveFormattingElementsUpToLastMarker];
+                [self switchInsertionMode:HTMLInTableInsertionMode];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"body", @"col", @"colgroup", @"html", @"tbody", @"td", @"tfoot", @"th", @"thead",
+                        @"tr" ] containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                return;
+            } else {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            }
+            break;
+            
         case HTMLInColumnGroupInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
+                    token.data == ' ')
+                {
+                    [self insertCharacter:token.data];
+                    return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentNode class]]) {
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"col"])
+            {
+                [self insertElementForToken:currentToken];
+                [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"colgroup"])
+            {
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"colgroup"]) {
+                    [self addParseError];
+                    return;
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"col"])
+            {
+                [self addParseError];
+                return;
+            } else {
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"colgroup"]) {
+                    [self addParseError];
+                    return;
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableInsertionMode];
+                [self reprocess:currentToken];
+            }
+            break;
+            
         case HTMLInTableBodyInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                [[currentToken tagName] isEqualToString:@"tr"])
+            {
+                [self clearStackBackToATableBodyContext];
+                [self insertElementForToken:currentToken];
+                [self switchInsertionMode:HTMLInRowInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"th", @"td" ] containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                [self clearStackBackToATableBodyContext];
+                [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"tr"]];
+                [self switchInsertionMode:HTMLInRowInsertionMode];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"tbody", @"tfoot", @"thead" ] containsObject:[currentToken tagName]])
+            {
+                if (![self elementInTableScopeWithTagName:[currentToken tagName]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self clearStackBackToATableBodyContext];
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableInsertionMode];
+            } else if (([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                        [@[ @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead" ]
+                         containsObject:[currentToken tagName]]) ||
+                       ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                        [[currentToken tagName] isEqualToString:@"table"]))
+            {
+                if (![self elementInTableScopeWithTagNameInArray:@[ @"tbody", @"thead", @"tfoot" ]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self clearStackBackToATableBodyContext];
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableInsertionMode];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th", @"tr" ]
+                        containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                return;
+            } else {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInTableInsertionMode];
+            }
+            break;
+            
         case HTMLInRowInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                [@[ @"th", @"td" ] containsObject:[currentToken tagName]])
+            {
+                [self clearStackBackToATableRowContext];
+                [self insertElementForToken:currentToken];
+                [self switchInsertionMode:HTMLInCellInsertionMode];
+                [_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"tr"])
+            {
+                if (![self elementInTableScopeWithTagName:@"tr"]) {
+                    [self addParseError];
+                    return;
+                }
+                [self clearStackBackToATableRowContext];
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableBodyInsertionMode];
+            } else if (([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                        [@[ @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead", @"tr" ]
+                         containsObject:[currentToken tagName]]) ||
+                       ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                        [[currentToken tagName] isEqualToString:@"table"]))
+            {
+                if (![self elementInTableScopeWithTagName:@"tr"]) {
+                    [self addParseError];
+                    return;
+                }
+                [self clearStackBackToATableRowContext];
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableBodyInsertionMode];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"tbody", @"tfoot", @"thead" ] containsObject:[currentToken tagName]])
+            {
+                if (![self elementInTableScopeWithTagName:[currentToken tagName]]) {
+                    [self addParseError];
+                    return;
+                }
+                if (![self elementInTableScopeWithTagName:@"tr"]) {
+                    return;
+                }
+                [self clearStackBackToATableRowContext];
+                [_stackOfOpenElements removeLastObject];
+                [self switchInsertionMode:HTMLInTableBodyInsertionMode];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th" ]
+                        containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                return;
+            } else {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInTableInsertionMode];
+            }
+            break;
+            
         case HTMLInCellInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                [@[ @"td", @"th" ] containsObject:[currentToken tagName]])
+            {
+                if (![self elementInTableScopeWithTagName:[currentToken tagName]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self generateImpliedEndTags];
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                    [self addParseError];
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self clearActiveFormattingElementsUpToLastMarker];
+                [self switchInsertionMode:HTMLInRowInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"caption", @"col", @"colgroup", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr" ]
+                        containsObject:[currentToken tagName]])
+            {
+                if (![self elementInTableScopeWithTagNameInArray:@[ @"td", @"th" ]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self closeTheCell];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"body", @"caption", @"col", @"colgroup", @"html" ]
+                        containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"table", @"tbody", @"tfoot", @"thead", @"tr" ]
+                        containsObject:[currentToken tagName]])
+            {
+                if (![self elementInTableScopeWithTagName:[currentToken tagName]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self closeTheCell];
+                [self reprocess:currentToken];
+            } else {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            }
+            break;
+            
         case HTMLInSelectInsertionMode:
         case HTMLInSelectInTableInsertionMode:
+            // TODO
+            break;
+            
         case HTMLAfterBodyInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
+                    token.data == ' ')
+                {
+                    [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+                    return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:_stackOfOpenElements[0]];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self switchInsertionMode:HTMLAfterAfterBodyInsertionMode];
+            } else {
+                [self addParseError];
+                [self switchInsertionMode:HTMLInBodyInsertionMode];
+                [self reprocess:currentToken];
+            }
+            break;
+            
         case HTMLInFramesetInsertionMode:
         case HTMLAfterFramesetInsertionMode:
+            // TODO
+            break;
+            
         case HTMLAfterAfterBodyInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
+                    token.data == ' ')
+                {
+                    [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+                    return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:_document];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else {
+                [self addParseError];
+                [self switchInsertionMode:HTMLInBodyInsertionMode];
+                [self reprocess:currentToken];
+            }
+            break;
+            
         case HTMLAfterAfterFramesetInsertionMode:
             // TODO
             break;
@@ -1224,9 +1566,14 @@ create:;
     return nil;
 }
 
-- (HTMLElementNode *)tableElementInTableScope
+- (HTMLElementNode *)elementInTableScopeWithTagName:(NSString *)tagName
 {
-    return [self elementInSpecificScopeWithTagNameInArray:@[ @"table" ] elementTypes:@[ @"html", @"table" ]];
+    return [self elementInTableScopeWithTagNameInArray:@[ tagName ]];
+}
+
+- (HTMLElementNode *)elementInTableScopeWithTagNameInArray:(NSArray *)tagNames
+{
+    return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:@[ @"html", @"table" ]];
 }
 
 - (void)closePElement
@@ -1459,6 +1806,37 @@ create:;
         }
         node = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:node] - 1];
     }
+}
+
+- (void)clearStackBackToATableBodyContext
+{
+    NSArray *list = @[ @"tbody", @"tfoot", @"thead", @"html" ];
+    while (![list containsObject:[_stackOfOpenElements.lastObject tagName]]) {
+        [_stackOfOpenElements removeLastObject];
+    }
+}
+
+- (void)clearStackBackToATableRowContext
+{
+    NSArray *list = @[ @"tr", @"html" ];
+    while (![list containsObject:[_stackOfOpenElements.lastObject tagName]]) {
+        [_stackOfOpenElements removeLastObject];
+    }
+}
+
+- (void)closeTheCell
+{
+    [self generateImpliedEndTags];
+    NSArray *list = @[ @"td", @"th" ];
+    if (![list containsObject:[_stackOfOpenElements.lastObject tagName]]) {
+        [self addParseError];
+    }
+    while (![list containsObject:[_stackOfOpenElements.lastObject tagName]]) {
+        [_stackOfOpenElements removeLastObject];
+    }
+    [_stackOfOpenElements removeLastObject];
+    [self clearActiveFormattingElementsUpToLastMarker];
+    [self switchInsertionMode:HTMLInRowInsertionMode];
 }
 
 static BOOL DOCTYPEIsParseError(HTMLDOCTYPEToken *t)
