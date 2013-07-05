@@ -1336,8 +1336,127 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             break;
             
         case HTMLInSelectInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                if (token.data == 0) {
+                    [self addParseError];
+                    return;
+                }
+                [self insertCharacter:token.data];
+            } else if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"option"])
+            {
+                if ([[_stackOfOpenElements.lastObject tagName] isEqualToString:@"option"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [self insertElementForToken:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"optgroup"])
+            {
+                if ([[_stackOfOpenElements.lastObject tagName] isEqualToString:@"option"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                if ([[_stackOfOpenElements.lastObject tagName] isEqualToString:@"optgroup"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [self insertElementForToken:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"optgroup"])
+            {
+                HTMLElementNode *currentNode = _stackOfOpenElements.lastObject;
+                HTMLElementNode *beforeIt = _stackOfOpenElements[_stackOfOpenElements.count - 2];
+                if ([currentNode.tagName isEqualToString:@"option"] && [beforeIt.tagName isEqualToString:@"optgroup"])
+                {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                if ([[_stackOfOpenElements.lastObject tagName] isEqualToString:@"optgroup"]) {
+                    [_stackOfOpenElements removeLastObject];
+                } else {
+                    [self addParseError];
+                    return;
+                }
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"option"])
+            {
+                if ([[_stackOfOpenElements.lastObject tagName] isEqualToString:@"option"]) {
+                    [_stackOfOpenElements removeLastObject];
+                } else {
+                    [self addParseError];
+                    return;
+                }
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"select"])
+            {
+                if (![self selectElementInSelectScope]) {
+                    [self addParseError];
+                    return;
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"select"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self resetInsertionModeAppropriately];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"select"])
+            {
+                [self addParseError];
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"select"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self resetInsertionModeAppropriately];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [@[ @"input", @"keygen", @"textarea" ] containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                if (![self selectElementInSelectScope]) {
+                    return;
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"select"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self resetInsertionModeAppropriately];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"script"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInHeadInsertionMode];
+            } else {
+                [self addParseError];
+                return;
+            }
+            break;
+            
         case HTMLInSelectInTableInsertionMode:
-            // TODO
+            if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                [@[ @"caption", @"table", @"tbody", @"tfoot", @"thead", @"tr", @"td", @"th" ]
+                 containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"select"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self resetInsertionModeAppropriately];
+                [self reprocess:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"caption", @"table", @"tbody", @"tfoot", @"thead", @"tr", @"td", @"th" ]
+                        containsObject:[currentToken tagName]])
+            {
+                [self addParseError];
+                if (![self elementInTableScopeWithTagName:[currentToken tagName]]) {
+                    return;
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"select"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+                [self resetInsertionModeAppropriately];
+                [self reprocess:currentToken];
+            } else {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInSelectInsertionMode];
+            }
             break;
             
         case HTMLAfterBodyInsertionMode:
@@ -1372,8 +1491,72 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             break;
             
         case HTMLInFramesetInsertionMode:
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                HTMLCharacterToken *token = currentToken;
+                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' || token.data == ' ')
+                {
+                    [self insertCharacter:token.data];
+                    return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"frameset"])
+            {
+                [self insertElementForToken:currentToken];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"frameset"])
+            {
+                if (_stackOfOpenElements.count == 0 && [[_stackOfOpenElements.lastObject tagName] isEqualToString:@"html"])
+                {
+                    [self addParseError];
+                    return;
+                }
+                [_stackOfOpenElements removeLastObject];
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"frameset"]) {
+                    [self switchInsertionMode:HTMLAfterFramesetInsertionMode];
+                }
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"frame"])
+            {
+                [self insertElementForToken:currentToken];
+                [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"noframes"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInHeadInsertionMode];
+            } else {
+                [self addParseError];
+                return;
+            }
+            break;
+            
         case HTMLAfterFramesetInsertionMode:
-            // TODO
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self insertCharacter:data];
+                    return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self addParseError];
+                return;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self switchInsertionMode:HTMLAfterAfterFramesetInsertionMode];
+            } else {
+                [self addParseError];
+                return;
+            }
             break;
             
         case HTMLAfterAfterBodyInsertionMode:
@@ -1403,7 +1586,24 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             break;
             
         case HTMLAfterAfterFramesetInsertionMode:
-            // TODO
+            if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+                    return;
+                }
+            }
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
+                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:_document];
+            } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            {
+                [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+            } else {
+                [self addParseError];
+                return;
+            }
             break;
     }
 }
@@ -1837,6 +2037,15 @@ create:;
     [_stackOfOpenElements removeLastObject];
     [self clearActiveFormattingElementsUpToLastMarker];
     [self switchInsertionMode:HTMLInRowInsertionMode];
+}
+
+- (HTMLElementNode *)selectElementInSelectScope
+{
+    for (HTMLElementNode *node in _stackOfOpenElements.reverseObjectEnumerator) {
+        if ([node.tagName isEqualToString:@"select"]) return node;
+        if (![@[ @"optgroup", @"option" ] containsObject:node.tagName]) return nil;
+    }
+    return nil;
 }
 
 static BOOL DOCTYPEIsParseError(HTMLDOCTYPEToken *t)
