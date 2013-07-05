@@ -106,9 +106,9 @@
 - (BOOL)isEqual:(HTMLElementNode *)other
 {
     return ([other isKindOfClass:[HTMLElementNode class]] &&
+            [other.childNodes isEqual:self.childNodes] &&
             [other.tagName isEqualToString:self.tagName] &&
-            [other.attributes isEqual:self.attributes] &&
-            [other.childNodes isEqual:self.childNodes]);
+            [other.attributes isEqual:self.attributes]);
 }
 
 - (NSUInteger)hash
@@ -156,6 +156,20 @@
     return copy;
 }
 
+#pragma mark NSObject
+
+- (BOOL)isEqual:(HTMLTextNode *)other
+{
+    return ([other isKindOfClass:[HTMLTextNode class]] &&
+            [other.childNodes isEqual:self.childNodes] &&
+            [other.data isEqualToString:self.data]);
+}
+
+- (NSUInteger)hash
+{
+    return _data.hash;
+}
+
 @end
 
 @implementation HTMLCommentNode
@@ -174,6 +188,14 @@
     HTMLCommentNode *copy = [super copyWithZone:zone];
     copy->_data = self.data;
     return copy;
+}
+
+#pragma mark NSObject
+
+- (BOOL)isEqual:(HTMLCommentNode *)other{
+    return ([other isKindOfClass:[HTMLCommentNode class]] &&
+            [other.childNodes isEqual:self.childNodes] &&
+            [other.data isEqualToString:self.data]);
 }
 
 @end
@@ -198,6 +220,18 @@
     copy->_publicId = self.publicId;
     copy->_systemId = self.systemId;
     return copy;
+}
+
+#pragma mark NSObject
+
+- (BOOL)isEqual:(HTMLDocumentTypeNode *)other
+{
+    #define AreEqualOrNil(a, b) (((a) == nil && (b) == nil) || [(a) isEqual:(b)])
+    return ([other isKindOfClass:[HTMLDocumentTypeNode class]] &&
+            [other.childNodes isEqual:self.childNodes] &&
+            [other.name isEqualToString:self.name] &&
+            AreEqualOrNil(other.publicId, self.publicId) &&
+            AreEqualOrNil(other.systemId, self.systemId));
 }
 
 @end
