@@ -279,9 +279,9 @@
     #define AreEqualOrNil(a, b) (((a) == nil && (b) == nil) || [(a) isEqual:(b)])
     return ([other isKindOfClass:[HTMLDocumentTypeNode class]] &&
             [other.childNodes isEqual:self.childNodes] &&
-            [other.name isEqualToString:self.name] &&
-            AreEqualOrNil(other.publicId, self.publicId) &&
-            AreEqualOrNil(other.systemId, self.systemId));
+            AreEqualOrNil(other.name, self.name) &&
+            [other.publicId isEqualToString:self.publicId] &&
+            [other.systemId isEqualToString:self.systemId]);
 }
 
 - (NSUInteger)hash
