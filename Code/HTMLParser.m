@@ -1906,7 +1906,7 @@ create:;
             [self addParseError];
         }
         HTMLElementNode *furthestBlock;
-        for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement];
+        for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement] + 1;
              i < _stackOfOpenElements.count; i++)
         {
             if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound",
@@ -1932,13 +1932,12 @@ create:;
             [self removeElementFromListOfActiveFormattingElements:formattingElement];
             return YES;
         }
-        HTMLElementNode *commonAncestor = [_stackOfOpenElements objectAtIndex:
-                                           [_stackOfOpenElements indexOfObject:formattingElement] - 1];
+        HTMLElementNode *commonAncestor = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:formattingElement] - 1];
         NSUInteger bookmark = [_activeFormattingElements indexOfObject:formattingElement];
         HTMLElementNode *node = furthestBlock, *lastNode = furthestBlock;
         NSUInteger nodeIndex = [_stackOfOpenElements indexOfObject:node];
         for (NSInteger innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter++) {
-            node = [_stackOfOpenElements objectAtIndex:--nodeIndex];
+            node = _stackOfOpenElements[--nodeIndex];
             if (![_activeFormattingElements containsObject:node]) {
                 [_stackOfOpenElements removeObject:node];
                 continue;
@@ -1958,7 +1957,7 @@ create:;
         }
         [self insertNode:lastNode atAppropriatePlaceWithOverrideTarget:commonAncestor];
         HTMLElementNode *formattingClone = [formattingElement copy];
-        for (id childNode in formattingElement.childNodes) {
+        for (id childNode in furthestBlock.childNodes) {
             [formattingClone appendChild:childNode];
         }
         [furthestBlock appendChild:formattingClone];
