@@ -18,6 +18,7 @@
 
 typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 {
+    HTMLInvalidInsertionMode, // SPEC This insertion mode is just for us.
     HTMLInitialInsertionMode,
     HTMLBeforeHtmlInsertionMode,
     HTMLBeforeHeadInsertionMode,
@@ -1650,6 +1651,10 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 return;
             }
             break;
+            
+        case HTMLInvalidInsertionMode:
+            NSLog(@"invalid insertion mode");
+            break;
     }
 }
 
@@ -1701,6 +1706,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 
 - (void)switchInsertionMode:(HTMLInsertionMode)insertionMode
 {
+    if (_originalInsertionMode == insertionMode) {
+        _originalInsertionMode = HTMLInvalidInsertionMode;
+    }
     _insertionMode = insertionMode;
 }
 
@@ -1740,11 +1748,12 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 
 - (void)processToken:(id)token usingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
 {
-    HTMLInsertionMode oldMode = _insertionMode;
+    _originalInsertionMode = _insertionMode;
     _insertionMode = insertionMode;
     [self resume:token];
     if (_insertionMode == insertionMode) {
-        _insertionMode = oldMode;
+        _insertionMode = _originalInsertionMode;
+        _originalInsertionMode = HTMLInvalidInsertionMode;
     }
 }
 
@@ -2002,7 +2011,9 @@ create:;
 {
     [self insertElementForToken:token];
     _tokenizer.state = HTMLRAWTEXTTokenizerState;
-    _originalInsertionMode = _insertionMode;
+    if (_originalInsertionMode == HTMLInvalidInsertionMode) {
+        _originalInsertionMode = _insertionMode;
+    }
     [self switchInsertionMode:HTMLTextInsertionMode];
 }
 
