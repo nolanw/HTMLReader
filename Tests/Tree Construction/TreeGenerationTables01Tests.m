@@ -11,119 +11,119 @@
 
 - (void)test000
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><th>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><th>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <th>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test001
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test002
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><col foo='bar'>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><col foo='bar'>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <colgroup>\n|         <col>\n|           foo=\"bar\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test003
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><colgroup></html>foo" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><colgroup></html>foo"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"foo\"\n|     <table>\n|       <colgroup>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test004
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table></table><p>foo" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table></table><p>foo"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|     <p>\n|       \"foo\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test005
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test006
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select><option>3</select></table>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select><option>3</select></table>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <select>\n|       <option>\n|         \"3\"\n|     <table>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test007
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select><table></table></select></table>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select><table></table></select></table>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <select>\n|     <table>\n|     <table>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test008
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select></table>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select></table>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <select>\n|     <table>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test009
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select><option>A<tr><td>B</td></tr></table>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><select><option>A<tr><td>B</td></tr></table>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <select>\n|       <option>\n|         \"A\"\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|             \"B\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test010
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td></body></caption></col></colgroup></html>foo" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td></body></caption></col></colgroup></html>foo"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|             \"foo\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test011
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td>A</table>B" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td>A</table>B"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|             \"A\"\n|     \"B\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test012
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><caption>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><caption>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|       <caption>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test013
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr></body></caption></col></colgroup></html></td></th><td>foo" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr></body></caption></col></colgroup></html></td></th><td>foo"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|             \"foo\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test014
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td><tr>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td><tr>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|         <tr>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test015
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td><button><td>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><td><button><td>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|             <button>\n|           <td>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test016
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><td><svg><desc><td>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><td><svg><desc><td>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <table>\n|       <tbody>\n|         <tr>\n|           <td>\n|             <svg svg>\n|               <svg desc>\n|           <td>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }

@@ -11,63 +11,63 @@
 
 - (void)test000
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<b><p>Bold </b> Not bold</p>\nAlso not bold." context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<b><p>Bold </b> Not bold</p>\nAlso not bold."];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <b>\n|     <p>\n|       <b>\n|         \"Bold \"\n|       \" Not bold\"\n|     \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test001
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html>\n<font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain\n<p>I should not be red. <font color=red>Red. <i>Italic and red.</p>\n<p>Italic and red. </i> Red.</font> I should not be red.</p>\n<b>Bold <i>Bold and italic</b> Only Italic </i> Plain" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html>\n<font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain\n<p>I should not be red. <font color=red>Red. <i>Italic and red.</p>\n<p>Italic and red. </i> Red.</font> I should not be red.</p>\n<b>Bold <i>Bold and italic</b> Only Italic </i> Plain"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <font>\n|       color=\"red\"\n|       <i>\n|         \"Italic and Red\"\n|     <i>\n|       <p>\n|         <font>\n|           color=\"red\"\n|           \"Italic and Red \"\n|         \" Just italic.\"\n|       \" Italic only.\"\n|     \" Plain\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test002
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html><body>\n<p><font size=\"7\">First paragraph.</p>\n<p>Second paragraph.</p></font>\n<b><p><i>Bold and Italic</b> Italic</p>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html><body>\n<p><font size=\"7\">First paragraph.</p>\n<p>Second paragraph.</p></font>\n<b><p><i>Bold and Italic</b> Italic</p>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test003
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html>\n<dl>\n<dt><b>Boo\n<dd>Goo?\n</dl>\n</html>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html>\n<dl>\n<dt><b>Boo\n<dd>Goo?\n</dl>\n</html>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <dl>\n|       \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test004
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html><body>\n<label><a><div>Hello<div>World</div></a></label>  \n</body></html>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html><body>\n<label><a><div>Hello<div>World</div></a></label>  \n</body></html>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test005
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <center>\n|       \" \"\n|       <font>\n|         \"a\"\n|     <font>\n|       <img>\n|       \" \"\n|     <table>\n|       \" \"\n|       <tbody>\n|         <tr>\n|           <td>\n|             \" \"\n|           \" \"\n|         \" \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test006
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><p><a><p>You should see this text." context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><tr><p><a><p>You should see this text."];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <a>\n|     <p>\n|       <a>\n|         \"You should see this text.\"\n|     <table>\n|       <tbody>\n|         <tr>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test007
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<TABLE>\n<TR>\n<CENTER><CENTER><TD></TD></TR><TR>\n<FONT>\n<TABLE><tr></tr></TABLE>\n</P>\n<a></font><font></a>\nThis page contains an insanely badly-nested tag sequence." context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<TABLE>\n<TR>\n<CENTER><CENTER><TD></TD></TR><TR>\n<FONT>\n<TABLE><tr></tr></TABLE>\n</P>\n<a></font><font></a>\nThis page contains an insanely badly-nested tag sequence."];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <center>\n|       <center>\n|     <font>\n|       \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test008
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html>\n<body>\n<b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the\nnobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>\n</body>\n</html>" context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<html>\n<body>\n<b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the\nnobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>\n</body>\n</html>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }

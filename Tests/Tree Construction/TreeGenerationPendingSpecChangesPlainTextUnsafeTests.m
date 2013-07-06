@@ -11,7 +11,7 @@
 
 - (void)test000
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:[NSString stringWithFormat:@"<body><table>%Cfiller%Ctext%C", (unichar)0x0000, (unichar)0x0000, (unichar)0x0000] context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:[NSString stringWithFormat:@"<body><table>%Cfiller%Ctext%C", (unichar)0x0000, (unichar)0x0000, (unichar)0x0000]];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"fillertext\"\n|     <table>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }

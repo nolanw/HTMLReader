@@ -13,7 +13,10 @@
 // The tree construction stage of parsing HTML.
 @interface HTMLParser : NSObject
 
-// Designated initializer.
+// Designated initializer for using the HTML parsing algorithm.
+- (id)initWithString:(NSString *)string;
+
+// Designated initializer for using the HTML fragment parsing algorithm. context may be nil.
 - (id)initWithString:(NSString *)string context:(HTMLElementNode *)context;
 
 @property (readonly, nonatomic) NSArray *errors;

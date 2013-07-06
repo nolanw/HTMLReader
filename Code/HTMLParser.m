@@ -60,14 +60,29 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     NSMutableArray *_pendingTableCharacterTokens;
     BOOL _fosterParenting;
     BOOL _done;
+    BOOL _fragmentParsingAlgorithm;
+}
+
+- (id)initWithString:(NSString *)string
+{
+    if (!(self = [self init])) return nil;
+    _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+    return self;
 }
 
 - (id)initWithString:(NSString *)string context:(HTMLElementNode *)context
 {
-    if (!(self = [super init])) return nil;
+    if (!(self = [self init])) return nil;
     _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
-    _insertionMode = HTMLInitialInsertionMode;
     _context = context;
+    _fragmentParsingAlgorithm = YES;
+    return self;
+}
+
+- (id)init
+{
+    if (!(self = [super init])) return nil;
+    _insertionMode = HTMLInitialInsertionMode;
     _stackOfOpenElements = [NSMutableArray new];
     _errors = [NSMutableArray new];
     _tokensToReconsume = [NSMutableArray new];

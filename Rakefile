@@ -118,7 +118,7 @@ END
 END
         else
           objc << <<-END
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:#{objc_literalize(data)} context:nil];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:#{objc_literalize(data)}];
 END
     end
     objc << <<-END
