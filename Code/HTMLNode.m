@@ -107,7 +107,7 @@
 {
     HTMLElementNode *copy = [super copyWithZone:zone];
     copy->_tagName = self.tagName;
-    [copy->_attributes addObjectsFromArray:self.attributes];
+    copy->_attributes = [NSMutableArray arrayWithArray:_attributes];
     return copy;
 }
 
