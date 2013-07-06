@@ -1411,7 +1411,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     [self addParseError];
                     return;
                 }
-            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"select"])
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"select"])
             {
                 if (![self selectElementInSelectScope]) {
                     [self addParseError];
@@ -1422,7 +1423,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 }
                 [_stackOfOpenElements removeLastObject];
                 [self resetInsertionModeAppropriately];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"select"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"select"])
             {
                 [self addParseError];
                 while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"select"]) {
@@ -1430,7 +1432,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 }
                 [_stackOfOpenElements removeLastObject];
                 [self resetInsertionModeAppropriately];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [@[ @"input", @"keygen", @"textarea" ] containsObject:[currentToken tagName]])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [@[ @"input", @"keygen", @"textarea" ] containsObject:[currentToken tagName]])
             {
                 [self addParseError];
                 if (![self selectElementInSelectScope]) {
@@ -1442,7 +1445,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [_stackOfOpenElements removeLastObject];
                 [self resetInsertionModeAppropriately];
                 [self reprocess:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"script"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"script"])
             {
                 [self processToken:currentToken usingRulesForInsertionMode:HTMLInHeadInsertionMode];
             } else if ([currentToken isKindOfClass:[HTMLEOFToken class]]) {
@@ -1520,7 +1524,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         case HTMLInFramesetInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
                 HTMLCharacterToken *token = currentToken;
-                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' || token.data == ' ')
+                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
+                    token.data == ' ')
                 {
                     [self insertCharacter:token.data];
                     return;
@@ -1531,13 +1536,16 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"html"])
             {
                 [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"frameset"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"frameset"])
             {
                 [self insertElementForToken:currentToken];
-            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] && [[currentToken tagName] isEqualToString:@"frameset"])
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"frameset"])
             {
                 if (_stackOfOpenElements.count == 0 && [[_stackOfOpenElements.lastObject tagName] isEqualToString:@"html"])
                 {
@@ -1548,11 +1556,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"frameset"]) {
                     [self switchInsertionMode:HTMLAfterFramesetInsertionMode];
                 }
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"frame"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"frame"])
             {
                 [self insertElementForToken:currentToken];
                 [_stackOfOpenElements removeLastObject];
-            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"noframes"])
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"noframes"])
             {
                 [self processToken:currentToken usingRulesForInsertionMode:HTMLInHeadInsertionMode];
             } else if ([currentToken isKindOfClass:[HTMLEOFToken class]]) {
