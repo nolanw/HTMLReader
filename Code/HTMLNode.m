@@ -229,8 +229,8 @@
 {
     if (!(self = [super init])) return nil;
     _name = [name copy];
-    _publicId = [publicId copy];
-    _systemId = [systemId copy];
+    _publicId = [publicId copy] ?: @"";
+    _systemId = [systemId copy] ?: @"";
     return self;
 }
 

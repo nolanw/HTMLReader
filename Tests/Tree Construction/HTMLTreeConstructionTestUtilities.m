@@ -36,7 +36,7 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
             [scanner scanUpToString:@" " intoString:&name];
             if (scanner.isAtEnd) {
                 name = [name substringToIndex:name.length - 1];
-                node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:@"" systemId:@""];
+                node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:nil systemId:nil];
             } else {
                 [scanner scanString:@" \"" intoString:nil];
                 NSString *publicId;
@@ -44,9 +44,7 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
                 [scanner scanString:@"\" \"" intoString:nil];
                 NSString *systemId;
                 [scanner scanUpToString:@"\">" intoString:&systemId];
-                node = [[HTMLDocumentTypeNode alloc] initWithName:name
-                                                         publicId:publicId ?: @""
-                                                         systemId:systemId ?: @""];
+                node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:publicId systemId:systemId];
             }
         } else if ([scanner scanString:@"<!-- " intoString:nil]) {
             NSString *data;

@@ -143,9 +143,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 if (DOCTYPEIsParseError(token)) {
                     [self addParseError];
                 }
-                _document.doctype = [[HTMLDocumentTypeNode alloc] initWithName:token.name ?: @""
-                                                                      publicId:token.publicIdentifier ?: @""
-                                                                      systemId:token.systemIdentifier ?: @""];
+                _document.doctype = [[HTMLDocumentTypeNode alloc] initWithName:token.name
+                                                                      publicId:token.publicIdentifier
+                                                                      systemId:token.systemIdentifier];
                 [_document appendChild:_document.doctype];
                 _document.quirksMode = QuirksModeForDOCTYPE(token);
                 [self switchInsertionMode:HTMLBeforeHtmlInsertionMode];
