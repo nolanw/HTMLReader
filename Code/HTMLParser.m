@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     NSMutableArray *_tokensToReconsume;
     BOOL _framesetOkFlag;
     BOOL _ignoreNextTokenIfLineFeed;
-    NSMutableArray *_listOfActiveFormattingElements;
+    NSMutableArray *_activeFormattingElements;
     NSMutableArray *_pendingTableCharacterTokens;
     BOOL _fosterParenting;
     BOOL _done;
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     _stackOfOpenElements = [NSMutableArray new];
     _errors = [NSMutableArray new];
     _tokensToReconsume = [NSMutableArray new];
-    _listOfActiveFormattingElements = [NSMutableArray new];
+    _activeFormattingElements = [NSMutableArray new];
     return self;
 }
 
@@ -651,26 +651,26 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
                        [[currentToken tagName] isEqualToString:@"a"])
             {
-                for (HTMLElementNode *element in _listOfActiveFormattingElements.reverseObjectEnumerator) {
+                for (HTMLElementNode *element in _activeFormattingElements.reverseObjectEnumerator.allObjects) {
                     if ([element isEqual:[HTMLMarker marker]]) break;
                     if ([element.tagName isEqualToString:@"a"]) {
                         [self addParseError];
                         [self runAdoptionAgencyAlgorithmForTagName:@"a"];
-                        [_listOfActiveFormattingElements removeObject:element];
+                        [self removeElementFromListOfActiveFormattingElements:element];
                         [_stackOfOpenElements removeObject:element];
                         break;
                     }
                 }
                 [self reconstructTheActiveFormattingElements];
                 HTMLElementNode *element = [self insertElementForToken:currentToken];
-                [_listOfActiveFormattingElements addObject:element];
+                [self pushElementOnToListOfActiveFormattingElements:element];
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
                        [@[ @"b", @"big", @"code", @"em", @"font", @"i", @"s", @"small", @"strike", @"strong",
                         @"tt", @"u" ] containsObject:[currentToken tagName]])
             {
                 [self reconstructTheActiveFormattingElements];
                 HTMLElementNode *element = [self insertElementForToken:currentToken];
-                [_listOfActiveFormattingElements addObject:element];
+                [self pushElementOnToListOfActiveFormattingElements:element];
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
                        [[currentToken tagName] isEqualToString:@"nobr"])
             {
@@ -681,7 +681,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     [self reconstructTheActiveFormattingElements];
                 }
                 HTMLElementNode *element = [self insertElementForToken:currentToken];
-                [_listOfActiveFormattingElements addObject:element];
+                [self pushElementOnToListOfActiveFormattingElements:element];
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
                        [@[ @"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr", @"s", @"small",
                         @"strike", @"strong", @"tt", @"u" ] containsObject:[currentToken tagName]])
@@ -692,7 +692,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             {
                 [self reconstructTheActiveFormattingElements];
                 [self insertElementForToken:currentToken];
-                [_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
+                [self pushMarkerOnToListOfActiveFormattingElements];
                 _framesetOkFlag = NO;
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
                        [@[ @"applet", @"marquee", @"object" ] containsObject:[currentToken tagName]])
@@ -976,7 +976,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                        [[currentToken tagName] isEqualToString:@"caption"])
             {
                 [self clearStackBackToATableContext];
-                [_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
+                [self pushMarkerOnToListOfActiveFormattingElements];
                 [self insertElementForToken:currentToken];
                 [self switchInsertionMode:HTMLInCaptionInsertionMode];
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
@@ -1246,7 +1246,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self clearStackBackToATableRowContext];
                 [self insertElementForToken:currentToken];
                 [self switchInsertionMode:HTMLInCellInsertionMode];
-                [_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
+                [self pushMarkerOnToListOfActiveFormattingElements];
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
                        [[currentToken tagName] isEqualToString:@"tr"])
             {
@@ -1737,31 +1737,56 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [_tokensToReconsume addObject:token];
 }
 
+- (void)pushElementOnToListOfActiveFormattingElements:(HTMLElementNode *)element
+{
+    NSInteger alreadyPresent = 0;
+    for (HTMLElementNode *node in _activeFormattingElements.reverseObjectEnumerator.allObjects) {
+        if ([node.tagName isEqualToString:element.tagName]) {
+            alreadyPresent += 1;
+            if (alreadyPresent == 3) {
+                [_activeFormattingElements removeObject:node];
+                break;
+            }
+        }
+    }
+    [_activeFormattingElements addObject:element];
+}
+
+- (void)pushMarkerOnToListOfActiveFormattingElements
+{
+    [_activeFormattingElements addObject:[HTMLMarker marker]];
+}
+
+- (void)removeElementFromListOfActiveFormattingElements:(HTMLElementNode *)element
+{
+    [_activeFormattingElements removeObject:element];
+}
+
 - (void)reconstructTheActiveFormattingElements
 {
-    if (_listOfActiveFormattingElements.count == 0) return;
-    if ([_listOfActiveFormattingElements.lastObject isEqual:[HTMLMarker marker]]) return;
-    if ([_stackOfOpenElements containsObject:_listOfActiveFormattingElements.lastObject]) return;
-    NSUInteger entryIndex = _listOfActiveFormattingElements.count - 1;
+    if (_activeFormattingElements.count == 0) return;
+    if ([_activeFormattingElements.lastObject isEqual:[HTMLMarker marker]]) return;
+    if ([_stackOfOpenElements containsObject:_activeFormattingElements.lastObject]) return;
+    NSUInteger entryIndex = _activeFormattingElements.count - 1;
 rewind:
     if (entryIndex == 0) goto create;
     entryIndex--;
-    if (!([_listOfActiveFormattingElements[entryIndex] isEqual:[HTMLMarker marker]] ||
-          [_stackOfOpenElements containsObject:_listOfActiveFormattingElements[entryIndex]]))
+    if (!([_activeFormattingElements[entryIndex] isEqual:[HTMLMarker marker]] ||
+          [_stackOfOpenElements containsObject:_activeFormattingElements[entryIndex]]))
     {
         goto rewind;
     }
 advance:
     entryIndex++;
 create:;
-    HTMLElementNode *entry = _listOfActiveFormattingElements[entryIndex];
+    HTMLElementNode *entry = _activeFormattingElements[entryIndex];
     HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:entry.tagName];
     for (HTMLAttribute *attribute in entry.attributes) {
         [token addAttributeWithName:attribute.name value:attribute.value];
     }
     HTMLElementNode *newElement = [self insertElementForToken:token];
-    [_listOfActiveFormattingElements replaceObjectAtIndex:entryIndex withObject:newElement];
-    if (![_listOfActiveFormattingElements.lastObject isEqual:newElement]) {
+    [_activeFormattingElements replaceObjectAtIndex:entryIndex withObject:newElement];
+    if (entryIndex + 1 != _activeFormattingElements.count) {
         goto advance;
     }
 }
@@ -1844,7 +1869,7 @@ create:;
 {
     for (NSInteger outerLoopCounter = 0; outerLoopCounter < 8; outerLoopCounter++) {
         HTMLElementNode *formattingElement;
-        for (HTMLElementNode *element in _listOfActiveFormattingElements.reverseObjectEnumerator) {
+        for (HTMLElementNode *element in _activeFormattingElements.reverseObjectEnumerator) {
             if ([element isEqual:[HTMLMarker marker]]) break;
             if ([element.tagName isEqualToString:tagName]) {
                 formattingElement = element;
@@ -1854,7 +1879,7 @@ create:;
         if (!formattingElement) return YES;
         if (![_stackOfOpenElements containsObject:formattingElement]) {
             [self addParseError];
-            [_listOfActiveFormattingElements removeObject:formattingElement];
+            [self removeElementFromListOfActiveFormattingElements:formattingElement];
             return NO;
         }
         if (![self isElementInScope:formattingElement]) {
@@ -1888,29 +1913,29 @@ create:;
                 [_stackOfOpenElements removeLastObject];
             }
             [_stackOfOpenElements removeLastObject];
-            [_listOfActiveFormattingElements removeObject:formattingElement];
+            [self removeElementFromListOfActiveFormattingElements:formattingElement];
             return NO;
         }
         HTMLElementNode *commonAncestor = [_stackOfOpenElements objectAtIndex:
                                            [_stackOfOpenElements indexOfObject:formattingElement] - 1];
-        NSUInteger bookmark = [_listOfActiveFormattingElements indexOfObject:formattingElement];
+        NSUInteger bookmark = [_activeFormattingElements indexOfObject:formattingElement];
         HTMLElementNode *node = furthestBlock, *lastNode = furthestBlock;
         NSUInteger nodeIndex = [_stackOfOpenElements indexOfObject:node];
         for (NSInteger innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter++) {
             node = [_stackOfOpenElements objectAtIndex:--nodeIndex];
-            if (![_listOfActiveFormattingElements containsObject:node]) {
+            if (![_activeFormattingElements containsObject:node]) {
                 [_stackOfOpenElements removeObject:node];
                 continue;
             }
             if ([node isEqual:formattingElement]) break;
             HTMLElementNode *clone = [node copy];
-            [_listOfActiveFormattingElements replaceObjectAtIndex:[_listOfActiveFormattingElements indexOfObject:node]
+            [_activeFormattingElements replaceObjectAtIndex:[_activeFormattingElements indexOfObject:node]
                                                        withObject:clone];
             [_stackOfOpenElements replaceObjectAtIndex:[_stackOfOpenElements indexOfObject:node]
                                             withObject:clone];
             node = clone;
             if ([lastNode isEqual:furthestBlock]) {
-                bookmark = [_listOfActiveFormattingElements indexOfObject:node] + 1;
+                bookmark = [_activeFormattingElements indexOfObject:node] + 1;
             }
             [node appendChild:lastNode];
             lastNode = node;
@@ -1921,11 +1946,11 @@ create:;
             [formattingClone appendChild:childNode];
         }
         [furthestBlock appendChild:formattingClone];
-        if ([_listOfActiveFormattingElements indexOfObject:formattingElement] < bookmark) {
+        if ([_activeFormattingElements indexOfObject:formattingElement] < bookmark) {
             bookmark--;
         }
-        [_listOfActiveFormattingElements removeObject:formattingElement];
-        [_listOfActiveFormattingElements insertObject:formattingClone atIndex:bookmark];
+        [self removeElementFromListOfActiveFormattingElements:formattingElement];
+        [_activeFormattingElements insertObject:formattingClone atIndex:bookmark];
         [_stackOfOpenElements removeObject:formattingElement];
         [_stackOfOpenElements insertObject:formattingClone
                                    atIndex:[_stackOfOpenElements indexOfObject:furthestBlock] + 1];
@@ -1951,10 +1976,10 @@ create:;
 
 - (void)clearActiveFormattingElementsUpToLastMarker
 {
-    while (![_listOfActiveFormattingElements.lastObject isEqual:[HTMLMarker marker]]) {
-        [_listOfActiveFormattingElements removeLastObject];
+    while (![_activeFormattingElements.lastObject isEqual:[HTMLMarker marker]]) {
+        [_activeFormattingElements removeLastObject];
     }
-    [_listOfActiveFormattingElements removeLastObject];
+    [_activeFormattingElements removeLastObject];
 }
 
 - (void)followGenericRawTextElementParsingAlgorithmForToken:(id)token
