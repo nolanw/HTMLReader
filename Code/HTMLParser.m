@@ -1729,8 +1729,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
     if ([adjustedInsertionLocation isKindOfClass:[HTMLDocument class]]) return;
     HTMLTextNode *textNode;
-    if ([[[adjustedInsertionLocation childNodes] lastObject] isKindOfClass:[HTMLTextNode class]]) {
-        textNode = adjustedInsertionLocation.childNodes.lastObject;
+    if (index > 0 && [adjustedInsertionLocation.childNodes[index - 1] isKindOfClass:[HTMLTextNode class]]) {
+        textNode = adjustedInsertionLocation.childNodes[index - 1];
     } else {
         textNode = [HTMLTextNode new];
         [adjustedInsertionLocation insertChild:textNode atIndex:index];
