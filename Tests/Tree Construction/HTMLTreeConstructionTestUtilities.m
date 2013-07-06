@@ -36,6 +36,7 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
             [scanner scanUpToString:@" " intoString:&name];
             if (scanner.isAtEnd) {
                 name = [name substringToIndex:name.length - 1];
+                if (name.length == 0) name = nil;
                 node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:nil systemId:nil];
             } else {
                 [scanner scanString:@" \"" intoString:nil];
