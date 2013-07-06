@@ -49,7 +49,7 @@ NSArray * ReifiedTreeForTestDocument(NSString *document)
         } else if ([scanner scanString:@"<!-- " intoString:nil]) {
             NSString *data;
             if (![scanner scanUpToString:@" -->" intoString:&data]) {
-                data = nil;
+                data = @"";
             }
             node = [[HTMLCommentNode alloc] initWithData:data];
         } else if ([scanner scanString:@"<" intoString:nil]) {
