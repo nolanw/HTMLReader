@@ -130,14 +130,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     switch (_insertionMode) {
         case HTMLInitialInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
-                    case '\t':
-                    case '\n':
-                    case '\f':
-                    case '\r':
-                    case ' ':
-                        return;
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    return;
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
@@ -164,14 +159,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLBeforeHtmlInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
-                    case '\t':
-                    case '\n':
-                    case '\f':
-                    case '\r':
-                    case ' ':
-                        return;
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    return;
                 }
             }
             if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
@@ -209,14 +199,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLBeforeHeadInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
-                    case '\t':
-                    case '\n':
-                    case '\f':
-                    case '\r':
-                    case ' ':
-                        return;
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    return;
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
@@ -260,19 +245,15 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLInHeadInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
-                    case '\t':
-                    case '\n':
-                    case '\f':
-                    case '\r':
-                    case ' ':
-                        [self insertCharacter:token.data];
-                        return;
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self insertCharacter:data];
+                    return;
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -351,15 +332,10 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 return;
             }
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
-                    case '\t':
-                    case '\n':
-                    case '\f':
-                    case '\r':
-                    case ' ':
-                        [self processToken:currentToken usingRulesForInsertionMode:HTMLInHeadInsertionMode];
-                        return;
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self processToken:currentToken usingRulesForInsertionMode:HTMLInHeadInsertionMode];
+                    return;
                 }
             }
             
@@ -400,19 +376,15 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLAfterHeadInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
-                    case '\t':
-                    case '\n':
-                    case '\f':
-                    case '\r':
-                    case ' ':
-                        [self insertCharacter:token.data];
-                        return;
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self insertCharacter:data];
+                    return;
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -460,8 +432,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLInBodyInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                switch (token.data) {
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                switch (data) {
                     case '\0':
                         [self addParseError];
                         return;
@@ -471,16 +443,17 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     case '\r':
                     case ' ':
                         [self reconstructTheActiveFormattingElements];
-                        [self insertCharacter:token.data];
+                        [self insertCharacter:data];
                         break;
                     default:
                         [self reconstructTheActiveFormattingElements];
-                        [self insertCharacter:token.data];
+                        [self insertCharacter:data];
                         _framesetOkFlag = NO;
                         break;
                 }
             } else if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -994,7 +967,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self switchInsertionMode:HTMLInTableTextInsertionMode];
                 [self reprocess:currentToken];
             } else if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -1087,7 +1061,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         case HTMLInTableTextInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
                 HTMLCharacterToken *token = currentToken;
-                if (token.data == 0) {
+                if (token.data == '\0') {
                     [self addParseError];
                     return;
                 } else {
@@ -1096,8 +1070,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             } else {
                 BOOL anyNonSpace = NO;
                 for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
-                    if (!(token.data == ' ' || token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r'))
-                    {
+                    UTF32Char data = token.data;
+                    if (!(data == ' ' || data == '\t' || data == '\n' || data == '\f' || data == '\r')) {
                         anyNonSpace = YES;
                         break;
                     }
@@ -1167,11 +1141,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLInColumnGroupInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
-                    token.data == ' ')
-                {
-                    [self insertCharacter:token.data];
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self insertCharacter:data];
                     return;
                 }
             }
@@ -1375,14 +1347,15 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLInSelectInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                if (token.data == 0) {
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\0') {
                     [self addParseError];
                     return;
                 }
-                [self insertCharacter:token.data];
+                [self insertCharacter:data];
             } else if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -1505,10 +1478,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLAfterBodyInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
-                    token.data == ' ')
-                {
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
                     [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
                     return;
                 }
@@ -1538,16 +1509,15 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLInFramesetInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
-                    token.data == ' ')
-                {
-                    [self insertCharacter:token.data];
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
+                    [self insertCharacter:data];
                     return;
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -1602,7 +1572,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:nil];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self addParseError];
                 return;
@@ -1622,10 +1593,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             
         case HTMLAfterAfterBodyInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
-                HTMLCharacterToken *token = currentToken;
-                if (token.data == '\t' || token.data == '\n' || token.data == '\f' || token.data == '\r' ||
-                    token.data == ' ')
-                {
+                UTF32Char data = [(HTMLCharacterToken *)currentToken data];
+                if (data == '\t' || data == '\n' || data == '\f' || data == '\r' || data == ' ') {
                     [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
                     return;
                 }
@@ -1657,7 +1626,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 }
             }
             if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
-                [self insertComment:[(HTMLCommentToken *)currentToken data] inNode:_document];
+                HTMLCommentToken *token = currentToken;
+                [self insertComment:token.data inNode:_document];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
                 [self processToken:currentToken usingRulesForInsertionMode:HTMLInBodyInsertionMode];
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] && [[currentToken tagName] isEqualToString:@"html"])
