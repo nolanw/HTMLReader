@@ -1666,7 +1666,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 
 - (HTMLNode *)appropriatePlaceForInsertingANodeIndex:(out NSUInteger *)index
 {
-    HTMLElementNode *target = _stackOfOpenElements.lastObject;
+    return [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil index:index];
+}
+
+- (HTMLNode *)appropriatePlaceForInsertingANodeWithOverrideTarget:(HTMLNode *)overrideTarget
+                                                            index:(out NSUInteger *)index
+{
+    HTMLElementNode *target = overrideTarget ?: _stackOfOpenElements.lastObject;
     if (_fosterParenting && [@[ @"table", @"tbody", @"tfoot", @"thead", @"tr" ] containsObject:target.tagName]) {
         HTMLElementNode *lastTable;
         for (HTMLElementNode *element in _stackOfOpenElements.reverseObjectEnumerator) {
@@ -1978,10 +1984,11 @@ create:;
     return NO;
 }
 
-- (void)insertNode:(id)node atAppropriatePlaceWithOverrideTarget:(id)overrideTarget
+- (void)insertNode:(HTMLNode *)node atAppropriatePlaceWithOverrideTarget:(HTMLNode *)overrideTarget
 {
-    HTMLElementNode *target = overrideTarget ?: _stackOfOpenElements.lastObject;
-    [target appendChild:node];
+    NSUInteger i;
+    HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:overrideTarget index:&i];
+    [parent insertChild:node atIndex:i];
 }
 
 - (void)clearActiveFormattingElementsUpToLastMarker
