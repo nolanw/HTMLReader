@@ -430,7 +430,41 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             }
             break;
             
-        case HTMLInBodyInsertionMode:
+        case HTMLInBodyInsertionMode: {
+            void (^anyOtherEndTag)(HTMLEndTagToken *) = ^(HTMLEndTagToken *token){
+                HTMLElementNode *node = _stackOfOpenElements.lastObject;
+                do {
+                    if ([node.tagName isEqualToString:token.tagName]) {
+                        [self generateImpliedEndTagsExceptForTagsNamed:token.tagName];
+                        if (![_stackOfOpenElements.lastObject isKindOfClass:[HTMLElementNode class]] ||
+                            ![[_stackOfOpenElements.lastObject tagName] isEqualToString:token.tagName])
+                        {
+                            [self addParseError];
+                        }
+                        while (![_stackOfOpenElements.lastObject isEqual:node]) {
+                            [_stackOfOpenElements removeLastObject];
+                        }
+                        [_stackOfOpenElements removeLastObject];
+                        break;
+                    } else if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
+                                @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
+                                @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
+                                @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame",
+                                @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header",
+                                @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li",
+                                @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav",
+                                @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param",
+                                @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style",
+                                @"summary", @"table", @"tbody", @"td", @"textarea", @"tfoot", @"th", @"thead",
+                                @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ]
+                                containsObject:node.tagName])
+                    {
+                        [self addParseError];
+                        return;
+                    }
+                    node = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:node] - 1];
+                } while (YES);
+            };
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
                 UTF32Char data = [(HTMLCharacterToken *)currentToken data];
                 switch (data) {
@@ -655,7 +689,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     if ([element isEqual:[HTMLMarker marker]]) break;
                     if ([element.tagName isEqualToString:@"a"]) {
                         [self addParseError];
-                        [self runAdoptionAgencyAlgorithmForTagName:@"a"];
+                        if (![self runAdoptionAgencyAlgorithmForTagName:@"a"]) {
+                            anyOtherEndTag(currentToken);
+                        }
                         [self removeElementFromListOfActiveFormattingElements:element];
                         [_stackOfOpenElements removeObject:element];
                         break;
@@ -677,7 +713,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self reconstructTheActiveFormattingElements];
                 if ([self elementInScopeWithTagName:@"nobr"]) {
                     [self addParseError];
-                    [self runAdoptionAgencyAlgorithmForTagName:@"nobr"];
+                    if (![self runAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
+                        anyOtherEndTag(currentToken);
+                    }
                     [self reconstructTheActiveFormattingElements];
                 }
                 HTMLElementNode *element = [self insertElementForToken:currentToken];
@@ -686,7 +724,9 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                        [@[ @"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr", @"s", @"small",
                         @"strike", @"strong", @"tt", @"u" ] containsObject:[currentToken tagName]])
             {
-                [self runAdoptionAgencyAlgorithmForTagName:[currentToken tagName]];
+                if (![self runAdoptionAgencyAlgorithmForTagName:[currentToken tagName]]) {
+                    anyOtherEndTag(currentToken);
+                }
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
                        [@[ @"applet", @"marquee", @"object" ] containsObject:[currentToken tagName]])
             {
@@ -889,40 +929,10 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [self reconstructTheActiveFormattingElements];
                 [self insertElementForToken:currentToken];
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]]) {
-                HTMLElementNode *node = _stackOfOpenElements.lastObject;
-                do {
-                    if ([node.tagName isEqualToString:[currentToken tagName]]) {
-                        [self generateImpliedEndTagsExceptForTagsNamed:[currentToken tagName]];
-                        if (![_stackOfOpenElements.lastObject isKindOfClass:[HTMLElementNode class]] ||
-                            ![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]])
-                        {
-                            [self addParseError];
-                        }
-                        while (![_stackOfOpenElements.lastObject isEqual:node]) {
-                            [_stackOfOpenElements removeLastObject];
-                        }
-                        [_stackOfOpenElements removeLastObject];
-                        break;
-                    } else if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
-                                @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
-                                @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
-                                @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame",
-                                @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header",
-                                @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li",
-                                @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav",
-                                @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param",
-                                @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style",
-                                @"summary", @"table", @"tbody", @"td", @"textarea", @"tfoot", @"th", @"thead",
-                                @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ]
-                                containsObject:node.tagName])
-                    {
-                        [self addParseError];
-                        return;
-                    }
-                    node = [_stackOfOpenElements objectAtIndex:[_stackOfOpenElements indexOfObject:node] - 1];
-                } while (YES);
+                anyOtherEndTag(currentToken);
             }
             break;
+        }
             
         case HTMLTextInsertionMode:
             if ([currentToken isKindOfClass:[HTMLCharacterToken class]]) {
@@ -1864,7 +1874,7 @@ create:;
     [self generateImpliedEndTagsExceptForTagsNamed:nil];
 }
 
-// Returns YES if the parser should "act as described in the 'any other end tag' entry below".
+// Returns NO if the parser should "act as described in the 'any other end tag' entry below".
 - (BOOL)runAdoptionAgencyAlgorithmForTagName:(NSString *)tagName
 {
     for (NSInteger outerLoopCounter = 0; outerLoopCounter < 8; outerLoopCounter++) {
@@ -1876,15 +1886,15 @@ create:;
                 break;
             }
         }
-        if (!formattingElement) return YES;
+        if (!formattingElement) return NO;
         if (![_stackOfOpenElements containsObject:formattingElement]) {
             [self addParseError];
             [self removeElementFromListOfActiveFormattingElements:formattingElement];
-            return NO;
+            return YES;
         }
         if (![self isElementInScope:formattingElement]) {
             [self addParseError];
-            return NO;
+            return YES;
         }
         if (![_stackOfOpenElements.lastObject isEqual:formattingElement]) {
             [self addParseError];
@@ -1914,7 +1924,7 @@ create:;
             }
             [_stackOfOpenElements removeLastObject];
             [self removeElementFromListOfActiveFormattingElements:formattingElement];
-            return NO;
+            return YES;
         }
         HTMLElementNode *commonAncestor = [_stackOfOpenElements objectAtIndex:
                                            [_stackOfOpenElements indexOfObject:formattingElement] - 1];
@@ -1955,7 +1965,7 @@ create:;
         [_stackOfOpenElements insertObject:formattingClone
                                    atIndex:[_stackOfOpenElements indexOfObject:furthestBlock] + 1];
     }
-    return NO;
+    return YES;
 }
 
 - (BOOL)isElementInScope:(HTMLElementNode *)element
