@@ -10,3 +10,5 @@
   - For example, check domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)
 - Handle CDATA once parser is functional.
 - Fragment parsing algorithm (tests and implementation).
+- Deal with dispatcher, in foreign content, etc. stuff.
+- Deal with SVG/MathML and namespaces.
