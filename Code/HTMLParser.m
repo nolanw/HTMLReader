@@ -1158,7 +1158,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     return;
                 }
             }
-            if ([currentToken isKindOfClass:[HTMLCommentNode class]]) {
+            if ([currentToken isKindOfClass:[HTMLCommentToken class]]) {
                 HTMLCommentToken *token = currentToken;
                 [self insertComment:token.data inNode:nil];
             } else if ([currentToken isKindOfClass:[HTMLDOCTYPEToken class]]) {
