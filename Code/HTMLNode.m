@@ -48,6 +48,27 @@
     }
 }
 
+- (NSString *)recursiveDescription
+{
+    NSMutableString *string = [NSMutableString new];
+    [self appendRecursiveDescriptionToString:string withIndentLevel:0];
+    return string;
+}
+
+- (void)appendRecursiveDescriptionToString:(NSMutableString *)string
+                           withIndentLevel:(NSInteger)indentLevel
+{
+    if (indentLevel > 0) {
+        [string appendString:[@"|" stringByPaddingToLength:indentLevel * 4 + 1
+                                                withString:@" "
+                                           startingAtIndex:0]];
+    }
+    [string appendFormat:@"%@\n", self.description];
+    for (HTMLNode *node in _childNodes) {
+        [node appendRecursiveDescriptionToString:string withIndentLevel:indentLevel + 1];
+    }
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
