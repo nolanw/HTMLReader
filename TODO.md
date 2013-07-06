@@ -1,6 +1,8 @@
 # HTMLReader TODO
 
 - Pass all tree construction tests.
+  - adoption01
+    - test012 requires namespace support.
 - During tree construction, add a parse error anytime a start tag token is encountered with an unacknowledged self-closing flag. (This is parially complete.) (It would be awesome if we could do this by calling some kind of `-acknowledgeSelfClosingFlag` method.)
 - Look into this `<template>` stuff.
 - Pass all tokenizer tests.
