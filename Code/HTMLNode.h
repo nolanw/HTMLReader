@@ -19,6 +19,8 @@
 - (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
 - (void)removeChild:(HTMLNode *)child;
 
+- (NSString *)recursiveDescription;
+
 @end
 
 @interface HTMLElementNode : HTMLNode

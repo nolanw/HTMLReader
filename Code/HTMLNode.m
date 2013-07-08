@@ -59,11 +59,11 @@
                            withIndentLevel:(NSInteger)indentLevel
 {
     if (indentLevel > 0) {
-        [string appendString:[@"|" stringByPaddingToLength:indentLevel * 4 + 1
-                                                withString:@" "
-                                           startingAtIndex:0]];
+        [string appendString:[@"\n|" stringByPaddingToLength:indentLevel * 4 + 2
+                                                  withString:@" "
+                                             startingAtIndex:0]];
     }
-    [string appendFormat:@"%@\n", self.description];
+    [string appendString:self.description];
     for (HTMLNode *node in _childNodes) {
         [node appendRecursiveDescriptionToString:string withIndentLevel:indentLevel + 1];
     }
