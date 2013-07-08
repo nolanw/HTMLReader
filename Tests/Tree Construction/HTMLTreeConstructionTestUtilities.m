@@ -9,83 +9,88 @@
 #import "HTMLTreeConstructionTestUtilities.h"
 #import "HTMLTokenizer.h"
 
+static id NodeOrAttributeFromTestString(NSString *);
+
 NSArray * ReifiedTreeForTestDocument(NSString *document)
 {
     NSMutableArray *roots = [NSMutableArray new];
     NSMutableArray *stack = [NSMutableArray new];
     NSCharacterSet *spaceSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
-    [document enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
-        NSScanner *scanner = [NSScanner scannerWithString:line];
-        scanner.charactersToBeSkipped = nil;
-        scanner.caseSensitive = YES;
-        if (![scanner scanString:@"| " intoString:nil]) {
-            *stop = YES;
-            return;
-        }
+    NSScanner *scanner = [NSScanner scannerWithString:document];
+    scanner.charactersToBeSkipped = nil;
+    scanner.caseSensitive = YES;
+    while ([scanner scanString:@"| " intoString:nil]) {
         NSString *spaces;
-        if (![scanner scanCharactersFromSet:spaceSet intoString:&spaces]) {
-            spaces = nil;
-        }
+        [scanner scanCharactersFromSet:spaceSet intoString:&spaces];
         while (stack.count > spaces.length / 2) {
             [stack removeLastObject];
         }
-        HTMLNode *node;
-        HTMLElementNode *parentNode = stack.lastObject;
-        if ([scanner scanString:@"<!DOCTYPE " intoString:nil]) {
-            NSString *name;
-            [scanner scanUpToString:@" " intoString:&name];
-            if (scanner.isAtEnd) {
-                name = [name substringToIndex:name.length - 1];
-                if (name.length == 0) name = nil;
-                node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:nil systemId:nil];
-            } else {
-                [scanner scanString:@" \"" intoString:nil];
-                NSString *publicId;
-                [scanner scanUpToString:@"\" " intoString:&publicId];
-                [scanner scanString:@"\" \"" intoString:nil];
-                NSString *systemId;
-                [scanner scanUpToString:@"\">" intoString:&systemId];
-                node = [[HTMLDocumentTypeNode alloc] initWithName:name publicId:publicId systemId:systemId];
-            }
-        } else if ([scanner scanString:@"<!-- " intoString:nil]) {
-            NSString *data;
-            if (![scanner scanUpToString:@" -->" intoString:&data]) {
-                data = @"";
-            }
-            node = [[HTMLCommentNode alloc] initWithData:data];
-        } else if ([scanner scanString:@"<" intoString:nil]) {
-            NSString *tagName;
-            if ([scanner scanUpToString:@">" intoString:&tagName]) {
-                node = [[HTMLElementNode alloc] initWithTagName:tagName];
-            }
-        } else if ([scanner scanString:@"\"" intoString:nil]) {
-            NSString *data;
-            if (![scanner scanUpToString:@"\"" intoString:&data]) {
-                data = nil;
-            }
-            node = [[HTMLTextNode alloc] initWithData:data ?: @""];
+        NSString *nodeString;
+        [scanner scanUpToString:@"\n| " intoString:&nodeString];
+        id nodeOrAttribute = NodeOrAttributeFromTestString(nodeString);
+        if ([nodeOrAttribute isKindOfClass:[HTMLAttribute class]]) {
+            [stack.lastObject addAttribute:nodeOrAttribute];
+        } else if (stack.count > 0) {
+            [stack.lastObject appendChild:nodeOrAttribute];
         } else {
-            // Attribute
-            NSString *name, *value;
-            if (![scanner scanUpToString:@"=" intoString:&name]) {
-                name = nil;
-            }
-            [scanner scanString:@"=\"" intoString:nil];
-            if (![scanner scanUpToString:@"\"" intoString:&value]) {
-                value = @"";
-            }
-            HTMLAttribute *attribute = [[HTMLAttribute alloc] initWithName:name value:value];
-            [stack.lastObject addAttribute:attribute];
-            return;
+            [roots addObject:nodeOrAttribute];
         }
-        if (!node) return;
-        if (stack.count == 0) {
-            [roots addObject:node];
+        if ([nodeOrAttribute isKindOfClass:[HTMLElementNode class]]) {
+            [stack addObject:nodeOrAttribute];
         }
-        if ([node isKindOfClass:[HTMLElementNode class]]) {
-            [stack addObject:node];
-        }
-        [parentNode appendChild:node];
-    }];
+        [scanner scanString:@"\n" intoString:nil];
+    }
     return roots;
+}
+
+static id NodeOrAttributeFromTestString(NSString *s)
+{
+    NSScanner *scanner = [NSScanner scannerWithString:s];
+    scanner.charactersToBeSkipped = nil;
+    scanner.caseSensitive = YES;
+    if ([scanner scanString:@"<!DOCTYPE " intoString:nil]) {
+        NSString *rest;
+        [scanner scanUpToString:@">" intoString:&rest];
+        if (!rest) {
+            return [HTMLDocumentTypeNode new];
+        }
+        NSScanner *doctypeScanner = [NSScanner scannerWithString:rest];
+        doctypeScanner.charactersToBeSkipped = nil;
+        doctypeScanner.caseSensitive = YES;
+        NSString *name;
+        [doctypeScanner scanUpToString:@" " intoString:&name];
+        if (doctypeScanner.isAtEnd) {
+            return [[HTMLDocumentTypeNode alloc] initWithName:name publicId:nil systemId:nil];
+        }
+        [doctypeScanner scanString:@" \"" intoString:nil];
+        NSString *publicId;
+        [doctypeScanner scanUpToString:@"\"" intoString:&publicId];
+        [doctypeScanner scanString:@"\" \"" intoString:nil];
+        NSRange rangeOfSystemId = (NSRange){
+            .location = doctypeScanner.scanLocation,
+            .length = doctypeScanner.string.length - doctypeScanner.scanLocation - 1,
+        };
+        NSString *systemId = [doctypeScanner.string substringWithRange:rangeOfSystemId];
+        return [[HTMLDocumentTypeNode alloc] initWithName:name publicId:publicId systemId:systemId];
+    } else if ([scanner scanString:@"<!-- " intoString:nil]) {
+        NSUInteger endOfData = [s rangeOfString:@" -->" options:NSBackwardsSearch].location;
+        NSRange rangeOfData = NSMakeRange(scanner.scanLocation, endOfData - scanner.scanLocation);
+        return [[HTMLCommentNode alloc] initWithData:[s substringWithRange:rangeOfData]];
+    } else if ([scanner scanString:@"<" intoString:nil]) {
+        NSString *tagName;
+        [scanner scanUpToString:@">" intoString:&tagName];
+        return [[HTMLElementNode alloc] initWithTagName:tagName];
+    } else if ([scanner scanString:@"\"" intoString:nil]) {
+        NSUInteger endOfData = [s rangeOfString:@"\"" options:NSBackwardsSearch].location;
+        NSRange rangeOfData = NSMakeRange(scanner.scanLocation, endOfData - scanner.scanLocation);
+        return [[HTMLTextNode alloc] initWithData:[s substringWithRange:rangeOfData]];
+    } else {
+        NSString *name;
+        [scanner scanUpToString:@"=" intoString:&name];
+        [scanner scanString:@"=\"" intoString:nil];
+        NSUInteger endOfValue = [s rangeOfString:@"\"" options:NSBackwardsSearch].location;
+        NSRange rangeOfValue = NSMakeRange(scanner.scanLocation, endOfValue - scanner.scanLocation);
+        NSString *value = [s substringWithRange:rangeOfValue];
+        return [[HTMLAttribute alloc] initWithName:name value:value];
+    }
 }
