@@ -87,6 +87,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     _stackOfOpenElements = [NSMutableArray new];
     _errors = [NSMutableArray new];
     _tokensToReconsume = [NSMutableArray new];
+    _framesetOkFlag = YES;
     _activeFormattingElements = [NSMutableArray new];
     return self;
 }
