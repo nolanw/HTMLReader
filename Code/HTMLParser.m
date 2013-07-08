@@ -668,6 +668,14 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 }
                 [_stackOfOpenElements removeLastObject];
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"plaintext"])
+            {
+                if ([self elementInButtonScopeWithTagName:@"p"]) {
+                    [self closePElement];
+                }
+                [self insertElementForToken:currentToken];
+                _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
                        [[currentToken tagName] isEqualToString:@"button"])
             {
                 if ([self elementInScopeWithTagName:@"button"]) {
