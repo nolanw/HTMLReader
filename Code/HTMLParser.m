@@ -666,6 +666,91 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     [_stackOfOpenElements removeLastObject];
                 }
                 [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"button"])
+            {
+                if ([self elementInScopeWithTagName:@"button"]) {
+                    [self addParseError];
+                    [self generateImpliedEndTags];
+                    while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"button"]) {
+                        [_stackOfOpenElements removeLastObject];
+                    }
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [self reconstructTheActiveFormattingElements];
+                [self insertElementForToken:currentToken];
+                _framesetOkFlag = NO;
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"address", @"article", @"aside", @"blockquote", @"button", @"center",
+                        @"details", @"dialog", @"dir", @"div", @"dl", @"fieldset", @"figcaption",
+                        @"figure", @"footer", @"header", @"hgroup", @"listing", @"main", @"menu",
+                        @"nav", @"ol", @"pre", @"section", @"summary", @"ul" ]
+                        containsObject:[currentToken tagName]])
+            {
+                if (![self elementInScopeWithTagName:[currentToken tagName]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self generateImpliedEndTags];
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                    [self addParseError];
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"form"])
+            {
+                HTMLElementNode *node = _formElementPointer;
+                _formElementPointer = nil;
+                if (![self isElementInScope:node]) {
+                    [self addParseError];
+                    return;
+                }
+                [self generateImpliedEndTags];
+                if (![_stackOfOpenElements.lastObject isEqual:node]) {
+                    [self addParseError];
+                }
+                [_stackOfOpenElements removeObject:node];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"p"])
+            {
+                if (![self elementInButtonScopeWithTagName:@"p"]) {
+                    [self addParseError];
+                    [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"p"]];
+                }
+                [self closePElement];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [[currentToken tagName] isEqualToString:@"li"])
+            {
+                if (![self elementInListItemScopeWithTagName:@"li"]) {
+                    [self addParseError];
+                    return;
+                }
+                [self generateImpliedEndTagsExceptForTagsNamed:@"li"];
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"li"]) {
+                    [self addParseError];
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:@"li"]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
+            } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
+                       [@[ @"dd", @"dt" ] containsObject:[currentToken tagName]])
+            {
+                if (![self elementInScopeWithTagName:[currentToken tagName]]) {
+                    [self addParseError];
+                    return;
+                }
+                [self generateImpliedEndTagsExceptForTagsNamed:[currentToken tagName]];
+                if (![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                    [self addParseError];
+                }
+                while (![[_stackOfOpenElements.lastObject tagName] isEqualToString:[currentToken tagName]]) {
+                    [_stackOfOpenElements removeLastObject];
+                }
+                [_stackOfOpenElements removeLastObject];
             } else if ([currentToken isKindOfClass:[HTMLEndTagToken class]] &&
                        [@[ @"h1", @"h2", @"h3", @"h4", @"h5", @"h6" ] containsObject:[currentToken tagName]])
             {
@@ -1859,6 +1944,12 @@ create:;
 - (HTMLElementNode *)elementInTableScopeWithTagNameInArray:(NSArray *)tagNames
 {
     return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:@[ @"html", @"table" ]];
+}
+
+- (HTMLElementNode *)elementInListItemScopeWithTagName:(NSString *)tagName
+{
+    return [self elementInScopeWithTagNameInArray:@[ tagName ]
+                           additionalElementTypes:@[ @"ol", @"ul" ]];
 }
 
 - (void)closePElement
