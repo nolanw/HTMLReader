@@ -1914,7 +1914,8 @@ create:;
 
 - (HTMLElementNode *)elementInButtonScopeWithTagName:(NSString *)tagName
 {
-    return [self elementInScopeWithTagNameInArray:@[ tagName ] additionalElementTypes:@[ @"button" ]];
+    return [self elementInScopeWithTagNameInArray:@[ tagName ]
+                           additionalElementTypes:@[ @"button" ]];
 }
 
 - (HTMLElementNode *)elementInScopeWithTagNameInArray:(NSArray *)tagNames
@@ -1944,7 +1945,8 @@ create:;
 
 - (HTMLElementNode *)elementInTableScopeWithTagNameInArray:(NSArray *)tagNames
 {
-    return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:@[ @"html", @"table" ]];
+    return [self elementInSpecificScopeWithTagNameInArray:tagNames
+                                             elementTypes:@[ @"html", @"table" ]];
 }
 
 - (HTMLElementNode *)elementInListItemScopeWithTagName:(NSString *)tagName
