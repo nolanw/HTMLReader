@@ -21,6 +21,9 @@ do { \
                                                                           inFile:[NSString stringWithUTF8String:__FILE__] \
                                                                           atLine:__LINE__ \
                                                                  withDescription:@"%@", STComposeString(description, ##__VA_ARGS__)])]; \
+            NSLog(@"parsed: %@\nfixture:\n%@", \
+                  [(parser).document recursiveDescription], \
+                  [[(fixtureNodes) valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]); \
         } \
         else if ([[(parser) errors] count] != numErrors) { \
             [self failWithException:([NSException failureInEqualityBetweenValue:@([[(parser) errors] count]) \
