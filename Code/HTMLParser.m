@@ -876,7 +876,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                         break;
                     }
                 }
-                if (!type || ![type.value isEqualToString:@"hidden"]) {
+                if (!type || [type.value caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
                     _framesetOkFlag = NO;
                 }
             } else if ([currentToken isKindOfClass:[HTMLStartTagToken class]] &&
