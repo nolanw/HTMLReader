@@ -75,10 +75,12 @@ TREE_TEST_REGEX = /
   (.+?)\n
   \#errors\n
   (.*?)
-  (?:\#document-fragment\n
-  (.+?)\n)?
+  (?: \#document-fragment\n
+   (.+?)\n)?
   \#document\n
-  ((?:^\| [^\n]*\n)+)
+  ((?: \|[ ]+
+    (?: [^"\n][^\n]* |
+        ".*?")\n)+)
 /xm
 
 FileList['Tests/html5lib/tree-construction/*.dat'].each do |testpath|

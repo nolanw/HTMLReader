@@ -56,42 +56,42 @@
     HTMLElementNode *context = [[HTMLElementNode alloc] initWithTagName:@"div"];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<body>\n<div>"
                                                     context:context];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| \"\n\"\n| <div>\n");
     HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test007
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\nfoo"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n\"\n");
     HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test008
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n<noframes>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n\"\n|   <noframes>\n");
     HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test009
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n<div>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n\"\n");
     HTMLAssertParserState(parser, 2, fixture, nil);
 }
 
 - (void)test010
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n</html>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n\"\n");
     HTMLAssertParserState(parser, 1, fixture, nil);
 }
 
 - (void)test011
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<frameset></frameset>\n</div>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <frameset>\n|   \"\n\"\n");
     HTMLAssertParserState(parser, 2, fixture, nil);
 }
 

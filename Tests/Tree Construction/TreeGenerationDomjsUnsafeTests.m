@@ -12,21 +12,21 @@
 - (void)test000
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[foo\nbar]]>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\nbar\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test001
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[foo\rbar]]>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\nbar\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
 - (void)test002
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<svg><![CDATA[foo\r\nbar]]>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <svg svg>\n|       \"foo\nbar\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 

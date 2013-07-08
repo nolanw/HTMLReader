@@ -40,7 +40,7 @@
 - (void)test004
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<div>Hello</div>\n<script>\nconsole.log(\"PASS\");\n</script>\n<div>Bye</div>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|       \"Hello\"\n|     \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|       \"Hello\"\n|     \"\n\"\n|     <script>\n|       \"\nconsole.log(\"PASS\");\n\"\n|     \"\n\"\n|     <div>\n|       \"Bye\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
@@ -54,7 +54,7 @@
 - (void)test006
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<div>Hello</div>\n<script>\nconsole.log(\"FOO<span>BAR</span>BAZ\");\n</script>\n<div>Bye</div>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|       \"Hello\"\n|     \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|       \"Hello\"\n|     \"\n\"\n|     <script>\n|       \"\nconsole.log(\"FOO<span>BAR</span>BAZ\");\n\"\n|     \"\n\"\n|     <div>\n|       \"Bye\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
@@ -229,7 +229,7 @@
 - (void)test031
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<head></head>\n<body></body>"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   \"\n\"\n|   <body>\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 

@@ -75,7 +75,7 @@
 - (void)test009
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<p><code x</code></p>\n"];
-    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <code>\n|         code=\"\"\n|         x<=\"\"\n|     <code>\n|       code=\"\"\n|       x<=\"\"\n|       \"\n");
+    NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <code>\n|         code=\"\"\n|         x<=\"\"\n|     <code>\n|       code=\"\"\n|       x<=\"\"\n|       \"\n\"\n");
     HTMLAssertParserState(parser, 0, fixture, nil);
 }
 
