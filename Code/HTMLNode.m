@@ -91,6 +91,11 @@
     return self;
 }
 
+- (id)init
+{
+    return [self initWithTagName:nil];
+}
+
 - (NSArray *)attributes
 {
     return [_attributes copy];
@@ -253,6 +258,11 @@
     _publicId = [publicId copy] ?: @"";
     _systemId = [systemId copy] ?: @"";
     return self;
+}
+
+- (id)init
+{
+    return [self initWithName:nil publicId:nil systemId:nil];
 }
 
 #pragma mark NSCopying
