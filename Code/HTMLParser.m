@@ -2479,6 +2479,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 {
     NSInteger alreadyPresent = 0;
     for (HTMLElementNode *node in _activeFormattingElements.reverseObjectEnumerator.allObjects) {
+        if ([node isEqual:[HTMLMarker marker]]) continue;
         if ([node.tagName isEqualToString:element.tagName]) {
             alreadyPresent += 1;
             if (alreadyPresent == 3) {
