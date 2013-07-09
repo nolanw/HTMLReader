@@ -113,7 +113,6 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
     HTMLElementNode *_formElementPointer;
     HTMLDocument *_document;
     NSMutableArray *_errors;
-    NSMutableArray *_tokensToReconsume;
     BOOL _framesetOkFlag;
     BOOL _ignoreNextTokenIfLineFeed;
     NSMutableArray *_activeFormattingElements;
@@ -145,7 +144,6 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
     _insertionMode = HTMLInitialInsertionMode;
     _stackOfOpenElements = [NSMutableArray new];
     _errors = [NSMutableArray new];
-    _tokensToReconsume = [NSMutableArray new];
     _framesetOkFlag = YES;
     _activeFormattingElements = [NSMutableArray new];
     return self;
@@ -155,20 +153,11 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
 {
     if (_document) return _document;
     _document = [HTMLDocument new];
-    void (^reconsumeAll)(void) = ^{
-        while (_tokensToReconsume.count > 0) {
-            id again = _tokensToReconsume[0];
-            [_tokensToReconsume removeObjectAtIndex:0];
-            [self processToken:again];
-        }
-    };
     for (id token in _tokenizer) {
         if (_done) break;
         [self processToken:token];
-        reconsumeAll();
     }
-    [_tokensToReconsume addObject:[HTMLEOFToken new]];
-    if (!_done) reconsumeAll();
+    [self processToken:[HTMLEOFToken new]];
     return _document;
 }
 
@@ -2226,7 +2215,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 
 - (void)reprocessToken:(id)token
 {
-    [_tokensToReconsume addObject:token];
+    [self processToken:token];
 }
 
 - (void)stopParsing
