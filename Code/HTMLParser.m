@@ -10,7 +10,7 @@
 #import "HTMLString.h"
 #import "HTMLTokenizer.h"
 
-@interface HTMLMarker : NSObject
+@interface HTMLMarker : NSObject <NSCopying>
 
 + (instancetype)marker;
 
@@ -2569,21 +2569,39 @@ create:;
 
 @implementation HTMLMarker
 
+static HTMLMarker *instance = nil;
+
++ (void)initialize
+{
+    if (self == [HTMLMarker class]) {
+        if (!instance) {
+            instance = [self new];
+        }
+    }
+}
+
 + (instancetype)marker
 {
-    static HTMLMarker *marker;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        marker = [self new];
-    });
-    return marker;
+    return instance;
+}
+
+- (id)init
+{
+    return self;
+}
+
+#pragma mark NSCopying
+
+- (id)copyWithZone:(__unused NSZone *)zone
+{
+    return self;
 }
 
 #pragma mark NSObject
 
 - (BOOL)isEqual:(id)other
 {
-    return [other isKindOfClass:[HTMLMarker class]];
+    return other == self;
 }
 
 - (NSUInteger)hash
