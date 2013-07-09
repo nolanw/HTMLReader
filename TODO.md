@@ -33,7 +33,7 @@
     - test001, test002 require SVG support.
   - plainTextUnsafe
     - test010, test013, test014, test015, test016, test017, test020, test026, test027, test028, test029, test030, test031, test032 require MathML/SVG/CDATA support.
-  - tables
+  - tables01
     - test016 requires SVG support.
   - tests09 requires MathML support.
   - tests10 requires SVG support.
