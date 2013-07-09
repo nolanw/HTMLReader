@@ -1,19 +1,7 @@
 # HTMLReader TODO
 
-- Pass all tree construction tests.
-  - adoption01
-    - test012 requires namespace support.
-- During tree construction, add a parse error anytime a start tag token is encountered with an unacknowledged self-closing flag. (This is parially complete.) (It would be awesome if we could do this by calling some kind of `-acknowledgeSelfClosingFlag` method.)
-- Look into this `<template>` stuff.
-- Pass all tokenizer tests.
-  - domjs test12 fails (extra parse error).
-  - unicode chars problematic test2 fails (parse error between character tokens).
 - Fix lossy conversion from html5lib tests to SenTestCase tests.
-  - For example, check domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)
-- Handle CDATA once parser is functional.
-- Fragment parsing algorithm (tests and implementation).
-- Deal with dispatcher, in foreign content, etc. stuff.
-- Deal with SVG/MathML and namespaces.
+  - For example, check tokenizer domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)
 - Clarify spec with tree construction test adoption02 test001.
   - By my reading of the spec, here's what should happen:
     1. Get to the `<style>` start tag token.
@@ -24,3 +12,41 @@
     6. The insertion mode switches to the original insertion mode, "in head".
     7. The `<address>` start tag token is also processed according to the rules of the "in head" insertion mode.
   - However, what's clearly intended is for the insertion mode to revert to "in body" once the `</style>` end tag token is encountered.
+- Pass or fix remaining tokenizer tests.
+  - domjs test12 fails (extra parse error).
+  - unicode chars problematic test2 fails (parse error between character tokens).
+- Implement remaining features.
+  - `<template>`
+  - CDATA
+  - SVG, MathML, namespaces
+  - Fragment parsing algorithm
+  - Acknowledging self-closing tags (i.e. throwing a parse error when unacknowledged)
+- Pass tests relating to unimplemented features.
+  - adoption01
+    - test012 requires namespace support.
+  - domjsUnsafe
+    - test000, test001, test002, test043, test044, test045, test046, test047, test048 require namespace/SVG/CDATA support.
+  - html5TestCom
+    - test022 requires SVG support.
+    - test023 requires MathML support.
+  - pendingSpecChanges
+    - test001, test002 require SVG support.
+  - plainTextUnsafe
+    - test010, test013, test014, test015, test016, test017, test020, test026, test027, test028, test029, test030, test031, test032 require MathML/SVG/CDATA support.
+  - tables
+    - test016 requires SVG support.
+  - tests09 requires MathML support.
+  - tests10 requires SVG support.
+  - tests11 requires MathML/SVG support.
+  - tests12 requires MathML support.
+  - tests18
+    - test019 requires SVG support.
+  - tests19
+    - test000, test018, test019, test031, test032, test033, test034, test035, test076, test082, test083, test084 require MathML/SVG support.
+  - tests20
+    - test022, test028, test029, test032, test033, test034, test035, test036, test037, test038 require SVG/MathML support.
+  - tests21 requires SVG/MathML/CDATA support.
+  - tests26
+    - test010, test011, test012, test013 require SVG/MathML support.
+  - webkit01
+    - test038, test039, test040, test043, test044, test045 require SVG/MathML support.
