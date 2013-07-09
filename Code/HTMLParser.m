@@ -472,7 +472,6 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [_stackOfOpenElements addObject:script];
         _tokenizer.state = HTMLScriptDataTokenizerState;
         [self switchInsertionMode:HTMLTextInsertionMode];
-        _originalInsertionMode = _insertionMode;
     } else if ([token.tagName isEqualToString:@"head"]) {
         [self addParseError];
     } else {
@@ -888,7 +887,6 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [self insertElementForToken:token];
         _ignoreNextTokenIfLineFeed = YES;
         _tokenizer.state = HTMLRCDATATokenizerState;
-        _originalInsertionMode = _insertionMode;
         _framesetOkFlag = NO;
         [self switchInsertionMode:HTMLTextInsertionMode];
     } else if ([token.tagName isEqualToString:@"xmp"]) {
@@ -1255,7 +1253,6 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     {
         _pendingTableCharacterTokens = [NSMutableArray new];
         [self switchInsertionMode:HTMLInTableTextInsertionMode];
-        _originalInsertionMode = _insertionMode;
         [self reprocessToken:token];
     } else {
         [self inTableInsertionModeHandleAnythingElse:token];
@@ -2167,24 +2164,29 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     [self addParseError];
 }
 
-#pragma mark - Processing tokens
+#pragma mark - Process tokens
 
-- (void)processToken:(id)currentToken
+- (void)processToken:(id)token
 {
-    if ([currentToken isKindOfClass:[HTMLParseErrorToken class]]) {
+    [self processToken:token usingRulesForInsertionMode:_insertionMode];
+}
+
+- (void)processToken:(id)token usingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
+{
+    if ([token isKindOfClass:[HTMLParseErrorToken class]]) {
         [self addParseError];
         return;
     }
     if (_ignoreNextTokenIfLineFeed) {
         _ignoreNextTokenIfLineFeed = NO;
-        if ([currentToken isKindOfClass:[HTMLCharacterToken class]] &&
-            [(HTMLCharacterToken *)currentToken data] == '\n')
+        if ([token isKindOfClass:[HTMLCharacterToken class]] &&
+            [(HTMLCharacterToken *)token data] == '\n')
         {
             return;
         }
     }
-    NSString *modeString = NSStringFromHTMLInsertionMode(_insertionMode);
-    NSString *tokenType = [NSStringFromClass([currentToken class]) substringFromIndex:4];
+    NSString *modeString = NSStringFromHTMLInsertionMode(insertionMode);
+    NSString *tokenType = [NSStringFromClass([token class]) substringFromIndex:4];
     SEL selector = NSSelectorFromString([NSString stringWithFormat:@"%@Handle%@:",
                                          modeString, tokenType]);
     if (![self respondsToSelector:selector]) {
@@ -2194,23 +2196,12 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     if ([self respondsToSelector:selector]) {
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self performSelector:selector withObject:currentToken];
+        [self performSelector:selector withObject:token];
         #pragma clang diagnostic pop
         return;
     }
     NSAssert(NO, @"this shouldn't happen: stuck in mode %@", modeString);
     NSLog(@"this shouldn't happen: stuck in mode %@", modeString);
-}
-
-- (void)processToken:(id)token usingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
-{
-    _originalInsertionMode = _insertionMode;
-    _insertionMode = insertionMode;
-    [self processToken:token];
-    if (_insertionMode == insertionMode) {
-        _insertionMode = _originalInsertionMode;
-        _originalInsertionMode = HTMLInvalidInsertionMode;
-    }
 }
 
 - (void)reprocessToken:(id)token
@@ -2361,8 +2352,8 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 
 - (void)switchInsertionMode:(HTMLInsertionMode)insertionMode
 {
-    if (_originalInsertionMode == insertionMode) {
-        _originalInsertionMode = HTMLInvalidInsertionMode;
+    if (insertionMode == HTMLTextInsertionMode || insertionMode == HTMLInTableTextInsertionMode) {
+        _originalInsertionMode = _insertionMode;
     }
     _insertionMode = insertionMode;
 }
@@ -2577,9 +2568,6 @@ create:;
 {
     [self insertElementForToken:token];
     _tokenizer.state = state;
-    if (_originalInsertionMode == HTMLInvalidInsertionMode) {
-        _originalInsertionMode = _insertionMode;
-    }
     [self switchInsertionMode:HTMLTextInsertionMode];
 }
 
