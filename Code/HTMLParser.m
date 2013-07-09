@@ -2295,7 +2295,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     return NO;
 }
 
-#pragma mark Inserting nodes
+#pragma mark Insert nodes
 
 - (void)insertComment:(NSString *)data
 {
@@ -2341,7 +2341,8 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             *index = [lastTable.parentNode.childNodes indexOfObject:lastTable];
             return lastTable.parentNode;
         }
-        HTMLElementNode *previousNode = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:lastTable] - 1];
+        NSUInteger indexOfLastTable = [_stackOfOpenElements indexOfObject:lastTable];
+        HTMLElementNode *previousNode = _stackOfOpenElements[indexOfLastTable - 1];
         *index = previousNode.childNodes.count;
         return previousNode;
     } else {
@@ -2383,7 +2384,9 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
     if ([adjustedInsertionLocation isKindOfClass:[HTMLDocument class]]) return;
     HTMLTextNode *textNode;
-    if (index > 0 && [adjustedInsertionLocation.childNodes[index - 1] isKindOfClass:[HTMLTextNode class]]) {
+    if (index > 0 &&
+        [adjustedInsertionLocation.childNodes[index - 1] isKindOfClass:[HTMLTextNode class]])
+    {
         textNode = adjustedInsertionLocation.childNodes[index - 1];
     } else {
         textNode = [HTMLTextNode new];
