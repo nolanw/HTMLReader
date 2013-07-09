@@ -131,10 +131,13 @@
 
 - (BOOL)isEqual:(HTMLElementNode *)other
 {
-    return ([other isKindOfClass:[HTMLElementNode class]] &&
-            [other.childNodes isEqual:self.childNodes] &&
-            [other.tagName isEqualToString:self.tagName] &&
-            [other.attributes isEqual:self.attributes]);
+    if (![other isKindOfClass:[HTMLElementNode class]]) return NO;
+    if (![other.childNodes isEqual:self.childNodes]) return NO;
+    if (![other.tagName isEqualToString:self.tagName]) return NO;
+    NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    NSArray *sortedAttributesOther = [other.attributes sortedArrayUsingDescriptors:descriptors];
+    NSArray *sortedAttributesSelf = [_attributes sortedArrayUsingDescriptors:descriptors];
+    return [sortedAttributesOther isEqual:sortedAttributesSelf];
 }
 
 - (NSUInteger)hash
