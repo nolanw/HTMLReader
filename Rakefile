@@ -72,7 +72,7 @@ end
 # http://wiki.whatwg.org/wiki/Parser_tests#Tree_Construction_Tests
 TREE_TEST_REGEX = /
   \#data\n
-  (.+?)\n
+  (.*?)\n
   \#errors\n
   (.*?)
   (?: \#document-fragment\n
