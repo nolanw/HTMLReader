@@ -589,7 +589,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 {
     if ([token.tagName isEqualToString:@"html"]) {
         [self addParseError];
-        HTMLElementNode *element = self.currentNode;
+        HTMLElementNode *element = _stackOfOpenElements[0];
         for (HTMLAttribute *attribute in token.attributes) {
             if (![[element.attributes valueForKey:@"name"] containsObject:attribute.name]) {
                 [element addAttribute:attribute];
