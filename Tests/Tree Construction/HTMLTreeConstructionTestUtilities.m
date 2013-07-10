@@ -76,14 +76,15 @@ static id NodeOrAttributeFromTestString(NSString *s)
         NSUInteger endOfData = [s rangeOfString:@" -->" options:NSBackwardsSearch].location;
         NSRange rangeOfData = NSMakeRange(scanner.scanLocation, endOfData - scanner.scanLocation);
         return [[HTMLCommentNode alloc] initWithData:[s substringWithRange:rangeOfData]];
-    } else if ([scanner scanString:@"<" intoString:nil]) {
-        NSString *tagName;
-        [scanner scanUpToString:@">" intoString:&tagName];
-        return [[HTMLElementNode alloc] initWithTagName:tagName];
     } else if ([scanner scanString:@"\"" intoString:nil]) {
         NSUInteger endOfData = [s rangeOfString:@"\"" options:NSBackwardsSearch].location;
         NSRange rangeOfData = NSMakeRange(scanner.scanLocation, endOfData - scanner.scanLocation);
         return [[HTMLTextNode alloc] initWithData:[s substringWithRange:rangeOfData]];
+    } else if ([scanner.string rangeOfString:@"="].location == NSNotFound) {
+        [scanner scanString:@"<" intoString:nil];
+        NSString *tagName;
+        [scanner scanUpToString:@">" intoString:&tagName];
+        return [[HTMLElementNode alloc] initWithTagName:tagName];
     } else {
         NSString *name;
         [scanner scanUpToString:@"=" intoString:&name];
