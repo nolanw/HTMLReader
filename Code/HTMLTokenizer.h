@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLAttribute.h"
+#import "HTMLParser.h"
 
 typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 {
@@ -88,6 +90,8 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @property (nonatomic) HTMLTokenizerState state;
 
+@property (weak, nonatomic) HTMLParser *parser;
+
 @end
 
 @interface HTMLDOCTYPEToken : NSObject
@@ -104,11 +108,13 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 // Designated initializer.
 - (id)initWithTagName:(NSString *)tagName;
 
-- (void)addAttributeWithName:(NSString *)name value:(NSString *)value;
+@property (copy, nonatomic) NSString *tagName;
 
-@property (readonly, copy, nonatomic) NSString *tagName;
+@property (copy, nonatomic) NSArray *attributes;
+- (void)addAttributeWithName:(NSString *)name value:(NSString *)value;
+- (void)replaceAttribute:(HTMLAttribute *)oldAttribute withAttribute:(HTMLAttribute *)newAttribute;
+
 @property (nonatomic) BOOL selfClosingFlag;
-@property (readonly, copy, nonatomic) NSArray *attributes;
 
 @end
 

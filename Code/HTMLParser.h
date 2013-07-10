@@ -23,4 +23,6 @@
 
 @property (readonly, strong, nonatomic) HTMLDocument *document;
 
+@property (readonly, strong, nonatomic) HTMLElementNode *adjustedCurrentNode;
+
 @end

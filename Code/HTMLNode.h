@@ -9,7 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "HTMLAttribute.h"
 
-// Property and method names for these classes follow the DOM specification and do not attempt to follow Objective-C conventions.
+typedef NS_ENUM(NSInteger, HTMLNamespace)
+{
+    HTMLNamespaceHTML,
+    HTMLNamespaceMathML,
+    HTMLNamespaceSVG,
+};
 
 @interface HTMLNode : NSObject <NSCopying>
 
@@ -31,7 +36,9 @@
 @property (readonly, copy, nonatomic) NSString *tagName;
 
 @property (readonly, copy, nonatomic) NSArray *attributes;
-- (void)addAttribute:(HTMLAttribute *)attribute;;
+- (void)addAttribute:(HTMLAttribute *)attribute;
+
+@property (nonatomic) HTMLNamespace namespace;
 
 @end
 

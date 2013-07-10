@@ -18,7 +18,7 @@
 
 typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 {
-    HTMLInvalidInsertionMode, // SPEC This insertion mode is just for us.
+    HTMLInvalidInsertionMode, // SPEC This faux insertion mode is just for us.
     HTMLInitialInsertionMode,
     HTMLBeforeHtmlInsertionMode,
     HTMLBeforeHeadInsertionMode,
@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     HTMLAfterFramesetInsertionMode,
     HTMLAfterAfterBodyInsertionMode,
     HTMLAfterAfterFramesetInsertionMode,
+    HTMLForeignContentInsertionMode, // SPEC This faux insertion mode is just for us.
 };
 
 static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
@@ -92,6 +93,8 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
             return @"afterAfterBodyInsertionMode";
         case HTMLAfterAfterFramesetInsertionMode:
             return @"afterAfterFramesetInsertionMode";
+        case HTMLForeignContentInsertionMode:
+            return @"foreignContentInsertionMode";
     }
 }
 
@@ -126,6 +129,7 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
 {
     if (!(self = [self init])) return nil;
     _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+    _tokenizer.parser = self;
     return self;
 }
 
@@ -133,6 +137,7 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
 {
     if (!(self = [self init])) return nil;
     _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+    _tokenizer.parser = self;
     if ([@[ @"title", @"textarea" ] containsObject:context.tagName]) {
         _tokenizer.state = HTMLRCDATATokenizerState;
     } else if ([@[ @"style", @"xmp", @"iframe", @"noembed", @"noframes" ]
@@ -962,6 +967,22 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             }
         }
         [self insertElementForToken:token];
+    } else if ([token.tagName isEqualToString:@"math"]) {
+        [self reconstructTheActiveFormattingElements];
+        AdjustMathMLAttributesForToken(token);
+        AdjustForeignAttributesForToken(token);
+        [self insertForeignElementForToken:token inNamespace:HTMLNamespaceMathML];
+        if (token.selfClosingFlag) {
+            [_stackOfOpenElements removeLastObject];
+        }
+    } else if ([token.tagName isEqualToString:@"svg"]) {
+        [self reconstructTheActiveFormattingElements];
+        AdjustSVGAttributesForToken(token);
+        AdjustForeignAttributesForToken(token);
+        [self insertForeignElementForToken:token inNamespace:HTMLNamespaceSVG];
+        if (token.selfClosingFlag) {
+            [_stackOfOpenElements removeLastObject];
+        }
     } else if ([@[ @"caption", @"col", @"colgroup", @"frame", @"head", @"tbody", @"td", @"tfoot",
                 @"th", @"thead", @"tr" ] containsObject:token.tagName])
     {
@@ -2195,11 +2216,289 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     [self addParseError];
 }
 
+#pragma mark Rules for parsing tokens in foreign content
+
+- (void)foreignContentInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
+{
+    if (token.data == '\0') {
+        [self addParseError];
+        [self insertCharacter:0xFFFD];
+    } else {
+        [self insertCharacter:token.data];
+        if (!IsSpaceCharacterToken(token)) {
+            _framesetOkFlag = NO;
+        }
+    }
+}
+
+- (void)foreignContentInsertionModeHandleCommentToken:(HTMLCommentToken *)token
+{
+    [self insertComment:token.data];
+}
+
+- (void)foreignContentInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+{
+    [self addParseError];
+}
+
+- (void)foreignContentInsertionModeHandleStartTagToken:(HTMLStartTagToken *)token
+{
+    if ([@[ @"b", @"big", @"blockquote", @"body", @"br", @"center", @"code", @"dd", @"div", @"dl",
+         @"dt", @"em", @"embed", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"hr", @"i",
+         @"img", @"li", @"listing", @"menu", @"meta", @"nobr", @"ol", @"p", @"pre", @"ruby", @"s",
+         @"small", @"span", @"strong", @"strike", @"sub", @"sup", @"table", @"tt", @"u", @"ul",
+         @"var" ] containsObject:token.tagName] ||
+        ([token.tagName isEqualToString:@"font"] &&
+         [@[ @"color", @"face", @"size" ]
+          firstObjectCommonWithArray:[token.attributes valueForKey:@"name"]]))
+    {
+        [self addParseError];
+        if (_fragmentParsingAlgorithm) {
+            [self foreignContentInsertionModeHandleAnyOtherStartTagToken:token];
+            return;
+        }
+        [_stackOfOpenElements removeLastObject];
+        while (!(self.currentNode.namespace == HTMLNamespaceHTML ||
+                 IsMathMLTextIntegrationPoint(self.currentNode) ||
+                 IsHTMLIntegrationPoint(self.currentNode)))
+        {
+            [_stackOfOpenElements removeLastObject];
+        }
+        [self reprocessToken:token];
+    } else {
+        [self foreignContentInsertionModeHandleAnyOtherStartTagToken:token];
+    }
+}
+
+- (void)foreignContentInsertionModeHandleAnyOtherStartTagToken:(HTMLStartTagToken *)token
+{
+    if (self.adjustedCurrentNode.namespace == HTMLNamespaceMathML) {
+        AdjustMathMLAttributesForToken(token);
+    } else if (self.adjustedCurrentNode.namespace == HTMLNamespaceSVG) {
+        FixSVGTagNameCaseForToken(token);
+        AdjustSVGAttributesForToken(token);
+    }
+    AdjustForeignAttributesForToken(token);
+    [self insertForeignElementForToken:token inNamespace:self.adjustedCurrentNode.namespace];
+    if (token.selfClosingFlag) {
+        [_stackOfOpenElements removeLastObject];
+    }
+}
+
+static void AdjustMathMLAttributesForToken(HTMLStartTagToken *token)
+{
+    NSUInteger i = [[token.attributes valueForKey:@"name"] indexOfObject:@"definitionurl"];
+    if (i == NSNotFound) return;
+    HTMLAttribute *old = token.attributes[i];
+    HTMLAttribute *new = [[HTMLAttribute alloc] initWithName:@"definitionURL" value:old.value];
+    [token replaceAttribute:old withAttribute:new];
+}
+
+static void FixSVGTagNameCaseForToken(HTMLStartTagToken *token)
+{
+    NSDictionary *names = @{
+        @"altglyph": @"altGlyph",
+        @"altglyphdef": @"altGlyphDef",
+        @"altglyphitem": @"altGlyphItem",
+        @"animatecolor": @"animateColor",
+        @"animatemotion": @"animateMotion",
+        @"animatetransform": @"animateTransform",
+        @"clippath": @"clipPath",
+        @"feblend": @"feBlend",
+        @"fecolormatrix": @"feColorMatrix",
+        @"fecomponenttransfer": @"feComponentTransfer",
+        @"fecomposite": @"feComposite",
+        @"feconvolvematrix": @"feConvolveMatrix",
+        @"fediffuselighting": @"feDiffuseLighting",
+        @"fedisplacementmap": @"feDisplacementMap",
+        @"fedistantlight": @"feDistantLight",
+        @"feflood": @"feFlood",
+        @"fefunca": @"feFuncA",
+        @"fefuncb": @"feFuncB",
+        @"fefuncg": @"feFuncG",
+        @"fefuncr": @"feFuncR",
+        @"fegaussianblur": @"feGaussianBlur",
+        @"feimage": @"feImage",
+        @"femerge": @"feMerge",
+        @"femergenode": @"feMergeNode",
+        @"femorphology": @"feMorphology",
+        @"feoffset": @"feOffset",
+        @"fepointlight": @"fePointLight",
+        @"fespecularlighting": @"feSpecularLighting",
+        @"fespotlight": @"feSpotLight",
+        @"fetile": @"feTile",
+        @"feturbulence": @"feTurbulence",
+        @"foreignobject": @"foreignObject",
+        @"glyphref": @"glyphRef",
+        @"lineargradient": @"linearGradient",
+        @"radialgradient": @"radialGradient",
+        @"textpath": @"textPath",
+    };
+    NSString *replacement = names[token.tagName];
+    if (replacement) token.tagName = replacement;
+}
+
+static void AdjustSVGAttributesForToken(HTMLStartTagToken *token)
+{
+    NSDictionary *names = @{
+        @"attributename": @"attributeName",
+        @"attributetype": @"attributeType",
+        @"basefrequency": @"baseFrequency",
+        @"baseprofile": @"baseProfile",
+        @"calcmode": @"calcMode",
+        @"clippathunits": @"clipPathUnits",
+        @"contentscripttype": @"contentScriptType",
+        @"contentstyletype": @"contentStyleType",
+        @"diffuseconstant": @"diffuseConstant",
+        @"edgemode": @"edgeMode",
+        @"externalresourcesrequired": @"externalResourcesRequired",
+        @"filterres": @"filterRes",
+        @"filterunits": @"filterUnits",
+        @"glyphref": @"glyphRef",
+        @"gradienttransform": @"gradientTransform",
+        @"gradientunits": @"gradientUnits",
+        @"kernelmatrix": @"kernelMatrix",
+        @"kernelunitlength": @"kernelUnitLength",
+        @"keypoints": @"keyPoints",
+        @"keysplines": @"keySplines",
+        @"keytimes": @"keyTimes",
+        @"lengthadjust": @"lengthAdjust",
+        @"limitingconeangle": @"limitingConeAngle",
+        @"markerheight": @"markerHeight",
+        @"markerunits": @"markerUnits",
+        @"markerwidth": @"markerWidth",
+        @"maskcontentunits": @"maskContentUnits",
+        @"maskunits": @"maskUnits",
+        @"numoctaves": @"numOctaves",
+        @"pathlength": @"pathLength",
+        @"patterncontentunits": @"patternContentUnits",
+        @"patterntransform": @"patternTransform",
+        @"patternunits": @"patternUnits",
+        @"pointsatx": @"pointsAtX",
+        @"pointsaty": @"pointsAtY",
+        @"pointsatz": @"pointsAtZ",
+        @"preservealpha": @"preserveAlpha",
+        @"preserveaspectratio": @"preserveAspectRatio",
+        @"primitiveunits": @"primitiveUnits",
+        @"refx": @"refX",
+        @"refy": @"refY",
+        @"repeatcount": @"repeatCount",
+        @"repeatdur": @"repeatDur",
+        @"requiredextensions": @"requiredExtensions",
+        @"requiredfeatures": @"requiredFeatures",
+        @"specularconstant": @"specularConstant",
+        @"specularexponent": @"specularExponent",
+        @"spreadmethod": @"spreadMethod",
+        @"startoffset": @"startOffset",
+        @"stddeviation": @"stdDeviation",
+        @"stitchtiles": @"stitchTiles",
+        @"surfacescale": @"surfaceScale",
+        @"systemlanguage": @"systemLanguage",
+        @"tablevalues": @"tableValues",
+        @"targetx": @"targetX",
+        @"targety": @"targetY",
+        @"textlength": @"textLength",
+        @"viewbox": @"viewBox",
+        @"viewtarget": @"viewTarget",
+        @"xchannelselector": @"xChannelSelector",
+        @"ychannelselector": @"yChannelSelector",
+        @"zoomandpan": @"zoomAndPan",
+    };
+    NSMutableArray *newAttributes = [NSMutableArray new];
+    for (HTMLAttribute *attribute in token.attributes) {
+        NSString *replacement = names[attribute.name];
+        if (replacement) {
+            [newAttributes addObject:[[HTMLAttribute alloc] initWithName:replacement
+                                                                   value:attribute.value]];
+        } else {
+            [newAttributes addObject:attribute];
+        }
+    }
+    token.attributes = newAttributes;
+}
+
+static void AdjustForeignAttributesForToken(HTMLStartTagToken *token)
+{
+    // TODO I'm not sure what the point of this exercise is, or how we would use the results.
+    (void)token;
+}
+
+- (void)foreignContentInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
+{
+    HTMLElementNode *node = self.currentNode;
+    if (![node.tagName.lowercaseString isEqualToString:token.tagName]) {
+        [self addParseError];
+    }
+    for (;;) {
+        NSUInteger nodeIndex = [_stackOfOpenElements indexOfObject:node];
+        if (nodeIndex == 0) return;
+        if ([node.tagName.lowercaseString isEqualToString:token.tagName]) {
+            while (![self.currentNode isEqual:node]) {
+                [_stackOfOpenElements removeLastObject];
+            }
+            [_stackOfOpenElements removeLastObject];
+            return;
+        }
+        node = _stackOfOpenElements[nodeIndex - 1];
+        if (node.namespace == HTMLNamespaceHTML) break;
+    }
+    [self processToken:token usingRulesForInsertionMode:_insertionMode];
+}
+
 #pragma mark - Process tokens
 
 - (void)processToken:(id)token
 {
-    [self processToken:token usingRulesForInsertionMode:_insertionMode];
+    if (^(HTMLElementNode *node){
+        if (!node) return YES;
+        if (node.namespace == HTMLNamespaceHTML) return YES;
+        if (IsMathMLTextIntegrationPoint(node)) {
+            if ([token isKindOfClass:[HTMLStartTagToken class]] &&
+                ![@[ @"mglyph", @"malignmark" ] containsObject:[token tagName]])
+            {
+                return YES;
+            }
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return YES;
+            }
+        }
+        if (node.namespace == HTMLNamespaceMathML &&
+            [node.tagName isEqualToString:@"annotation-xml"] &&
+            [token isKindOfClass:[HTMLStartTagToken class]] &&
+            [[token tagName] isEqualToString:@"svg"])
+        {
+            return YES;
+        }
+        if (IsHTMLIntegrationPoint(node)) {
+            if ([token isKindOfClass:[HTMLStartTagToken class]] ||
+                [token isKindOfClass:[HTMLCharacterToken class]])
+            {
+                return YES;
+            }
+        }
+        return [token isKindOfClass:[HTMLEOFToken class]];
+    }(self.adjustedCurrentNode)) {
+        [self processToken:token usingRulesForInsertionMode:_insertionMode];
+    } else {
+        [self processToken:token usingRulesForInsertionMode:HTMLForeignContentInsertionMode];
+    }
+}
+
+static BOOL IsMathMLTextIntegrationPoint(HTMLElementNode *node)
+{
+    if (node.namespace != HTMLNamespaceMathML) return NO;
+    return [@[ @"mi", @"mo", @"mn", @"ms", @"mtext" ] containsObject:node.tagName];
+}
+
+static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
+{
+    if (node.namespace == HTMLNamespaceMathML) {
+        // TODO check for proper encoding attribute value.
+        return [node.tagName isEqualToString:@"annotation-xml"];
+    } else if (node.namespace == HTMLNamespaceSVG) {
+        return [@[ @"foreignObject", @"desc", @"title"] containsObject:node.tagName];
+    }
+    return NO;
 }
 
 - (void)processToken:(id)token usingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
@@ -2251,6 +2550,15 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 - (HTMLElementNode *)currentNode
 {
     return _stackOfOpenElements.lastObject;
+}
+
+- (HTMLElementNode *)adjustedCurrentNode
+{
+    if (_fragmentParsingAlgorithm && _stackOfOpenElements.count == 1) {
+        return _context;
+    } else {
+        return self.currentNode;
+    }
 }
 
 - (HTMLElementNode *)elementInScopeWithTagName:(NSString *)tagName
@@ -2432,6 +2740,14 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:overrideTarget
                                                                            index:&i];
     [parent insertChild:node atIndex:i];
+}
+
+- (void)insertForeignElementForToken:(id)token inNamespace:(HTMLNamespace)namespace
+{
+    HTMLElementNode *element = [self createElementForToken:token];
+    element.namespace = namespace;
+    [self.currentNode appendChild:element];
+    [_stackOfOpenElements addObject:element];
 }
 
 - (void)resetInsertionModeAppropriately

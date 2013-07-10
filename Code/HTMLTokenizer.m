@@ -1221,7 +1221,12 @@
                 [self switchToState:HTMLDOCTYPETokenizerState];
                 goto doneMarkupDeclarationOpenState;
             }
-            // TODO handle CDATA once tree construction is up
+            if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML &&
+                [_scanner scanString:@"[CDATA[" intoString:nil])
+            {
+                [self switchToState:HTMLCDATASectionTokenizerState];
+                goto doneMarkupDeclarationOpenState;
+            }
             [self emitParseError];
             [self switchToState:HTMLBogusCommentTokenizerState];
         doneMarkupDeclarationOpenState:
@@ -1904,8 +1909,26 @@
             break;
             
         case HTMLCDATASectionTokenizerState:
-            NSLog(@"unimplemented state");
-            _done = YES;
+            [self switchToState:HTMLDataTokenizerState];
+            NSInteger squareBracketsSeen = 0;
+            for (;;) {
+                currentInputCharacter = [self consumeNextInputCharacter];
+                if (currentInputCharacter == ']' && squareBracketsSeen < 2) {
+                    squareBracketsSeen++;
+                } else if (currentInputCharacter == '>' && squareBracketsSeen == 2) {
+                    break;
+                } else {
+                    for (NSInteger i = 0; i < squareBracketsSeen; i++) {
+                        [self emitCharacterToken:']'];
+                    }
+                    if (currentInputCharacter == EOF) {
+                        [self reconsume:currentInputCharacter];
+                        break;
+                    }
+                    squareBracketsSeen = 0;
+                    [self emitCharacterToken:currentInputCharacter];
+                }
+            }
             break;
     }
 }
@@ -4570,9 +4593,22 @@ static const struct {
     [_attributes addObject:[[HTMLAttribute alloc] initWithName:name value:value]];
 }
 
+- (void)replaceAttribute:(HTMLAttribute *)oldAttribute withAttribute:(HTMLAttribute *)newAttribute
+{
+    if (!_attributes) return;
+    NSUInteger i = [_attributes indexOfObject:oldAttribute];
+    if (i == NSNotFound) return;
+    [_attributes replaceObjectAtIndex:i withObject:newAttribute];
+}
+
 - (NSString *)tagName
 {
     return [_tagName copy];
+}
+
+- (void)setTagName:(NSString *)tagName
+{
+    [_tagName setString:tagName];
 }
 
 - (BOOL)selfClosingFlag
@@ -4588,6 +4624,12 @@ static const struct {
 - (NSArray *)attributes
 {
     return [_attributes copy];
+}
+
+- (void)setAttributes:(NSArray *)attributes
+{
+    if (!_attributes) _attributes = [NSMutableArray new];
+    [_attributes setArray:attributes];
 }
 
 - (void)appendLongCharacterToTagName:(UTF32Char)character

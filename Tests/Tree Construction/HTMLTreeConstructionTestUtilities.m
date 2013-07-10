@@ -82,9 +82,18 @@ static id NodeOrAttributeFromTestString(NSString *s)
         return [[HTMLTextNode alloc] initWithData:[s substringWithRange:rangeOfData]];
     } else if ([scanner.string rangeOfString:@"="].location == NSNotFound) {
         [scanner scanString:@"<" intoString:nil];
-        NSString *tagName;
-        [scanner scanUpToString:@">" intoString:&tagName];
-        return [[HTMLElementNode alloc] initWithTagName:tagName];
+        NSString *tagNameString;
+        [scanner scanUpToString:@">" intoString:&tagNameString];
+        NSArray *parts = [tagNameString componentsSeparatedByString:@" "];
+        NSString *tagName = parts.count == 2 ? parts[1] : parts[0];
+        NSString *namespace = parts.count == 2 ? parts[0] : nil;
+        HTMLElementNode *node = [[HTMLElementNode alloc] initWithTagName:tagName];
+        if ([namespace isEqualToString:@"svg"]) {
+            node.namespace = HTMLNamespaceSVG;
+        } else if ([namespace isEqualToString:@"math"]) {
+            node.namespace = HTMLNamespaceMathML;
+        }
+        return node;
     } else {
         NSString *name;
         [scanner scanUpToString:@"=" intoString:&name];

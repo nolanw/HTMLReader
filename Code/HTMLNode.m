@@ -125,13 +125,20 @@
 
 - (NSString *)description
 {
+    NSString *namespace = @"";
+    if (self.namespace == HTMLNamespaceMathML) {
+        namespace = @"math ";
+    } else if (self.namespace == HTMLNamespaceSVG) {
+        namespace = @"svg ";
+    }
     NSString *attributes = @"";
     if (_attributes.count > 0) {
         attributes = [[_attributes valueForKey:@"keyValueDescription"] componentsJoinedByString:@" "];
         attributes = [@" " stringByAppendingString:attributes];
     }
-    return [NSString stringWithFormat:@"<%@: %p <%@%@> %@ child node%@>", self.class, self, self.tagName,
-            attributes, @(self.childNodes.count), self.childNodes.count == 1 ? @"" : @"s"];
+    return [NSString stringWithFormat:@"<%@: %p <%@%@%@> %@ child node%@>", self.class, self,
+            namespace, self.tagName, attributes,
+            @(self.childNodes.count), self.childNodes.count == 1 ? @"" : @"s"];
 }
 
 @end
