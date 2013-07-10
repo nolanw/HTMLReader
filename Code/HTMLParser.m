@@ -2479,7 +2479,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             return;
         }
         if ([node.tagName isEqualToString:@"colgroup"]) {
-            [self switchInsertionMode:HTMLInCaptionInsertionMode];
+            [self switchInsertionMode:HTMLInColumnGroupInsertionMode];
             return;
         }
         if ([node.tagName isEqualToString:@"table"]) {
