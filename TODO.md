@@ -35,6 +35,11 @@
     - test010, test013, test014, test015, test016, test017, test020, test026, test027, test028, test029, test030, test031, test032 require MathML/SVG/CDATA support.
   - tables01
     - test016 requires SVG support.
+  - tests04 requires fragment parsing support.
+  - tests06
+    - test006, test017, test020, test024, test026, test029, test031, test033, test034, test036, test038, test043, test044 require fragment parsing support.
+  - tests07
+    - test023 requires fragment parsing support.
   - tests09 requires MathML support.
   - tests10 requires SVG support.
   - tests11 requires MathML/SVG support.
@@ -48,5 +53,8 @@
   - tests21 requires SVG/MathML/CDATA support.
   - tests26
     - test010, test011, test012, test013 require SVG/MathML support.
+  - innerHTML1 requires fragment parsing support.
   - webkit01
     - test038, test039, test040, test043, test044, test045 require SVG/MathML support.
+- I cannot find reference to the "command" element in the spec.
+  - Tree generation tests25 test007 seems to treat it as a self-closing tag. I think the spec now treats it as an ordinary element.
