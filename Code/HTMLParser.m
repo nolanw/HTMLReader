@@ -1392,11 +1392,8 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         return !IsSpaceCharacterToken(c);
     }];
     if (firstNonSpace != NSNotFound) {
-        // Same rules as "anything else" entry in the "in table" insertion mode.
         for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
-            _fosterParenting = YES;
-            [self processToken:token usingRulesForInsertionMode:HTMLInBodyInsertionMode];
-            _fosterParenting = NO;
+            [self inTableInsertionModeHandleAnythingElse:token];
         }
     } else {
         for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
