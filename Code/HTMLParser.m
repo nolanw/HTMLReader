@@ -904,7 +904,6 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [self reconstructTheActiveFormattingElements];
         [self insertElementForToken:token];
         _framesetOkFlag = NO;
-        // TODO not sure what's going on here. Processing something as if it was in another state, perhaps? If so, this will fail to pick anything other than the default branch.
         switch (_insertionMode) {
             case HTMLInTableInsertionMode:
             case HTMLInCaptionInsertionMode:
