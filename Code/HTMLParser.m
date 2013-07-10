@@ -422,9 +422,8 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 
 - (void)beforeHeadInsertionModeHandleAnythingElse:(id)token
 {
-    [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"head"]];
-    HTMLElementNode *head = [[HTMLElementNode alloc] initWithTagName:@"head"];
-    _headElementPointer = head;
+    HTMLStartTagToken *fakeToken = [[HTMLStartTagToken alloc] initWithTagName:@"head"];
+    _headElementPointer = [self insertElementForToken:fakeToken];
     [self switchInsertionMode:HTMLInHeadInsertionMode];
     [self reprocessToken:token];
 }
