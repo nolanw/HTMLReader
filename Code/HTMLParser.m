@@ -1314,7 +1314,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
                 break;
             }
         }
-        if (![type.value isEqualToString:@"hidden"]) {
+        if ([type.value caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
             [self inTableInsertionModeHandleAnythingElse:token];
             return;
         }
