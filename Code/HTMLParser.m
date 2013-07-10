@@ -898,7 +898,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     } else if ([token.tagName isEqualToString:@"iframe"]) {
         _framesetOkFlag = NO;
         [self followGenericRawTextElementParsingAlgorithmForToken:token];
-    } else if ([token.tagName isEqualToString:@"noembed"]) {
+    } else if ([@[ @"noembed", @"noscript" ] containsObject:token.tagName]) {
         [self followGenericRawTextElementParsingAlgorithmForToken:token];
     } else if ([token.tagName isEqualToString:@"select"]) {
         [self reconstructTheActiveFormattingElements];
