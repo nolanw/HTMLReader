@@ -26,6 +26,11 @@
     return [_childNodes copy];
 }
 
+- (void)setChildNodes:(NSArray *)childNodes
+{
+    [_childNodes setArray:childNodes];
+}
+
 - (void)appendChild:(HTMLNode *)child
 {
     [child.parentNode removeChild:child];

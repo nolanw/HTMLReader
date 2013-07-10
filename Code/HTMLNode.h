@@ -14,7 +14,7 @@
 @interface HTMLNode : NSObject <NSCopying>
 
 @property (readonly, nonatomic) HTMLNode *parentNode;
-@property (readonly, nonatomic) NSArray *childNodes;
+@property (copy, nonatomic) NSArray *childNodes;
 - (void)appendChild:(HTMLNode *)child;
 - (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
 - (void)removeChild:(HTMLNode *)child;

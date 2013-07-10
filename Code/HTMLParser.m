@@ -133,6 +133,19 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
 {
     if (!(self = [self init])) return nil;
     _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+    if ([@[ @"title", @"textarea" ] containsObject:context.tagName]) {
+        _tokenizer.state = HTMLRCDATATokenizerState;
+    } else if ([@[ @"style", @"xmp", @"iframe", @"noembed", @"noframes" ]
+                containsObject:context.tagName])
+    {
+        _tokenizer.state = HTMLRAWTEXTTokenizerState;
+    } else if ([context.tagName isEqualToString:@"script"]) {
+        _tokenizer.state = HTMLScriptDataTokenizerState;
+    } else if ([context.tagName isEqualToString:@"noscript"]) {
+        _tokenizer.state = HTMLRAWTEXTTokenizerState;
+    } else if ([context.tagName isEqualToString:@"plaintext"]) {
+        _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+    }
     _context = context;
     _fragmentParsingAlgorithm = YES;
     return self;
@@ -153,11 +166,30 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
 {
     if (_document) return _document;
     _document = [HTMLDocument new];
+    if (_fragmentParsingAlgorithm) {
+        HTMLElementNode *root = [[HTMLElementNode alloc] initWithTagName:@"html"];
+        [_document appendChild:root];
+        [_stackOfOpenElements setArray:@[ root ]];
+        [self resetInsertionModeAppropriately];
+        HTMLNode *nearestForm = _context;
+        while (nearestForm) {
+            if ([nearestForm isKindOfClass:[HTMLElementNode class]] &&
+                [((HTMLElementNode *)nearestForm).tagName isEqualToString:@"form"])
+            {
+                break;
+            }
+            nearestForm = nearestForm.parentNode;
+        }
+        _formElementPointer = (HTMLElementNode *)nearestForm;
+    }
     for (id token in _tokenizer) {
         if (_done) break;
         [self processToken:token];
     }
     [self processToken:[HTMLEOFToken new]];
+    if (_context) {
+        _document.childNodes = [_document.childNodes[0] childNodes];
+    }
     return _document;
 }
 
@@ -1936,6 +1968,10 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 - (void)afterBodyInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
 {
     if ([token.tagName isEqualToString:@"html"]) {
+        if (_fragmentParsingAlgorithm) {
+            [self addParseError];
+            return;
+        }
         [self switchInsertionMode:HTMLAfterAfterBodyInsertionMode];
     } else {
         [self afterBodyInsertionModeHandleAnythingElse:token];
@@ -2001,7 +2037,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             return;
         }
         [_stackOfOpenElements removeLastObject];
-        if (![self.currentNode.tagName isEqualToString:@"frameset"]) {
+        if (!_fragmentParsingAlgorithm && ![self.currentNode.tagName isEqualToString:@"frameset"]) {
             [self switchInsertionMode:HTMLAfterFramesetInsertionMode];
         }
     } else {
@@ -2411,6 +2447,12 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             HTMLElementNode *ancestor = node;
             for (;;) {
                 if ([_stackOfOpenElements[0] isEqual:ancestor]) break;
+                // SPEC Jumping to the step below labeled *done* if ancestor is the context node is
+                //      not part of the spec. The problem occurs when using the fragment parsing
+                //      algorithm. `ancestor` gets set to the context element, which is not in the
+                //      stack of open elements, so it is impossible to take "the node before
+                //      `ancestor` in the stack of open elements".
+                if ([ancestor isEqual:_context]) break;
                 ancestor = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:ancestor]- 1];
                 if ([ancestor.tagName isEqualToString:@"table"]) {
                     [self switchInsertionMode:HTMLInSelectInTableInsertionMode];
