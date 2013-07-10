@@ -129,22 +129,6 @@
             attributes, @(self.childNodes.count), self.childNodes.count == 1 ? @"" : @"s"];
 }
 
-- (BOOL)isEqual:(HTMLElementNode *)other
-{
-    if (![other isKindOfClass:[HTMLElementNode class]]) return NO;
-    if (![other.childNodes isEqual:self.childNodes]) return NO;
-    if (![other.tagName isEqualToString:self.tagName]) return NO;
-    NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    NSArray *sortedAttributesOther = [other.attributes sortedArrayUsingDescriptors:descriptors];
-    NSArray *sortedAttributesSelf = [_attributes sortedArrayUsingDescriptors:descriptors];
-    return [sortedAttributesOther isEqual:sortedAttributesSelf];
-}
-
-- (NSUInteger)hash
-{
-    return self.tagName.hash ^ self.attributes.hash ^ self.childNodes.hash;
-}
-
 @end
 
 @implementation HTMLTextNode
@@ -196,18 +180,6 @@
     return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, truncatedData];
 }
 
-- (BOOL)isEqual:(HTMLTextNode *)other
-{
-    return ([other isKindOfClass:[HTMLTextNode class]] &&
-            [other.childNodes isEqual:self.childNodes] &&
-            [other.data isEqualToString:self.data]);
-}
-
-- (NSUInteger)hash
-{
-    return _data.hash;
-}
-
 @end
 
 @implementation HTMLCommentNode
@@ -237,17 +209,6 @@
         truncatedData = [[truncatedData substringToIndex:37] stringByAppendingString:@"…"];
     }
     return [NSString stringWithFormat:@"<%@: %p <!-- %@ --> >", self.class, self, truncatedData];
-}
-
-- (BOOL)isEqual:(HTMLCommentNode *)other{
-    return ([other isKindOfClass:[HTMLCommentNode class]] &&
-            [other.childNodes isEqual:self.childNodes] &&
-            [other.data isEqualToString:self.data]);
-}
-
-- (NSUInteger)hash
-{
-    return self.childNodes.hash ^ _data.hash;
 }
 
 @end
@@ -285,21 +246,6 @@
 {
     return [NSString stringWithFormat:@"<%@: %p <!DOCTYPE %@ '%@' '%@'> >",
             self.class, self, self.name, self.publicId, self.systemId];
-}
-
-- (BOOL)isEqual:(HTMLDocumentTypeNode *)other
-{
-    #define AreEqualOrNil(a, b) (((a) == nil && (b) == nil) || [(a) isEqual:(b)])
-    return ([other isKindOfClass:[HTMLDocumentTypeNode class]] &&
-            [other.childNodes isEqual:self.childNodes] &&
-            AreEqualOrNil(other.name, self.name) &&
-            [other.publicId isEqualToString:self.publicId] &&
-            [other.systemId isEqualToString:self.systemId]);
-}
-
-- (NSUInteger)hash
-{
-    return self.childNodes.hash ^ _name.hash ^ _publicId.hash ^ _systemId.hash;
 }
 
 @end

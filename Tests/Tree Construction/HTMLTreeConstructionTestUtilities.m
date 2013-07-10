@@ -94,3 +94,43 @@ static id NodeOrAttributeFromTestString(NSString *s)
         return [[HTMLAttribute alloc] initWithName:name value:value];
     }
 }
+
+BOOL TreesAreTestEquivalent(id aThing, id bThing)
+{
+    if ([aThing isKindOfClass:[HTMLElementNode class]]) {
+        if (![bThing isKindOfClass:[HTMLElementNode class]]) return NO;
+        HTMLElementNode *a = aThing, *b = bThing;
+        if (![a.tagName isEqualToString:b.tagName]) return NO;
+        NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES] ];
+        NSArray *sortedAAttributes = [a.attributes sortedArrayUsingDescriptors:descriptors];
+        NSArray *sortedBAttributes = [b.attributes sortedArrayUsingDescriptors:descriptors];
+        if (![sortedAAttributes isEqualToArray:sortedBAttributes]) return NO;
+        return TreesAreTestEquivalent(a.childNodes, b.childNodes);
+    } else if ([aThing isKindOfClass:[HTMLTextNode class]]) {
+        if (![bThing isKindOfClass:[HTMLTextNode class]]) return NO;
+        HTMLTextNode *a = aThing, *b = bThing;
+        return [a.data isEqualToString:b.data];
+    } else if ([aThing isKindOfClass:[HTMLCommentNode class]]) {
+        if (![bThing isKindOfClass:[HTMLCommentNode class]]) return NO;
+        HTMLCommentNode *a = aThing, *b = bThing;
+        return [a.data isEqualToString:b.data];
+    } else if ([aThing isKindOfClass:[HTMLDocumentTypeNode class]]) {
+        if (![bThing isKindOfClass:[HTMLDocumentTypeNode class]]) return NO;
+        HTMLDocumentTypeNode *a = aThing, *b = bThing;
+        return (((a.name == nil && b.name == nil) || [a.name isEqualToString:b.name]) &&
+                [a.publicId isEqualToString:b.publicId] &&
+                [a.systemId isEqualToString:b.systemId]);
+    } else if ([aThing isKindOfClass:[NSArray class]]) {
+        if (![bThing isKindOfClass:[NSArray class]]) return NO;
+        NSArray *a = aThing, *b = bThing;
+        if (a.count != b.count) return NO;
+        for (NSUInteger i = 0; i < a.count; i++) {
+            if (!TreesAreTestEquivalent(a[i], b[i])) {
+                return NO;
+            }
+        }
+        return YES;
+    } else {
+        return NO;
+    }
+}

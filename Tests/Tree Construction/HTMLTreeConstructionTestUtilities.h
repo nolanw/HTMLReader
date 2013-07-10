@@ -11,11 +11,13 @@
 
 extern NSArray * ReifiedTreeForTestDocument(NSString *document);
 
+extern BOOL TreesAreTestEquivalent(id a, id b);
+
 #define HTMLAssertParserState(parser, numErrors, fixtureNodes, description, ...) \
 do { \
     @try { \
         id rootNodes = [[(parser) document] childNodes]; \
-        if (![rootNodes isEqual:(fixtureNodes)]) { \
+        if (!TreesAreTestEquivalent(rootNodes, (fixtureNodes))) { \
             [self failWithException:([NSException failureInEqualityBetweenObject:rootNodes \
                                                                        andObject:(fixtureNodes) \
                                                                           inFile:[NSString stringWithUTF8String:__FILE__] \
