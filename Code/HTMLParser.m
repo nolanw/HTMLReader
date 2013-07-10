@@ -2047,8 +2047,8 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 
 - (void)inFramesetInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
 {
-    if (![self.currentNode.tagName isEqualToString:@"html"] &&
-        _stackOfOpenElements.count <= 1)
+    if (!([self.currentNode.tagName isEqualToString:@"html"] &&
+        _stackOfOpenElements.count == 1))
     {
         [self addParseError];
     }
