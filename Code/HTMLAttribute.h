@@ -13,8 +13,8 @@
 // Designated initializer.
 - (id)initWithName:(NSString *)name value:(NSString *)value;
 
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSString *value;
+@property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSString *value;
 
 - (void)appendLongCharacterToName:(UTF32Char)character;
 - (void)appendLongCharacterToValue:(UTF32Char)character;

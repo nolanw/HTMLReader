@@ -97,7 +97,7 @@ static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
 
 @interface HTMLParser ()
 
-@property (readonly, nonatomic) HTMLElementNode *currentNode;
+@property (readonly, strong, nonatomic) HTMLElementNode *currentNode;
 
 @end
 

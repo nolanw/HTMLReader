@@ -106,9 +106,9 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 - (void)addAttributeWithName:(NSString *)name value:(NSString *)value;
 
-@property (readonly, nonatomic) NSString *tagName;
+@property (readonly, copy, nonatomic) NSString *tagName;
 @property (nonatomic) BOOL selfClosingFlag;
-@property (readonly, nonatomic) NSArray *attributes;
+@property (readonly, copy, nonatomic) NSArray *attributes;
 
 @end
 
@@ -127,7 +127,7 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 // Designated initializer.
 - (id)initWithData:(NSString *)data;
 
-@property (readonly, nonatomic) NSString *data;
+@property (readonly, copy, nonatomic) NSString *data;
 
 @end
 

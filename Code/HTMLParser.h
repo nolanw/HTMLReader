@@ -19,8 +19,8 @@
 // Designated initializer for using the HTML fragment parsing algorithm. context may be nil.
 - (id)initWithString:(NSString *)string context:(HTMLElementNode *)context;
 
-@property (readonly, nonatomic) NSArray *errors;
+@property (readonly, copy, nonatomic) NSArray *errors;
 
-@property (readonly, nonatomic) HTMLDocument *document;
+@property (readonly, strong, nonatomic) HTMLDocument *document;
 
 @end

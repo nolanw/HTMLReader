@@ -13,7 +13,7 @@
 
 @interface HTMLNode : NSObject <NSCopying>
 
-@property (readonly, nonatomic) HTMLNode *parentNode;
+@property (readonly, strong, nonatomic) HTMLNode *parentNode;
 @property (copy, nonatomic) NSArray *childNodes;
 - (void)appendChild:(HTMLNode *)child;
 - (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
@@ -28,9 +28,9 @@
 // Designated initializer.
 - (id)initWithTagName:(NSString *)tagName;
 
-@property (readonly, nonatomic) NSString *tagName;
+@property (readonly, copy, nonatomic) NSString *tagName;
 
-@property (readonly, nonatomic) NSArray *attributes;
+@property (readonly, copy, nonatomic) NSArray *attributes;
 - (void)addAttribute:(HTMLAttribute *)attribute;;
 
 @end
@@ -41,7 +41,7 @@
 
 - (void)appendLongCharacter:(UTF32Char)character;
 
-@property (readonly, nonatomic) NSString *data;
+@property (readonly, copy, nonatomic) NSString *data;
 
 @end
 
@@ -49,7 +49,7 @@
 
 - (id)initWithData:(NSString *)data;
 
-@property (readonly, nonatomic) NSString *data;
+@property (readonly, copy, nonatomic) NSString *data;
 
 @end
 
@@ -57,8 +57,8 @@
 
 - (id)initWithName:(NSString *)name publicId:(NSString *)publicId systemId:(NSString *)systemId;
 
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSString *publicId;
-@property (readonly, nonatomic) NSString *systemId;
+@property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSString *publicId;
+@property (readonly, copy, nonatomic) NSString *systemId;
 
 @end
