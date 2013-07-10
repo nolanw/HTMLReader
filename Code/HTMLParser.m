@@ -2477,14 +2477,17 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 - (void)pushElementOnToListOfActiveFormattingElements:(HTMLElementNode *)element
 {
     NSInteger alreadyPresent = 0;
+    NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    NSArray *sortedElementAttributes = [element.attributes sortedArrayUsingDescriptors:descriptors];
     for (HTMLElementNode *node in _activeFormattingElements.reverseObjectEnumerator.allObjects) {
-        if ([node isEqual:[HTMLMarker marker]]) continue;
-        if ([node.tagName isEqualToString:element.tagName]) {
-            alreadyPresent += 1;
-            if (alreadyPresent == 3) {
-                [_activeFormattingElements removeObject:node];
-                break;
-            }
+        if ([node isEqual:[HTMLMarker marker]]) break;
+        if (![node.tagName isEqualToString:element.tagName]) continue;
+        NSArray *sortedNodeAttributes = [node.attributes sortedArrayUsingDescriptors:descriptors];
+        if (![sortedElementAttributes isEqualToArray:sortedNodeAttributes]) continue;
+        alreadyPresent += 1;
+        if (alreadyPresent == 3) {
+            [_activeFormattingElements removeObject:node];
+            break;
         }
     }
     [_activeFormattingElements addObject:element];
