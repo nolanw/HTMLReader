@@ -81,3 +81,21 @@
 }
 
 @end
+
+@implementation HTMLNamespacedAttribute
+
+- (id)initWithPrefix:(NSString *)prefix name:(NSString *)name value:(NSString *)value
+{
+    if (!(self = [super initWithName:name value:value])) return nil;
+    _prefix = [prefix copy];
+    return self;
+}
+
+#pragma mark HTMLAttribute
+
+- (NSString *)keyValueDescription
+{
+    return [NSString stringWithFormat:@"'%@ %@'='%@'", self.prefix, self.name, self.value];
+}
+
+@end

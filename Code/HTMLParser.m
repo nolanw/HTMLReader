@@ -2404,8 +2404,22 @@ static void AdjustSVGAttributesForToken(HTMLStartTagToken *token)
 
 static void AdjustForeignAttributesForToken(HTMLStartTagToken *token)
 {
-    // TODO I'm not sure what the point of this exercise is, or how we would use the results.
-    (void)token;
+    NSMutableArray *newAttributes = [NSMutableArray new];
+    NSArray *toAdjust = @[ @"xlink:actuate", @"xlink:arcrole", @"xlink:href", @"xlink:role",
+                           @"xlink:show", @"xlink:title", @"xlink:type", @"xml:base", @"xml:lang",
+                           @"xml:space", @"xmlns:xlink" ];
+    for (HTMLAttribute *attribute in token.attributes) {
+        if ([toAdjust containsObject:attribute.name]) {
+            NSArray *parts = [attribute.name componentsSeparatedByString:@":"];
+            HTMLAttribute *new = [[HTMLNamespacedAttribute alloc] initWithPrefix:parts[0]
+                                                                            name:parts[1]
+                                                                           value:attribute.value];
+            [newAttributes addObject:new];
+        } else {
+            [newAttributes addObject:attribute];
+        }
+    }
+    token.attributes = newAttributes;
 }
 
 - (void)foreignContentInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token

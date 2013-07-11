@@ -21,3 +21,11 @@
 - (void)appendStringToValue:(NSString *)string;
 
 @end
+
+@interface HTMLNamespacedAttribute : HTMLAttribute
+
+- (id)initWithPrefix:(NSString *)prefix name:(NSString *)name value:(NSString *)value;
+
+@property (readonly, copy, nonatomic) NSString *prefix;
+
+@end

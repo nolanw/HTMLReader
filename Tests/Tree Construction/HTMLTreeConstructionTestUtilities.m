@@ -95,13 +95,20 @@ static id NodeOrAttributeFromTestString(NSString *s)
         }
         return node;
     } else {
-        NSString *name;
-        [scanner scanUpToString:@"=" intoString:&name];
+        NSString *attributeNameString;
+        [scanner scanUpToString:@"=" intoString:&attributeNameString];
+        NSArray *parts = [attributeNameString componentsSeparatedByString:@" "];
+        NSString *prefix = parts.count == 2 ? parts[0] : nil;
+        NSString *name = parts.count == 2 ? parts[1] : parts[0];
         [scanner scanString:@"=\"" intoString:nil];
         NSUInteger endOfValue = [s rangeOfString:@"\"" options:NSBackwardsSearch].location;
         NSRange rangeOfValue = NSMakeRange(scanner.scanLocation, endOfValue - scanner.scanLocation);
         NSString *value = [s substringWithRange:rangeOfValue];
-        return [[HTMLAttribute alloc] initWithName:name value:value];
+        if (prefix) {
+            return [[HTMLNamespacedAttribute alloc] initWithPrefix:prefix name:name value:value];
+        } else {
+            return [[HTMLAttribute alloc] initWithName:name value:value];
+        }
     }
 }
 

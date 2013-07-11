@@ -1,9 +1,6 @@
 # HTMLReader TODO
 
 - Switch tokenizer away from giant switch.
-- Implement namespaced attributes.
-  - tests09 test023, test024, test025, test026
-  - tests10 test022, test023, test024, test025
 - Fix lossy conversion from html5lib tests to SenTestCase tests.
   - For example, check tokenizer domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)
 - Clarify spec with tree construction test adoption02 test001.
