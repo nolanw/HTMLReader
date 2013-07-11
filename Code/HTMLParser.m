@@ -2477,9 +2477,22 @@ static BOOL IsMathMLTextIntegrationPoint(HTMLElementNode *node)
 
 static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
 {
-    if (node.namespace == HTMLNamespaceMathML) {
-        // TODO check for proper encoding attribute value.
-        return [node.tagName isEqualToString:@"annotation-xml"];
+    if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
+        // SPEC We're told that "an annotation-xml element in the MathML namespace whose *start tag
+        //      token* had an attribute with the name 'encoding'..." (emphasis mine) is an HTML
+        //      integration point. Here we're examining the element node's attributes instead. This
+        //      seems like a distinction without a difference.
+        for (HTMLAttribute *attribute in node.attributes) {
+            if ([attribute.name isEqualToString:@"encoding"]) {
+                if ([attribute.value caseInsensitiveCompare:@"text/html"] == NSOrderedSame) {
+                    return YES;
+                } else if ([attribute.value caseInsensitiveCompare:@"application/xhtml+xml"] ==
+                           NSOrderedSame)
+                {
+                    return YES;
+                }
+            }
+        }
     } else if (node.namespace == HTMLNamespaceSVG) {
         return [@[ @"foreignObject", @"desc", @"title"] containsObject:node.tagName];
     }
