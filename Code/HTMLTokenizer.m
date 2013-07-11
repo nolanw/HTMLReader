@@ -1915,6 +1915,8 @@
                 currentInputCharacter = [self consumeNextInputCharacter];
                 if (currentInputCharacter == ']' && squareBracketsSeen < 2) {
                     squareBracketsSeen++;
+                } else if (currentInputCharacter == ']' && squareBracketsSeen == 2) {
+                    [self emitCharacterToken:']'];
                 } else if (currentInputCharacter == '>' && squareBracketsSeen == 2) {
                     break;
                 } else {
