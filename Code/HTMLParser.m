@@ -714,16 +714,9 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             [_stackOfOpenElements removeLastObject];
             goto done;
         }
-        if ([@[ @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound",
-             @"blockquote", @"body", @"br", @"button", @"caption", @"center", @"col", @"colgroup",
-             @"dd", @"details", @"dir", @"dl", @"dt", @"embed", @"fieldset", @"figcaption",
-             @"figure", @"footer", @"form", @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4",
-             @"h5", @"h6", @"head", @"header", @"hgroup", @"hr", @"html", @"iframe", @"img",
-             @"input", @"isindex", @"li", @"link", @"listing", @"main", @"marquee", @"menu",
-             @"menuitem", @"meta", @"nav", @"noembed", @"noframes", @"noscript", @"object", @"ol",
-             @"param", @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style",
-             @"summary", @"table", @"tbody", @"td", @"textarea", @"tfoot", @"th", @"thead",
-             @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ] containsObject:node.tagName])
+        if (IsSpecialElement(node) &&
+            !(node.namespace == HTMLNamespaceHTML &&
+              [@[ @"address", @"div", @"p" ] containsObject:node.tagName]))
         {
             goto done;
         }
@@ -757,18 +750,9 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
                 }
                 [_stackOfOpenElements removeLastObject];
                 break;
-            } else if ([@[ @"applet", @"area", @"article", @"aside", @"base", @"basefont",
-                        @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption",
-                        @"center", @"col", @"colgroup", @"dd", @"details", @"dir", @"dl", @"dt",
-                        @"embed", @"fieldset", @"figcaption", @"figure", @"footer", @"form",
-                        @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head",
-                        @"header", @"hgroup", @"hr", @"html", @"iframe", @"img", @"input",
-                        @"isindex", @"li", @"link", @"listing", @"main", @"marquee", @"menu",
-                        @"menuitem", @"meta", @"nav", @"noembed", @"noframes", @"noscript",
-                        @"object", @"ol", @"param", @"plaintext", @"pre", @"script", @"section",
-                        @"select", @"source", @"style", @"summary", @"table", @"tbody", @"td",
-                        @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul",
-                        @"wbr", @"xmp" ] containsObject:node.tagName])
+            } else if (IsSpecialElement(node) &&
+                       !(node.namespace == HTMLNamespaceHTML &&
+                         [@[ @"address", @"div", @"p" ] containsObject:node.tagName]))
             {
                 break;
             }
@@ -1148,18 +1132,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             }
             [_stackOfOpenElements removeLastObject];
             break;
-        } else if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
-                    @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
-                    @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
-                    @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame",
-                    @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header",
-                    @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li",
-                    @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta",
-                    @"nav", @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param",
-                    @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style",
-                    @"summary", @"table", @"tbody", @"td", @"textarea", @"tfoot", @"th", @"thead",
-                    @"title", @"tr", @"track", @"ul", @"wbr", @"xmp" ] containsObject:node.tagName])
-        {
+        } else if (IsSpecialElement(node)) {
             [self addParseError];
             return;
         }
@@ -1208,19 +1181,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement] + 1;
              i < _stackOfOpenElements.count; i++)
         {
-            if ([@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
-                 @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
-                 @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
-                 @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset",
-                 @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr",
-                 @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link", @"listing",
-                 @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed",
-                 @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre",
-                 @"script", @"section", @"select", @"source", @"style", @"summary", @"table",
-                 @"tbody", @"td", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr",
-                 @"track", @"ul", @"wbr", @"xmp" ]
-                 containsObject:[_stackOfOpenElements[i] tagName]])
-            {
+            if (IsSpecialElement(_stackOfOpenElements[i])) {
                 furthestBlock = _stackOfOpenElements[i];
                 break;
             }
@@ -1272,6 +1233,30 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
                                    atIndex:[_stackOfOpenElements indexOfObject:furthestBlock] + 1];
     }
     return YES;
+}
+
+static BOOL IsSpecialElement(HTMLElementNode *element)
+{
+    if (element.namespace == HTMLNamespaceHTML) {
+        return [@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
+                @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
+                @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
+                @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset",
+                @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr",
+                @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link", @"listing",
+                @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed",
+                @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre",
+                @"script", @"section", @"select", @"source", @"style", @"summary", @"table",
+                @"tbody", @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title",
+                @"tr", @"track", @"ul", @"wbr", @"xmp" ] containsObject:element.tagName];
+    } else if (element.namespace == HTMLNamespaceMathML) {
+        return [@[ @"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml" ]
+                containsObject:element.tagName];
+    } else if (element.namespace == HTMLNamespaceSVG) {
+        return [@[ @"foreignObject", @"desc", @"title" ] containsObject:element.tagName];
+    } else {
+        return NO;
+    }
 }
 
 #pragma mark The "text" insertion mode
