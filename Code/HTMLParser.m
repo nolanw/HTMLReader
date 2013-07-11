@@ -2578,20 +2578,28 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
 - (HTMLElementNode *)elementInScopeWithTagNameInArray:(NSArray *)tagNames
                                additionalElementTypes:(NSArray *)additionalElementTypes
 {
-    NSArray *list = @[ @"applet", @"caption", @"html", @"table", @"td", @"th", @"marquee",
-                       @"object" ];
-    if (additionalElementTypes.count > 0) {
-        list = [list arrayByAddingObjectsFromArray:additionalElementTypes];
-    }
-    return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:list];
+    NSDictionary *elementTypes = ElementTypesForSpecificScope(additionalElementTypes);
+    return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:elementTypes];
+}
+
+static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTMLElements)
+{
+    if (!additionalHTMLElements) additionalHTMLElements = @[];
+    NSArray *html = [@[ @"applet", @"caption", @"html", @"table", @"td", @"th",
+                     @"marquee", @"object" ] arrayByAddingObjectsFromArray:additionalHTMLElements];
+    return @{
+        @(HTMLNamespaceHTML): html,
+        @(HTMLNamespaceMathML): @[ @"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml" ],
+        @(HTMLNamespaceSVG): @[ @"foreignObject", @"desc", @"title" ],
+    };
 }
 
 - (HTMLElementNode *)elementInSpecificScopeWithTagNameInArray:(NSArray *)tagNames
-                                                 elementTypes:(NSArray *)elementTypes
+                                                 elementTypes:(NSDictionary *)elementTypes
 {
     for (HTMLElementNode *node in _stackOfOpenElements.reverseObjectEnumerator) {
         if ([tagNames containsObject:node.tagName]) return node;
-        if ([elementTypes containsObject:node.tagName]) return nil;
+        if ([elementTypes[@(node.namespace)] containsObject:node.tagName]) return nil;
     }
     return nil;
 }
@@ -2603,8 +2611,8 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
 
 - (HTMLElementNode *)elementInTableScopeWithTagNameInArray:(NSArray *)tagNames
 {
-    return [self elementInSpecificScopeWithTagNameInArray:tagNames
-                                             elementTypes:@[ @"html", @"table" ]];
+    NSDictionary *elementTypes = @{ @(HTMLNamespaceHTML): @[ @"html", @"table" ] };
+    return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:elementTypes];
 }
 
 - (HTMLElementNode *)elementInListItemScopeWithTagName:(NSString *)tagName
@@ -2617,17 +2625,21 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
 {
     for (HTMLElementNode *node in _stackOfOpenElements.reverseObjectEnumerator) {
         if ([node.tagName isEqualToString:@"select"]) return node;
-        if (![@[ @"optgroup", @"option" ] containsObject:node.tagName]) return nil;
+        if (!(node.namespace == HTMLNamespaceHTML &&
+            [@[ @"optgroup", @"option" ] containsObject:node.tagName]))
+        {
+            return nil;
+        }
     }
     return nil;
 }
 
 - (BOOL)isElementInScope:(HTMLElementNode *)element
 {
-    NSArray *list = @[ @"applet", @"caption", @"html", @"table", @"td", @"th", @"marquee", @"object" ];
+    NSDictionary *elementTypes = ElementTypesForSpecificScope(nil);
     for (HTMLElementNode *node in _stackOfOpenElements.reverseObjectEnumerator) {
         if ([node isEqual:element]) return YES;
-        if ([list containsObject:node.tagName]) return NO;
+        if ([elementTypes[@(node.namespace)] containsObject:node.tagName]) return NO;
     }
     return NO;
 }
