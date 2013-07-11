@@ -1,6 +1,9 @@
 # HTMLReader TODO
 
-- Implement MathML, SVG, namespace, and CDATA support.
+- Switch tokenizer away from giant switch.
+- Implement namespaced attributes.
+  - tests09 test023, test024, test025, test026
+  - tests10 test022, test023, test024, test025
 - Fix lossy conversion from html5lib tests to SenTestCase tests.
   - For example, check tokenizer domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)
 - Clarify spec with tree construction test adoption02 test001.
@@ -20,38 +23,6 @@
   - Don't forget to add it to lists of special nodes.
   - Don't forget to add it to any states that mention it in conjunction with other nodes.
 - Acknowledge self-closing tags (i.e. throw a parse error when unacknowledged).
-- Pass tests relating to unimplemented features.
-  - adoption01
-    - test012 requires namespace support.
-  - domjsUnsafe
-    - test000, test001, test002, test043, test044, test045, test046, test047, test048 require namespace/SVG/CDATA support.
-  - html5TestCom
-    - test022 requires SVG support.
-    - test023 requires MathML support.
-  - pendingSpecChanges
-    - test001, test002 require SVG support.
-  - plainTextUnsafe
-    - test010, test013, test014, test015, test016, test017, test020, test026, test027, test028, test029, test030, test031, test032 require MathML/SVG/CDATA support.
-  - tables01
-    - test016 requires SVG support.
-  - template requires `<template>` support.
-  - tests07
-    - test023 requires fragment parsing support.
-  - tests09 requires MathML support.
-  - tests10 requires SVG support.
-  - tests11 requires MathML/SVG support.
-  - tests12 requires MathML support.
-  - tests18
-    - test019 requires SVG support.
-  - tests19
-    - test000, test018, test019, test031, test032, test033, test034, test035, test076, test082, test083, test084 require MathML/SVG support.
-  - tests20
-    - test022, test028, test029, test032, test033, test034, test035, test036, test037, test038 require SVG/MathML support.
-  - tests21 requires SVG/MathML/CDATA support.
-  - tests26
-    - test010, test011, test012, test013 require SVG/MathML support.
-  - webkit01
-    - test038, test039, test040, test043, test044, test045 require SVG/MathML support.
 - I cannot find reference to the "command" element in the spec.
   - Tree generation tests25 test007 seems to treat it as a self-closing tag. I think the spec now treats it as an ordinary element.
 - Clarify spec with `<select>` context node in fragment parsing algorithm.
@@ -59,4 +30,9 @@
 - Apparently the DOM specifies various restrictions on some nodes' children. Implement (and test?) those.
   - It's mentioned that a Document node cannot have multiple element children.
   - It's mentioned that a Document node cannot have Text node children.
-- Implement scripting tag.
+- Implement scripting flag.
+- Clarify spec regarding inserting a foreign element for `<math>` or `<svg>`.
+  - For example, given `<table><math>`, foster parenting wouldn't occur because we "insert a foreign element" for the `<math>` token. Yet the description of "insert a foreign element" suggests that "the current node, when the insert a foreign element algorithm is invoked, is always itself a non-HTML element". This is patently untrue in this example; when processing the `<math>` token, the current node is the HTML element `<table>`.
+  - This affects:
+    - tests09 test006, test007, test008, test009, test010, test016
+    - tests10 test005, test006, test007, test008, test009, test015, test040
