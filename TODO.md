@@ -33,3 +33,7 @@
   - This affects:
     - tests09 test006, test007, test008, test009, test010, test016
     - tests10 test005, test006, test007, test008, test009, test015, test040
+- Informative parse errors.
+- Match tokens and nodes with parts of source string.
+  - For easy extraction of raw HTML.
+  - For parse error information.
