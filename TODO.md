@@ -1,6 +1,7 @@
 # HTMLReader TODO
 
 - Switch tokenizer away from giant switch.
+- Line, column info (or at least index/range) for parse errors, tokens.
 - Fix lossy conversion from html5lib tests to SenTestCase tests.
   - For example, check tokenizer domjs test3. The leading U+FEFF and middle U+FEFF both disappear. (With NSJSONSerialization the middle one remains, but the leading one still disappears.)
 - Clarify spec with tree construction test adoption02 test001.
@@ -33,6 +34,5 @@
   - This affects:
     - tests09 test006, test007, test008, test009, test010, test016
     - tests10 test005, test006, test007, test008, test009, test015, test040
-- Match tokens and nodes with parts of source string.
-  - For easy extraction of raw HTML.
-  - For parse error information.
+- Don't return 0 parse errors if parsing hasn't happened yet.
+- Character encoding detection.
