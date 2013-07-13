@@ -82,7 +82,7 @@
                     [self switchToState:HTMLTagOpenTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in data state"];
                     [self emitCharacterToken:currentInputCharacter];
                     break;
                 case EOF:
@@ -115,7 +115,7 @@
                     [self switchToState:HTMLRCDATALessThanSignTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in RCDATA state"];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
@@ -145,7 +145,7 @@
                     [self switchToState:HTMLRAWTEXTLessThanSignTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in RAWTEXT state"];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
@@ -163,7 +163,7 @@
                     [self switchToState:HTMLScriptDataLessThanSignTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data state"];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
@@ -178,7 +178,7 @@
         case HTMLPLAINTEXTTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in PLAINTEXT state"];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
@@ -199,7 +199,7 @@
                     [self switchToState:HTMLEndTagOpenTokenizerState];
                     break;
                 case '?':
-                    [self emitParseError];
+                    [self emitParseError:@"Bogus ? in tag open state"];
                     [self switchToState:HTMLBogusCommentTokenizerState];
                     _scanner.scanLocation--;
                     break;
@@ -210,7 +210,7 @@
                         [_currentToken appendLongCharacterToTagName:toAppend];
                         [self switchToState:HTMLTagNameTokenizerState];
                     } else {
-                        [self emitParseError];
+                        [self emitParseError:@"Unexpected character in tag open state"];
                         [self switchToState:HTMLDataTokenizerState];
                         [self emitCharacterToken:'<'];
                         [self reconsume:currentInputCharacter];
@@ -222,11 +222,11 @@
         case HTMLEndTagOpenTokenizerState:
             switch (currentInputCharacter = [self consumeNextInputCharacter]) {
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in end tag open state"];
                     [self switchToState:HTMLDataTokenizerState];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in end tag open state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCharacterToken:'<'];
                     [self emitCharacterToken:'/'];
@@ -239,7 +239,7 @@
                         [_currentToken appendLongCharacterToTagName:toAppend];
                         [self switchToState:HTMLTagNameTokenizerState];
                     } else {
-                        [self emitParseError];
+                        [self emitParseError:@"Unexpected character in end tag open state"];
                         [self switchToState:HTMLBogusCommentTokenizerState];
                         // SPEC The spec doesn't say to reconsume the input character. Instead, it says the bogus comment state is responsible for starting the comment at the character that caused a transition into the bogus comment state. But then we duplicate parse errors for invalid Unicode code points. Effectively what we want is to reconsume.
                         [self reconsume:currentInputCharacter];
@@ -264,11 +264,11 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in tag name state"];
                     [_currentToken appendLongCharacterToTagName:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in tag name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     break;
                 default:
@@ -544,12 +544,12 @@
                     [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data escaped state"];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
                     [self switchToState:HTMLDataTokenizerState];
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in script data escaped state"];
                     [self reconsume:EOF];
                     break;
                 default:
@@ -568,12 +568,12 @@
                     [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data escaped dash state"];
                     [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in script data escaped dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -597,12 +597,12 @@
                     [self emitCharacterToken:'>'];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data escaped dash dash state"];
                     [self switchToState:HTMLScriptDataEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in script data escaped dash dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -742,11 +742,11 @@
                     [self emitCharacterToken:'<'];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data double escaped state"];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in script data double escaped state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -767,12 +767,12 @@
                     [self emitCharacterToken:'<'];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data double escaped dash state"];
                     [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in script data double escaped dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -797,12 +797,12 @@
                     [self emitCharacterToken:'>'];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in script data double escaped dash dash state"];
                     [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                     [self emitCharacterToken:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in script data double escaped dash dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -872,7 +872,7 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in before attribute name state"];
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
                     [_currentAttribute appendLongCharacterToName:0xFFFD];
@@ -882,10 +882,10 @@
                 case '\'':
                 case '<':
                 case '=':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected %c in before attribute name state", currentInputCharacter];
                     goto anythingElseBeforeAttributeNameState;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in before attribute name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -922,16 +922,16 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in attribute name state"];
                     [_currentAttribute appendLongCharacterToName:0xFFFD];
                     break;
                 case '"':
                 case '\'':
                 case '<':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected %c in attribute name state", currentInputCharacter];
                     goto anythingElseAttributeNameState;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in attribute name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -964,7 +964,7 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in after attribute name state"];
                     [_currentToken addNewAttribute];
                     _currentAttribute = [_currentToken attributes].lastObject;
                     [_currentAttribute appendLongCharacterToName:0xFFFD];
@@ -973,10 +973,10 @@
                 case '"':
                 case '\'':
                 case '<':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected %c in after attribute name state", currentInputCharacter];
                     goto anythingElseAfterAttributeNameState;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after attribute name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -1012,22 +1012,22 @@
                     [self switchToState:HTMLAttributeValueSingleQuotedTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in before attribute value state"];
                     [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in before attribute value state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case '<':
                 case '=':
                 case '`':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected %c in before attribute value state", currentInputCharacter];
                     goto anythingElseBeforeAttributeValueState;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in before attribute value state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -1050,11 +1050,11 @@
                     _sourceAttributeValueState = HTMLAttributeValueDoubleQuotedTokenizerState;
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in attribute value double quoted state"];
                     [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in attribute value double quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -1075,11 +1075,11 @@
                     _sourceAttributeValueState = HTMLAttributeValueSingleQuotedTokenizerState;
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in attribute value single quoted state"];
                     [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in attribute value single quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -1107,7 +1107,7 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in attribute value unquoted state"];
                     [_currentAttribute appendLongCharacterToValue:0xFFFD];
                     break;
                 case '"':
@@ -1115,10 +1115,10 @@
                 case '<':
                 case '=':
                 case '`':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected %c in attribute value unquoted state", currentInputCharacter];
                     goto anythingElseAttributeValueUnquotedState;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in attribute value unquoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
@@ -1156,12 +1156,12 @@
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after attribute value quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in after attribute value quoted state"];
                     [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
@@ -1176,12 +1176,12 @@
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in self closing start tag state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in self closing start tag state"];
                     [self switchToState:HTMLBeforeAttributeNameTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
@@ -1227,7 +1227,7 @@
                 [self switchToState:HTMLCDATASectionTokenizerState];
                 goto doneMarkupDeclarationOpenState;
             }
-            [self emitParseError];
+            [self emitParseError:@"Bogus character in markup declaration open state"];
             [self switchToState:HTMLBogusCommentTokenizerState];
         doneMarkupDeclarationOpenState:
             _scanner.caseSensitive = YES;
@@ -1239,17 +1239,17 @@
                     [self switchToState:HTMLCommentStartDashTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in comment start state"];
                     [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in comment start state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in comment start state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1267,18 +1267,18 @@
                     [self switchToState:HTMLCommentEndTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in comment start dash state"];
                     [_currentToken appendLongCharacter:'-'];
                     [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in comment start dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in comment start dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1297,11 +1297,11 @@
                     [self switchToState:HTMLCommentEndDashTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in comment state"];
                     [_currentToken appendLongCharacter:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in comment state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1318,13 +1318,13 @@
                     [self switchToState:HTMLCommentEndTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in comment end dash state"];
                     [_currentToken appendLongCharacter:'-'];
                     [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in comment end dash state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1344,27 +1344,27 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in comment end state"];
                     [_currentToken appendString:@"--"];
                     [_currentToken appendLongCharacter:0xFFFD];
                     [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case '!':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected ! in comment end state"];
                     [self switchToState:HTMLCommentEndBangTokenizerState];
                     break;
                 case '-':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected - in comment end state"];
                     [_currentToken appendLongCharacter:'-'];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in comment end state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in comment end state"];
                     [_currentToken appendString:@"--"];
                     [_currentToken appendLongCharacter:currentInputCharacter];
                     [self switchToState:HTMLCommentTokenizerState];
@@ -1383,12 +1383,12 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in comment end bang state"];
                     [_currentToken appendString:@"--!\uFFFD"];
                     [self switchToState:HTMLCommentTokenizerState];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in comment end bang state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
@@ -1410,7 +1410,7 @@
                     [self switchToState:HTMLBeforeDOCTYPENameTokenizerState];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in DOCTYPE state"];
                     [self switchToState:HTMLDataTokenizerState];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken setForceQuirks:YES];
@@ -1418,7 +1418,7 @@
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in DOCTYPE state"];
                     [self switchToState:HTMLBeforeDOCTYPENameTokenizerState];
                     [self reconsume:currentInputCharacter];
                     break;
@@ -1433,20 +1433,20 @@
                 case ' ':
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in before DOCTYPE name state"];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken appendLongCharacterToName:0xFFFD];
                     [self switchToState:HTMLDOCTYPENameTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in before DOCTYPE name state"];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in before DOCTYPE name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     _currentToken = [HTMLDOCTYPEToken new];
                     [_currentToken setForceQuirks:YES];
@@ -1478,11 +1478,11 @@
                     [self emitCurrentToken];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in DOCTYPE name state"];
                     [_currentToken appendLongCharacterToName:0xFFFD];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in DOCTYPE name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1510,7 +1510,7 @@
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after DOCTYPE name state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1525,7 +1525,7 @@
                         [self switchToState:HTMLAfterDOCTYPESystemKeywordTokenizerState];
                     } else {
                         if (!_scanner.isAtEnd) _scanner.scanLocation++;
-                        [self emitParseError];
+                        [self emitParseError:@"Unexpected character in after DOCTYPE name state"];
                         [_currentToken setForceQuirks:YES];
                         [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     }
@@ -1543,30 +1543,30 @@
                     [self switchToState:HTMLBeforeDOCTYPEPublicIdentifierTokenizerState];
                     break;
                 case '"':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected \" in after DOCTYPE public keyword state"];
                     [_currentToken setPublicIdentifier:@""];
                     [self switchToState:HTMLDOCTYPEPublicIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected ' in after DOCTYPE public keyword state"];
                     [_currentToken setPublicIdentifier:@""];
                     [self switchToState:HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in after DOCTYPE public keyword state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after DOCTYPE public keyword state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in after DOCTYPE public keyword state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
@@ -1589,20 +1589,20 @@
                     [self switchToState:HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in before DOCTYPE public identifier state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in before DOCTYPE public identifier state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in before DOCTYPE public identifier state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
@@ -1615,17 +1615,17 @@
                     [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in DOCTYPE public identifier double quoted state"];
                     [_currentToken appendLongCharacterToPublicIdentifier:0xFFFD];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in DOCTYPE public identifier double quoted state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in DOCTYPE public identifier double quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1643,17 +1643,17 @@
                     [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in DOCTYPE public identifier single quoted state"];
                     [_currentToken appendLongCharacterToPublicIdentifier:0xFFFD];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in DOCTYPE public identifier single quoted state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in DOCTYPE public identifier single quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1678,24 +1678,24 @@
                     [self emitCurrentToken];
                     break;
                 case '"':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected \" in after DOCTYPE public identifier state"];
                     [_currentToken setSystemIdentifier:@""];
                     [self switchToState:HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected ' in after DOCTYPE public identifier state"];
                     [_currentToken setSystemIdentifier:@""];
                     [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after DOCTYPE public identifier state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in after DOCTYPE public identifier state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
@@ -1722,14 +1722,14 @@
                     [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in between DOCTYPE public and system identifiers state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in between DOCTYPE public and system identifiers state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
@@ -1745,30 +1745,30 @@
                     [self switchToState:HTMLBeforeDOCTYPESystemIdentifierTokenizerState];
                     break;
                 case '"':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected \" in after DOCTYPE system keyword state"];
                     [_currentToken setSystemIdentifier:@""];
                     [self switchToState:HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState];
                     break;
                 case '\'':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected ' in after DOCTYPE system keyword state"];
                     [_currentToken setSystemIdentifier:@""];
                     [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in after DOCTYPE system keyword state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after DOCTYPE system keyword state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in after DOCTYPE system keyword state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
@@ -1791,20 +1791,20 @@
                     [self switchToState:HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in before DOCTYPE system identifier state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in before DOCTYPE system identifier state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in before DOCTYPE system identifier state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
@@ -1817,17 +1817,17 @@
                     [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in DOCTYPE system identifier double quoted state"];
                     [_currentToken appendLongCharacterToSystemIdentifier:0xFFFD];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in DOCTYPE system identifier double quoted state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in DOCTYPE system identifier double quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1845,17 +1845,17 @@
                     [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
                     break;
                 case '\0':
-                    [self emitParseError];
+                    [self emitParseError:@"U+0000 NULL in DOCTYPE system identifier single quoted state"];
                     [_currentToken appendLongCharacterToSystemIdentifier:0xFFFD];
                     break;
                 case '>':
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected > in DOCTYPE system identifier single quoted state"];
                     [_currentToken setForceQuirks:YES];
                     [self switchToState:HTMLDataTokenizerState];
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in DOCTYPE system identifier single quoted state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
@@ -1879,14 +1879,14 @@
                     [self emitCurrentToken];
                     break;
                 case EOF:
-                    [self emitParseError];
+                    [self emitParseError:@"EOF in after DOCTYPE system identifier state"];
                     [self switchToState:HTMLDataTokenizerState];
                     [_currentToken setForceQuirks:YES];
                     [self emitCurrentToken];
                     [self reconsume:EOF];
                     break;
                 default:
-                    [self emitParseError];
+                    [self emitParseError:@"Unexpected character in after DOCTYPE system identifier state"];
                     [self switchToState:HTMLBogusDOCTYPETokenizerState];
                     break;
             }
@@ -1954,12 +1954,12 @@
                 character = CFStringGetLongCharacterForSurrogatePair(character, trail);
             } else {
                 // Lead surrogate with no trail.
-                [self emitParseError];
+                [self emitParseError:@"Lead surrogate with no trail"];
                 return 0xFFFD;
             }
         } else if (CFStringIsSurrogateLowCharacter(character)) {
             // Trail surrogate with no lead.
-            [self emitParseError];
+            [self emitParseError:@"Trail surrogate with no lead"];
             return 0xFFFD;
         }
         #define InRange(a, b) (character >= (a) && character <= (b))
@@ -1986,7 +1986,7 @@
             InRange(0xFFFFE, 0xFFFFF) ||
             InRange(0x10FFFE, 0x10FFFF))
         {
-            [self emitParseError];
+            [self emitParseError:@"Control or undefined character"];
         }
         if (character == '\r') {
             if (!_scanner.isAtEnd && [_scanner.string characterAtIndex:_scanner.scanLocation] == '\n') {
@@ -2002,7 +2002,7 @@
 {
     if (self.state == HTMLAttributeNameTokenizerState) {
         if ([_currentToken removeLastAttributeIfDuplicateName]) {
-            [self emitParseError];
+            [self emitParseError:@"Duplicate attribute"];
         }
     }
     self.state = state;
@@ -2021,7 +2021,7 @@
     if ([token isKindOfClass:[HTMLEndTagToken class]]) {
         HTMLEndTagToken *endTag = token;
         if (endTag.attributes.count > 0 || endTag.selfClosingFlag) {
-            [self emitParseError];
+            [self emitParseError:@"End tag with attributes and/or self-closing flag"];
         }
     }
     [self emitCore:token];
@@ -2032,9 +2032,13 @@
     [_tokenQueue addObject:token];
 }
 
-- (void)emitParseError
+- (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
 {
-    [self emit:[HTMLParseErrorToken new]];
+    va_list args;
+    va_start(args, format);
+    NSString *error = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+    [self emit:[[HTMLParseErrorToken alloc] initWithError:error]];
 }
 
 - (void)emitCharacterToken:(UTF32Char)character
@@ -2106,30 +2110,28 @@
             }
             if (!ok) {
                 _scanner.scanLocation = initialScanLocation;
-                [self emitParseError];
+                [self emitParseError:@"Numeric entity with no numbers"];
                 return nil;
             }
             ok = [_scanner scanString:@";" intoString:nil];
             if (!ok) {
-                [self emitParseError];
+                [self emitParseError:@"Missing semicolon for numeric entity"];
             }
             for (size_t i = 0; i < sizeof(ReplacementTable) / sizeof(ReplacementTable[0]); i++) {
                 if (ReplacementTable[i].number == number) {
-                    [self emitParseError];
+                    [self emitParseError:@"Invalid numeric entity (has replacement)"];
                     return [NSString stringWithFormat:@"%C", ReplacementTable[i].replacement];
                 }
             }
             if ((number >= 0xD800 && number <= 0xDFFF) || number > 0x10FFFF) {
-                [self emitParseError];
+                [self emitParseError:@"Invalid numeric entity (outside valid Unicode range)"];
                 return @"\uFFFD";
             }
             if ((number >= 0x0001 && number <= 0x0008) ||
                 (number >= 0x000E && number <= 0x001F) ||
                 (number >= 0x007F && number <= 0x009F) ||
-                (number >= 0xFDD0 && number <= 0xFDEF)) {
-                [self emitParseError];
-            }
-            if (number == 0x000B ||
+                (number >= 0xFDD0 && number <= 0xFDEF) ||
+                number == 0x000B ||
                 number == 0xFFFE || number == 0xFFFF ||
                 number == 0x1FFFE || number == 0x1FFFF ||
                 number == 0x2FFFE || number == 0x2FFFF ||
@@ -2148,7 +2150,7 @@
                 number == 0xFFFFE || number == 0xFFFFF ||
                 number == 0x10FFFE || number == 0x10FFFF)
             {
-                [self emitParseError];
+                [self emitParseError:@"Invalid numeric entity (in bad Unicode range)"];
             }
             unichar surrogates[2];
             if (CFStringGetSurrogatePairForLongCharacter(number, surrogates)) {
@@ -2175,7 +2177,7 @@
                 if ([_scanner scanCharactersFromSet:alphanumeric intoString:nil] &&
                     [_scanner scanString:@";" intoString:nil])
                 {
-                    [self emitParseError];
+                    [self emitParseError:@"Unknown named entity with semicolon"];
                 }
                 _scanner.scanLocation = initialScanLocation;
             } else {
@@ -2186,12 +2188,12 @@
                             unichar next = [_scanner.string characterAtIndex:_scanner.scanLocation];
                             if (next == '=' || [[NSCharacterSet alphanumericCharacterSet] characterIsMember:next]) {
                                 _scanner.scanLocation = initialScanLocation;
-                                if (next == '=') [self emitParseError];
+                                if (next == '=') [self emitParseError:@"Named entity in attribute ending with ="];
                                 return nil;
                             }
                         }
                     }
-                    [self emitParseError];
+                    [self emitParseError:@"Named entity missing semicolon"];
                 }
             }
             return characters;
@@ -4814,6 +4816,18 @@ static const struct {
 @end
 
 @implementation HTMLParseErrorToken
+
+- (id)initWithError:(NSString *)error
+{
+    if (!(self = [super init])) return nil;
+    _error = [error copy];
+    return self;
+}
+
+- (id)init
+{
+    return [self initWithError:nil];
+}
 
 #pragma mark NSObject
 

@@ -148,6 +148,11 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 @interface HTMLParseErrorToken : NSObject
 
+// Designated initializer.
+- (id)initWithError:(NSString *)error;
+
+@property (readonly, copy, nonatomic) NSString *error;
+
 @end
 
 @interface HTMLEOFToken : NSObject
