@@ -2789,14 +2789,9 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
         if ([node.tagName isEqualToString:@"select"]) {
             HTMLElementNode *ancestor = node;
             for (;;) {
+                if (last) break;
                 if ([_stackOfOpenElements[0] isEqual:ancestor]) break;
-                // SPEC Jumping to the step below labeled *done* if ancestor is the context node is
-                //      not part of the spec. The problem occurs when using the fragment parsing
-                //      algorithm. `ancestor` gets set to the context element, which is not in the
-                //      stack of open elements, so it is impossible to take "the node before
-                //      `ancestor` in the stack of open elements".
-                if ([ancestor isEqual:_context]) break;
-                ancestor = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:ancestor]- 1];
+                ancestor = _stackOfOpenElements[[_stackOfOpenElements indexOfObject:ancestor] - 1];
                 if ([ancestor.tagName isEqualToString:@"table"]) {
                     [self switchInsertionMode:HTMLInSelectInTableInsertionMode];
                     return;
