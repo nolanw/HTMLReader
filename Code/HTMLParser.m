@@ -955,7 +955,10 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [self reconstructTheActiveFormattingElements];
         AdjustMathMLAttributesForToken(token);
         AdjustForeignAttributesForToken(token);
-        [self insertForeignElementForToken:token inNamespace:HTMLNamespaceMathML];
+        // SPEC The spec says to insert a foreign element for this token, which would avoid foster
+        //      parenting. That's not actually what's supposed to happen.
+        HTMLElementNode *element = [self createElementForToken:token inNamespace:HTMLNamespaceMathML];
+        [self insertElement:element];
         if (token.selfClosingFlag) {
             [_stackOfOpenElements removeLastObject];
         }
@@ -963,7 +966,10 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [self reconstructTheActiveFormattingElements];
         AdjustSVGAttributesForToken(token);
         AdjustForeignAttributesForToken(token);
-        [self insertForeignElementForToken:token inNamespace:HTMLNamespaceSVG];
+        // SPEC The spec says to insert a foreign element for this token, which would avoid foster
+        //      parenting. That's not actually what's supposed to happen.
+        HTMLElementNode *element = [self createElementForToken:token inNamespace:HTMLNamespaceSVG];
+        [self insertElement:element];
         if (token.selfClosingFlag) {
             [_stackOfOpenElements removeLastObject];
         }
@@ -2727,7 +2733,13 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 
 - (HTMLElementNode *)createElementForToken:(id)token
 {
+    return [self createElementForToken:token inNamespace:HTMLNamespaceHTML];
+}
+
+- (HTMLElementNode *)createElementForToken:(id)token inNamespace:(HTMLNamespace)namespace
+{
     HTMLElementNode *element = [[HTMLElementNode alloc] initWithTagName:[token tagName]];
+    element.namespace = namespace;
     for (HTMLAttribute *attribute in [token attributes]) {
         [element addAttribute:attribute];
     }
@@ -2736,12 +2748,17 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 
 - (HTMLElementNode *)insertElementForToken:(id)token
 {
+    HTMLElementNode *element = [self createElementForToken:token];
+    [self insertElement:element];
+    return element;
+}
+
+- (void)insertElement:(HTMLElementNode *)element
+{
     NSUInteger index;
     HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
-    HTMLElementNode *element = [self createElementForToken:token];
     [adjustedInsertionLocation insertChild:element atIndex:index];
     [_stackOfOpenElements addObject:element];
-    return element;
 }
 
 - (void)insertCharacter:(UTF32Char)character
@@ -2771,8 +2788,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 
 - (void)insertForeignElementForToken:(id)token inNamespace:(HTMLNamespace)namespace
 {
-    HTMLElementNode *element = [self createElementForToken:token];
-    element.namespace = namespace;
+    HTMLElementNode *element = [self createElementForToken:token inNamespace:namespace];
     [self.currentNode appendChild:element];
     [_stackOfOpenElements addObject:element];
 }
