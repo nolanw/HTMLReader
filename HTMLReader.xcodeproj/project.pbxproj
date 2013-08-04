@@ -79,6 +79,7 @@
 		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
 		1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E61783A95000754A8F /* HTMLAttribute.m */; };
 		1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
+		1CE96EEF17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE96EEE17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,7 @@
 		1CACE9E61783A95000754A8F /* HTMLAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAttribute.m; sourceTree = "<group>"; };
 		1CACE9E81783AA6600754A8F /* HTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLString.h; sourceTree = "<group>"; };
 		1CACE9E91783AA6600754A8F /* HTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLString.m; sourceTree = "<group>"; };
+		1CE96EEE17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeTraversalTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +352,7 @@
 			children = (
 				1C640E97176BCA0000919E5C /* Tokenizer */,
 				1C25D346177BB71300F7C10D /* Tree Construction */,
+				1CE96EEC17ADA23C007A4AE8 /* Tree Traversal */,
 				1C9C3ED4176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Tests;
@@ -361,6 +364,14 @@
 				1C9C3ED5176BC53900E982C9 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1CE96EEC17ADA23C007A4AE8 /* Tree Traversal */ = {
+			isa = PBXGroup;
+			children = (
+				1CE96EEE17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m */,
+			);
+			path = "Tree Traversal";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -535,6 +546,7 @@
 				1C25D402177BB8C400F7C10D /* TreeGenerationTricky01Tests.m in Sources */,
 				1C25D403177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m in Sources */,
 				1C25D404177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m in Sources */,
+				1CE96EEF17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

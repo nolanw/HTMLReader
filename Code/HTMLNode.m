@@ -9,6 +9,14 @@
 #import "HTMLNode.h"
 #import "HTMLString.h"
 
+@interface HTMLTreeEnumerator : NSEnumerator
+
+- (id)initWithNode:(HTMLNode *)node;
+
+@property (readonly, nonatomic) HTMLNode *node;
+
+@end
+
 @implementation HTMLNode
 {
     NSMutableArray *_childNodes;
@@ -51,6 +59,11 @@
         [_childNodes removeObjectAtIndex:i];
         child->_parentNode = nil;
     }
+}
+
+- (NSEnumerator *)treeEnumerator
+{
+    return [[HTMLTreeEnumerator alloc] initWithNode:self];
 }
 
 - (NSString *)recursiveDescription
@@ -258,6 +271,42 @@
 {
     return [NSString stringWithFormat:@"<%@: %p <!DOCTYPE %@ '%@' '%@'> >",
             self.class, self, self.name, self.publicId, self.systemId];
+}
+
+@end
+
+@implementation HTMLTreeEnumerator
+{
+    NSIndexPath *_nextNodePath;
+}
+
+- (id)initWithNode:(HTMLNode *)node
+{
+    if (!(self = [super init])) return nil;
+    _node = node;
+    return self;
+}
+
+- (id)nextObject
+{
+    HTMLNode *currentNode = _node;
+    if (!_nextNodePath) {
+        _nextNodePath = [NSIndexPath indexPathWithIndex:0];
+        return currentNode;
+    }
+    for (NSUInteger i = 0; i < [_nextNodePath length] - 1; i++) {
+        currentNode = currentNode.childNodes[[_nextNodePath indexAtPosition:i]];
+    }
+    NSUInteger lastIndex = [_nextNodePath indexAtPosition:[_nextNodePath length] - 1];
+    if (lastIndex >= [currentNode.childNodes count]) {
+        NSIndexPath *chopped = [_nextNodePath indexPathByRemovingLastIndex];
+        if ([chopped length] == 0) return nil;
+        NSUInteger newLast = [chopped indexAtPosition:[chopped length] - 1];
+        _nextNodePath = [[chopped indexPathByRemovingLastIndex] indexPathByAddingIndex:newLast + 1];
+        return [self nextObject];
+    }
+    _nextNodePath = [_nextNodePath indexPathByAddingIndex:0];
+    return currentNode.childNodes[lastIndex];
 }
 
 @end
