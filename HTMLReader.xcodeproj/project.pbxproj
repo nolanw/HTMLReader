@@ -71,7 +71,6 @@
 		1C640EB1176BCA0000919E5C /* TokenizerUnicodeCharsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EA4176BCA0000919E5C /* TokenizerUnicodeCharsTests.m */; };
 		1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
 		1C9C3EBD176BC53900E982C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EBC176BC53900E982C9 /* Foundation.framework */; };
-		1C9C3ECC176BC53900E982C9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3ECB176BC53900E982C9 /* SenTestingKit.framework */; };
 		1C9C3ECE176BC53900E982C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3ECD176BC53900E982C9 /* UIKit.framework */; };
 		1C9C3ECF176BC53900E982C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EBC176BC53900E982C9 /* Foundation.framework */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
@@ -175,8 +174,7 @@
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3EBC176BC53900E982C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1C9C3EC0176BC53900E982C9 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLReaderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C9C3ECB176BC53900E982C9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3ECD176BC53900E982C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		1C9C3ED5176BC53900E982C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C9C789A176E35F900AFF16B /* HTMLTokenizerTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerTestUtilities.h; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C9C3ECC176BC53900E982C9 /* SenTestingKit.framework in Frameworks */,
 				1C9C3ECE176BC53900E982C9 /* UIKit.framework in Frameworks */,
 				1C9C3ECF176BC53900E982C9 /* Foundation.framework in Frameworks */,
 				1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */,
@@ -304,7 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */,
-				1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.octest */,
+				1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -313,7 +310,6 @@
 			isa = PBXGroup;
 			children = (
 				1C9C3EBC176BC53900E982C9 /* Foundation.framework */,
-				1C9C3ECB176BC53900E982C9 /* SenTestingKit.framework */,
 				1C9C3ECD176BC53900E982C9 /* UIKit.framework */,
 			);
 			name = Frameworks;
@@ -410,8 +406,8 @@
 			);
 			name = HTMLReaderTests;
 			productName = HTMLReaderTests;
-			productReference = 1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -651,30 +647,22 @@
 		1C9C3EE2176BC53900E982C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Code/Prefix.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
 		1C9C3EE3176BC53900E982C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Code/Prefix.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
