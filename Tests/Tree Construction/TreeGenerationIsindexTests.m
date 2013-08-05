@@ -13,21 +13,21 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<isindex>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n|       <hr>\n|       <label>\n|         \"This is a searchable index. Enter search keywords: \"\n|         <input>\n|           name=\"isindex\"\n|       <hr>\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 2, fixture);
 }
 
 - (void)test001
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<isindex name=\"A\" action=\"B\" prompt=\"C\" foo=\"D\">"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n|       action=\"B\"\n|       <hr>\n|       <label>\n|         \"C\"\n|         <input>\n|           foo=\"D\"\n|           name=\"isindex\"\n|       <hr>\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 2, fixture);
 }
 
 - (void)test002
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<form><isindex>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <form>\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 @end

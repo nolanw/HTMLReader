@@ -41,21 +41,21 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<table><div>x<div></div>x</span>x"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <div>\n|       \"x\"\n|       <div>\n|       \"xx\"\n|     <table>\n");
-    HTMLAssertParserState(parser, 7, fixture);
+    HTMLAssertParserState(parser, 10, fixture);
 }
 
 - (void)test005
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"x<table>x"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"xx\"\n|     <table>\n");
-    HTMLAssertParserState(parser, 3, fixture);
+    HTMLAssertParserState(parser, 2, fixture);
 }
 
 - (void)test006
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"x<table><table>x"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     \"x\"\n|     <table>\n|     \"x\"\n|     <table>\n");
-    HTMLAssertParserState(parser, 4, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 - (void)test007

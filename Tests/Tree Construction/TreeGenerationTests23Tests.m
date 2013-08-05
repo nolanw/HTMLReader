@@ -20,28 +20,28 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<p><font size=4><font size=4><font size=4><font size=4><p>X"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <font>\n|         size=\"4\"\n|         <font>\n|           size=\"4\"\n|           <font>\n|             size=\"4\"\n|             <font>\n|               size=\"4\"\n|     <p>\n|       <font>\n|         size=\"4\"\n|         <font>\n|           size=\"4\"\n|           <font>\n|             size=\"4\"\n|             \"X\"\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 - (void)test002
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<p><font size=4><font size=4><font size=4><font size=\"5\"><font size=4><p>X"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <font>\n|         size=\"4\"\n|         <font>\n|           size=\"4\"\n|           <font>\n|             size=\"4\"\n|             <font>\n|               size=\"5\"\n|               <font>\n|                 size=\"4\"\n|     <p>\n|       <font>\n|         size=\"4\"\n|         <font>\n|           size=\"4\"\n|           <font>\n|             size=\"5\"\n|             <font>\n|               size=\"4\"\n|               \"X\"\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 - (void)test003
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <font>\n|         id=\"a\"\n|         size=\"4\"\n|         <font>\n|           id=\"b\"\n|           size=\"4\"\n|           <font>\n|             size=\"4\"\n|             <font>\n|               size=\"4\"\n|     <p>\n|       <font>\n|         id=\"a\"\n|         size=\"4\"\n|         <font>\n|           id=\"b\"\n|           size=\"4\"\n|           <font>\n|             size=\"4\"\n|             <font>\n|               size=\"4\"\n|               \"X\"\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 - (void)test004
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <p>\n|       <b>\n|         id=\"a\"\n|         <b>\n|           id=\"a\"\n|           <b>\n|             id=\"a\"\n|             <b>\n|               <object>\n|                 <b>\n|                   id=\"a\"\n|                   <b>\n|                     id=\"a\"\n|                     \"X\"\n|     <p>\n|       <b>\n|         id=\"a\"\n|         <b>\n|           id=\"a\"\n|           <b>\n|             id=\"a\"\n|             <b>\n|               \"Y\"\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 4, fixture);
 }
 
 @end

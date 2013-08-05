@@ -13,14 +13,14 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<b>1<i>2<p>3</b>4"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <b>\n|       \"1\"\n|       <i>\n|         \"2\"\n|     <i>\n|       <p>\n|         <b>\n|           \"3\"\n|         \"4\"\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 - (void)test001
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<a><div><style></style><address><a>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|   <body>\n|     <a>\n|     <div>\n|       <a>\n|         <style>\n|       <address>\n|         <a>\n|         <a>\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 5, fixture);
 }
 
 @end

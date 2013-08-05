@@ -60,7 +60,7 @@
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"setting html's innerHTML"
                                                     context:context];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <head>\n| <body>\n|   \"setting html's innerHTML\"\n");
-    HTMLAssertParserState(parser, 1, fixture);
+    HTMLAssertParserState(parser, 0, fixture);
 }
 
 - (void)test006

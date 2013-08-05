@@ -13,7 +13,7 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<!DOCTYPE html><body><foo>A"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <!DOCTYPE html>\n| <html>\n|   <head>\n|   <body>\n|     <foo>\n|       \"A\"\n");
-    HTMLAssertParserState(parser, 0, fixture);
+    HTMLAssertParserState(parser, 1, fixture);
 }
 
 - (void)test001

@@ -27,7 +27,7 @@
 {
     HTMLParser *parser = [[HTMLParser alloc] initWithString:@"<head></head><!-- --><style></style><!-- --><script></script>"];
     NSArray *fixture = ReifiedTreeForTestDocument(@"| <html>\n|   <head>\n|     <style>\n|     <script>\n|   <!--   -->\n|   <!--   -->\n|   <body>\n");
-    HTMLAssertParserState(parser, 2, fixture);
+    HTMLAssertParserState(parser, 3, fixture);
 }
 
 - (void)test003
