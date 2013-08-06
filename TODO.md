@@ -1,5 +1,6 @@
 # HTMLReader TODO
 
+- Generate html5lib-tests Tree Construction tests at runtime (like the tokenizer tests are done).
 - Index/range info for parse errors, tokens. (Nodes?)
 - Implement `<template>`
   - Don't forget to add it to lists of special nodes.
