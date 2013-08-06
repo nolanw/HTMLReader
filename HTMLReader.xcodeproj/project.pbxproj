@@ -56,29 +56,16 @@
 		1C25D403177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D5177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m */; };
 		1C25D404177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */; };
 		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
-		1C640EA5176BCA0000919E5C /* TokenizerContentModelFlagsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */; };
-		1C640EA6176BCA0000919E5C /* TokenizerDomjsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */; };
-		1C640EA7176BCA0000919E5C /* TokenizerEntitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9A176BCA0000919E5C /* TokenizerEntitiesTests.m */; };
-		1C640EA8176BCA0000919E5C /* TokenizerEscapeFlagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9B176BCA0000919E5C /* TokenizerEscapeFlagTests.m */; };
-		1C640EA9176BCA0000919E5C /* TokenizerNamedEntitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9C176BCA0000919E5C /* TokenizerNamedEntitiesTests.m */; };
-		1C640EAA176BCA0000919E5C /* TokenizerNumericEntitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9D176BCA0000919E5C /* TokenizerNumericEntitiesTests.m */; };
-		1C640EAB176BCA0000919E5C /* TokenizerPendingSpecChangesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9E176BCA0000919E5C /* TokenizerPendingSpecChangesTests.m */; };
-		1C640EAC176BCA0000919E5C /* TokenizerTest1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640E9F176BCA0000919E5C /* TokenizerTest1Tests.m */; };
-		1C640EAD176BCA0000919E5C /* TokenizerTest2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EA0176BCA0000919E5C /* TokenizerTest2Tests.m */; };
-		1C640EAE176BCA0000919E5C /* TokenizerTest3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EA1176BCA0000919E5C /* TokenizerTest3Tests.m */; };
-		1C640EAF176BCA0000919E5C /* TokenizerTest4Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EA2176BCA0000919E5C /* TokenizerTest4Tests.m */; };
-		1C640EB0176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EA3176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m */; };
-		1C640EB1176BCA0000919E5C /* TokenizerUnicodeCharsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EA4176BCA0000919E5C /* TokenizerUnicodeCharsTests.m */; };
 		1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
 		1C9C3EBD176BC53900E982C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EBC176BC53900E982C9 /* Foundation.framework */; };
 		1C9C3ECE176BC53900E982C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3ECD176BC53900E982C9 /* UIKit.framework */; };
 		1C9C3ECF176BC53900E982C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EBC176BC53900E982C9 /* Foundation.framework */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
-		1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */; };
 		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
 		1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E61783A95000754A8F /* HTMLAttribute.m */; };
 		1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
-		1CE96EEF17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE96EEE17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m */; };
+		1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
+		1CC666AB17B0C82200E457E7 /* HTMLTreeTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeTraversalTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,19 +143,6 @@
 		1C25D3D6177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeGenerationWebkit02Tests.m; sourceTree = "<group>"; };
 		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		1C25D40917837A8A00F7C10D /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
-		1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerContentModelFlagsTests.m; sourceTree = "<group>"; };
-		1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerDomjsTests.m; sourceTree = "<group>"; };
-		1C640E9A176BCA0000919E5C /* TokenizerEntitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerEntitiesTests.m; sourceTree = "<group>"; };
-		1C640E9B176BCA0000919E5C /* TokenizerEscapeFlagTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerEscapeFlagTests.m; sourceTree = "<group>"; };
-		1C640E9C176BCA0000919E5C /* TokenizerNamedEntitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerNamedEntitiesTests.m; sourceTree = "<group>"; };
-		1C640E9D176BCA0000919E5C /* TokenizerNumericEntitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerNumericEntitiesTests.m; sourceTree = "<group>"; };
-		1C640E9E176BCA0000919E5C /* TokenizerPendingSpecChangesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerPendingSpecChangesTests.m; sourceTree = "<group>"; };
-		1C640E9F176BCA0000919E5C /* TokenizerTest1Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerTest1Tests.m; sourceTree = "<group>"; };
-		1C640EA0176BCA0000919E5C /* TokenizerTest2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerTest2Tests.m; sourceTree = "<group>"; };
-		1C640EA1176BCA0000919E5C /* TokenizerTest3Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerTest3Tests.m; sourceTree = "<group>"; };
-		1C640EA2176BCA0000919E5C /* TokenizerTest4Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerTest4Tests.m; sourceTree = "<group>"; };
-		1C640EA3176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerUnicodeCharsProblematicTests.m; sourceTree = "<group>"; };
-		1C640EA4176BCA0000919E5C /* TokenizerUnicodeCharsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizerUnicodeCharsTests.m; sourceTree = "<group>"; };
 		1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,15 +151,14 @@
 		1C9C3ECA176BC53900E982C9 /* HTMLReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3ECD176BC53900E982C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		1C9C3ED5176BC53900E982C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1C9C789A176E35F900AFF16B /* HTMLTokenizerTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerTestUtilities.h; sourceTree = "<group>"; };
-		1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTestUtilities.m; sourceTree = "<group>"; };
 		1CACE9E21783A92F00754A8F /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
 		1CACE9E31783A92F00754A8F /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
 		1CACE9E51783A95000754A8F /* HTMLAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAttribute.h; sourceTree = "<group>"; };
 		1CACE9E61783A95000754A8F /* HTMLAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAttribute.m; sourceTree = "<group>"; };
 		1CACE9E81783AA6600754A8F /* HTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLString.h; sourceTree = "<group>"; };
 		1CACE9E91783AA6600754A8F /* HTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLString.m; sourceTree = "<group>"; };
-		1CE96EEE17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeTraversalTests.m; sourceTree = "<group>"; };
+		1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTests.m; sourceTree = "<group>"; };
+		1CC666AA17B0C82200E457E7 /* HTMLTreeTraversalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeTraversalTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,28 +238,6 @@
 			path = "Tree Construction";
 			sourceTree = "<group>";
 		};
-		1C640E97176BCA0000919E5C /* Tokenizer */ = {
-			isa = PBXGroup;
-			children = (
-				1C9C789A176E35F900AFF16B /* HTMLTokenizerTestUtilities.h */,
-				1C9C789D176E40D500AFF16B /* HTMLTokenizerTestUtilities.m */,
-				1C640E98176BCA0000919E5C /* TokenizerContentModelFlagsTests.m */,
-				1C640E99176BCA0000919E5C /* TokenizerDomjsTests.m */,
-				1C640E9A176BCA0000919E5C /* TokenizerEntitiesTests.m */,
-				1C640E9B176BCA0000919E5C /* TokenizerEscapeFlagTests.m */,
-				1C640E9C176BCA0000919E5C /* TokenizerNamedEntitiesTests.m */,
-				1C640E9D176BCA0000919E5C /* TokenizerNumericEntitiesTests.m */,
-				1C640E9E176BCA0000919E5C /* TokenizerPendingSpecChangesTests.m */,
-				1C640E9F176BCA0000919E5C /* TokenizerTest1Tests.m */,
-				1C640EA0176BCA0000919E5C /* TokenizerTest2Tests.m */,
-				1C640EA1176BCA0000919E5C /* TokenizerTest3Tests.m */,
-				1C640EA2176BCA0000919E5C /* TokenizerTest4Tests.m */,
-				1C640EA3176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m */,
-				1C640EA4176BCA0000919E5C /* TokenizerUnicodeCharsTests.m */,
-			);
-			path = Tokenizer;
-			sourceTree = "<group>";
-		};
 		1C9C3EB0176BC53800E982C9 = {
 			isa = PBXGroup;
 			children = (
@@ -346,9 +297,9 @@
 		1C9C3ED3176BC53900E982C9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				1C640E97176BCA0000919E5C /* Tokenizer */,
+				1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */,
 				1C25D346177BB71300F7C10D /* Tree Construction */,
-				1CE96EEC17ADA23C007A4AE8 /* Tree Traversal */,
+				1CC666AA17B0C82200E457E7 /* HTMLTreeTraversalTests.m */,
 				1C9C3ED4176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Tests;
@@ -360,14 +311,6 @@
 				1C9C3ED5176BC53900E982C9 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1CE96EEC17ADA23C007A4AE8 /* Tree Traversal */ = {
-			isa = PBXGroup;
-			children = (
-				1CE96EEE17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m */,
-			);
-			path = "Tree Traversal";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -481,20 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C640EA5176BCA0000919E5C /* TokenizerContentModelFlagsTests.m in Sources */,
-				1C640EA6176BCA0000919E5C /* TokenizerDomjsTests.m in Sources */,
-				1C640EA7176BCA0000919E5C /* TokenizerEntitiesTests.m in Sources */,
-				1C640EA8176BCA0000919E5C /* TokenizerEscapeFlagTests.m in Sources */,
-				1C640EA9176BCA0000919E5C /* TokenizerNamedEntitiesTests.m in Sources */,
-				1C640EAA176BCA0000919E5C /* TokenizerNumericEntitiesTests.m in Sources */,
-				1C640EAB176BCA0000919E5C /* TokenizerPendingSpecChangesTests.m in Sources */,
-				1C640EAC176BCA0000919E5C /* TokenizerTest1Tests.m in Sources */,
-				1C640EAD176BCA0000919E5C /* TokenizerTest2Tests.m in Sources */,
-				1C640EAE176BCA0000919E5C /* TokenizerTest3Tests.m in Sources */,
-				1C640EAF176BCA0000919E5C /* TokenizerTest4Tests.m in Sources */,
-				1C640EB0176BCA0000919E5C /* TokenizerUnicodeCharsProblematicTests.m in Sources */,
-				1C640EB1176BCA0000919E5C /* TokenizerUnicodeCharsTests.m in Sources */,
-				1C9C789E176E40D500AFF16B /* HTMLTokenizerTestUtilities.m in Sources */,
+				1CC666A717B0C71100E457E7 /* CSSParserTests.m in Sources */,
 				1C25D3A5177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m in Sources */,
 				1C25D3D7177BB8C400F7C10D /* TreeGenerationAdoption01Tests.m in Sources */,
 				1C25D3D8177BB8C400F7C10D /* TreeGenerationAdoption02Tests.m in Sources */,
@@ -542,7 +472,8 @@
 				1C25D402177BB8C400F7C10D /* TreeGenerationTricky01Tests.m in Sources */,
 				1C25D403177BB8C400F7C10D /* TreeGenerationWebkit01Tests.m in Sources */,
 				1C25D404177BB8C400F7C10D /* TreeGenerationWebkit02Tests.m in Sources */,
-				1CE96EEF17ADA26B007A4AE8 /* HTMLTreeTraversalTests.m in Sources */,
+				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,
+				1CC666AB17B0C82200E457E7 /* HTMLTreeTraversalTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +581,11 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Code/Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"HTML5LIBTESTPATH=\"${SRCROOT}/Tests/html5lib\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
