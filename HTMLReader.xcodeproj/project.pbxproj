@@ -126,6 +126,7 @@
 		1C9C3EBE176BC53900E982C9 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				1C9C3EC0176BC53900E982C9 /* Prefix.pch */,
 				1CACE9E51783A95000754A8F /* HTMLAttribute.h */,
 				1CACE9E61783A95000754A8F /* HTMLAttribute.m */,
 				1C25D3A6177BB78600F7C10D /* HTMLDocument.h */,
@@ -138,17 +139,8 @@
 				1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */,
 				1CACE9E81783AA6600754A8F /* HTMLString.h */,
 				1CACE9E91783AA6600754A8F /* HTMLString.m */,
-				1C9C3EBF176BC53900E982C9 /* Supporting Files */,
 			);
 			path = Code;
-			sourceTree = "<group>";
-		};
-		1C9C3EBF176BC53900E982C9 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1C9C3EC0176BC53900E982C9 /* Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1C9C3ED3176BC53900E982C9 /* Tests */ = {
