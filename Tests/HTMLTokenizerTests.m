@@ -8,10 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "HTMLString.h"
+#import "HTMLTestUtilities.h"
 #import "HTMLTokenizer.h"
-
-#define STRINGIFY_EXPAND(a) #a
-#define STRINGIFY(a) @STRINGIFY_EXPAND(a)
 
 @interface HTMLTokenizerTests : XCTestCase
 
@@ -25,7 +23,7 @@
 
 + (id)defaultTestSuite
 {
-    NSString *testPath = STRINGIFY(HTML5LIBTESTPATH) "/tokenizer";
+    NSString *testPath = [html5libTestPath() stringByAppendingPathComponent:@"tokenizer"];
     NSArray *potentialTestPaths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:testPath
                                                                                       error:nil];
     XCTestSuite *suite = [XCTestSuite testSuiteWithName:@"html5lib tokenizer tests"];

@@ -18,17 +18,6 @@ WebKit ships with iOS, but its HTML parsing abilities are considered private API
 
 ## Testing
 
-HTMLReader directly uses [html5lib's tests][html5lib-tests], by translating them into OCUnit tests and running them through Xcode.
-
-To regenerate the OCUnit tests from the html5lib tests:
-
-```
-$ git submodule update --init
-$ rake gentests
-```
-
-Don't forget to add any newly-created `.m` files (i.e. from tests new to html5lib) to the `HTMLReaderTests` target in Xcode.
-
-Actually running the tests is as usual in Xcode: from the "Product" menu, choose "Test".
+HTMLReader uses [html5lib's tests][html5lib-tests] for tokenization and tree construction. It adds some of its own tests for CSS selectors and sundries.
 
 [html5lib-tests]: https://github.com/html5lib/html5lib-tests
