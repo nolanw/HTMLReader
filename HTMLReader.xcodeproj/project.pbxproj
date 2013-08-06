@@ -54,6 +54,8 @@
 		1C25D40917837A8A00F7C10D /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
+		1C9928B117B18E9300D6AD9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		1C9928B217B18E9300D6AD9A /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.md; sourceTree = "<group>"; };
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3EBC176BC53900E982C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1C9C3EC0176BC53900E982C9 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -98,6 +100,8 @@
 		1C9C3EB0176BC53800E982C9 = {
 			isa = PBXGroup;
 			children = (
+				1C9928B117B18E9300D6AD9A /* README.md */,
+				1C9928B217B18E9300D6AD9A /* TODO.md */,
 				1C9C3EBE176BC53900E982C9 /* Code */,
 				1C9C3ED3176BC53900E982C9 /* Tests */,
 				1C9C3EBB176BC53900E982C9 /* Frameworks */,
