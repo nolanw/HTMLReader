@@ -18,6 +18,6 @@ WebKit ships with iOS, but its HTML parsing abilities are considered private API
 
 ## Testing
 
-HTMLReader uses [html5lib's tests][html5lib-tests] for tokenization and tree construction. It adds some of its own tests for CSS selectors and sundries.
+HTMLReader uses [html5lib's tests][html5lib-tests] for tokenization and tree construction. It adds some of its own tests too.
 
 [html5lib-tests]: https://github.com/html5lib/html5lib-tests
