@@ -3,7 +3,6 @@
 //  HTMLReader
 //
 //  Created by Nolan Waite on 2013-07-02.
-//  Copyright (c) 2013 Nolan Waite. All rights reserved.
 //
 
 #import "HTMLAttribute.h"

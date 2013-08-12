@@ -21,3 +21,7 @@ WebKit ships with iOS, but its HTML parsing abilities are considered private API
 HTMLReader uses [html5lib's tests][html5lib-tests] for tokenization and tree construction. It adds some of its own tests too.
 
 [html5lib-tests]: https://github.com/html5lib/html5lib-tests
+
+## License
+
+HTMLReader is in the public domain.
