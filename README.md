@@ -16,6 +16,18 @@ HTMLTextNode *text = [[body.childNodes[0] childNodes][0] childNodes][0];
 NSLog(@"%@", text.data); // => Ahoy there sailor!
 ```
 
+## Installation
+
+You have choices:
+
+1. Copy the files in the [Code](Code) folder into your project.
+2. Add the following line to your [Podfile][CocoaPods]:
+   
+   `pod "HTMLReader", :git => "https://github.com/nolanw/HTMLReader"`
+3. Check out this repository, add `HTMLReader.xcodeproj` to your project/workspace, and add the HTMLReader static library to your target.
+
+[CocoaPods]: http://docs.cocoapods.org/podfile.html#pod
+
 ## Why
 
 I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.
@@ -26,7 +38,7 @@ I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.
 
 Other Objective-C libraries I came across (e.g. [hpple][]) use libxml2 and inherit its shortcomings.
 
-There are C libraries such as [Gumbo][] or [Hubbub][], but they don't offer anything for Objective-C.
+There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle data to and from Objective-C.
 
 WebKit ships with iOS, but its HTML parsing abilities are considered private API. I consider a round-trip through UIWebView inappropriate for parsing HTML. And I didn't make it very far into building my own copy of WebCore.
 

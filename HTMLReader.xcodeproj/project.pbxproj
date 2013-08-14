@@ -103,6 +103,7 @@
 				1CB61D2717BB68F100EE9653 /* LICENSE */,
 				1C9928B117B18E9300D6AD9A /* README.md */,
 				1C9928B217B18E9300D6AD9A /* TODO.md */,
+				1C9C3EC0176BC53900E982C9 /* Prefix.pch */,
 				1C9C3EBE176BC53900E982C9 /* Code */,
 				1C9C3ED3176BC53900E982C9 /* Tests */,
 				1C9C3EBB176BC53900E982C9 /* Frameworks */,
@@ -131,7 +132,6 @@
 		1C9C3EBE176BC53900E982C9 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				1C9C3EC0176BC53900E982C9 /* Prefix.pch */,
 				1CACE9E51783A95000754A8F /* HTMLAttribute.h */,
 				1CACE9E61783A95000754A8F /* HTMLAttribute.m */,
 				1C25D3A6177BB78600F7C10D /* HTMLDocument.h */,
@@ -367,7 +367,7 @@
 			buildSettings = {
 				DSTROOT = /tmp/HTMLReader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Code/Prefix.pch;
+				GCC_PREFIX_HEADER = Prefix.pch;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -379,7 +379,7 @@
 			buildSettings = {
 				DSTROOT = /tmp/HTMLReader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Code/Prefix.pch;
+				GCC_PREFIX_HEADER = Prefix.pch;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -391,7 +391,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Code/Prefix.pch;
+				GCC_PREFIX_HEADER = Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"HTML5LIBTESTPATH=\"${SRCROOT}/Tests/html5lib\"",
@@ -407,7 +407,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Code/Prefix.pch;
+				GCC_PREFIX_HEADER = Prefix.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
