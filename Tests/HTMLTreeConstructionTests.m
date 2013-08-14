@@ -8,13 +8,14 @@
 #import <XCTest/XCTest.h>
 #import "HTMLParser.h"
 #import "HTMLTestUtilities.h"
+#import <objc/runtime.h>
 
 @interface HTMLTreeConstructionTests : XCTestCase
 
-@property (readonly, copy, nonatomic) NSString *data;
-@property (readonly, assign, nonatomic) NSUInteger expectedErrors;
-@property (readonly, copy, nonatomic) NSString *documentFragment;
-@property (readonly, copy, nonatomic) NSArray *expectedRootNodes;
+@property (copy, nonatomic) NSString *data;
+@property (copy, nonatomic) NSArray *expectedErrors;
+@property (copy, nonatomic) NSString *documentFragment;
+@property (copy, nonatomic) NSArray *expectedRootNodes;
 
 @end
 
@@ -42,6 +43,9 @@
 {
     NSString *suiteName = [path.lastPathComponent stringByDeletingPathExtension];
     XCTestSuite *suite = [XCTestSuite testSuiteWithName:suiteName];
+    NSString *testClassName = [NSString stringWithFormat:@"%@-%@", NSStringFromClass(self), suiteName];
+    Class testClass = objc_allocateClassPair(self, [testClassName UTF8String], 0);
+    objc_registerClassPair(testClass);
     NSString *testString = [NSString stringWithContentsOfFile:path
                                                      encoding:NSUTF8StringEncoding
                                                         error:nil];
@@ -51,35 +55,39 @@
     
     // http://wiki.whatwg.org/wiki/Parser_tests#Tree_Construction_Tests
     NSString *singleTestString;
+    NSInteger i = 1;
     while ([scanner scanUpToString:@"\n#data" intoString:&singleTestString]) {
-        [suite addTest:[self testCaseWithString:singleTestString]];
+        SEL selector = NSSelectorFromString([NSString stringWithFormat:@"test%d", i++]);
+        [suite addTest:[self testCaseWithString:singleTestString class:testClass selector:selector]];
         [scanner scanString:singleTestString intoString:nil];
         [scanner scanString:@"\n" intoString:nil];
     }
     return suite;
 }
 
-+ (instancetype)testCaseWithString:(NSString *)string
++ (instancetype)testCaseWithString:(NSString *)string class:(Class)class selector:(SEL)selector
 {
-    HTMLTreeConstructionTests *testCase = [self testCaseWithSelector:@selector(test)];
+    HTMLTreeConstructionTests *testCase = [class testCaseWithSelector:selector];
     NSScanner *scanner = [NSScanner scannerWithString:string];
     scanner.charactersToBeSkipped = nil;
     scanner.caseSensitive = YES;
     [scanner scanString:@"#data\n" intoString:nil];
     NSString *data;
     [scanner scanUpToString:@"\n#errors\n" intoString:&data];
-    testCase->_data = [data copy];
+    testCase.data = data;
     
     [scanner scanString:@"\n#errors\n" intoString:nil];
     NSString *errorLines;
     if ([scanner scanUpToString:@"#document" intoString:&errorLines]) {
-        testCase->_expectedErrors = [errorLines componentsSeparatedByString:@"\n"].count - 1;
+        NSArray *errors = [errorLines componentsSeparatedByString:@"\n"];
+        errors = [errors subarrayWithRange:NSMakeRange(0, errors.count - 1)];
+        testCase.expectedErrors = errors;
     }
     
     NSString *fragment;
     if ([scanner scanString:@"#document-fragment\n" intoString:nil]) {
         [scanner scanUpToString:@"\n" intoString:&fragment];
-        testCase->_documentFragment = [fragment copy];
+        testCase.documentFragment = fragment;
         [scanner scanString:@"\n" intoString:nil];
     }
     
@@ -108,7 +116,7 @@
         }
         [scanner scanString:@"\n" intoString:nil];
     }
-    testCase->_expectedRootNodes = [roots copy];
+    testCase.expectedRootNodes = roots;
     return testCase;
 }
 
@@ -184,19 +192,22 @@ static id NodeOrAttributeFromString(NSString *s)
 - (void)test
 {
     HTMLParser *parser;
-    if (_documentFragment) {
-        HTMLElementNode *context = [[HTMLElementNode alloc] initWithTagName:_documentFragment];
-        parser = [[HTMLParser alloc] initWithString:_data context:context];
+    if (self.documentFragment) {
+        HTMLElementNode *context = [[HTMLElementNode alloc] initWithTagName:self.documentFragment];
+        parser = [[HTMLParser alloc] initWithString:self.data context:context];
     } else {
-        parser = [[HTMLParser alloc] initWithString:_data];
+        parser = [[HTMLParser alloc] initWithString:self.data];
     }
     NSString *description = [NSString stringWithFormat:@"parsed: %@\nfixture:\n%@",
                              parser.document.recursiveDescription,
-                             [[_expectedRootNodes valueForKey:@"recursiveDescription"]
+                             [[self.expectedRootNodes valueForKey:@"recursiveDescription"]
                               componentsJoinedByString:@"\n"]];
-    XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, _expectedRootNodes),
+    XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, self.expectedRootNodes),
               @"%@", description);
-    XCTAssertEqual(parser.errors.count, _expectedErrors, @"%@", description);
+    NSString *errors = [NSString stringWithFormat:@"parse errors: %@\nfixture:\n%@",
+                        [parser.errors componentsJoinedByString:@"\n"],
+                        [self.expectedErrors componentsJoinedByString:@"\n"]];
+    XCTAssertEqual(parser.errors.count, self.expectedErrors.count, @"%@%@", errors, description);
 }
 
 BOOL TreesAreTestEquivalent(id aThing, id bThing)
@@ -237,6 +248,25 @@ BOOL TreesAreTestEquivalent(id aThing, id bThing)
     } else {
         return NO;
     }
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    if ([NSStringFromSelector(invocation.selector) hasPrefix:@"test"]) {
+        invocation.selector = @selector(test);
+        [invocation invoke];
+    } else {
+        [super forwardInvocation:invocation];
+    }
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+    NSMethodSignature *signature = [super methodSignatureForSelector:selector];
+    if (!signature && [NSStringFromSelector(selector) hasPrefix:@"test"]) {
+        signature = [super methodSignatureForSelector:@selector(test)];
+    }
+    return signature;
 }
 
 @end

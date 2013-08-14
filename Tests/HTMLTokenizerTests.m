@@ -9,6 +9,7 @@
 #import "HTMLString.h"
 #import "HTMLTestUtilities.h"
 #import "HTMLTokenizer.h"
+#import <objc/runtime.h>
 
 @interface HTMLTokenizerTests : XCTestCase
 
@@ -39,21 +40,26 @@
 {
     NSString *suiteName = [path.lastPathComponent stringByDeletingPathExtension];
     XCTestSuite *suite = [XCTestSuite testSuiteWithName:suiteName];
+    NSString *testClassName = [NSString stringWithFormat:@"%@-%@", NSStringFromClass(self), suiteName];
+    Class testClass = objc_allocateClassPair(self, [testClassName UTF8String], 0);
+    objc_registerClassPair(testClass);
     NSData *testData = [NSData dataWithContentsOfFile:path];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:testData options:0 error:nil];
+    NSInteger i = 1;
     
     // http://wiki.whatwg.org/wiki/Parser_tests#Tokenizer_Tests
     for (NSDictionary *test in json[@"tests"]) {
-        HTMLTokenizerTests *testCase = [self testCaseWithDictionary:test];
+        SEL selector = NSSelectorFromString([NSString stringWithFormat:@"test%d", i++]);
+        HTMLTokenizerTests *testCase = [self testCaseWithDictionary:test class:testClass selector:selector];
         [suite addTest:testCase];
     }
     
     return suite;
 }
 
-+ (instancetype)testCaseWithDictionary:(NSDictionary *)dictionary
++ (instancetype)testCaseWithDictionary:(NSDictionary *)dictionary class:(Class)class selector:(SEL)selector
 {
-    HTMLTokenizerTests *testCase = [self testCaseWithSelector:@selector(test)];
+    HTMLTokenizerTests *testCase = [class testCaseWithSelector:selector];
     testCase->_dictionary = [dictionary copy];
     return testCase;
 }
@@ -154,6 +160,25 @@ static NSString * UnDoubleEscape(NSString *input)
     for (HTMLTokenizer *tokenizer in _tokenizers) {
         NSArray *parsedTokens = tokenizer.allObjects;
         XCTAssertEqualObjects(parsedTokens, _expectedTokens, @"%@", _dictionary[@"description"]);
+    }
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+    NSMethodSignature *signature = [super methodSignatureForSelector:selector];
+    if (!signature && [NSStringFromSelector(selector) hasPrefix:@"test"]) {
+        signature = [super methodSignatureForSelector:@selector(test)];
+    }
+    return signature;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    if ([NSStringFromSelector(invocation.selector) hasPrefix:@"test"]) {
+        invocation.selector = @selector(test);
+        [invocation invoke];
+    } else {
+        [super forwardInvocation:invocation];
     }
 }
 
