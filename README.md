@@ -4,6 +4,18 @@ A [WHATWG-compliant HTML parser][whatwg-spec] in Objective-C.
 
 [whatwg-spec]: http://whatwg.org/html
 
+## Usage
+
+```objc
+#import "HTMLReader.h"
+
+NSString *html = @"<p><b>Ahoy there sailor!</b></p>";
+HTMLDocument *document = [HTMLDocument documentWithString:html];
+HTMLElementNode *body = document.rootNode.childNodes[1];
+HTMLTextNode *text = [[body.childNodes[0] childNodes][0] childNodes][0];
+NSLog(@"%@", text.data); // => Ahoy there sailor!
+```
+
 ## Why
 
 I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.

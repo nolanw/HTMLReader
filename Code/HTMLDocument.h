@@ -15,11 +15,13 @@ typedef NS_ENUM(NSInteger, HTMLDocumentQuirksMode)
     HTMLLimitedQuirksMode,
 };
 
-// Property and method names follow the DOM specification and do not attempt to follow Objective-C conventions.
-
 @interface HTMLDocument : HTMLNode
+
++ (instancetype)documentWithString:(NSString *)string;
 
 @property (nonatomic) HTMLDocumentTypeNode *doctype;
 @property (nonatomic) HTMLDocumentQuirksMode quirksMode;
+
+@property (readonly, strong, nonatomic) HTMLElementNode *rootNode;
 
 @end
