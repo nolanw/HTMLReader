@@ -46,8 +46,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1C25D3A3177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeConstructionTestUtilities.h; sourceTree = "<group>"; };
-		1C25D3A4177BB72800F7C10D /* HTMLTreeConstructionTestUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeConstructionTestUtilities.m; sourceTree = "<group>"; };
 		1C25D3A6177BB78600F7C10D /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocument.h; sourceTree = "<group>"; };
 		1C25D3A7177BB78600F7C10D /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
 		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
@@ -283,7 +281,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CC666A717B0C71100E457E7 /* CSSParserTests.m in Sources */,
 				1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */,
 				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,
 				1CC666AB17B0C82200E457E7 /* HTMLTreeTraversalTests.m in Sources */,
