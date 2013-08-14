@@ -22,11 +22,18 @@ I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.
 
 ## The Alternatives
 
-libxml2 ships with iOS. It parses a variant of HTML 4 and does not handle broken markup like a browser.
+[libxml2][] ships with iOS. It parses a variant of HTML 4 and does not handle broken markup like a browser.
 
-Other Objective-C libraries I came across (e.g. hpple) use libxml2 and inherit its shortcomings.
+Other Objective-C libraries I came across (e.g. [hpple][]) use libxml2 and inherit its shortcomings.
+
+There are C libraries such as [Gumbo][] or [Hubbub][], but they don't offer anything for Objective-C.
 
 WebKit ships with iOS, but its HTML parsing abilities are considered private API. I consider a round-trip through UIWebView inappropriate for parsing HTML. And I didn't make it very far into building my own copy of WebCore.
+
+[Gumbo]: https://github.com/google/gumbo-parser
+[hpple]: https://github.com/topfunky/hpple
+[Hubbub]: http://www.netsurf-browser.org/projects/hubbub/
+[libxml2]: http://www.xmlsoft.org/
 
 ## Testing
 
