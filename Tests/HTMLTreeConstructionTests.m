@@ -204,10 +204,10 @@ static id NodeOrAttributeFromString(NSString *s)
                               componentsJoinedByString:@"\n"]];
     XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, self.expectedRootNodes),
               @"%@", description);
-    NSString *errors = [NSString stringWithFormat:@"parse errors: %@\nfixture:\n%@",
+    NSString *errors = [NSString stringWithFormat:@"parse errors: %@\nexpected errors:\n%@",
                         [parser.errors componentsJoinedByString:@"\n"],
                         [self.expectedErrors componentsJoinedByString:@"\n"]];
-    XCTAssertEqual(parser.errors.count, self.expectedErrors.count, @"%@%@", errors, description);
+    XCTAssertEqual(parser.errors.count, self.expectedErrors.count, @"%@\n%@", errors, description);
 }
 
 BOOL TreesAreTestEquivalent(id aThing, id bThing)
