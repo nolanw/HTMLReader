@@ -394,6 +394,25 @@ CSSSelectorPredicateGen isRootPredicate()
 
 
 
+NSNumber* parseNumber(NSString *number, int defaultValue)
+{
+	//defaults to 1
+	int result = defaultValue;
+	
+	NSScanner *scanner = [NSScanner scannerWithString:[number stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+	
+	[scanner scanInteger:&result];
+	
+	if ([scanner isAtEnd])
+	{
+		return @(result);
+	}
+	else
+	{
+		return nil;
+	}
+}
+
 #pragma mark Parse
 extern struct mb parseNth(NSString *nthString)
 {
@@ -413,26 +432,28 @@ extern struct mb parseNth(NSString *nthString)
 	}
 	
 	NSArray *valueSplit = [nthString componentsSeparatedByString:@"n"];
-
+	
 	if (valueSplit.count > 2) {
 		//Multiple ns, fail
 		return (struct mb){0, 0};
 	}
 	else if (valueSplit.count == 2)
-	{		
-		if ([valueSplit[0] length] == 0)
-		{
-			//"n" was defined, but no multiplier ie "n + 2)
-			return (struct mb){ 1, [valueSplit[1] integerValue] };
-		}
-		else if ([valueSplit[0] isEqualToString:@"-"])
+	{
+		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
+		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
+		
+		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo != nil)
 		{
 			//"n" was defined, and only "-" was given as a multiplier
-			return (struct mb){ -1, [valueSplit[1] integerValue] };
+			return (struct mb){ -1, [numberTwo integerValue] };
+		}
+		else if (numberOne != nil && numberTwo != nil)
+		{
+			return (struct mb){ [numberOne integerValue], [numberTwo integerValue] };
 		}
 		else
 		{
-			return (struct mb){ [valueSplit[0] integerValue], [valueSplit[1] integerValue] };
+			return (struct mb){0, 0};
 		}
 	}
 	else
