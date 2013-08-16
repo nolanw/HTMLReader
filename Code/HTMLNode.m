@@ -130,6 +130,8 @@
     return [self initWithTagName:nil];
 }
 
+#pragma mark Element Attributes
+
 - (NSArray *)attributes
 {
     return [_attributes copy];
@@ -151,6 +153,13 @@
 	}
 	
 	return nil;
+}
+
+- (id)valueForKey:(NSString *)key
+{
+	//If the key is in the format "[key]" get the attribute value for "key"
+	if ([key hasPrefix:@"["] && [key hasSuffix:@"]"]) return [self attributeNamed:[key substringWithRange:NSMakeRange(1, key.length - 2)]].value;
+	else return [super valueForKey:key];
 }
 
 #pragma mark NSCopying

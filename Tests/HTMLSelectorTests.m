@@ -8,9 +8,13 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HTMLParser.h"
 #import "HTMLNode+Selectors.h"
 
 @interface HTMLSelectorTests : XCTestCase
+{
+	HTMLDocument *testDoc;
+}
 
 @end
 
@@ -19,14 +23,15 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here; it will be run once, before the first test case.
+
+	testDoc = [HTMLParser documentForString:@"<root>\
+			   \
+			   <elem id='empty'></elem>\
+			   \
+			   \
+			   </root>"];
 }
 
-- (void)tearDown
-{
-    // Put teardown code here; it will be run once, after the last test case.
-    [super tearDown];
-}
 
 - (void)testNthParsing
 {
@@ -61,22 +66,34 @@
 	
 }
 
-- (void)testTesting
+
+-(void)testSelector:(NSString *)selectorString withExpectedParsedSelector:(NSString *)parsedSelector andExpectedIds:(NSArray *)expectedIds
 {
+	CSSSelector *selector = [CSSSelector selectorForString:selectorString];
+	
+	parsedSelector = nil;
+	//XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector);
+	
+	NSArray *returnedNodes = [testDoc nodesForSelector:selector];
+	NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"];
+	
+	XCTAssertEqualObjects(returnedIds, expectedIds, @"Test empty failed");
+
+}
+
+- (void)testSelectors
+{
+	[self testSelector:@"elem:empty" withExpectedParsedSelector:@"elem:empty" andExpectedIds:@[@"empty"]];
+
+	
 	SelectorFunctionForString(@"img:last-of-type");
 
 	
+
+	
 	SelectorFunctionForString(@"img:not(div)");
-
-	id thing = SelectorFunctionForString(@"img:nth-child(n + 1)");
-
-	
-	
-	
 	
 	SelectorFunctionForString(@"*");
-
-	thing = nil;
 	
 	SelectorFunctionForString(@"div");
 
@@ -96,8 +113,7 @@
 	SelectorFunctionForString(@"E[foo*=\"bar\"]");
 
 	SelectorFunctionForString(@"Efoo*=\"bar\"]");
-
-
+	
 }
 
 @end

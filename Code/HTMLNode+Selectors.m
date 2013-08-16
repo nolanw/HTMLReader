@@ -668,7 +668,7 @@ CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
 		}
 		else if ([operator isEqualToString:@":"])
 		{
-			return predicateFromPseudoClass(scanner);
+			return andCombinatorPredicate(@[ofTagTypePredicate(firstIdent), predicateFromPseudoClass(scanner)]);
 		}
 		else if ([operator isEqualToString:@"::"])
 		{
@@ -715,6 +715,9 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 {
     if (!(self = [self init])) return nil;
 	_parsedString = @"";
+	
+	predicate = SelectorFunctionForString(selectorString);
+	
     return self;
 }
 
