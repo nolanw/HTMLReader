@@ -205,6 +205,7 @@ CSSSelectorPredicateGen attributeStartsWithAnyOf(NSString* attributeName, NSArra
 
 CSSSelectorPredicateGen isKindOfClassPredicate(NSString *classname)
 {
+	//TODO this won't work if there's multiple classes defined
 	return attributeIsExactlyPredicate(@"class", classname);
 }
 
@@ -602,21 +603,6 @@ static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner
 
 #pragma mark
 
-NSArray* filterWithPredicate(NSEnumerator *nodes, CSSSelectorPredicate predicate)
-{
-	NSMutableArray *ret = [NSMutableArray new];
-	
-	for (HTMLElementNode *node in nodes) {
-		
-		if ([node isKindOfClass:[HTMLElementNode class]] && predicate(node) == TRUE)
-		{
-			[ret addObject:node];
-		}
-	}
-	
-	return ret;
-}
-
 
 
 
@@ -707,16 +693,83 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 	return predicateFromScanner(scanner);
 }
 
+@interface CSSSelector ()
+{
+	@public
+	CSSSelectorPredicate predicate;
+	
+	NSString *_parsedString;
+	NSError *_error;
+}
+
+@end
+
+@implementation CSSSelector
+
++ (instancetype)selectorForString:(NSString *)selectorString
+{
+	return [[self alloc] initWithString:selectorString];
+}
+
+- (instancetype)initWithString:(NSString *)selectorString
+{
+    if (!(self = [self init])) return nil;
+	_parsedString = @"";
+    return self;
+}
+
+-(NSError *)error
+{
+	return _error;
+}
+
+-(NSString *)parsedEquivalent
+{
+	return _parsedString;
+}
+
+- (NSString *)description
+{
+	if (_error == nil)
+	{
+		return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, _parsedString];
+	}
+	else
+	{
+		return [NSString stringWithFormat:@"<%@: %p ERROR: '%@'>", self.class, self, _error];
+	}
+}
+
+@end
+
+
+NSArray* filterWithPredicate(NSEnumerator *nodes, CSSSelector *selector)
+{
+	NSMutableArray *ret = [NSMutableArray new];
+	
+	for (HTMLElementNode *node in nodes) {
+		
+		if ([node isKindOfClass:[HTMLElementNode class]] && selector->predicate(node) == TRUE)
+		{
+			[ret addObject:node];
+		}
+	}
+	
+	return ret;
+}
+
 @implementation HTMLNode (Selectors)
 
 -(NSArray*)nodesForSelectorString:(NSString*)selectorString
 {
-	return [self nodesForSelectorFilter:SelectorFunctionForString(selectorString)];
+	return [self nodesForSelector:[CSSSelector selectorForString:selectorString]];
 }
 
--(NSArray*)nodesForSelectorFilter:(CSSSelectorPredicate)filter
+-(NSArray*)nodesForSelector:(CSSSelector*)selector
 {
-	return filterWithPredicate(self.treeEnumerator, filter);
+	NSAssert1(selector.error == nil, @"Attempted to use selector with error: %@", selector.error);
+	
+	return filterWithPredicate(self.treeEnumerator, selector);
 }
 
 @end
