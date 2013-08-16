@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 
 @interface HTMLNode : NSObject <NSCopying>
 
+@property (readonly, strong, nonatomic) HTMLNode *rootNode;
 @property (readonly, strong, nonatomic) HTMLNode *parentNode;
 @property (copy, nonatomic) NSArray *childNodes;
 - (void)appendChild:(HTMLNode *)child;
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 
 @property (readonly, copy, nonatomic) NSArray *attributes;
 - (void)addAttribute:(HTMLAttribute *)attribute;
+- (HTMLAttribute *)attributeNamed:(NSString*)name;
 
 @property (nonatomic) HTMLNamespace namespace;
 

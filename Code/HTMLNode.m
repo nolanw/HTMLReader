@@ -28,6 +28,18 @@
     return self;
 }
 
+-(HTMLNode *)rootNode
+{
+	HTMLNode *target = self;
+	
+	while (target.parentNode != nil)
+	{
+		target = target.parentNode;
+	}
+	
+	return target;
+}
+
 - (NSArray *)childNodes
 {
     return [_childNodes copy];
@@ -126,6 +138,19 @@
 - (void)addAttribute:(HTMLAttribute *)attribute
 {
     [_attributes addObject:attribute];
+}
+
+- (HTMLAttribute*)attributeNamed:(NSString*)name
+{
+	for (HTMLAttribute *attribute in _attributes)
+	{
+		if ([[attribute name] compare:name options:NSCaseInsensitiveSearch])
+		{
+			return attribute;
+		}
+	}
+	
+	return nil;
 }
 
 #pragma mark NSCopying
