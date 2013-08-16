@@ -144,7 +144,7 @@
 {
 	for (HTMLAttribute *attribute in _attributes)
 	{
-		if ([[attribute name] compare:name options:NSCaseInsensitiveSearch])
+		if ([[attribute name] compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame)
 		{
 			return attribute;
 		}
