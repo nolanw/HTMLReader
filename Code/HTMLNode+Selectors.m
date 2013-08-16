@@ -79,19 +79,26 @@ CSSSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
 
 CSSSelectorPredicateGen ofTagTypePredicate(NSString* tagType)
 {
-	return (CSSSelectorPredicate)^(HTMLElementNode *node){
-		
-		return [[node tagName] isEqualToString:tagType];
-		
-	};
+	if ([tagType isEqualToString:@"*"])
+	{
+		return truePredicate();
+	}
+	else
+	{
+		return (CSSSelectorPredicate)^(HTMLElementNode *node){
+			
+			return [[node tagName] isEqualToString:tagType];
+			
+		};
+	}
 }
 
 
-CSSSelectorPredicateGen childOfTagTypePredicate(NSString* tagType)
+CSSSelectorPredicateGen childOfOtherPredicatePredicate(CSSSelectorPredicate parentPredicate)
 {
 	return (CSSSelectorPredicate)^(HTMLElementNode *node){
 		
-		return [node.parentNode isKindOfClass:[HTMLElementNode class]] && [[(HTMLElementNode*)node.parentNode tagName] isEqualToString:tagType];
+		return [node.parentNode isKindOfClass:[HTMLElementNode class]] && parentPredicate((HTMLElementNode*)node.parentNode) == TRUE;
 		
 	};
 }
@@ -415,7 +422,7 @@ NSNumber* parseNumber(NSString *number, int defaultValue)
 }
 
 #pragma mark Parse
-extern struct mb parseNth(NSString *nthString)
+extern struct mb{int m; int b;} parseNth(NSString *nthString)
 {
 	nthString = [[nthString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
@@ -459,8 +466,10 @@ extern struct mb parseNth(NSString *nthString)
 	}
 	else
 	{
+		NSNumber *number = parseNumber(valueSplit[0], 1);
+		
 		//"n" not found, use whole string as b
-		return (struct mb){0, [nthString integerValue]};
+		return (struct mb){0, [number integerValue]};
 	}
 }
 
@@ -603,6 +612,82 @@ static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner
 
 #pragma mark
 
+NSCharacterSet *identifierCharacters()
+{
+	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"*"];
+	
+	[set formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
+	
+	return set;
+}
+
+NSString *scanIdentifier(NSScanner* scanner)
+{
+	NSString *ident;
+	
+	[scanner scanCharactersFromSet:identifierCharacters() intoString:&ident];
+	
+	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+NSString *scanOperator(NSScanner* scanner)
+{
+	NSString *operator;
+	
+	[scanner scanUpToCharactersFromSet:identifierCharacters() intoString:&operator];
+	operator = [operator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	return operator;
+}
+
+//Assumes the scanner is at the position directly after the first [
+CSSSelectorPredicate scanAttributePredicate(NSScanner *scanner)
+{
+	NSString *attributeName = scanIdentifier(scanner);
+	
+	NSString *operator;
+	
+	[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"]"] intoString:&operator];
+	
+	NSString *attributeValue = nil;
+	
+	if ([operator length] == 0)
+	{
+		return hasAttributePredicate(attributeName);
+	}
+	else if ([operator isEqualToString:@"="])
+	{
+		return attributeIsExactlyPredicate(attributeName, attributeValue);
+	}
+	else if ([operator isEqualToString:@"~="])
+	{
+		NSArray *attributeValues = [attributeValue componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		
+		return attributeIsExactlyAnyOf(attributeName, attributeValues);
+	}
+	else if ([operator isEqualToString:@"^="])
+	{
+		return attributeStartsWithPredicate(attributeName, attributeValue);
+	}
+	else if ([operator isEqualToString:@"$="])
+	{
+		return attributeEndsWithPredicate(attributeName, attributeValue);
+	}
+	else if ([operator isEqualToString:@"*="])
+	{
+		return attributeContainsPredicate(attributeName, attributeValue);
+	}
+	else if ([operator isEqualToString:@"|="])
+	{
+		return orCombinatorPredicate(@[attributeIsExactlyPredicate(attributeName, attributeValue),
+									   attributeContainsPredicate(attributeName, [attributeValue stringByAppendingString:@"-"])
+									   ]);
+	}
+	else
+	{
+		return nil;
+	}
+}
 
 
 
@@ -624,57 +709,59 @@ CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
 	[operatorCharacters formUnionWithCharacterSet:whitespaceSet];
 	
 	
-	NSString *firstIdent;
+	NSString *firstIdent = scanIdentifier(scanner);
 	
-	[scanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&firstIdent];
-	firstIdent = [firstIdent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
-	NSString *operator;
-	
-	[scanner scanUpToCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&operator];
-	operator = [operator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSString *operator = scanOperator(scanner);
 	
 	
-	if ([firstIdent length] > 0 && [operator length] == 0)
+	if ([firstIdent length] > 0 && [operator length] == 0 && [scanner isAtEnd])
 	{
-		if ([firstIdent isEqualToString:@"*"])
-		{
-			return truePredicate();
-		}
-		else
-		{
-			return ofTagTypePredicate(firstIdent);
-		}
+		return ofTagTypePredicate(firstIdent);
 	}
 	else
 	{
-		if ([operator length] == 0)
-		{
-			//Whitespace combinator
-			//y descendant of an x
-			//return andCombinatorPredicate(@[ofTagTypePredicate(secondIdent), descendantOfPredicate(ofTagTypePredicate(firstIdent))]);
-		}
-		else if ([operator isEqualToString:@">"])
-		{
-			
-		}
-		else if ([operator isEqualToString:@"+"])
-		{
-			
-		}
-		else if ([operator isEqualToString:@"~"])
-		{
-			
-		}
-		else if ([operator isEqualToString:@":"])
+		if ([operator isEqualToString:@":"])
 		{
 			return andCombinatorPredicate(@[ofTagTypePredicate(firstIdent), predicateFromPseudoClass(scanner)]);
 		}
 		else if ([operator isEqualToString:@"::"])
 		{
+			//Don't impliment :: stuff yet
+			return nil;
+		}
+		else if ([operator isEqualToString:@"["])
+		{
+			scanAttributePredicate(scanner);
+		}
+		else if ([operator length] == 0)
+		{
+			//Whitespace combinator
+			//y descendant of an x
+			return andCombinatorPredicate(@[predicateFromScanner(scanner), descendantOfPredicate(ofTagTypePredicate(firstIdent))]);
+		}
+		else if ([operator isEqualToString:@">"])
+		{
+			andCombinatorPredicate(@[predicateFromScanner(scanner), childOfOtherPredicatePredicate(ofTagTypePredicate(firstIdent))]);
+		}
+		else if ([operator isEqualToString:@"+"])
+		{
+			andCombinatorPredicate(@[predicateFromScanner(scanner), adjacentSiblingPredicate(ofTagTypePredicate(firstIdent))]);
+		}
+		else if ([operator isEqualToString:@"~"])
+		{
+			andCombinatorPredicate(@[predicateFromScanner(scanner), generalSiblingPredicate(ofTagTypePredicate(firstIdent))]);
+		}
+		else if ([operator isEqualToString:@"."])
+		{
+			NSString *className = scanIdentifier(scanner);
+			return isKindOfClassPredicate(className);
 			
 		}
-		
+		else if ([operator isEqualToString:@"#"])
+		{
+			NSString *idName = scanIdentifier(scanner);
+			return hasIDPredicate(idName);
+		}
 	}
 	
 	
@@ -695,7 +782,7 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 
 @interface CSSSelector ()
 {
-	@public
+@public
 	CSSSelectorPredicate predicate;
 	
 	NSString *_parsedString;

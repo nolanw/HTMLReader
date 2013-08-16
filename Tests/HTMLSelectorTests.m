@@ -11,6 +11,14 @@
 #import "HTMLParser.h"
 #import "HTMLNode+Selectors.h"
 
+extern struct mb {int m; int b;} parseNth(NSString *nthString);
+
+@interface CSSSelector (Private)
+
+@property (readonly) NSString *parsedEquivalent;
+
+@end
+
 @interface HTMLSelectorTests : XCTestCase
 {
 	HTMLDocument *testDoc;
@@ -26,8 +34,9 @@
 
 	testDoc = [HTMLParser documentForString:@"<root>\
 			   \
-			   <elem id='empty'></elem>\
+			   <parent id='empty'></parent>\
 			   \
+			   <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
 			   \
 			   </root>"];
 }
@@ -71,19 +80,29 @@
 {
 	CSSSelector *selector = [CSSSelector selectorForString:selectorString];
 	
+	//Deal with parsed selector, when/if implemented
 	parsedSelector = nil;
 	//XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector);
 	
 	NSArray *returnedNodes = [testDoc nodesForSelector:selector];
 	NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"];
 	
-	XCTAssertEqualObjects(returnedIds, expectedIds, @"Test empty failed");
+	XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString);
 
 }
 
 - (void)testSelectors
 {
+	//Test grandchild chaining, as described in http://www.w3.org/TR/css3-selectors/#descendant-combinators
+	//"root * elem" == <root><*any*><elem/></*any></root>
+	[self testSelector:@"root * elem" withExpectedParsedSelector:@"img * elem" andExpectedIds:@[@"only-child"]];
+
+	
 	[self testSelector:@"elem:empty" withExpectedParsedSelector:@"elem:empty" andExpectedIds:@[@"empty"]];
+
+
+	
+	SelectorFunctionForString(@"img * elem");
 
 	
 	SelectorFunctionForString(@"img:last-of-type");
@@ -108,6 +127,7 @@
 
 
 	
+
 	
 	
 	SelectorFunctionForString(@"E[foo*=\"bar\"]");
