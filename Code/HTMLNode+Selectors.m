@@ -7,44 +7,14 @@
 //
 
 #import "HTMLNode+Selectors.h"
-#import "selector-tokenizer.h"
-#import "selector-enum.h"
 
 
 #define CSSSelectorPredicateGen CSSSelectorPredicate
 
 
-//@protocol CSSSelectorPredicate <NSObject>
-//
-//-(BOOL)nodePassesPredicate:(HTMLElementNode*)node;
-//
-//@end
-//
-//
-//@interface Thing : NSObject<CSSSelectorPredicate>  @end
-
-
-
-/*
- 
- group -> selector [ COMMA S* selector ]*
- 
- simple_selector_sequence
- : [ type_selector | universal ]
- [ HASH | class | attrib | pseudo | negation ]*
- | [ HASH | class | attrib | pseudo | negation ]+
- ;
- 
- 
- */
-
-
-
-
-
 CSSSelectorPredicateGen truePredicate()
 {
-	#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 	return (CSSSelectorPredicate)^(HTMLElementNode *node)
 	{
 		return TRUE;
@@ -53,7 +23,7 @@ CSSSelectorPredicateGen truePredicate()
 
 CSSSelectorPredicateGen falsePredicate()
 {
-	#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 	return (CSSSelectorPredicate)^(HTMLElementNode *node)
 	{
 		return FALSE;
@@ -251,21 +221,21 @@ CSSSelectorPredicateGen isDisabledPredicate()
 CSSSelectorPredicateGen isEnabledPredicate()
 {
 	return negatePredicate(isDisabledPredicate());
-
+	
 }
 
 CSSSelectorPredicateGen isCheckedPredicate()
 {
 	return orCombinatorPredicate(@[hasAttributePredicate(@"checked"), hasAttributePredicate(@"selected")]);
 }
-								   
+
 
 #pragma mark Sibling Predicates
 
 CSSSelectorPredicateGen adjacentSiblingPredicate(CSSSelectorPredicate siblingTest)
 {
 	return (CSSSelectorPredicate)^(HTMLNode *node){
-
+		
 		NSArray *parentChildren = [node parentNode].childNodes;
 		
 		uint nodeIndex = [parentChildren indexOfObject:node];
@@ -332,22 +302,29 @@ CSSSelectorPredicateGen isNthChildPredicate(int m, int b, BOOL fromLast)
 
 CSSSelectorPredicateGen isNthChildOfTypePredicate(int m, int b, BOOL fromLast)
 {
-	return (CSSSelectorPredicate)^(HTMLNode *node){
+	return (CSSSelectorPredicate)^BOOL (HTMLElementNode *node){
 		
 		NSEnumerator *enumerator = fromLast ? [[node parentNode].childNodes reverseObjectEnumerator] : [[node parentNode].childNodes objectEnumerator];
-		
-		NSMutableArray *ret = [NSMutableArray new];
 		
 		int count = 0;
 		HTMLElementNode *currentNode;
 		
 		while (currentNode = [enumerator nextObject])
 		{
-			BOOL validIndex;
+			if ([[currentNode tagName] compare:[node tagName] options:NSCaseInsensitiveSearch] == NSOrderedSame)
+			{
+				count++;
+			}
 			
-			count++;
+			if (currentNode == node)
+			{
+				//check if the current node is the nth element of its type
+				//based on the current count
+				return (count - b) % m == 0;
+			}
+			
 		}
-	
+		
 		return NO;
 	};
 	
@@ -384,7 +361,7 @@ CSSSelectorPredicateGen isLastChildOfTypePredicate()
 CSSSelectorPredicateGen isOnlyChildPredicate()
 {
 	return (CSSSelectorPredicate)^(HTMLNode *node){
-
+		
 		return [node.parentNode childNodes].count == 1;
 		
 	};
@@ -511,22 +488,22 @@ static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner
 	dispatch_once(&onceToken, ^{
 		
 		simplePseudos = @{
-					   @"first-child": isFirstChildPredicate(),
-					   @"last-child": isLastChildPredicate(),
-					   @"only-child": isOnlyChildPredicate(),
-					   
-					   @"first-of-type": isFirstChildOfTypePredicate(),
-					   @"last-of-type": isLastChildOfTypePredicate(),
-					   @"only-of-type": isOnlyChildOfTypePredicate(),
-					   
-					   @"empty": isEmptyPredicate(),
-					   @"root": isRootPredicate(),
-					   
-					   @"enabled": isEnabledPredicate(),
-					   @"disabled": isDisabledPredicate(),
-					   @"checked": isCheckedPredicate()
-					   
-					   };
+						  @"first-child": isFirstChildPredicate(),
+						  @"last-child": isLastChildPredicate(),
+						  @"only-child": isOnlyChildPredicate(),
+						  
+						  @"first-of-type": isFirstChildOfTypePredicate(),
+						  @"last-of-type": isLastChildOfTypePredicate(),
+						  @"only-of-type": isOnlyChildOfTypePredicate(),
+						  
+						  @"empty": isEmptyPredicate(),
+						  @"root": isRootPredicate(),
+						  
+						  @"enabled": isEnabledPredicate(),
+						  @"disabled": isDisabledPredicate(),
+						  @"checked": isCheckedPredicate()
+						  
+						  };
 		
 #define WRAP(funct) (^CSSSelectorPredicate (struct mb input){ int m=input.m; int b=input.b; return funct; })
 		
@@ -545,7 +522,7 @@ static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner
 	if (simple) {
 		return simple;
 	}
-		
+	
 	CSSThing nth = nthPseudos[pseudo];
 	if (nth) {
 		struct mb output = parseNth(scanFunctionInterior(pseudoScanner));
@@ -623,10 +600,10 @@ NSArray* filterWithPredicate(NSEnumerator *nodes, CSSSelectorPredicate predicate
 
 
 CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
-{	
+{
 	//Spec at:
 	//http://www.w3.org/TR/css3-selectors/
-		
+	
 	//Spec: Only the characters "space" (U+0020), "tab" (U+0009), "line feed" (U+000A), "carriage return" (U+000D), and "form feed" (U+000C) can occur in whitespace
 	//
 	//whitespaceAndNewlineCharacterSet == (U+0020) and tab (U+0009) and the newline and nextline characters (U+000A–U+000D, U+0085).
@@ -639,7 +616,7 @@ CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
 	NSMutableCharacterSet *operatorCharacters = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~.:#["];
 	[operatorCharacters formUnionWithCharacterSet:whitespaceSet];
 	
-
+	
 	NSString *firstIdent;
 	
 	[scanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&firstIdent];
@@ -690,46 +667,10 @@ CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
 		{
 			
 		}
-			
+		
 	}
 	
 	
-	return nil;
-	
-
-//	 char selectorChars[1000];
-//	 NSUInteger length;
-//	 
-//	 //Currently only supports ASCII characters
-//	 //will need a Unicode Flex build to use anything else: http://csliu.com/2009/04/unicode-support-in-flex/
-//	 [selectorString getBytes:selectorChars maxLength:1000 usedLength:&length encoding:NSASCIIStringEncoding options:0 range:NSMakeRange(0, [selectorString length]) remainingRange:nil];
-//	 
-//	 yyscan_t scanner;
-//	 SelectorTokenType token;
-//	 
-//	 yylex_init(&scanner);
-//	 
-//	 //YY_BUFFER_STATE buffer = yy_scan_buffer(, length, scanner);
-//	 
-//	 yy_scan_string(selectorChars, scanner);
-//	 
-//	 char * tagA = nil;
-//	 char * tagB = nil;
-//	 char * operator = nil;
-//	 
-//	 while ((token=yylex(scanner)) > 0)
-//	 {
-//	 char * text = yyget_text(scanner);
-//	 
-//	 printf("tok=%d  yytext=%s\n", token, text);
-//	 
-//	 }
-//	 
-//	 
-//	 yylex_destroy(scanner);
-//	 
-	 
-	 
 	return nil;
 }
 
@@ -758,74 +699,3 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 }
 
 @end
-
-
-
-
-
-/*
-
- //flex --noyywrap --batch --never-interactive --noline --reentrant --header-file="selector-tokenizer.h" --outfile="selector-tokenizer.c" --prefix=sel
-
- 
-
- %option case-insensitive batch never-interactive noline noyywrap reentrant  header-file="selector-tokenizer.h" outfile="selector-tokenizer.c"
- 
- ident     [-]?{nmstart}{nmchar}*
- name      {nmchar}+
- nmstart   [_a-z]|{nonascii}|{escape}
- nonascii  [^\0-\177]
- unicode   \\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
- escape    {unicode}|\\[^\n\r\f0-9a-f]
- nmchar    [_a-z0-9-]|{nonascii}|{escape}
- num       [0-9]+|[0-9]*\.[0-9]+
- string    {string1}|{string2}
- string1   \"([^\n\r\f\\"]|\\{nl}|{nonascii}|{escape})*\"
- string2   \'([^\n\r\f\\']|\\{nl}|{nonascii}|{escape})*\'
- invalid   {invalid1}|{invalid2}
- invalid1  \"([^\n\r\f\\"]|\\{nl}|{nonascii}|{escape})*
- invalid2  \'([^\n\r\f\\']|\\{nl}|{nonascii}|{escape})*
- nl        \n|\r\n|\r|\f
- w         [ \t\r\n\f]*
- 
- D         d|\\0{0,4}(44|64)(\r\n|[ \t\r\n\f])?
- E         e|\\0{0,4}(45|65)(\r\n|[ \t\r\n\f])?
- N         n|\\0{0,4}(4e|6e)(\r\n|[ \t\r\n\f])?|\\n
- O         o|\\0{0,4}(4f|6f)(\r\n|[ \t\r\n\f])?|\\o
- T         t|\\0{0,4}(54|74)(\r\n|[ \t\r\n\f])?|\\t
- V         v|\\0{0,4}(58|78)(\r\n|[ \t\r\n\f])?|\\v
- 
- %%
- 
- [ \t\r\n\f]+     return SPACE;
- 
- "~="             return INCLUDES;
- "|="             return DASHMATCH;
- "^="             return PREFIXMATCH;
- "$="             return SUFFIXMATCH;
- "*="             return SUBSTRINGMATCH;
- {ident}          return IDENT;
- {string}         return STRING;
- {ident}"("       return FUNCTION;
- {num}            return NUMBER;
- "#"{name}        return HASH;
- {w}"+"           return PLUS;
- {w}">"           return GREATER;
- {w}","           return COMMA;
- {w}"~"           return TILDE;
- ":"{N}{O}{T}"("  return NOT;
- @{ident}         return ATKEYWORD;
- {invalid}        return INVALID;
- {num}%           return PERCENTAGE;
- {num}{ident}     return DIMENSION;
- "<!--"           return CDO;
- "-->"            return CDC;
- 
- \/\*[^*]*\*+([^/*][^*]*\*+)*\/
-
-.                return *yytext;
-
-
-
-
-*/
