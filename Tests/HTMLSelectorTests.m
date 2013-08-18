@@ -32,11 +32,13 @@ extern struct mb {int m; int b;} parseNth(NSString *nthString);
 {
     [super setUp];
 
-	testDoc = [HTMLParser documentForString:@"<root>\
+	testDoc = [HTMLParser documentForString:@"<root id='root'>\
 			   \
 			   <parent id='empty'></parent>\
 			   \
 			   <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
+			   \
+			   <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>\
 			   \
 			   </root>"];
 }
@@ -76,64 +78,65 @@ extern struct mb {int m; int b;} parseNth(NSString *nthString);
 }
 
 
--(void)testSelector:(NSString *)selectorString withExpectedParsedSelector:(NSString *)parsedSelector andExpectedIds:(NSArray *)expectedIds
-{
-	CSSSelector *selector = [CSSSelector selectorForString:selectorString];
-	
-	//Deal with parsed selector, when/if implemented
-	parsedSelector = nil;
-	//XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector);
-	
-	NSArray *returnedNodes = [testDoc nodesForSelector:selector];
-	NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"];
-	
-	XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString);
-
+#define TestSelector(selectorString, parsedSelector, expectedIds, name) -(void)test##name {\
+CSSSelector *selector = [CSSSelector selectorForString:selectorString];\
+/*Deal with parsed selector, when/if implemented*/ \
+/*XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector);*/\
+NSArray *returnedNodes = [testDoc nodesForSelector:selector];\
+NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"];\
+XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString);\
 }
 
-- (void)testSelectors
-{
-	//Test grandchild chaining, as described in http://www.w3.org/TR/css3-selectors/#descendant-combinators
-	//"root * elem" == <root><*any*><elem/></*any></root>
-	[self testSelector:@"root * elem" withExpectedParsedSelector:@"img * elem" andExpectedIds:@[@"only-child"]];
-
-	
-	[self testSelector:@"elem:empty" withExpectedParsedSelector:@"elem:empty" andExpectedIds:@[@"empty"]];
 
 
-	
-	SelectorFunctionForString(@"img * elem");
+TestSelector(@"root", @"root", @[@"root"], RootElementCheck)
+TestSelector(@"parent", @"parent", (@[@"empty", @"one-child", @"three-children"]), ParentElementsCheck)
+TestSelector(@"elem", @"elem", (@[@"only-child", @"child1", @"child3"]), ElemElementsCheck)
+TestSelector(@"other", @"other", (@[@"child2"]), OtherElementCheck)
 
-	
-	SelectorFunctionForString(@"img:last-of-type");
+//Any tag type with a parent of type "parent"
+TestSelector(@"parent *", @"parent *", (@[@"only-child", @"child1", @"child2", @"child3"]), ParentCheck)
 
-	
+//Test grandchild chaining, as described in http://www.w3.org/TR/css3-selectors/#descendant-combinators
+//"root * elem" == <root><*any*><elem/></*any></root>
+TestSelector(@"root * elem", @"root * elem", (@[@"only-child", @"child1", @"child3"]), GrandparentCheck)
+			 
 
-	
-	SelectorFunctionForString(@"img:not(div)");
-	
-	SelectorFunctionForString(@"*");
-	
-	SelectorFunctionForString(@"div");
+TestSelector(@"parent:empty", @"elem:empty", (@[@"empty"]), EmptyElement);
 
-	
+TestSelector(@"elem:first-of-type", @"elem:first-of-type", (@[@"only-child", @"child1"]), FirstOfTypeElem)
 
-	
-	SelectorFunctionForString(@"img ~ div");
-	
-	SelectorFunctionForString(@"img~div");
-	
-	SelectorFunctionForString(@"img div");
+TestSelector(@"elem:last-of-type", @"elem:last-of-type", (@[@"only-child", @"child3"]), LastOfTypeElem)
+
+TestSelector(@"other:first-of-type", @"other:first-of-type", (@[@"child2"]), FirstOfTypeOther)
+
+TestSelector(@"other:first-of-type", @"other:first-of-type", (@[@"child2"]), LastOfTypeOther)
 
 
-	
+TestSelector(@"elem+other", @"other+elem", (@[@"child2"]), AdjacentSiblingOtherFromElem)
 
-	
-	
-	SelectorFunctionForString(@"E[foo*=\"bar\"]");
+TestSelector(@"other+elem", @"other+elem", (@[@"child3"]), AdjacentSiblingElemFromOther)
 
-	SelectorFunctionForString(@"Efoo*=\"bar\"]");
-	
-}
+TestSelector(@"elem~elem", @"other~elem", (@[@"child3"]), GeneralSiblingElemFromElem)
+
+TestSelector(@"elem#child1", @"elem#child1", (@[@"child1"]), IDCheckChild1)
+
+
+TestSelector(@"elem:not(elem#only-child)", @"elem#only-child", (@[@"child1", @"child3"]), NotTest)
+
+
+
+/*
+ 
+ 
+ [CSSSelector selectorForString:@"img"]);
+ 
+ 
+ 
+ [CSSSelector selectorForString:@"E[foo*=\"bar\"]"]);
+ 
+ [CSSSelector selectorForString:@"Efoo*=\"bar\"]"]);
+ 
+ */
 
 @end
