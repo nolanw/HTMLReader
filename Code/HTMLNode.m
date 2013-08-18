@@ -125,6 +125,13 @@
     return [[self.class allocWithZone:zone] init];
 }
 
+- (id)valueForKey:(NSString *)key
+{
+	//If the key is in the format "[key]" get the attribute value for "key"
+	if ([key hasPrefix:@"["] && [key hasSuffix:@"]"]) return [NSNull null];
+	else return [super valueForKey:key];
+}
+
 @end
 
 @implementation HTMLElementNode
