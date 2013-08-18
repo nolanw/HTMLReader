@@ -16,7 +16,8 @@
 //Returns nil on error
 + (HTMLDocument*)documentForString:(NSString *)string;
 
-//Shortcut for initWithString
+
+//Shortcut initializer for using the HTML parsing algorithm.
 + (instancetype)parserForString:(NSString *)string;
 
 // Designated initializer for using the HTML parsing algorithm.
@@ -25,7 +26,10 @@
 
 // Designated initializer for using the HTML fragment parsing algorithm. context may be nil.
 - (id)initWithString:(NSString *)string context:(HTMLElementNode *)context;
+
+//Shortcut initializer for using the HTML fragment parsing algorithm. context may be nil.
 + (instancetype)parserForString:(NSString *)string context:(HTMLElementNode *)context;
+
 
 @property (readonly, copy, nonatomic) NSArray *errors;
 
