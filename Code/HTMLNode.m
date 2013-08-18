@@ -72,6 +72,21 @@
     }
 }
 
+-(NSArray *)childElementNodes
+{
+	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:_childNodes.count];
+	
+	for (id node in _childNodes)
+	{
+		if ([node isKindOfClass:[HTMLElementNode class]])
+		{
+			[ret addObject:node];
+		}
+	}
+	
+	return ret;
+}
+
 - (NSEnumerator *)treeEnumerator
 {
     return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:NO];
