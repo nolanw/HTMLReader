@@ -7,3 +7,4 @@
 
 #import "HTMLDocument.h"
 #import "HTMLNode.h"
+#import "HTMLSelector.h"

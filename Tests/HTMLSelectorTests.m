@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "HTMLParser.h"
-#import "HTMLNode+Selectors.h"
+#import "HTMLSelector.h"
 
 extern struct mb {int m; int b;} parseNth(NSString *nthString);
 
