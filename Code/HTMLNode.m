@@ -10,7 +10,7 @@
 
 @interface HTMLTreeEnumerator : NSEnumerator
 
-- (id)initWithNode:(HTMLNode *)node;
+- (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed;
 
 @property (readonly, nonatomic) HTMLNode *node;
 
@@ -26,6 +26,18 @@
     if (!(self = [super init])) return nil;
     _childNodes = [NSMutableArray new];
     return self;
+}
+
+-(HTMLNode *)rootNode
+{
+	HTMLNode *target = self;
+	
+	while (target.parentNode != nil)
+	{
+		target = target.parentNode;
+	}
+	
+	return target;
 }
 
 - (NSArray *)childNodes
@@ -62,7 +74,12 @@
 
 - (NSEnumerator *)treeEnumerator
 {
-    return [[HTMLTreeEnumerator alloc] initWithNode:self];
+    return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:NO];
+}
+
+-(NSEnumerator *)reversedTreeEnumerator
+{
+	return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:YES];
 }
 
 - (NSString *)recursiveDescription
@@ -113,6 +130,8 @@
     return [self initWithTagName:nil];
 }
 
+#pragma mark Element Attributes
+
 - (NSArray *)attributes
 {
     return [_attributes copy];
@@ -121,6 +140,26 @@
 - (void)addAttribute:(HTMLAttribute *)attribute
 {
     [_attributes addObject:attribute];
+}
+
+- (HTMLAttribute*)attributeNamed:(NSString*)name
+{
+	for (HTMLAttribute *attribute in _attributes)
+	{
+		if ([[attribute name] compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame)
+		{
+			return attribute;
+		}
+	}
+	
+	return nil;
+}
+
+- (id)valueForKey:(NSString *)key
+{
+	//If the key is in the format "[key]" get the attribute value for "key"
+	if ([key hasPrefix:@"["] && [key hasSuffix:@"]"]) return [self attributeNamed:[key substringWithRange:NSMakeRange(1, key.length - 2)]].value;
+	else return [super valueForKey:key];
 }
 
 #pragma mark NSCopying
@@ -276,13 +315,15 @@
 
 @implementation HTMLTreeEnumerator
 {
+	BOOL _isReversed;
     NSIndexPath *_nextNodePath;
 }
 
-- (id)initWithNode:(HTMLNode *)node
+- (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed
 {
     if (!(self = [super init])) return nil;
     _node = node;
+	_isReversed = reversed;
     return self;
 }
 
@@ -294,7 +335,8 @@
         return currentNode;
     }
     for (NSUInteger i = 0; i < [_nextNodePath length] - 1; i++) {
-        currentNode = currentNode.childNodes[[_nextNodePath indexAtPosition:i]];
+		int index = _isReversed ?  [currentNode childNodes].count - [_nextNodePath indexAtPosition:i] - 1 : [_nextNodePath indexAtPosition:i];
+        currentNode = currentNode.childNodes[index];
     }
     NSUInteger lastIndex = [_nextNodePath indexAtPosition:[_nextNodePath length] - 1];
     if (lastIndex >= [currentNode.childNodes count]) {
@@ -305,7 +347,8 @@
         return [self nextObject];
     }
     _nextNodePath = [_nextNodePath indexPathByAddingIndex:0];
-    return currentNode.childNodes[lastIndex];
+	int index = _isReversed ?  [currentNode childNodes].count - lastIndex - 1 :lastIndex;
+    return currentNode.childNodes[index];
 }
 
 @end

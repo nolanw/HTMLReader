@@ -19,12 +19,16 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 
 @property (readonly, weak, nonatomic) HTMLNode *parentNode;
 
-@property (readonly, copy, nonatomic) NSArray *childNodes;
+@property (readonly, strong, nonatomic) HTMLNode *rootNode;
+@property (readonly, strong, nonatomic) HTMLNode *parentNode;
+@property (copy, nonatomic) NSArray *childNodes;
+
 - (void)appendChild:(HTMLNode *)child;
 - (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
 - (void)removeChild:(HTMLNode *)child;
 
 - (NSEnumerator *)treeEnumerator;
+- (NSEnumerator *)reversedTreeEnumerator;
 
 - (NSString *)recursiveDescription;
 
@@ -39,6 +43,7 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 
 @property (readonly, copy, nonatomic) NSArray *attributes;
 - (void)addAttribute:(HTMLAttribute *)attribute;
+- (HTMLAttribute *)attributeNamed:(NSString*)name;
 
 @property (nonatomic) HTMLNamespace namespace;
 

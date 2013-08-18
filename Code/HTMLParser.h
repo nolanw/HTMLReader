@@ -12,11 +12,20 @@
 // The tree construction stage of parsing HTML.
 @interface HTMLParser : NSObject
 
+//Parses a document and returns it
+//Returns nil on error
++ (HTMLDocument*)documentForString:(NSString *)string;
+
+//Shortcut for initWithString
++ (instancetype)parserForString:(NSString *)string;
+
 // Designated initializer for using the HTML parsing algorithm.
 - (id)initWithString:(NSString *)string;
 
+
 // Designated initializer for using the HTML fragment parsing algorithm. context may be nil.
 - (id)initWithString:(NSString *)string context:(HTMLElementNode *)context;
++ (instancetype)parserForString:(NSString *)string context:(HTMLElementNode *)context;
 
 @property (readonly, copy, nonatomic) NSArray *errors;
 
