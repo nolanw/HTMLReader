@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 @property (readonly, weak, nonatomic) HTMLNode *parentNode;
 
 @property (readonly, strong, nonatomic) HTMLNode *rootNode;
-@property (readonly, strong, nonatomic) HTMLNode *parentNode;
+
 @property (copy, nonatomic) NSArray *childNodes;
 
 - (void)appendChild:(HTMLNode *)child;
