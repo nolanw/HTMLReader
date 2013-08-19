@@ -157,9 +157,25 @@ HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
 	return attributeIsExactlyPredicate(@"id", idValue);
 }
 
+HTMLSelectorPredicateGen isFormControlPredicate(void)
+{
+    // I couldn't find this list written out anywhere, so I wrote down any elements in the "Forms" section of the HTML spec that have a "disabled" attribute.
+    NSArray *tagNames = @[ @"input", @"button", @"select", @"optgroup", @"option", @"textarea", @"keygen" ];
+    NSMutableArray *predicates = [NSMutableArray new];
+    for (NSString *tagName in tagNames) {
+        [predicates addObject:ofTagTypePredicate(tagName)];
+    }
+    return orCombinatorPredicate(predicates);
+}
+
 HTMLSelectorPredicateGen isDisabledPredicate()
 {
-	return orCombinatorPredicate(@[hasAttributePredicate(@"disabled"), negatePredicate(hasAttributePredicate(@"enabled"))]);
+    // TODO finish implementing this per the HTML spec http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#concept-fe-disabled
+    // (namely the part about the first <legend> child)
+    HTMLSelectorPredicate descendantOfDisabledFieldset = descendantOfPredicate(andCombinatorPredicate(ofTagTypePredicate(@"fieldset"), hasAttributePredicate(@"disabled")));
+    return andCombinatorPredicate(isFormControlPredicate(),
+                                  orCombinatorPredicate(@[hasAttributePredicate(@"disabled"),
+                                                          descendantOfDisabledFieldset]));
 }
 
 HTMLSelectorPredicateGen isEnabledPredicate()
