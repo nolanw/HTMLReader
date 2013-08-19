@@ -12,7 +12,7 @@
 
 extern struct mb {int m; int b;} parseNth(NSString *nthString);
 
-@interface CSSSelector (Private)
+@interface HTMLSelector (Private)
 
 @property (readonly) NSString *parsedEquivalent;
 
@@ -78,7 +78,7 @@ extern struct mb {int m; int b;} parseNth(NSString *nthString);
 
 
 #define TestSelector(selectorString, parsedSelector, expectedIds, name) -(void)test##name {\
-CSSSelector *selector = [CSSSelector selectorForString:selectorString];\
+HTMLSelector *selector = [HTMLSelector selectorForString:selectorString];\
 /*Deal with parsed selector, when/if implemented*/ \
 /*XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector);*/\
 NSArray *returnedNodes = [testDoc nodesForSelector:selector];\
