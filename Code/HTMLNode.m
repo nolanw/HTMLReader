@@ -72,6 +72,21 @@
     }
 }
 
+-(NSArray *)childElementNodes
+{
+	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:_childNodes.count];
+	
+	for (id node in _childNodes)
+	{
+		if ([node isKindOfClass:[HTMLElementNode class]])
+		{
+			[ret addObject:node];
+		}
+	}
+	
+	return ret;
+}
+
 - (NSEnumerator *)treeEnumerator
 {
     return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:NO];
@@ -108,6 +123,13 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     return [[self.class allocWithZone:zone] init];
+}
+
+- (id)valueForKey:(NSString *)key
+{
+	//If the key is in the format "[key]" get the attribute value for "key"
+	if ([key hasPrefix:@"["] && [key hasSuffix:@"]"]) return [NSNull null];
+	else return [super valueForKey:key];
 }
 
 @end

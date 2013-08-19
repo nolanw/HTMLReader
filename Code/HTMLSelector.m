@@ -9,6 +9,8 @@
 
 typedef CSSSelectorPredicate CSSSelectorPredicateGen;
 
+extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString,  NSString **parsedStringPointer, NSError **errorPointer);
+
 CSSSelectorPredicateGen truePredicate()
 {
 	return ^(__unused HTMLElementNode *node) {
@@ -44,6 +46,15 @@ CSSSelectorPredicateGen andCombinatorPredicate(NSArray *predicates)
 	};
 }
 
+//Same thing as andCombinatorPredicate, but without a loop
+CSSSelectorPredicateGen bothCombinatorPredicate(CSSSelectorPredicate a, CSSSelectorPredicate b)
+{
+	return (CSSSelectorPredicate)^(HTMLElementNode *node)
+	{
+		return a(node) && b(node);
+	};
+}
+
 CSSSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
 {
 	return ^(HTMLElementNode *node) {
@@ -61,8 +72,8 @@ CSSSelectorPredicateGen ofTagTypePredicate(NSString *tagType)
 	if ([tagType isEqualToString:@"*"]) {
 		return truePredicate();
 	} else {
-		return ^(HTMLElementNode *node) {
-			return [[node tagName] isEqualToString:tagType];
+		return ^BOOL(HTMLElementNode *node) {
+			return [node isKindOfClass:[HTMLElementNode class]] && [[node tagName] isEqualToString:tagType];
 		};
 	}
 }
@@ -94,7 +105,7 @@ CSSSelectorPredicateGen isEmptyPredicate()
 {
 	//TODO breaks if comments are present
 	return ^BOOL(HTMLElementNode *node) {
-		return [node childNodes].count == 0;
+		return [node childElementNodes].count == 0;
 	};
 }
 
@@ -189,7 +200,7 @@ CSSSelectorPredicateGen isCheckedPredicate()
 CSSSelectorPredicateGen adjacentSiblingPredicate(CSSSelectorPredicate siblingTest)
 {
 	return ^BOOL(HTMLNode *node) {
-		NSArray *parentChildren = node.parentNode.childNodes;
+		NSArray *parentChildren = [node parentNode].childElementNodes;
 		NSUInteger nodeIndex = [parentChildren indexOfObject:node];
 		return nodeIndex != 0 && siblingTest([parentChildren objectAtIndex:nodeIndex - 1]);
 	};
@@ -198,7 +209,7 @@ CSSSelectorPredicateGen adjacentSiblingPredicate(CSSSelectorPredicate siblingTes
 CSSSelectorPredicateGen generalSiblingPredicate(CSSSelectorPredicate siblingTest)
 {
 	return ^(HTMLNode *node) {
-		for (HTMLNode *sibling in node.parentNode.childNodes) {
+		for (HTMLNode *sibling in node.parentNode.childElementNodes) {
 			if ([sibling isEqual:node]) {
 				break;
 			}
@@ -215,12 +226,13 @@ CSSSelectorPredicateGen generalSiblingPredicate(CSSSelectorPredicate siblingTest
 CSSSelectorPredicateGen isNthChildPredicate(int m, int b, BOOL fromLast)
 {
 	return ^BOOL(HTMLNode *node) {
+		NSArray *parentElements = node.parentNode.childElementNodes;
 		//Index relative to start/end
 		NSInteger nthPosition;
 		if (fromLast) {
-			nthPosition = [[node parentNode].childNodes indexOfObject:node] + 1;
+			nthPosition = [parentElements indexOfObject:node] + 1;
 		} else {
-			nthPosition = [[node parentNode].childNodes count] - [[node parentNode].childNodes indexOfObject:node];
+			nthPosition = [parentElements count] - [parentElements indexOfObject:node];
 		}
 		return (nthPosition - b) % m == 0;
 	};
@@ -229,7 +241,7 @@ CSSSelectorPredicateGen isNthChildPredicate(int m, int b, BOOL fromLast)
 CSSSelectorPredicateGen isNthChildOfTypePredicate(int m, int b, BOOL fromLast)
 {
 	return ^BOOL(HTMLElementNode *node) {
-		NSEnumerator *enumerator = fromLast ? [[node parentNode].childNodes reverseObjectEnumerator] : [[node parentNode].childNodes objectEnumerator];
+		NSEnumerator *enumerator = fromLast ? [[node parentNode].childElementNodes reverseObjectEnumerator] : [[node parentNode].childElementNodes objectEnumerator];
 		
 		NSInteger count = 0;
 		;
@@ -241,7 +253,14 @@ CSSSelectorPredicateGen isNthChildOfTypePredicate(int m, int b, BOOL fromLast)
 			if ([currentNode isEqual:node]) {
 				//check if the current node is the nth element of its type
 				//based on the current count
-				return (count - b) % m == 0;
+				if (m > 0)
+				{
+					return (count - b) % m == 0;
+				}
+				else
+				{
+					return (count - b) == 0;
+				}
 			}
 		}
 		return NO;
@@ -260,11 +279,7 @@ CSSSelectorPredicateGen isLastChildPredicate()
 
 CSSSelectorPredicateGen isFirstChildOfTypePredicate()
 {
-    // TODO this first return looks wrong
-	return ^BOOL(HTMLNode *node) {
-		return [node.parentNode childNodes].count == 1;
-	};
-	return isNthChildOfTypePredicate(0, 1, NO);
+	return isNthChildOfTypePredicate(0, 1, NO);	
 }
 
 CSSSelectorPredicateGen isLastChildOfTypePredicate()
@@ -277,17 +292,16 @@ CSSSelectorPredicateGen isLastChildOfTypePredicate()
 CSSSelectorPredicateGen isOnlyChildPredicate()
 {
 	return ^BOOL(HTMLNode *node) {
-		return [node.parentNode childNodes].count == 1;
+		return [node.parentNode childElementNodes].count == 1;
 	};
 }
 
 CSSSelectorPredicateGen isOnlyChildOfTypePredicate()
 {
 	return ^(HTMLElementNode *node) {
-		for (HTMLNode *sibling in [node.parentNode childNodes]) {
+		for (HTMLElementNode *sibling in [node.parentNode childElementNodes]) {
 			if (![sibling isEqual:node] &&
-                [sibling isKindOfClass:[HTMLElementNode class]] &&
-                [[(HTMLElementNode*)sibling tagName] isEqualToString:node.tagName]) {
+                [[sibling tagName] isEqualToString:node.tagName]) {
 				return NO;
 			}
 		}
@@ -381,7 +395,7 @@ static NSString* scanFunctionInterior(NSScanner *functionScanner)
 	return interior;;
 }
 
-static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner)
+static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner, __unused NSString **parsedStringPointer, __unused NSError **errorPointer)
 {
 	typedef CSSSelectorPredicate (^CSSThing)(struct mb inputs);
 	
@@ -444,57 +458,33 @@ static CSSSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner
 	
 	if ([pseudo isEqualToString:@"not"]) {
 		NSString *toNegateString = scanFunctionInterior(pseudoScanner);
-		CSSSelectorPredicate toNegate = SelectorFunctionForString(toNegateString);
+		NSError *error = nil;
+		NSString *string = nil;
+		CSSSelectorPredicate toNegate = SelectorFunctionForString(toNegateString, &string, &error);
 		return negatePredicate(toNegate);
 	}
 	
 	return nil;
 }
 
-/*
- 
- //E:root	an E element, root of the document	Structural pseudo-classes	3
- //E:nth-child(n)	an E element, the n-th child of its parent	Structural pseudo-classes	3
- //E:nth-last-child(n)	an E element, the n-th child of its parent, counting from the last one	Structural pseudo-classes	3
- //E:nth-of-type(n)	an E element, the n-th sibling of its type	Structural pseudo-classes	3
- //E:nth-last-of-type(n)	an E element, the n-th sibling of its type, counting from the last one	Structural pseudo-classes	3
- // E:first-child	an E element, first child of its parent	Structural pseudo-classes	2
- //E:last-child	an E element, last child of its parent	Structural pseudo-classes	3
- //E:first-of-type	an E element, first sibling of its type	Structural pseudo-classes	3
- //E:last-of-type	an E element, last sibling of its type	Structural pseudo-classes	3
- //E:only-child	an E element, only child of its parent	Structural pseudo-classes	3
- //E:only-of-type	an E element, only sibling of its type	Structural pseudo-classes	3
- //E:empty	an E element that has no children (including text nodes)	Structural pseudo-classes	3
- E:link
- E:visited	an E element being the source anchor of a hyperlink of which the target is not yet visited (:link) or already visited (:visited)	The link pseudo-classes	1
- E:active
- E:hoverf
- E:focus	an E element during certain user actions	The user action pseudo-classes	1 and 2
- E:target	an E element being the target of the referring URI	The target pseudo-class	3
- E:lang(fr)	an element of type E in language "fr" (the document language specifies how language is determined)	The :lang() pseudo-class	2
- //E:enabled
- //E:disabled	a user interface element E which is enabled or disabled	The UI element states pseudo-classes	3
- //E:checked
- // E:not(s)
- */
 
 #pragma mark
 
 NSCharacterSet *identifierCharacters()
 {
-	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"*"];
+	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"*-"];
 	[set formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
 	return set;
 }
 
-NSString *scanIdentifier(NSScanner *scanner)
+NSString *scanIdentifier(NSScanner* scanner,  __unused NSString **parsedStringPointer, __unused NSError **errorPointer)
 {
 	NSString *ident;
 	[scanner scanCharactersFromSet:identifierCharacters() intoString:&ident];
 	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-NSString *scanOperator(NSScanner *scanner)
+NSString *scanOperator(NSScanner* scanner,  __unused NSString **parsedStringPointer, __unused NSError **errorPointer)
 {
 	NSString *operator;
 	[scanner scanUpToCharactersFromSet:identifierCharacters() intoString:&operator];
@@ -504,10 +494,9 @@ NSString *scanOperator(NSScanner *scanner)
 
 //Assumes the scanner is at the position directly after the first [
 // TODO assert that!
-CSSSelectorPredicate scanAttributePredicate(NSScanner *scanner)
+CSSSelectorPredicate scanAttributePredicate(NSScanner *scanner,  NSString **parsedStringPointer, NSError **errorPointer)
 {
-	NSString *attributeName = scanIdentifier(scanner);
-    
+	NSString *attributeName = scanIdentifier(scanner, parsedStringPointer, errorPointer);
 	NSString *operator;
 	[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"]"] intoString:&operator];
 	
@@ -534,8 +523,7 @@ CSSSelectorPredicate scanAttributePredicate(NSScanner *scanner)
 	}
 }
 
-
-CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
+CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner,  NSString **parsedStringPointer, NSError **errorPointer)
 {
 	//Spec at:
 	//http://www.w3.org/TR/css3-selectors/
@@ -554,45 +542,64 @@ CSSSelectorPredicateGen predicateFromScanner(NSScanner* scanner)
 	[operatorCharacters formUnionWithCharacterSet:whitespaceSet];
 	
 	
-	NSString *firstIdent = scanIdentifier(scanner);
+	NSString *firstIdent = scanIdentifier(scanner, parsedStringPointer, errorPointer);
 	
-	NSString *operator = scanOperator(scanner);
+	NSString *operator = scanOperator(scanner, parsedStringPointer, errorPointer);
 	
 	
 	if ([firstIdent length] > 0 && [operator length] == 0 && [scanner isAtEnd]) {
 		return ofTagTypePredicate(firstIdent);
 	}
-    
-    if ([operator isEqualToString:@":"]) {
-        return andCombinatorPredicate(@[ofTagTypePredicate(firstIdent), predicateFromPseudoClass(scanner)]);
-    } else if ([operator isEqualToString:@"::"]) {
-        // TODO implement :: stuff
-        return nil;
-    } else if ([operator isEqualToString:@"["]) {
-        scanAttributePredicate(scanner);
-    } else if ([operator length] == 0) {
-        //Whitespace combinator
-        //y descendant of an x
-        return andCombinatorPredicate(@[predicateFromScanner(scanner), descendantOfPredicate(ofTagTypePredicate(firstIdent))]);
-    } else if ([operator isEqualToString:@">"]) {
-        andCombinatorPredicate(@[predicateFromScanner(scanner), childOfOtherPredicatePredicate(ofTagTypePredicate(firstIdent))]);
-    } else if ([operator isEqualToString:@"+"]) {
-        andCombinatorPredicate(@[predicateFromScanner(scanner), adjacentSiblingPredicate(ofTagTypePredicate(firstIdent))]);
-    } else if ([operator isEqualToString:@"~"]) {
-        andCombinatorPredicate(@[predicateFromScanner(scanner), generalSiblingPredicate(ofTagTypePredicate(firstIdent))]);
-    } else if ([operator isEqualToString:@"."]) {
-        NSString *className = scanIdentifier(scanner);
-        return isKindOfClassPredicate(className);
-    } else if ([operator isEqualToString:@"#"]) {
-        NSString *idName = scanIdentifier(scanner);
-        return hasIDPredicate(idName);
-    }
-    
+	else
+	{
+		if ([operator isEqualToString:@":"])
+		{
+			return bothCombinatorPredicate(ofTagTypePredicate(firstIdent), predicateFromPseudoClass(scanner, parsedStringPointer, errorPointer));
+		}
+		else if ([operator isEqualToString:@"::"])
+		{
+			//Don't impliment :: stuff yet
+			return nil;
+		}
+		else if ([operator isEqualToString:@"["])
+		{
+			scanAttributePredicate(scanner, parsedStringPointer, errorPointer);
+		}
+		else if ([operator length] == 0)
+		{
+			//Whitespace combinator
+			//y descendant of an x
+			return bothCombinatorPredicate(predicateFromScanner(scanner, parsedStringPointer, errorPointer), descendantOfPredicate(ofTagTypePredicate(firstIdent)));
+		}
+		else if ([operator isEqualToString:@">"])
+		{
+			return bothCombinatorPredicate(predicateFromScanner(scanner, parsedStringPointer, errorPointer), childOfOtherPredicatePredicate(ofTagTypePredicate(firstIdent)));
+		}
+		else if ([operator isEqualToString:@"+"])
+		{
+			return bothCombinatorPredicate(predicateFromScanner(scanner, parsedStringPointer, errorPointer), adjacentSiblingPredicate(ofTagTypePredicate(firstIdent)));
+		}
+		else if ([operator isEqualToString:@"~"])
+		{
+			return bothCombinatorPredicate(predicateFromScanner(scanner, parsedStringPointer, errorPointer), generalSiblingPredicate(ofTagTypePredicate(firstIdent)));
+		}
+		else if ([operator isEqualToString:@"."])
+		{
+			NSString *className = scanIdentifier(scanner, parsedStringPointer, errorPointer);
+			return isKindOfClassPredicate(className);
+			
+		}
+		else if ([operator isEqualToString:@"#"])
+		{
+			NSString *idName = scanIdentifier(scanner, parsedStringPointer, errorPointer);
+			return hasIDPredicate(idName);
+		}
+	}
 	return nil;
 }
 
 
-extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
+extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString,  NSString **parsedStringPointer, NSError **errorPointer)
 {
 	//Trim non-functional whitespace
 	selectorString = [selectorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -600,7 +607,7 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 	NSScanner *scanner = [NSScanner scannerWithString:selectorString];
 	[scanner setCaseSensitive:NO]; //Section 3 states that in HTML parsing, selectors are case-insensitive
 	
-	return predicateFromScanner(scanner);
+	return predicateFromScanner(scanner, parsedStringPointer, errorPointer);
 }
 
 @interface CSSSelector ()
@@ -621,8 +628,11 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 - (id)initWithString:(NSString *)selectorString
 {
     if (!(self = [self init])) return nil;
-	self.parsedString = @"";
-	self.predicate = SelectorFunctionForString(selectorString);
+	NSError *error = nil;
+	NSString *parsedString = @"";
+	self.predicate = SelectorFunctionForString(selectorString, &parsedString, &error);
+	self.parseError = error;
+	self.parsedString = parsedString;
     return self;
 }
 
@@ -637,18 +647,6 @@ extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString)
 
 @end
 
-// TODO NSArray has a method for this.
-NSArray * filterWithPredicate(NSEnumerator *nodes, CSSSelector *selector)
-{
-	NSMutableArray *ret = [NSMutableArray new];
-	for (HTMLElementNode *node in nodes) {
-		if ([node isKindOfClass:[HTMLElementNode class]] && selector.predicate(node)) {
-			[ret addObject:node];
-		}
-	}
-	return ret;
-}
-
 @implementation HTMLNode (HTMLSelector)
 
 - (NSArray *)nodesForSelectorString:(NSString *)selectorString
@@ -659,7 +657,16 @@ NSArray * filterWithPredicate(NSEnumerator *nodes, CSSSelector *selector)
 - (NSArray *)nodesForSelector:(CSSSelector *)selector
 {
 	NSAssert(!selector.parseError, @"Attempted to use selector with error: %@", selector.parseError);
-	return filterWithPredicate(self.treeEnumerator, selector);
-}
+    
+	NSMutableArray *ret = [NSMutableArray new];
+	for (HTMLElementNode *node in [self treeEnumerator]) {
+		
+		if ([node isKindOfClass:[HTMLElementNode class]] && selector.predicate(node))
+		{
+			[ret addObject:node];
+		}
+	}
+	
+	return ret;}
 
 @end

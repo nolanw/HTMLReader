@@ -27,6 +27,8 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 - (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
 - (void)removeChild:(HTMLNode *)child;
 
+@property (copy, nonatomic) NSArray *childElementNodes;
+
 - (NSEnumerator *)treeEnumerator;
 - (NSEnumerator *)reversedTreeEnumerator;
 

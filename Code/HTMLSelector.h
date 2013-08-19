@@ -7,9 +7,13 @@
 
 #import "HTMLNode.h"
 
-typedef BOOL (^CSSSelectorPredicate)(HTMLElementNode *node);
+/*
+ 
+Unsupported -> :link, :visited, :active, :hover, :focus, :target, :lang
+ 
+*/
 
-extern CSSSelectorPredicate SelectorFunctionForString(NSString* selectorString);
+typedef BOOL (^CSSSelectorPredicate)(HTMLElementNode *node);
 
 @interface CSSSelector : NSObject
 
