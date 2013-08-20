@@ -34,6 +34,8 @@ extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
 	testDoc = [HTMLParser documentForString:@"<root id='root'>\
 			   \
 			   <parent id='empty'></parent>\
+               \
+               <arbitrary id='nonempty-yet-devoid-of-elements'> </arbitrary>\
 			   \
 			   <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
 			   \

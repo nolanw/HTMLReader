@@ -81,9 +81,16 @@ HTMLSelectorPredicateGen descendantOfPredicate(HTMLSelectorPredicate parentPredi
 
 HTMLSelectorPredicateGen isEmptyPredicate()
 {
-    // TODO should also consider text nodes whose data has a nonzero length.
 	return ^BOOL(HTMLElementNode *node) {
-		return node.childElementNodes.count == 0;
+        for (HTMLNode *child in node.childNodes) {
+            if ([child isKindOfClass:[HTMLElementNode class]]) {
+                return NO;
+            } else if ([child isKindOfClass:[HTMLTextNode class]]) {
+                HTMLTextNode *textChild = (HTMLTextNode *)child;
+                return textChild.data.length == 0;
+            }
+        }
+		return YES;
 	};
 }
 
