@@ -10,7 +10,7 @@
 #import "HTMLParser.h"
 #import "HTMLSelector.h"
 
-extern struct mb {int m; int b;} parseNth(NSString *nthString);
+extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
 
 @interface HTMLSelector (Private)
 
@@ -45,7 +45,6 @@ extern struct mb {int m; int b;} parseNth(NSString *nthString);
 
 - (void)testNthParsing
 {
-	
 	XCTAssertEqual(parseNth(@"odd"), ((struct mb){2, 1}));
 	XCTAssertEqual(parseNth(@"even"), ((struct mb){2, 0}));
 
@@ -63,30 +62,23 @@ extern struct mb {int m; int b;} parseNth(NSString *nthString);
 	XCTAssertEqual(parseNth(@"2n + 3"), ((struct mb){2, 3}));
 	XCTAssertEqual(parseNth(@"2n - 3"), ((struct mb){2, -3}));
 
-	
 	XCTAssertEqual(parseNth(@" - 3"), ((struct mb){0, -3}));
 
-	
-	//Bad order
-	XCTAssertEqual(parseNth(@"2 - 2n"), ((struct mb){0, 0}));
-	
-	//Bad character
-	XCTAssertEqual(parseNth(@"2n + 3b"), ((struct mb){0, 0}));
-	
-	
+	XCTAssertEqual(parseNth(@"2 - 2n"), ((struct mb){0, 0}), @"bad order");
+    
+	XCTAssertEqual(parseNth(@"2n + 3b"), ((struct mb){0, 0}), @"bad character");
 }
 
 
-#define TestSelector(selectorString, parsedSelector, expectedIds, name) -(void)test##name {\
-HTMLSelector *selector = [HTMLSelector selectorForString:selectorString];\
-/*Deal with parsed selector, when/if implemented*/ \
-/*XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector);*/\
-NSArray *returnedNodes = [testDoc nodesForSelector:selector];\
-NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"];\
-XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString);\
+#define TestSelector(selectorString, parsedSelector, expectedIds, name) \
+-(void)test##name { \
+    HTMLSelector *selector = [HTMLSelector selectorForString:selectorString]; \
+    /* Deal with parsed selector, when/if implemented */ \
+    /* XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector); */ \
+    NSArray *returnedNodes = [testDoc nodesForSelector:selector]; \
+    NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"]; \
+    XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString); \
 }
-
-
 
 TestSelector(@"root", @"root", @[@"root"], RootElementCheck)
 TestSelector(@"parent", @"parent", (@[@"empty", @"one-child", @"three-children"]), ParentElementsCheck)

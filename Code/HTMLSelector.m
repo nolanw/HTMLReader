@@ -306,22 +306,19 @@ HTMLSelectorPredicateGen isRootPredicate()
 	};
 }
 
-// TODO Instead of defaultValue, let caller do it with ?: operator.
-NSNumber* parseNumber(NSString *number, int defaultValue)
+NSNumber * parseNumber(NSString *number, NSInteger defaultValue)
 {
-	//defaults to 1
-	NSInteger result = defaultValue;
-	
     // Strip whitespace so -isAtEnd check below answers "was this a valid integer?"
     number = [number stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
 	NSScanner *scanner = [NSScanner scannerWithString:number];
+    NSInteger result = defaultValue;
 	[scanner scanInteger:&result];
     return scanner.isAtEnd ? @(result) : nil;
 }
 
 #pragma mark Parse
-extern struct mb{int m; int b;} parseNth(NSString *nthString)
+extern struct mb {NSInteger m; NSInteger b;} parseNth(NSString *nthString)
 {
 	nthString = [[nthString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
@@ -344,7 +341,7 @@ extern struct mb{int m; int b;} parseNth(NSString *nthString)
 		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
 		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
 		
-		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo != nil) {
+		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo) {
 			//"n" was defined, and only "-" was given as a multiplier
 			return (struct mb){ -1, [numberTwo integerValue] };
 		} else if (numberOne && numberTwo) {
@@ -360,39 +357,36 @@ extern struct mb{int m; int b;} parseNth(NSString *nthString)
 	}
 }
 
-static NSString* scanFunctionInterior(NSScanner *functionScanner)
+static NSString * scanFunctionInterior(NSScanner *functionScanner)
 {
-	NSString *openParen;
-	
-	[functionScanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"("] intoString:&openParen];
-	
-    // TODO use return value from -scanCharactersFromSet:intoString:
-	if (!openParen) {
+	BOOL ok;
+    
+    ok = [functionScanner scanString:@"(" intoString:nil];
+	if (!ok) {
 		return nil;
 	}
 	
-	NSString *interior;
-	
-	[functionScanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@")"] intoString:&interior];
-	
-    // TODO use return value from -scanUpToCharactersFromSet:intoString:
-	if (!interior) {
+    NSString *interior;
+	ok = [functionScanner scanUpToString:@")" intoString:&interior];
+	if (!ok) {
 		return nil;
 	}
-    functionScanner.scanLocation++;
+    
+    [functionScanner scanString:@")" intoString:nil];
 	return interior;
 }
 
-static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner, __unused NSString **parsedStringPointer, __unused NSError **errorPointer)
+static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanner,
+                                                         __unused NSString **parsedString,
+                                                         __unused NSError **error)
 {
 	typedef HTMLSelectorPredicate (^CSSThing)(struct mb inputs);
-	
+    BOOL ok;
+    
 	NSString *pseudo;
-	
-	[pseudoScanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"("] intoString:&pseudo];
-	
-	if (!pseudo && !pseudoScanner.isAtEnd) {
-		pseudo = [pseudoScanner.string substringFromIndex:[pseudoScanner scanLocation]];
+	ok = [pseudoScanner scanUpToString:@"(" intoString:&pseudo];
+	if (!ok && !pseudoScanner.isAtEnd) {
+		pseudo = [pseudoScanner.string substringFromIndex:pseudoScanner.scanLocation];
 		pseudoScanner.scanLocation = pseudoScanner.string.length - 1;
 	}
 	
@@ -465,14 +459,14 @@ NSCharacterSet *identifierCharacters()
 	return set;
 }
 
-NSString *scanIdentifier(NSScanner* scanner,  __unused NSString **parsedStringPointer, __unused NSError **errorPointer)
+NSString *scanIdentifier(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
 {
 	NSString *ident;
 	[scanner scanCharactersFromSet:identifierCharacters() intoString:&ident];
 	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-NSString *scanOperator(NSScanner* scanner,  __unused NSString **parsedStringPointer, __unused NSError **errorPointer)
+NSString *scanOperator(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
 {
 	NSString *operator;
 	[scanner scanUpToCharactersFromSet:identifierCharacters() intoString:&operator];
@@ -483,13 +477,15 @@ NSString *scanOperator(NSScanner* scanner,  __unused NSString **parsedStringPoin
 HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **parsedString, NSError **error)
 {
     NSCAssert([scanner.string characterAtIndex:scanner.scanLocation - 1] == '[', nil);
+    
 	NSString *attributeName = scanIdentifier(scanner, parsedString, error);
 	NSString *operator;
-	[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"]"] intoString:&operator];
+	[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"]"]
+                            intoString:&operator];
 	
 	NSString *attributeValue = nil;
 	
-	if ([operator length] == 0) {
+	if (operator.length == 0) {
 		return hasAttributePredicate(attributeName);
 	} else if ([operator isEqualToString:@"="]) {
 		return attributeIsExactlyPredicate(attributeName, attributeValue);
@@ -522,10 +518,9 @@ HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **par
 	NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 	
 	//Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
-	//NSCharacterSet *combinatorSet = [NSCharacterSet characterSetWithCharactersInString:@">+~"];
-	
 	NSMutableCharacterSet *operatorCharacters = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~.:#["];
 	[operatorCharacters formUnionWithCharacterSet:whitespaceSet];
+    
 	NSString *firstIdent = scanIdentifier(scanner, parsedString, error);
 	NSString *operator = scanOperator(scanner, parsedString, error);
 	
