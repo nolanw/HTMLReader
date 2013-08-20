@@ -34,6 +34,8 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 
 - (NSString *)recursiveDescription;
 
+- (id)objectForKeyedSubscript:(id)key;
+
 @end
 
 @interface HTMLElementNode : HTMLNode

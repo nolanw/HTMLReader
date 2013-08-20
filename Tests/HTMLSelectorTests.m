@@ -79,12 +79,16 @@ extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
 
 
 #define TestSelector(selectorString, parsedSelector, expectedIds, name) \
--(void)test##name { \
+- (void)test##name \
+{ \
     HTMLSelector *selector = [HTMLSelector selectorForString:selectorString]; \
-    /* Deal with parsed selector, when/if implemented */ \
+    /* TODO Deal with parsed selector, when/if implemented */ \
     /* XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector); */ \
     NSArray *returnedNodes = [testDoc nodesForSelector:selector]; \
-    NSArray *returnedIds = [returnedNodes valueForKey:@"[id]"]; \
+    NSMutableArray *returnedIds = [NSMutableArray new]; \
+    for (HTMLElementNode *node in returnedNodes) { \
+        [returnedIds addObject:node[@"id"]]; \
+    } \
     XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString); \
 }
 

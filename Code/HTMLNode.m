@@ -118,18 +118,17 @@
     }
 }
 
+- (id)objectForKeyedSubscript:(__unused NSString *)key
+{
+    // Implemented so we can subscript HTMLNode instances, even though only HTMLElementNode instances have attributes.
+    return nil;
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
 {
     return [[self.class allocWithZone:zone] init];
-}
-
-- (id)valueForKey:(NSString *)key
-{
-	//If the key is in the format "[key]" get the attribute value for "key"
-	if ([key hasPrefix:@"["] && [key hasSuffix:@"]"]) return [NSNull null];
-	else return [super valueForKey:key];
 }
 
 @end
@@ -177,11 +176,9 @@
 	return nil;
 }
 
-- (id)valueForKey:(NSString *)key
+- (id)objectForKeyedSubscript:(NSString *)key
 {
-	//If the key is in the format "[key]" get the attribute value for "key"
-	if ([key hasPrefix:@"["] && [key hasSuffix:@"]"]) return [self attributeNamed:[key substringWithRange:NSMakeRange(1, key.length - 2)]].value;
-	else return [super valueForKey:key];
+    return [self attributeNamed:key].value;
 }
 
 #pragma mark NSCopying
