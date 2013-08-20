@@ -23,6 +23,9 @@
 
 + (id)defaultTestSuite
 {
+    if (!ShouldRunTestsForParameterizedTestClass([HTMLTreeConstructionTests class])) {
+        return nil;
+    }
     NSString *testPath = [html5libTestPath() stringByAppendingPathComponent:@"tree-construction"];
     NSArray *potentialTestPaths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:testPath
                                                                                       error:nil];

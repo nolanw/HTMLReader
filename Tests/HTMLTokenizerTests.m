@@ -23,6 +23,9 @@
 
 + (id)defaultTestSuite
 {
+    if (!ShouldRunTestsForParameterizedTestClass([HTMLTokenizerTests class])) {
+        return nil;
+    }
     NSString *testPath = [html5libTestPath() stringByAppendingPathComponent:@"tokenizer"];
     NSArray *potentialTestPaths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:testPath
                                                                                       error:nil];
