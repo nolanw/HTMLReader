@@ -326,10 +326,11 @@ extern struct mb {NSInteger m; NSInteger b;} parseNth(NSString *nthString)
 		return (struct mb){2, 1};
 	} else if ([nthString isEqualToString:@"even"]) {
 		return (struct mb){2, 0};
-	}
-    // TODO is 0 allowed?
-    else if ([nthString rangeOfCharacterFromSet:[[NSCharacterSet characterSetWithCharactersInString:@"123456789 n+-"] invertedSet]].location != NSNotFound) {
-		return (struct mb){0, 0};
+	} else {
+        NSCharacterSet *nthCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789 nN+-"] invertedSet];
+        if ([nthString rangeOfCharacterFromSet:nthCharacters].location != NSNotFound) {
+            return (struct mb){0, 0};
+        }
 	}
 	
 	NSArray *valueSplit = [nthString componentsSeparatedByString:@"n"];

@@ -61,6 +61,11 @@ extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
 	
 	XCTAssertEqual(parseNth(@"2n + 3"), ((struct mb){2, 3}));
 	XCTAssertEqual(parseNth(@"2n - 3"), ((struct mb){2, -3}));
+    
+    XCTAssertEqual(parseNth(@"2n + 0"), ((struct mb){2, 0}));
+    XCTAssertEqual(parseNth(@"2n - 0"), ((struct mb){2, 0}));
+    
+    XCTAssertEqual(parseNth(@"0n + 5"), ((struct mb){0, 5}));
 
 	XCTAssertEqual(parseNth(@" - 3"), ((struct mb){0, -3}));
 
