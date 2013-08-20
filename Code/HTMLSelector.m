@@ -512,10 +512,7 @@ HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **par
 	//http://www.w3.org/TR/css3-selectors/
 	
 	//Spec: Only the characters "space" (U+0020), "tab" (U+0009), "line feed" (U+000A), "carriage return" (U+000D), and "form feed" (U+000C) can occur in whitespace
-    // TODO so use only those characters as whitespace then!
-    
-	//whitespaceAndNewlineCharacterSet == (U+0020) and tab (U+0009) and the newline and nextline characters (U+000A–U+000D, U+0085).
-	NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+	NSCharacterSet *whitespaceSet = [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
 	
 	//Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
 	NSMutableCharacterSet *operatorCharacters = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~.:#["];
