@@ -438,7 +438,7 @@ static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanne
 		}
 	}
 	
-	if ([pseudo isEqualToString:@"not"]) {
+	if ([pseudo compare:@"not" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
 		NSString *toNegateString = scanFunctionInterior(pseudoScanner);
 		NSError *error = nil;
 		NSString *string = nil;

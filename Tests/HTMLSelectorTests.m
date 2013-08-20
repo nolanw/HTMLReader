@@ -122,6 +122,7 @@ TestSelector(@"elem#child1", @"elem#child1", (@[@"child1"]), IDCheckChild1)
 
 
 TestSelector(@"elem:not(elem#only-child)", @"elem#only-child", (@[@"child1", @"child3"]), NotTest)
+TestSelector(@"elem:NOT(elem#only-child)", @"elem#only-child", (@[@"child1", @"child3"]), UppercaseNotTest)
 
 
 
