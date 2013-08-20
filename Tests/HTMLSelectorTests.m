@@ -49,6 +49,9 @@ extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
 	XCTAssertEqual(parseNth(@"even"), ((struct mb){2, 0}));
 
 	XCTAssertEqual(parseNth(@"   odd    "), ((struct mb){2, 1}));
+    
+    XCTAssertEqual(parseNth(@" oDD"), ((struct mb){2, 1}));
+    XCTAssertEqual(parseNth(@"EVEN"), ((struct mb){2, 0}));
 	
 	XCTAssertEqual(parseNth(@"2"), ((struct mb){0, 2}));
 	XCTAssertEqual(parseNth(@"-2"), ((struct mb){0, -2}));

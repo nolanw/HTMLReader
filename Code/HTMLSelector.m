@@ -320,11 +320,10 @@ NSNumber * parseNumber(NSString *number, NSInteger defaultValue)
 #pragma mark Parse
 extern struct mb {NSInteger m; NSInteger b;} parseNth(NSString *nthString)
 {
-	nthString = [[nthString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
-	if ([nthString isEqualToString:@"odd"]) {
+	nthString = [nthString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([nthString compare:@"odd" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
 		return (struct mb){2, 1};
-	} else if ([nthString isEqualToString:@"even"]) {
+	} else if ([nthString compare:@"even" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
 		return (struct mb){2, 0};
 	} else {
         NSCharacterSet *nthCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789 nN+-"] invertedSet];
