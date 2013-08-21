@@ -136,7 +136,8 @@ HTMLSelectorPredicateGen attributeStartsWithPredicate(NSString *attributeName, N
 HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^BOOL(HTMLElementNode *node) {
-		return [[node attributeNamed:attributeName].value rangeOfString:attributeValue].location != NSNotFound;
+        HTMLAttribute *attribute = [node attributeNamed:attributeName];
+		return attribute && [attribute.value rangeOfString:attributeValue].location != NSNotFound;
 	};
 }
 
@@ -502,10 +503,30 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
     
 	NSString *attributeName = scanIdentifier(scanner, parsedString, error);
 	NSString *operator;
-	[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"\"]"]
+    NSString *attributeValue;
+    BOOL ok;
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"=]"]
                             intoString:&operator];
-	
-	NSString *attributeValue = nil;
+    ok = [scanner scanString:@"=" intoString:nil];
+    if (ok) {
+        NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+        operator = [[operator stringByTrimmingCharactersInSet:whitespace] stringByAppendingString:@"="];
+        [scanner scanCharactersFromSet:whitespace intoString:nil];
+        attributeValue = scanIdentifier(scanner, parsedString, error);
+        if (!attributeValue) {
+            [scanner scanCharactersFromSet:whitespace intoString:nil];
+            NSString *quote = [scanner.string substringWithRange:NSMakeRange(scanner.scanLocation, 1)];
+            if (!([quote isEqualToString:@"\""] || [quote isEqualToString:@"'"])) {
+                return nil;
+            }
+            [scanner scanString:quote intoString:nil];
+            [scanner scanUpToString:quote intoString:&attributeValue];
+            [scanner scanString:quote intoString:nil];
+            [scanner scanString:@"]" intoString:nil];
+        }
+    } else {
+        operator = nil;
+    }
 	
 	if (operator.length == 0) {
 		return hasAttributePredicate(attributeName);
@@ -521,7 +542,7 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 		return attributeContainsPredicate(attributeName, attributeValue);
 	} else if ([operator isEqualToString:@"|="]) {
 		return orCombinatorPredicate(@[ attributeIsExactlyPredicate(attributeName, attributeValue),
-                                        attributeContainsPredicate(attributeName, [attributeValue stringByAppendingString:@"-"]) ]);
+                                        attributeStartsWithPredicate(attributeName, [attributeValue stringByAppendingString:@"-"]) ]);
 	} else {
 		return nil;
 	}
@@ -549,7 +570,7 @@ HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **par
 			// We don't support *any* pseudo-elements.
 			return nil;
 		} else if ([operator isEqualToString:@"["]) {
-			scanAttributePredicate(scanner, parsedString, error);
+			return scanAttributePredicate(scanner, parsedString, error);
 		} else if (operator.length == 0) {
 			//Whitespace combinator
 			//y descendant of an x
@@ -582,6 +603,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	
 	NSScanner *scanner = [NSScanner scannerWithString:selectorString];
     scanner.caseSensitive = NO; //Section 3 states that in HTML parsing, selectors are case-insensitive
+    scanner.charactersToBeSkipped = nil;
 	
 	return predicateFromScanner(scanner, parsedString, error);
 }
@@ -632,7 +654,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 - (NSArray *)nodesForSelector:(HTMLSelector *)selector
 {
-	NSAssert(!selector.parseError, @"Attempted to use selector with error: %@", selector.parseError);
+	NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.parseError);
     
 	NSMutableArray *ret = [NSMutableArray new];
 	for (HTMLElementNode *node in self.treeEnumerator) {

@@ -37,7 +37,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
                     \
                     <parent id='empty' class='snoopy dog'></parent>\
                     \
-                    <arbitrary id='nonempty-yet-devoid-of-elements'> </arbitrary>\
+                    <arbitrary id='nonempty-yet-devoid-of-elements' lang='up-dog'> </arbitrary>\
                     \
                     <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
                     \
@@ -86,7 +86,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     NSArray *nodes = [self.testDoc nodesForSelectorString:(selectorString)]; \
     NSMutableArray *IDs = [NSMutableArray new]; \
     for (HTMLElementNode *node in nodes) { \
-        [IDs addObject:node[@"id"]]; \
+        [IDs addObject:(node[@"id"] ?: [NSNull null])]; \
     } \
     XCTAssertEqualObjects(IDs, expectedIDs); \
 } while(0)
@@ -145,6 +145,26 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 {
     TestMatchedElementIDs(@"elem:not(elem#only-child)", (@[ @"child1", @"child3" ]));
     TestMatchedElementIDs(@"elem:NOT(elem#only-child)", (@[ @"child1", @"child3" ]));
+}
+
+- (void)testAttributeSelectors
+{
+    TestMatchedElementIDs(@"[class]", (@[ @"empty" ]));
+    
+    TestMatchedElementIDs(@"[class=\"snoopy dog\"]", (@[ @"empty" ]));
+    TestMatchedElementIDs(@"[class = 'snoopy dog']", (@[ @"empty" ]));
+    
+    TestMatchedElementIDs(@"[class ~= 'dog']", (@[ @"empty" ]));
+    TestMatchedElementIDs(@"[id ~= 'child1']", (@[ @"child1" ]));
+    
+    TestMatchedElementIDs(@"[lang |= 'up']", (@[ @"nonempty-yet-devoid-of-elements" ]));
+    
+    TestMatchedElementIDs(@"[id ^= child]", (@[ @"child1", @"child2", @"child3" ]));
+    
+    TestMatchedElementIDs(@"[id $= '-child']", (@[ @"one-child", @"only-child" ]));
+    
+    TestMatchedElementIDs(@"[id *= child]", (@[ @"one-child", @"only-child", @"three-children",
+                                                @"child1", @"child2", @"child3" ]));
 }
 
 @end
