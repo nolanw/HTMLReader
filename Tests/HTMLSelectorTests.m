@@ -35,8 +35,8 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     if (!_testDoc) {
         _testDoc = [HTMLDocument documentWithString:
                     @"<root id='root'>"
-                    @"  <parent id='empty' class='snoopy dog'></parent>"
-                    @"  <arbitrary id='nonempty-yet-devoid-of-elements' lang='up-dog'> </arbitrary>"
+                    @"  <parent id='empty' class='big snoopy dog'></parent>"
+                    @"  <arbitrary id='nonempty-yet-devoid-of-elements' class='big' lang='up-dog'> </arbitrary>"
                     @"  <parent id='one-child'> <elem id='only-child'> </elem> </parent>"
                     @"  <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>"
                     @"  <input id='root-enabled'>"
@@ -146,6 +146,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 {
     TestMatchedElementIDs(@"parent.dog", (@[ @"empty" ]));
     TestMatchedElementIDs(@".dog", (@[ @"empty" ]));
+	TestMatchedElementIDs(@".big:not(arbitrary)", (@[@"empty"]));
 }
 
 - (void)testNegationPseudoClass
@@ -162,10 +163,10 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 
 - (void)testAttributeSelectors
 {
-    TestMatchedElementIDs(@"[class]", (@[ @"empty" ]));
+    TestMatchedElementIDs(@"[class]", (@[ @"empty", @"nonempty-yet-devoid-of-elements" ]));
     
-    TestMatchedElementIDs(@"[class=\"snoopy dog\"]", (@[ @"empty" ]));
-    TestMatchedElementIDs(@"[class = 'snoopy dog']", (@[ @"empty" ]));
+    TestMatchedElementIDs(@"[class=\"big snoopy dog\"]", (@[ @"empty" ]));
+    TestMatchedElementIDs(@"[class = 'big snoopy dog']", (@[ @"empty" ]));
     
     TestMatchedElementIDs(@"[class ~= 'dog']", (@[ @"empty" ]));
     TestMatchedElementIDs(@"[id ~= 'child1']", (@[ @"child1" ]));

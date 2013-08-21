@@ -4,6 +4,8 @@
 //
 //  Created by Chris Williams on 8/13/13.
 //
+// Impliments CSS Selectors Level 3 from:
+// http://www.w3.org/TR/css3-selectors/
 
 #import "HTMLSelector.h"
 
@@ -16,7 +18,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 @implementation NSError (ParseErrors)
 
-+(instancetype)errorForExpected:(NSString*)errorExplaination forString:(NSString*)string atPosition:(int)position
++(instancetype)sel_errorForParsing:(NSString*)errorExplaination forString:(NSString*)string atPosition:(int)position
 {
 	NSString *carrotString = [@"^" stringByPaddingToLength:position+1 withString:@" " startingAtIndex:0];
 	
@@ -36,7 +38,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 								string,
 								carrotString];
 	
-	return [NSError errorWithDomain:@"HTMLSelectorParseError" code:1 userInfo:@{
+	return [NSError errorWithDomain:@"HTMLSelectorParseError" code:0 userInfo:@{
 																		   NSLocalizedDescriptionKey: localizedError,
 																		   @"explaination": errorExplaination,
 																		   @"string": string,
@@ -56,6 +58,18 @@ HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 }
 
 #pragma mark - Combinators
+
+HTMLSelectorPredicateGen bothCombinatorPredicate(HTMLSelectorPredicate a, HTMLSelectorPredicate b)
+{
+	//There was probably an error somewhere else
+	//in parsing, so return nil here
+	if (!a || !b) return nil;
+	
+	return ^BOOL(HTMLElementNode *node)
+	{
+		return a(node) && b(node);
+	};
+}
 
 HTMLSelectorPredicateGen andCombinatorPredicate(NSArray *predicates)
 {
@@ -81,7 +95,7 @@ HTMLSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
 	};
 }
 
-HTMLSelectorPredicateGen ofTagTypePredicate(NSString *tagType)
+HTMLSelectorPredicateGen isTagTypePredicate(NSString *tagType)
 {
 	if ([tagType isEqualToString:@"*"]) {
 		return ^(__unused HTMLElementNode *node) {
@@ -89,7 +103,7 @@ HTMLSelectorPredicateGen ofTagTypePredicate(NSString *tagType)
         };
 	} else {
 		return ^BOOL(HTMLElementNode *node) {
-			return [node.tagName isEqualToString:tagType];
+			return [node.tagName compare:tagType options:NSCaseInsensitiveSearch] == NSOrderedSame;
 		};
 	}
 }
@@ -255,15 +269,17 @@ HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLas
 	};
 }
 
-HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, BOOL fromLast)
+HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, HTMLSelectorPredicate typePredicate, BOOL fromLast)
 {
+	if (!typePredicate) return nil;
+	
 	return ^BOOL(HTMLElementNode *node) {
 		id <NSFastEnumeration> enumerator = (fromLast
                                              ? node.parentNode.childElementNodes.reverseObjectEnumerator
                                              : node.parentNode.childElementNodes);
 		NSInteger count = 0;
 		for (HTMLElementNode *currentNode in enumerator) {
-			if ([currentNode.tagName compare:node.tagName options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+			if (typePredicate(currentNode)) {
 				count++;
 			}
 			if ([currentNode isEqual:node]) {
@@ -290,14 +306,14 @@ HTMLSelectorPredicateGen isLastChildPredicate(void)
 	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), YES);
 }
 
-HTMLSelectorPredicateGen isFirstChildOfTypePredicate(void)
+HTMLSelectorPredicateGen isFirstChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
 {
-	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), NO);
+	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), typePredicate, NO);
 }
 
-HTMLSelectorPredicateGen isLastChildOfTypePredicate(void)
+HTMLSelectorPredicateGen isLastChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
 {
-	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), YES);
+	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), typePredicate, YES);
 }
 
 #pragma mark Attribute Helpers
@@ -318,7 +334,7 @@ HTMLSelectorPredicateGen isFormControlPredicate(void)
     NSArray *tagNames = @[ @"input", @"button", @"select", @"optgroup", @"option", @"textarea", @"keygen" ];
     NSMutableArray *predicates = [NSMutableArray new];
     for (NSString *tagName in tagNames) {
-        [predicates addObject:ofTagTypePredicate(tagName)];
+        [predicates addObject:isTagTypePredicate(tagName)];
     }
     return orCombinatorPredicate(predicates);
 }
@@ -326,8 +342,9 @@ HTMLSelectorPredicateGen isFormControlPredicate(void)
 HTMLSelectorPredicateGen isDisabledPredicate(void)
 {
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#concept-fe-disabled
-    HTMLSelectorPredicate descendantOfDisabledFieldset = descendantOfPredicate(andCombinatorPredicate(@[ ofTagTypePredicate(@"fieldset"), hasAttributePredicate(@"disabled") ]));
-    HTMLSelectorPredicate descendantOfFirstLegendOfDisabledFieldset = descendantOfPredicate(andCombinatorPredicate(@[ ofTagTypePredicate(@"legend"), isFirstChildOfTypePredicate(), descendantOfDisabledFieldset ]));
+    HTMLSelectorPredicate descendantOfDisabledFieldset = descendantOfPredicate(bothCombinatorPredicate(isTagTypePredicate(@"fieldset"),
+																									   hasAttributePredicate(@"disabled") ));
+    HTMLSelectorPredicate descendantOfFirstLegendOfDisabledFieldset = descendantOfPredicate(bothCombinatorPredicate(isFirstChildOfTypePredicate(isTagTypePredicate(@"legend")), descendantOfDisabledFieldset));
     return andCombinatorPredicate(@[ isFormControlPredicate(),
                                   orCombinatorPredicate(@[ hasAttributePredicate(@"disabled"),
                                                         andCombinatorPredicate(@[ descendantOfDisabledFieldset, negatePredicate(descendantOfFirstLegendOfDisabledFieldset) ]) ]) ]);
@@ -352,16 +369,9 @@ HTMLSelectorPredicateGen isOnlyChildPredicate(void)
 	};
 }
 
-HTMLSelectorPredicateGen isOnlyChildOfTypePredicate(void)
+HTMLSelectorPredicateGen isOnlyChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
 {
-	return ^(HTMLElementNode *node) {
-		for (HTMLElementNode *sibling in node.parentNode.childElementNodes) {
-			if (![sibling isEqual:node] && [sibling.tagName isEqualToString:node.tagName]) {
-				return NO;
-			}
-		}
-		return YES;
-	};
+	return bothCombinatorPredicate(isFirstChildOfTypePredicate(typePredicate), isLastChildOfTypePredicate(typePredicate));
 }
 
 HTMLSelectorPredicateGen isRootPredicate(void)
@@ -430,7 +440,7 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
     
     ok = [scanner scanString:@"(" intoString:nil];
 	if (!ok) {
-		*error = [NSError errorForExpected:@"Expected ( to start function" forString:scanner.string atPosition:scanner.scanLocation];
+		*error = [NSError sel_errorForParsing:@"Expected ( to start function" forString:scanner.string atPosition:scanner.scanLocation];
 		
 		return nil;
 	}
@@ -438,7 +448,7 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
     NSString *interior;
 	ok = [scanner scanUpToString:@")" intoString:&interior];
 	if (!ok) {
-		*error = [NSError errorForExpected:@"Expected ) to end function" forString:scanner.string atPosition:scanner.scanLocation];
+		*error = [NSError sel_errorForParsing:@"Expected ) to end function" forString:scanner.string atPosition:scanner.scanLocation];
 		
 		return nil;
 	}
@@ -447,7 +457,8 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
 	return interior;
 }
 
-static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *scanner,
+static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
+														 HTMLSelectorPredicate typePredicate,
                                                          __unused NSString **parsedString,
                                                          NSError **error)
 {
@@ -463,20 +474,16 @@ static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *scanner,
 		scanner.scanLocation = scanner.string.length - 1;
 	}
 	
+	//Case-insensitively look for pseudo classes
 	pseudo = [pseudo lowercaseString];
 	
 	static NSDictionary *simplePseudos = nil;
-	static NSDictionary *nthPseudos = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		simplePseudos = @{
 						  @"first-child": isFirstChildPredicate(),
 						  @"last-child": isLastChildPredicate(),
 						  @"only-child": isOnlyChildPredicate(),
-						  
-						  @"first-of-type": isFirstChildOfTypePredicate(),
-						  @"last-of-type": isLastChildOfTypePredicate(),
-						  @"only-of-type": isOnlyChildOfTypePredicate(),
 						  
 						  @"empty": isEmptyPredicate(),
 						  @"root": isRootPredicate(),
@@ -485,44 +492,54 @@ static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *scanner,
 						  @"disabled": isDisabledPredicate(),
 						  @"checked": isCheckedPredicate()
 						  };
-		
-        #define WRAP(funct) (^HTMLSelectorPredicate (HTMLNthExpression nth){ return funct; })
-		
-		nthPseudos = @{
-					   @"nth-child": WRAP((isNthChildPredicate(nth, NO))),
-					   @"nth-last-child": WRAP((isNthChildPredicate(nth, YES))),
-					   
-					   @"nth-of-type": WRAP((isNthChildOfTypePredicate(nth, NO))),
-					   @"nth-last-of-type": WRAP((isNthChildOfTypePredicate(nth, YES))),
-					   };
-		
 	});
 	
 	id simple = simplePseudos[pseudo];
 	if (simple) {
 		return simple;
 	}
-	
-	CSSThing nth = nthPseudos[pseudo];
-	if (nth) {
-		HTMLNthExpression output = parseNth(scanFunctionInterior(scanner, error));
-		if (HTMLNthExpressionEqualToNthExpression(output, HTMLNthExpressionInvalid)) {
+	else if ([pseudo isEqualToString:@"first-of-type"]){
+		return isFirstChildOfTypePredicate(typePredicate);
+	}
+	else if ([pseudo isEqualToString:@"last-of-type"]){
+		return isLastChildOfTypePredicate(typePredicate);
+	}
+	else if ([pseudo isEqualToString:@"only-of-type"]){
+		return isOnlyChildOfTypePredicate(typePredicate);
+	}
+	else if ([pseudo hasPrefix:@"nth"]) {
+		NSString *interior = scanFunctionInterior(scanner, error);
+		
+		if (!interior) return nil;
+		
+		HTMLNthExpression nth = parseNth(interior);
+		
+		if (HTMLNthExpressionEqualToNthExpression(nth, HTMLNthExpressionInvalid)) {
+			*error = [NSError sel_errorForParsing:@"Failed to parse Nth statement" forString:scanner.string atPosition:scanner.scanLocation];
 			return nil;
-		} else {
-			return nth(output);
+		}
+
+		if ([pseudo isEqualToString:@"nth-child"]){
+			return isNthChildPredicate(nth, NO);
+		}
+		else if ([pseudo isEqualToString:@"nth-last-child"]){
+			return isNthChildPredicate(nth, YES);
+		}
+		else if ([pseudo isEqualToString:@"nth-of-type"]){
+			return isNthChildOfTypePredicate(nth, typePredicate, NO);
+		}
+		else if ([pseudo isEqualToString:@"nth-last-of-type"]){
+			return isNthChildOfTypePredicate(nth, typePredicate, YES);
 		}
 	}
-	
-	if ([pseudo compare:@"not" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+	else if ([pseudo isEqualToString:@"not"]) {
 		NSString *toNegateString = scanFunctionInterior(scanner, error);
-		NSError *error = nil;
-		NSString *string = nil;
-		HTMLSelectorPredicate toNegate = SelectorFunctionForString(toNegateString, &string, &error);
+		HTMLSelectorPredicate toNegate = SelectorFunctionForString(toNegateString, parsedString, error);
 		return negatePredicate(toNegate);
 	}
 	
 	
-	*error = [NSError errorForExpected:@"Unrecognized pseudo class" forString:scanner.string atPosition:scanner.scanLocation];
+	*error = [NSError sel_errorForParsing:@"Unrecognized pseudo class" forString:scanner.string atPosition:scanner.scanLocation];
 	return nil;
 }
 
@@ -533,6 +550,14 @@ NSCharacterSet *identifierCharacters()
 {
 	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"*-"];
 	[set formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
+	return set;
+}
+
+NSCharacterSet *operatorCharacters()
+{
+	//Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
+	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~.:#["];
+	[set formUnionWithCharacterSet:SelectorsWhitespaceSet()];
 	return set;
 }
 
@@ -564,91 +589,106 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
     ok = [scanner scanString:@"=" intoString:nil];
     if (ok) {
         NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-        operator = [[operator stringByTrimmingCharactersInSet:whitespace] stringByAppendingString:@"="];
+		operator = [operator stringByTrimmingCharactersInSet:whitespace];
+        operator = operator.length > 0 ? operator : @"=";
         [scanner scanCharactersFromSet:whitespace intoString:nil];
         attributeValue = scanIdentifier(scanner, parsedString, error);
         if (!attributeValue) {
             [scanner scanCharactersFromSet:whitespace intoString:nil];
             NSString *quote = [scanner.string substringWithRange:NSMakeRange(scanner.scanLocation, 1)];
             if (!([quote isEqualToString:@"\""] || [quote isEqualToString:@"'"])) {
-				*error = [NSError errorForExpected:@"Expected quote in attribute value" forString:scanner.string atPosition:scanner.scanLocation];
+				*error = [NSError sel_errorForParsing:@"Expected quote in attribute value" forString:scanner.string atPosition:scanner.scanLocation];
                 return nil;
             }
             [scanner scanString:quote intoString:nil];
             [scanner scanUpToString:quote intoString:&attributeValue];
             [scanner scanString:quote intoString:nil];
-            [scanner scanString:@"]" intoString:nil];
         }
     } else {
         operator = nil;
     }
 	
-	if (operator.length == 0) {
+	[scanner scanUpToString:@"]" intoString:nil];
+	ok = [scanner scanString:@"]" intoString:nil];
+	if (!ok) {
+		*error = [NSError sel_errorForParsing:@"Expected ] to close attribute" forString:scanner.string atPosition:scanner.scanLocation];
+		return nil;
+	}
+	
+	if ([operator length] == 0) {
 		return hasAttributePredicate(attributeName);
 	} else if ([operator isEqualToString:@"="]) {
 		return attributeIsExactlyPredicate(attributeName, attributeValue);
-	} else if ([operator isEqualToString:@"~="]) {
+	} else if ([operator isEqualToString:@"~"]) {
         return attributeContainsExactWhitespaceSeparatedValuePredicate(attributeName, attributeValue);
-	} else if ([operator isEqualToString:@"^="]) {
+	} else if ([operator isEqualToString:@"^"]) {
 		return attributeStartsWithPredicate(attributeName, attributeValue);
-	} else if ([operator isEqualToString:@"$="]) {
+	} else if ([operator isEqualToString:@"$"]) {
 		return attributeEndsWithPredicate(attributeName, attributeValue);
-	} else if ([operator isEqualToString:@"*="]) {
+	} else if ([operator isEqualToString:@"*"]) {
 		return attributeContainsPredicate(attributeName, attributeValue);
-	} else if ([operator isEqualToString:@"|="]) {
+	} else if ([operator isEqualToString:@"|"]) {
 		return orCombinatorPredicate(@[ attributeIsExactlyPredicate(attributeName, attributeValue),
                                         attributeStartsWithPredicate(attributeName, [attributeValue stringByAppendingString:@"-"]) ]);
 	} else {
-		*error = [NSError errorForExpected:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		*error = [NSError sel_errorForParsing:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
 		return nil;
 	}
 }
 
-HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **parsedString, NSError **error)
+HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate previousPredicate, NSString **parsedString, NSError **error)
 {
-	//Spec at:
-	//http://www.w3.org/TR/css3-selectors/
-    
-	NSString *firstIdent = scanIdentifier(scanner, parsedString, error);
-	NSString *operator = scanOperator(scanner, parsedString, error);
+
+	NSString *identifier = scanIdentifier(scanner, parsedString, error);
 	
-	if (firstIdent.length > 0 && operator.length == 0 && scanner.isAtEnd) {
-		return ofTagTypePredicate(firstIdent);
-	} else {
-		if ([operator isEqualToString:@":"]) {
-			return andCombinatorPredicate(@[ ofTagTypePredicate(firstIdent),
-                                             predicateFromPseudoClass(scanner, parsedString, error) ]);
-		} else if ([operator isEqualToString:@"::"]) {
-			// We don't support *any* pseudo-elements.
-			*error = [NSError errorForExpected:@"Pseudo elements unsupported" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
-			return nil;
-		} else if ([operator isEqualToString:@"["]) {
-			return scanAttributePredicate(scanner, parsedString, error);
-		} else if (operator.length == 0) {
-			//Whitespace combinator
-			//y descendant of an x
-			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
-                                             descendantOfPredicate(ofTagTypePredicate(firstIdent)) ]);
-		} else if ([operator isEqualToString:@">"]) {
-			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
-                                             childOfOtherPredicatePredicate(ofTagTypePredicate(firstIdent)) ]);
-		} else if ([operator isEqualToString:@"+"]) {
-			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
-                                             adjacentSiblingPredicate(ofTagTypePredicate(firstIdent)) ]);
-		} else if ([operator isEqualToString:@"~"]) {
-			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
-                                             generalSiblingPredicate(ofTagTypePredicate(firstIdent)) ]);
-		} else if ([operator isEqualToString:@"."]) {
-			NSString *className = scanIdentifier(scanner, parsedString, error);
-			return isKindOfClassPredicate(className);
-		} else if ([operator isEqualToString:@"#"]) {
-			NSString *idName = scanIdentifier(scanner, parsedString, error);
-			return hasIDPredicate(idName);
-		}
-		else {
-			[NSError errorForExpected:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
-			return nil;
-		}
+	if (identifier)
+	{
+		return isTagTypePredicate(identifier);
+	}
+	
+	
+	NSString *operator = scanOperator(scanner, parsedString, error);
+
+	if (!previousPredicate) {
+		*error = [NSError sel_errorForParsing:@"Operators require a previous identifier" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		return nil;
+	}
+	
+	if ([operator isEqualToString:@":"]) {
+		return bothCombinatorPredicate(previousPredicate,
+										 scanPredicateFromPseudoClass(scanner, previousPredicate, parsedString, error));
+	} else if ([operator isEqualToString:@"::"]) {
+		// We don't support *any* pseudo-elements.
+		*error = [NSError sel_errorForParsing:@"Pseudo elements unsupported" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		return nil;
+	} else if ([operator isEqualToString:@"["]) {
+		return bothCombinatorPredicate(  previousPredicate,
+									     scanAttributePredicate(scanner, parsedString, error)  );
+	} else if (operator.length == 0) {
+		//Whitespace combinator
+		//y descendant of an x
+		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
+										 descendantOfPredicate(previousPredicate) );
+	} else if ([operator isEqualToString:@">"]) {
+		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
+										 childOfOtherPredicatePredicate(previousPredicate) );
+	} else if ([operator isEqualToString:@"+"]) {
+		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
+										 adjacentSiblingPredicate(previousPredicate));
+	} else if ([operator isEqualToString:@"~"]) {
+		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
+										 generalSiblingPredicate(previousPredicate));
+	} else if ([operator isEqualToString:@"."]) {
+		NSString *className = scanIdentifier(scanner, parsedString, error);
+		return bothCombinatorPredicate(previousPredicate, isKindOfClassPredicate(className));
+	} else if ([operator isEqualToString:@"#"]) {
+		NSString *idName = scanIdentifier(scanner, parsedString, error);
+		return bothCombinatorPredicate(previousPredicate, hasIDPredicate(idName));
+
+	}
+	else {
+		*error = [NSError sel_errorForParsing:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		return nil;
 	}
 }
 
@@ -661,7 +701,16 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
     scanner.caseSensitive = NO; //Section 3 states that in HTML parsing, selectors are case-insensitive
     scanner.charactersToBeSkipped = nil;
 	
-	return predicateFromScanner(scanner, parsedString, error);
+	//Scan out predicate parts and combine them
+	HTMLSelectorPredicate lastPredicate = isTagTypePredicate(@"*");
+	
+	while(!!lastPredicate && ![scanner isAtEnd] && !*error){
+		lastPredicate = scanPredicate(scanner, lastPredicate, parsedString, error);
+	}
+	
+	NSCAssert(!!lastPredicate || !!*error, @"Need either a predicate or error at this point");
+	
+	return lastPredicate;
 }
 
 @interface HTMLSelector ()
