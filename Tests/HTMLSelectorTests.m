@@ -10,7 +10,7 @@
 #import "HTMLParser.h"
 #import "HTMLSelector.h"
 
-extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
+extern HTMLNthExpression parseNth(NSString *nthString);
 
 @interface HTMLSelector (Private)
 
@@ -47,36 +47,36 @@ extern struct mb { NSInteger m; NSInteger b; } parseNth(NSString *nthString);
 
 - (void)testNthParsing
 {
-	XCTAssertEqual(parseNth(@"odd"), ((struct mb){2, 1}));
-	XCTAssertEqual(parseNth(@"even"), ((struct mb){2, 0}));
+	XCTAssertEqual(parseNth(@"odd"), HTMLNthExpressionOdd);
+	XCTAssertEqual(parseNth(@"even"), HTMLNthExpressionEven);
 
-	XCTAssertEqual(parseNth(@"   odd    "), ((struct mb){2, 1}));
+	XCTAssertEqual(parseNth(@"   odd    "), HTMLNthExpressionOdd);
     
-    XCTAssertEqual(parseNth(@" oDD"), ((struct mb){2, 1}));
-    XCTAssertEqual(parseNth(@"EVEN"), ((struct mb){2, 0}));
+    XCTAssertEqual(parseNth(@" oDD"), HTMLNthExpressionOdd);
+    XCTAssertEqual(parseNth(@"EVEN"), HTMLNthExpressionEven);
 	
-	XCTAssertEqual(parseNth(@"2"), ((struct mb){0, 2}));
-	XCTAssertEqual(parseNth(@"-2"), ((struct mb){0, -2}));
+	XCTAssertEqual(parseNth(@"2"), HTMLNthExpressionMake(0, 2));
+	XCTAssertEqual(parseNth(@"-2"), HTMLNthExpressionMake(0, -2));
 	
-	XCTAssertEqual(parseNth(@"n"), ((struct mb){1, 0}));
-	XCTAssertEqual(parseNth(@"-n"), ((struct mb){-1, 0}));
-	XCTAssertEqual(parseNth(@"2n"), ((struct mb){2, 0}));
+	XCTAssertEqual(parseNth(@"n"), HTMLNthExpressionMake(1, 0));
+	XCTAssertEqual(parseNth(@"-n"), HTMLNthExpressionMake(-1, 0));
+	XCTAssertEqual(parseNth(@"2n"), HTMLNthExpressionMake(2, 0));
 	
-	XCTAssertEqual(parseNth(@"n + 1"), ((struct mb){1, 1}));
+	XCTAssertEqual(parseNth(@"n + 1"), HTMLNthExpressionMake(1, 1));
 	
-	XCTAssertEqual(parseNth(@"2n + 3"), ((struct mb){2, 3}));
-	XCTAssertEqual(parseNth(@"2n - 3"), ((struct mb){2, -3}));
+	XCTAssertEqual(parseNth(@"2n + 3"), HTMLNthExpressionMake(2, 3));
+	XCTAssertEqual(parseNth(@"2n - 3"), HTMLNthExpressionMake(2, -3));
     
-    XCTAssertEqual(parseNth(@"2n + 0"), ((struct mb){2, 0}));
-    XCTAssertEqual(parseNth(@"2n - 0"), ((struct mb){2, 0}));
+    XCTAssertEqual(parseNth(@"2n + 0"), HTMLNthExpressionMake(2, 0));
+    XCTAssertEqual(parseNth(@"2n - 0"), HTMLNthExpressionMake(2, 0));
     
-    XCTAssertEqual(parseNth(@"0n + 5"), ((struct mb){0, 5}));
+    XCTAssertEqual(parseNth(@"0n + 5"), HTMLNthExpressionMake(0, 5));
 
-	XCTAssertEqual(parseNth(@" - 3"), ((struct mb){0, -3}));
+	XCTAssertEqual(parseNth(@" - 3"), HTMLNthExpressionMake(0, -3));
 
-	XCTAssertEqual(parseNth(@"2 - 2n"), ((struct mb){0, 0}), @"bad order");
+	XCTAssertEqual(parseNth(@"2 - 2n"), HTMLNthExpressionInvalid, @"bad order");
     
-	XCTAssertEqual(parseNth(@"2n + 3b"), ((struct mb){0, 0}), @"bad character");
+	XCTAssertEqual(parseNth(@"2n + 3b"), HTMLNthExpressionInvalid, @"bad character");
 }
 
 

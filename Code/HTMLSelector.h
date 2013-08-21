@@ -59,3 +59,47 @@
 - (NSArray *)nodesForSelector:(HTMLSelector *)selector;
 
 @end
+
+/**
+ * HTMLNthExpression represents the expression in an :nth-child (or similar) pseudo-class.
+ */
+typedef struct {
+    
+    /**
+     * The coefficient.
+     */
+    NSInteger n;
+    
+    /**
+     * The constant.
+     */
+    NSInteger c;
+} HTMLNthExpression;
+
+/**
+ * Returns an initialized HTMLNthExpression.
+ *
+ * @param n The coefficient.
+ * @param c The constant.
+ */
+extern HTMLNthExpression HTMLNthExpressionMake(NSInteger n, NSInteger c);
+
+/**
+ * Returns YES if the two expressions are equal, or NO otherwise.
+ */
+extern BOOL HTMLNthExpressionEqualToNthExpression(HTMLNthExpression a, HTMLNthExpression b);
+
+/**
+ * An HTMLNthExpression equivalent to the expression "odd".
+ */
+extern const HTMLNthExpression HTMLNthExpressionOdd;
+
+/**
+ * An HTMLNthExpression equivalent to the expression "even".
+ */
+extern const HTMLNthExpression HTMLNthExpressionEven;
+
+/**
+ * An invalid HTMLNthExpression.
+ */
+extern const HTMLNthExpression HTMLNthExpressionInvalid;

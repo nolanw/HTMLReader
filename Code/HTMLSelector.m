@@ -224,7 +224,7 @@ HTMLSelectorPredicateGen generalSiblingPredicate(HTMLSelectorPredicate siblingTe
 
 #pragma mark nth Child Predicates
 
-HTMLSelectorPredicateGen isNthChildPredicate(int m, int b, BOOL fromLast)
+HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLast)
 {
 	return ^BOOL(HTMLNode *node) {
 		NSArray *parentElements = node.parentNode.childElementNodes;
@@ -235,11 +235,11 @@ HTMLSelectorPredicateGen isNthChildPredicate(int m, int b, BOOL fromLast)
 		} else {
 			nthPosition = parentElements.count - [parentElements indexOfObject:node];
 		}
-		return (nthPosition - b) % m == 0;
+		return (nthPosition - nth.c) % nth.n == 0;
 	};
 }
 
-HTMLSelectorPredicateGen isNthChildOfTypePredicate(int m, int b, BOOL fromLast)
+HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, BOOL fromLast)
 {
 	return ^BOOL(HTMLElementNode *node) {
 		id <NSFastEnumeration> enumerator = (fromLast
@@ -253,10 +253,10 @@ HTMLSelectorPredicateGen isNthChildOfTypePredicate(int m, int b, BOOL fromLast)
 			if ([currentNode isEqual:node]) {
 				//check if the current node is the nth element of its type
 				//based on the current count
-				if (m > 0) {
-					return (count - b) % m == 0;
+				if (nth.n > 0) {
+					return (count - nth.c) % nth.n == 0;
 				} else {
-					return (count - b) == 0;
+					return (count - nth.c) == 0;
 				}
 			}
 		}
@@ -266,22 +266,22 @@ HTMLSelectorPredicateGen isNthChildOfTypePredicate(int m, int b, BOOL fromLast)
 
 HTMLSelectorPredicateGen isFirstChildPredicate()
 {
-	return isNthChildPredicate(0, 1, NO);
+	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), NO);
 }
 
 HTMLSelectorPredicateGen isLastChildPredicate()
 {
-	return isNthChildPredicate(0, 1, YES);
+	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), YES);
 }
 
 HTMLSelectorPredicateGen isFirstChildOfTypePredicate()
 {
-	return isNthChildOfTypePredicate(0, 1, NO);	
+	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), NO);
 }
 
 HTMLSelectorPredicateGen isLastChildOfTypePredicate()
 {
-	return isNthChildOfTypePredicate(0, 1, YES);
+	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), YES);
 }
 
 #pragma mark - Only Child
@@ -325,17 +325,18 @@ NSNumber * parseNumber(NSString *number, NSInteger defaultValue)
 }
 
 #pragma mark Parse
-extern struct mb {NSInteger m; NSInteger b;} parseNth(NSString *nthString)
+
+HTMLNthExpression parseNth(NSString *nthString)
 {
 	nthString = [nthString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if ([nthString compare:@"odd" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-		return (struct mb){2, 1};
+		return HTMLNthExpressionOdd;
 	} else if ([nthString compare:@"even" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-		return (struct mb){2, 0};
+		return HTMLNthExpressionEven;
 	} else {
         NSCharacterSet *nthCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789 nN+-"] invertedSet];
         if ([nthString rangeOfCharacterFromSet:nthCharacters].location != NSNotFound) {
-            return (struct mb){0, 0};
+            return HTMLNthExpressionInvalid;
         }
 	}
 	
@@ -343,24 +344,24 @@ extern struct mb {NSInteger m; NSInteger b;} parseNth(NSString *nthString)
 	
 	if (valueSplit.count > 2) {
 		//Multiple ns, fail
-		return (struct mb){0, 0};
+		return HTMLNthExpressionInvalid;
 	} else if (valueSplit.count == 2) {
 		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
 		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
 		
 		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo) {
 			//"n" was defined, and only "-" was given as a multiplier
-			return (struct mb){ -1, [numberTwo integerValue] };
+			return HTMLNthExpressionMake(-1, numberTwo.integerValue);
 		} else if (numberOne && numberTwo) {
-			return (struct mb){ [numberOne integerValue], [numberTwo integerValue] };
+			return HTMLNthExpressionMake(numberOne.integerValue, numberTwo.integerValue);
 		} else {
-			return (struct mb){0, 0};
+			return HTMLNthExpressionInvalid;
 		}
 	} else {
 		NSNumber *number = parseNumber(valueSplit[0], 1);
 		
 		//"n" not found, use whole string as b
-		return (struct mb){0, [number integerValue]};
+		return HTMLNthExpressionMake(0, number.integerValue);
 	}
 }
 
@@ -387,7 +388,7 @@ static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanne
                                                          __unused NSString **parsedString,
                                                          __unused NSError **error)
 {
-	typedef HTMLSelectorPredicate (^CSSThing)(struct mb inputs);
+	typedef HTMLSelectorPredicate (^CSSThing)(HTMLNthExpression nth);
     BOOL ok;
     
 	NSString *pseudo;
@@ -418,14 +419,14 @@ static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanne
 						  @"checked": isCheckedPredicate()
 						  };
 		
-        #define WRAP(funct) (^HTMLSelectorPredicate (struct mb input){ int m=input.m; int b=input.b; return funct; })
+        #define WRAP(funct) (^HTMLSelectorPredicate (HTMLNthExpression nth){ return funct; })
 		
 		nthPseudos = @{
-					   @"nth-child": WRAP((isNthChildPredicate(m, b, NO))),
-					   @"nth-last-child": WRAP((isNthChildPredicate(m, b, YES))),
+					   @"nth-child": WRAP((isNthChildPredicate(nth, NO))),
+					   @"nth-last-child": WRAP((isNthChildPredicate(nth, YES))),
 					   
-					   @"nth-of-type": WRAP((isNthChildOfTypePredicate(m, b, NO))),
-					   @"nth-last-of-type": WRAP((isNthChildOfTypePredicate(m, b, YES))),
+					   @"nth-of-type": WRAP((isNthChildOfTypePredicate(nth, NO))),
+					   @"nth-last-of-type": WRAP((isNthChildOfTypePredicate(nth, YES))),
 					   };
 		
 	});
@@ -437,8 +438,8 @@ static HTMLSelectorPredicateGen predicateFromPseudoClass(NSScanner *pseudoScanne
 	
 	CSSThing nth = nthPseudos[pseudo];
 	if (nth) {
-		struct mb output = parseNth(scanFunctionInterior(pseudoScanner));
-		if (output.m == 0 && output.b == 0) {
+		HTMLNthExpression output = parseNth(scanFunctionInterior(pseudoScanner));
+		if (HTMLNthExpressionEqualToNthExpression(output, HTMLNthExpressionInvalid)) {
 			return nil;
 		} else {
 			return nth(output);
@@ -632,3 +633,19 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	return ret;}
 
 @end
+
+HTMLNthExpression HTMLNthExpressionMake(NSInteger n, NSInteger c)
+{
+    return (HTMLNthExpression){ .n = n, .c = c };
+}
+
+BOOL HTMLNthExpressionEqualToNthExpression(HTMLNthExpression a, HTMLNthExpression b)
+{
+    return a.n == b.n && a.c == b.c;
+}
+
+const HTMLNthExpression HTMLNthExpressionOdd = (HTMLNthExpression){ .n = 2, .c = 1 };
+
+const HTMLNthExpression HTMLNthExpressionEven = (HTMLNthExpression){ .n = 2, .c = 0 };
+
+const HTMLNthExpression HTMLNthExpressionInvalid = (HTMLNthExpression){ .n = 0, .c = 0 };
