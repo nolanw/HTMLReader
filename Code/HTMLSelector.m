@@ -636,10 +636,10 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 - (NSString *)description
 {
-	if (self.parseError) {
-        return [NSString stringWithFormat:@"<%@: %p ERROR: '%@'>", self.class, self, self.parseError];
+    if (self.predicate) {
+        return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.parsedString];
     } else {
-		return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.parsedString];
+        return [NSString stringWithFormat:@"<%@: %p ERROR: '%@'>", self.class, self, self.parseError];
 	}
 }
 
