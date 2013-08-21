@@ -33,17 +33,24 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 - (HTMLDocument *)testDoc
 {
     if (!_testDoc) {
-        _testDoc = [HTMLDocument documentWithString:@"<root id='root'>\
-                    \
-                    <parent id='empty' class='snoopy dog'></parent>\
-                    \
-                    <arbitrary id='nonempty-yet-devoid-of-elements' lang='up-dog'> </arbitrary>\
-                    \
-                    <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
-                    \
-                    <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>\
-                    \
-                    </root>"];
+        _testDoc = [HTMLDocument documentWithString:
+                    @"<root id='root'>"
+                    @"  <parent id='empty' class='snoopy dog'></parent>"
+                    @"  <arbitrary id='nonempty-yet-devoid-of-elements' lang='up-dog'> </arbitrary>"
+                    @"  <parent id='one-child'> <elem id='only-child'> </elem> </parent>"
+                    @"  <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>"
+                    @"  <input id='root-enabled'>"
+                    @"  <input id='root-disabled' disabled>"
+                    @"  <fieldset disabled>"
+                    @"    <input id='fieldset-disabled'>"
+                    @"    <legend>"
+                    @"      <input id='legend-enabled'>"
+                    @"    </legend>"
+                    @"    <legend>"
+                    @"      <input id='legend-disabled'>"
+                    @"    </legend>"
+                    @"  </fieldset>"
+                    @"</root>"];
     }
     return _testDoc;
 }
@@ -145,6 +152,12 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 {
     TestMatchedElementIDs(@"elem:not(elem#only-child)", (@[ @"child1", @"child3" ]));
     TestMatchedElementIDs(@"elem:NOT(elem#only-child)", (@[ @"child1", @"child3" ]));
+}
+
+- (void)testUIElementStatesPseudoClasses
+{
+    TestMatchedElementIDs(@"input:disabled", (@[ @"root-disabled", @"fieldset-disabled", @"legend-disabled" ]));
+    TestMatchedElementIDs(@"input:enabled", (@[ @"root-enabled", @"legend-enabled" ]));
 }
 
 - (void)testAttributeSelectors
