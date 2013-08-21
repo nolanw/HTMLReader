@@ -111,10 +111,15 @@ HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NS
 	};
 }
 
+static NSCharacterSet * SelectorsWhitespaceSet(void)
+{
+    // http://www.w3.org/TR/css3-selectors/#whitespace
+    return [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
+}
+
 HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate(NSString *attributeName, NSString *attributeValue)
 {
-    // TODO use appropriate whitespace set (from HTML spec? Selectors spec?)
-    NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSCharacterSet *whitespace = SelectorsWhitespaceSet();
     return ^(HTMLElementNode *node) {
         NSArray *items = [node[attributeName] componentsSeparatedByCharactersInSet:whitespace];
         return [items containsObject:attributeValue];
@@ -527,12 +532,9 @@ HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **par
 	//Spec at:
 	//http://www.w3.org/TR/css3-selectors/
 	
-	//Spec: Only the characters "space" (U+0020), "tab" (U+0009), "line feed" (U+000A), "carriage return" (U+000D), and "form feed" (U+000C) can occur in whitespace
-	NSCharacterSet *whitespaceSet = [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
-	
 	//Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
 	NSMutableCharacterSet *operatorCharacters = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~.:#["];
-	[operatorCharacters formUnionWithCharacterSet:whitespaceSet];
+	[operatorCharacters formUnionWithCharacterSet:SelectorsWhitespaceSet()];
     
 	NSString *firstIdent = scanIdentifier(scanner, parsedString, error);
 	NSString *operator = scanOperator(scanner, parsedString, error);
