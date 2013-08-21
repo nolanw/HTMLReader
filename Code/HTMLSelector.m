@@ -23,12 +23,16 @@ HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 
 #pragma mark - Combinators
 
-HTMLSelectorPredicateGen andCombinatorPredicate(HTMLSelectorPredicate a, HTMLSelectorPredicate b)
+HTMLSelectorPredicateGen andCombinatorPredicate(NSArray *predicates)
 {
-	return ^BOOL(HTMLElementNode *node)
-	{
-		return a(node) && b(node);
-	};
+    return ^(HTMLElementNode *node) {
+        for (HTMLSelectorPredicate predicate in predicates) {
+            if (!predicate(node)) {
+                return NO;
+            }
+        }
+        return YES;
+    };
 }
 
 HTMLSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
@@ -79,7 +83,7 @@ HTMLSelectorPredicateGen descendantOfPredicate(HTMLSelectorPredicate parentPredi
 	};
 }
 
-HTMLSelectorPredicateGen isEmptyPredicate()
+HTMLSelectorPredicateGen isEmptyPredicate(void)
 {
 	return ^BOOL(HTMLElementNode *node) {
         for (HTMLNode *child in node.childNodes) {
@@ -166,51 +170,6 @@ HTMLSelectorPredicateGen attributeStartsWithAnyOf(NSString *attributeName, NSArr
 	return orCombinatorPredicate(arrayOfPredicates);
 }
 
-
-#pragma mark Attribute Helpers
-
-HTMLSelectorPredicateGen isKindOfClassPredicate(NSString *classname)
-{
-	return attributeContainsExactWhitespaceSeparatedValuePredicate(@"class", classname);
-}
-
-HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
-{
-	return attributeIsExactlyPredicate(@"id", idValue);
-}
-
-HTMLSelectorPredicateGen isFormControlPredicate(void)
-{
-    // I couldn't find this list written out anywhere, so I wrote down any elements in the "Forms" section of the HTML spec that have a "disabled" attribute.
-    NSArray *tagNames = @[ @"input", @"button", @"select", @"optgroup", @"option", @"textarea", @"keygen" ];
-    NSMutableArray *predicates = [NSMutableArray new];
-    for (NSString *tagName in tagNames) {
-        [predicates addObject:ofTagTypePredicate(tagName)];
-    }
-    return orCombinatorPredicate(predicates);
-}
-
-HTMLSelectorPredicateGen isDisabledPredicate()
-{
-    // TODO finish implementing this per the HTML spec http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#concept-fe-disabled
-    // (namely the part about the first <legend> child)
-    HTMLSelectorPredicate descendantOfDisabledFieldset = descendantOfPredicate(andCombinatorPredicate(ofTagTypePredicate(@"fieldset"), hasAttributePredicate(@"disabled")));
-    return andCombinatorPredicate(isFormControlPredicate(),
-                                  orCombinatorPredicate(@[hasAttributePredicate(@"disabled"),
-                                                          descendantOfDisabledFieldset]));
-}
-
-HTMLSelectorPredicateGen isEnabledPredicate()
-{
-	return negatePredicate(isDisabledPredicate());
-}
-
-HTMLSelectorPredicateGen isCheckedPredicate()
-{
-	return orCombinatorPredicate(@[hasAttributePredicate(@"checked"), hasAttributePredicate(@"selected")]);
-}
-
-
 #pragma mark Sibling Predicates
 
 HTMLSelectorPredicateGen adjacentSiblingPredicate(HTMLSelectorPredicate siblingTest)
@@ -237,7 +196,7 @@ HTMLSelectorPredicateGen generalSiblingPredicate(HTMLSelectorPredicate siblingTe
 	};
 }
 
-#pragma mark nth Child Predicates
+#pragma mark nth- Predicates
 
 HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLast)
 {
@@ -279,36 +238,79 @@ HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, BOOL f
 	};
 }
 
-HTMLSelectorPredicateGen isFirstChildPredicate()
+HTMLSelectorPredicateGen isFirstChildPredicate(void)
 {
 	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), NO);
 }
 
-HTMLSelectorPredicateGen isLastChildPredicate()
+HTMLSelectorPredicateGen isLastChildPredicate(void)
 {
 	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), YES);
 }
 
-HTMLSelectorPredicateGen isFirstChildOfTypePredicate()
+HTMLSelectorPredicateGen isFirstChildOfTypePredicate(void)
 {
 	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), NO);
 }
 
-HTMLSelectorPredicateGen isLastChildOfTypePredicate()
+HTMLSelectorPredicateGen isLastChildOfTypePredicate(void)
 {
 	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), YES);
 }
 
+#pragma mark Attribute Helpers
+
+HTMLSelectorPredicateGen isKindOfClassPredicate(NSString *classname)
+{
+	return attributeContainsExactWhitespaceSeparatedValuePredicate(@"class", classname);
+}
+
+HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
+{
+	return attributeIsExactlyPredicate(@"id", idValue);
+}
+
+HTMLSelectorPredicateGen isFormControlPredicate(void)
+{
+    // I couldn't find this list written out anywhere, so I wrote down any elements in the "Forms" section of the HTML spec that have a "disabled" attribute.
+    NSArray *tagNames = @[ @"input", @"button", @"select", @"optgroup", @"option", @"textarea", @"keygen" ];
+    NSMutableArray *predicates = [NSMutableArray new];
+    for (NSString *tagName in tagNames) {
+        [predicates addObject:ofTagTypePredicate(tagName)];
+    }
+    return orCombinatorPredicate(predicates);
+}
+
+HTMLSelectorPredicateGen isDisabledPredicate(void)
+{
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#concept-fe-disabled
+    HTMLSelectorPredicate descendantOfDisabledFieldset = descendantOfPredicate(andCombinatorPredicate(@[ ofTagTypePredicate(@"fieldset"), hasAttributePredicate(@"disabled") ]));
+    HTMLSelectorPredicate descendantOfFirstLegendOfDisabledFieldset = descendantOfPredicate(andCombinatorPredicate(@[ ofTagTypePredicate(@"legend"), isFirstChildOfTypePredicate(), descendantOfDisabledFieldset ]));
+    return andCombinatorPredicate(@[ isFormControlPredicate(),
+                                  orCombinatorPredicate(@[ hasAttributePredicate(@"disabled"),
+                                                        andCombinatorPredicate(@[ descendantOfDisabledFieldset, negatePredicate(descendantOfFirstLegendOfDisabledFieldset) ]) ]) ]);
+}
+
+HTMLSelectorPredicateGen isEnabledPredicate(void)
+{
+	return negatePredicate(isDisabledPredicate());
+}
+
+HTMLSelectorPredicateGen isCheckedPredicate(void)
+{
+	return orCombinatorPredicate(@[hasAttributePredicate(@"checked"), hasAttributePredicate(@"selected")]);
+}
+
 #pragma mark - Only Child
 
-HTMLSelectorPredicateGen isOnlyChildPredicate()
+HTMLSelectorPredicateGen isOnlyChildPredicate(void)
 {
 	return ^BOOL(HTMLNode *node) {
 		return [node.parentNode childElementNodes].count == 1;
 	};
 }
 
-HTMLSelectorPredicateGen isOnlyChildOfTypePredicate()
+HTMLSelectorPredicateGen isOnlyChildOfTypePredicate(void)
 {
 	return ^(HTMLElementNode *node) {
 		for (HTMLElementNode *sibling in node.parentNode.childElementNodes) {
@@ -320,7 +322,7 @@ HTMLSelectorPredicateGen isOnlyChildOfTypePredicate()
 	};
 }
 
-HTMLSelectorPredicateGen isRootPredicate()
+HTMLSelectorPredicateGen isRootPredicate(void)
 {
 	return ^BOOL(HTMLElementNode *node)
 	{
@@ -355,7 +357,7 @@ HTMLNthExpression parseNth(NSString *nthString)
         }
 	}
 	
-	NSArray *valueSplit = [nthString componentsSeparatedByString:@"n"];
+	NSArray *valueSplit = [nthString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"nN"]];
 	
 	if (valueSplit.count > 2) {
 		//Multiple ns, fail
@@ -564,8 +566,8 @@ HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **par
 		return ofTagTypePredicate(firstIdent);
 	} else {
 		if ([operator isEqualToString:@":"]) {
-			return andCombinatorPredicate(ofTagTypePredicate(firstIdent),
-                                          predicateFromPseudoClass(scanner, parsedString, error));
+			return andCombinatorPredicate(@[ ofTagTypePredicate(firstIdent),
+                                             predicateFromPseudoClass(scanner, parsedString, error) ]);
 		} else if ([operator isEqualToString:@"::"]) {
 			// We don't support *any* pseudo-elements.
 			return nil;
@@ -574,17 +576,17 @@ HTMLSelectorPredicateGen predicateFromScanner(NSScanner *scanner, NSString **par
 		} else if (operator.length == 0) {
 			//Whitespace combinator
 			//y descendant of an x
-			return andCombinatorPredicate(predicateFromScanner(scanner, parsedString, error),
-                                          descendantOfPredicate(ofTagTypePredicate(firstIdent)));
+			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
+                                             descendantOfPredicate(ofTagTypePredicate(firstIdent)) ]);
 		} else if ([operator isEqualToString:@">"]) {
-			return andCombinatorPredicate(predicateFromScanner(scanner, parsedString, error),
-                                          childOfOtherPredicatePredicate(ofTagTypePredicate(firstIdent)));
+			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
+                                             childOfOtherPredicatePredicate(ofTagTypePredicate(firstIdent)) ]);
 		} else if ([operator isEqualToString:@"+"]) {
-			return andCombinatorPredicate(predicateFromScanner(scanner, parsedString, error),
-                                          adjacentSiblingPredicate(ofTagTypePredicate(firstIdent)));
+			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
+                                             adjacentSiblingPredicate(ofTagTypePredicate(firstIdent)) ]);
 		} else if ([operator isEqualToString:@"~"]) {
-			return andCombinatorPredicate(predicateFromScanner(scanner, parsedString, error),
-                                          generalSiblingPredicate(ofTagTypePredicate(firstIdent)));
+			return andCombinatorPredicate(@[ predicateFromScanner(scanner, parsedString, error),
+                                             generalSiblingPredicate(ofTagTypePredicate(firstIdent)) ]);
 		} else if ([operator isEqualToString:@"."]) {
 			NSString *className = scanIdentifier(scanner, parsedString, error);
 			return isKindOfClassPredicate(className);
