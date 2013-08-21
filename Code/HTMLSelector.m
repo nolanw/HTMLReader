@@ -111,6 +111,16 @@ HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NS
 	};
 }
 
+HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate(NSString *attributeName, NSString *attributeValue)
+{
+    // TODO use appropriate whitespace set (from HTML spec? Selectors spec?)
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    return ^(HTMLElementNode *node) {
+        NSArray *items = [node[attributeName] componentsSeparatedByCharactersInSet:whitespace];
+        return [items containsObject:attributeValue];
+    };
+}
+
 HTMLSelectorPredicateGen attributeStartsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElementNode *node) {
@@ -155,8 +165,7 @@ HTMLSelectorPredicateGen attributeStartsWithAnyOf(NSString *attributeName, NSArr
 
 HTMLSelectorPredicateGen isKindOfClassPredicate(NSString *classname)
 {
-	//TODO this won't work if there's multiple classes defined
-	return attributeIsExactlyPredicate(@"class", classname);
+	return attributeContainsExactWhitespaceSeparatedValuePredicate(@"class", classname);
 }
 
 HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
@@ -498,8 +507,7 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 	} else if ([operator isEqualToString:@"="]) {
 		return attributeIsExactlyPredicate(attributeName, attributeValue);
 	} else if ([operator isEqualToString:@"~="]) {
-		NSArray *attributeValues = [attributeValue componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		return attributeIsExactlyAnyOf(attributeName, attributeValues);
+        return attributeContainsExactWhitespaceSeparatedValuePredicate(attributeName, attributeValue);
 	} else if ([operator isEqualToString:@"^="]) {
 		return attributeStartsWithPredicate(attributeName, attributeValue);
 	} else if ([operator isEqualToString:@"$="]) {

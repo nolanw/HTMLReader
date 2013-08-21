@@ -33,7 +33,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 
 	testDoc = [HTMLParser documentForString:@"<root id='root'>\
 			   \
-			   <parent id='empty'></parent>\
+			   <parent id='empty' class='snoopy dog'></parent>\
                \
                <arbitrary id='nonempty-yet-devoid-of-elements'> </arbitrary>\
 			   \
@@ -125,6 +125,8 @@ TestSelector(@"other+elem", @"other+elem", (@[@"child3"]), AdjacentSiblingElemFr
 TestSelector(@"elem~elem", @"other~elem", (@[@"child3"]), GeneralSiblingElemFromElem)
 
 TestSelector(@"elem#child1", @"elem#child1", (@[@"child1"]), IDCheckChild1)
+
+TestSelector(@"parent.dog", @"parent.dog", (@[@"empty"]), Class)
 
 
 TestSelector(@"elem:not(elem#only-child)", @"elem#only-child", (@[@"child1", @"child3"]), NotTest)
