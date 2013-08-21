@@ -19,31 +19,34 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 @end
 
 @interface HTMLSelectorTests : XCTestCase
-{
-	HTMLDocument *testDoc;
-}
+
+@end
+
+@interface HTMLSelectorTests ()
+
+@property (strong, nonatomic) HTMLDocument *testDoc;
 
 @end
 
 @implementation HTMLSelectorTests
 
-- (void)setUp
+- (HTMLDocument *)testDoc
 {
-    [super setUp];
-
-	testDoc = [HTMLParser documentForString:@"<root id='root'>\
-			   \
-			   <parent id='empty' class='snoopy dog'></parent>\
-               \
-               <arbitrary id='nonempty-yet-devoid-of-elements'> </arbitrary>\
-			   \
-			   <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
-			   \
-			   <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>\
-			   \
-			   </root>"];
+    if (!_testDoc) {
+        _testDoc = [HTMLDocument documentWithString:@"<root id='root'>\
+                    \
+                    <parent id='empty' class='snoopy dog'></parent>\
+                    \
+                    <arbitrary id='nonempty-yet-devoid-of-elements'> </arbitrary>\
+                    \
+                    <parent id='one-child'> <elem id='only-child'> </elem> </parent>\
+                    \
+                    <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>\
+                    \
+                    </root>"];
+    }
+    return _testDoc;
 }
-
 
 - (void)testNthParsing
 {
@@ -79,72 +82,69 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 	XCTAssertEqual(parseNth(@"2n + 3b"), HTMLNthExpressionInvalid, @"bad character");
 }
 
-
-#define TestSelector(selectorString, parsedSelector, expectedIds, name) \
-- (void)test##name \
-{ \
-    HTMLSelector *selector = [HTMLSelector selectorForString:selectorString]; \
-    /* TODO Deal with parsed selector, when/if implemented */ \
-    /* XCTAssertEqualObjects(selector.parsedEquivalent, parsedSelector); */ \
-    NSArray *returnedNodes = [testDoc nodesForSelector:selector]; \
-    NSMutableArray *returnedIds = [NSMutableArray new]; \
-    for (HTMLElementNode *node in returnedNodes) { \
-        [returnedIds addObject:node[@"id"]]; \
+#define TestMatchedElementIDs(selectorString, expectedIDs) do { \
+    NSArray *nodes = [self.testDoc nodesForSelectorString:(selectorString)]; \
+    NSMutableArray *IDs = [NSMutableArray new]; \
+    for (HTMLElementNode *node in nodes) { \
+        [IDs addObject:node[@"id"]]; \
     } \
-    XCTAssertEqualObjects(returnedIds, expectedIds, @"Test of %@ failed", selectorString); \
+    XCTAssertEqualObjects(IDs, expectedIDs); \
+} while(0)
+
+- (void)testTypeSelector
+{
+    TestMatchedElementIDs(@"root", (@[ @"root" ]));
+    TestMatchedElementIDs(@"parent", (@[ @"empty", @"one-child", @"three-children" ]));
+    TestMatchedElementIDs(@"elem", (@[ @"only-child", @"child1", @"child3" ]));
+    TestMatchedElementIDs(@"other", (@[ @"child2" ]));
 }
 
-TestSelector(@"root", @"root", @[@"root"], RootElementCheck)
-TestSelector(@"parent", @"parent", (@[@"empty", @"one-child", @"three-children"]), ParentElementsCheck)
-TestSelector(@"elem", @"elem", (@[@"only-child", @"child1", @"child3"]), ElemElementsCheck)
-TestSelector(@"other", @"other", (@[@"child2"]), OtherElementCheck)
+- (void)testDescendantCombinator
+{
+    // Any tag type with a parent of type "parent".
+    TestMatchedElementIDs(@"parent *", (@[ @"only-child", @"child1", @"child2", @"child3" ]));
+    
+    // Test grandchild chaining, as described in http://www.w3.org/TR/css3-selectors/#descendant-combinators
+    // "root * elem" == <root><*any*><elem/></*any></root>
+    TestMatchedElementIDs(@"root * elem", (@[ @"only-child", @"child1", @"child3" ]));
+}
 
-//Any tag type with a parent of type "parent"
-TestSelector(@"parent *", @"parent *", (@[@"only-child", @"child1", @"child2", @"child3"]), ParentCheck)
+- (void)testPseudoClasses
+{
+    TestMatchedElementIDs(@"parent:empty", (@[ @"empty" ]));
+    TestMatchedElementIDs(@"elem:first-of-type", (@[ @"only-child", @"child1" ]));
+    TestMatchedElementIDs(@"elem:last-of-type", (@[ @"only-child", @"child3" ]));
+    TestMatchedElementIDs(@"other:first-of-type", (@[ @"child2" ]));
+    TestMatchedElementIDs(@"other:first-of-type", (@[ @"child2" ]));
+}
 
-//Test grandchild chaining, as described in http://www.w3.org/TR/css3-selectors/#descendant-combinators
-//"root * elem" == <root><*any*><elem/></*any></root>
-TestSelector(@"root * elem", @"root * elem", (@[@"only-child", @"child1", @"child3"]), GrandparentCheck)
-			 
+- (void)testAdjacentSiblingCombinator
+{
+    TestMatchedElementIDs(@"elem+other", (@[ @"child2" ]));
+    TestMatchedElementIDs(@"other+elem", (@[ @"child3" ]));
+}
 
-TestSelector(@"parent:empty", @"elem:empty", (@[@"empty"]), EmptyElement);
+- (void)testGeneralSiblingCombinator
+{
+    TestMatchedElementIDs(@"elem~elem", (@[ @"child3" ]));
+}
 
-TestSelector(@"elem:first-of-type", @"elem:first-of-type", (@[@"only-child", @"child1"]), FirstOfTypeElem)
+- (void)testIDSelector
+{
+    TestMatchedElementIDs(@"elem#child1", (@[ @"child1" ]));
+    TestMatchedElementIDs(@"#child1", (@[ @"child1" ]));
+}
 
-TestSelector(@"elem:last-of-type", @"elem:last-of-type", (@[@"only-child", @"child3"]), LastOfTypeElem)
+- (void)testClassSelector
+{
+    TestMatchedElementIDs(@"parent.dog", (@[ @"empty" ]));
+    TestMatchedElementIDs(@".dog", (@[ @"empty" ]));
+}
 
-TestSelector(@"other:first-of-type", @"other:first-of-type", (@[@"child2"]), FirstOfTypeOther)
-
-TestSelector(@"other:first-of-type", @"other:first-of-type", (@[@"child2"]), LastOfTypeOther)
-
-
-TestSelector(@"elem+other", @"other+elem", (@[@"child2"]), AdjacentSiblingOtherFromElem)
-
-TestSelector(@"other+elem", @"other+elem", (@[@"child3"]), AdjacentSiblingElemFromOther)
-
-TestSelector(@"elem~elem", @"other~elem", (@[@"child3"]), GeneralSiblingElemFromElem)
-
-TestSelector(@"elem#child1", @"elem#child1", (@[@"child1"]), IDCheckChild1)
-
-TestSelector(@"parent.dog", @"parent.dog", (@[@"empty"]), Class)
-
-
-TestSelector(@"elem:not(elem#only-child)", @"elem#only-child", (@[@"child1", @"child3"]), NotTest)
-TestSelector(@"elem:NOT(elem#only-child)", @"elem#only-child", (@[@"child1", @"child3"]), UppercaseNotTest)
-
-
-
-/*
- 
- 
- [CSSSelector selectorForString:@"img"]);
- 
- 
- 
- [CSSSelector selectorForString:@"E[foo*=\"bar\"]"]);
- 
- [CSSSelector selectorForString:@"Efoo*=\"bar\"]"]);
- 
- */
+- (void)testNegationPseudoClass
+{
+    TestMatchedElementIDs(@"elem:not(elem#only-child)", (@[ @"child1", @"child3" ]));
+    TestMatchedElementIDs(@"elem:NOT(elem#only-child)", (@[ @"child1", @"child3" ]));
+}
 
 @end
