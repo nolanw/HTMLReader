@@ -16,37 +16,30 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
                                                        NSString **parsedString,
                                                        NSError **error);
 
-@implementation NSError (ParseErrors)
-
-+(instancetype)sel_errorForParsing:(NSString*)errorExplaination forString:(NSString*)string atPosition:(int)position
+static NSError * ParseError(NSString *reason, NSString *string, NSUInteger position)
 {
-	NSString *carrotString = [@"^" stringByPaddingToLength:position+1 withString:@" " startingAtIndex:0];
-	
-
-	/*
-	 
+    /*
 	 String that looks like
 	 
 	 Error near character 4: Pseudo elements unsupported
-	 	tag::
-		   ^
-	 	
-	*/
-	NSString *localizedError = [NSString stringWithFormat:@"Error near character %d - %@\n\n\t%@\n\t\%@",
-								position,
-								errorExplaination,
-								string,
-								carrotString];
-	
-	return [NSError errorWithDomain:@"HTMLSelectorParseError" code:0 userInfo:@{
-																		   NSLocalizedDescriptionKey: localizedError,
-																		   @"explaination": errorExplaination,
-																		   @"string": string,
-																		   @"location": @(position)
-																		   }];
+     tag::
+        ^
+     
+     */
+    NSString *caretString = [@"^" stringByPaddingToLength:position+1 withString:@" " startingAtIndex:0];
+    NSString *failureReason = [NSString stringWithFormat:@"Error near character %d: %@\n\n\t%@\n\t\%@",
+                               position,
+                               reason,
+                               string,
+                               caretString];
+    
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: reason,
+                                NSLocalizedFailureReasonErrorKey: failureReason,
+                                HTMLSelectorInputStringErrorKey: string,
+                                HTMLSelectorLocationErrorKey: @(position),
+                                };
+    return [NSError errorWithDomain:HTMLSelectorErrorDomain code:1 userInfo:userInfo];
 }
-
-@end
 
 HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 {
@@ -440,16 +433,14 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
     
     ok = [scanner scanString:@"(" intoString:nil];
 	if (!ok) {
-		*error = [NSError sel_errorForParsing:@"Expected ( to start function" forString:scanner.string atPosition:scanner.scanLocation];
-		
+		*error = ParseError(@"Expected ( to start function", scanner.string, scanner.scanLocation);
 		return nil;
 	}
 	
     NSString *interior;
 	ok = [scanner scanUpToString:@")" intoString:&interior];
 	if (!ok) {
-		*error = [NSError sel_errorForParsing:@"Expected ) to end function" forString:scanner.string atPosition:scanner.scanLocation];
-		
+		*error = ParseError(@"Expected ) to end function", scanner.string, scanner.scanLocation);
 		return nil;
 	}
     
@@ -515,7 +506,7 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 		HTMLNthExpression nth = parseNth(interior);
 		
 		if (HTMLNthExpressionEqualToNthExpression(nth, HTMLNthExpressionInvalid)) {
-			*error = [NSError sel_errorForParsing:@"Failed to parse Nth statement" forString:scanner.string atPosition:scanner.scanLocation];
+			*error = ParseError(@"Failed to parse Nth statement", scanner.string, scanner.scanLocation);
 			return nil;
 		}
 
@@ -538,8 +529,7 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 		return negatePredicate(toNegate);
 	}
 	
-	
-	*error = [NSError sel_errorForParsing:@"Unrecognized pseudo class" forString:scanner.string atPosition:scanner.scanLocation];
+	*error = ParseError(@"Unrecognized pseudo class", scanner.string, scanner.scanLocation);
 	return nil;
 }
 
@@ -597,7 +587,7 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
             [scanner scanCharactersFromSet:whitespace intoString:nil];
             NSString *quote = [scanner.string substringWithRange:NSMakeRange(scanner.scanLocation, 1)];
             if (!([quote isEqualToString:@"\""] || [quote isEqualToString:@"'"])) {
-				*error = [NSError sel_errorForParsing:@"Expected quote in attribute value" forString:scanner.string atPosition:scanner.scanLocation];
+				*error = ParseError(@"Expected quote in attribute value", scanner.string, scanner.scanLocation);
                 return nil;
             }
             [scanner scanString:quote intoString:nil];
@@ -611,7 +601,7 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 	[scanner scanUpToString:@"]" intoString:nil];
 	ok = [scanner scanString:@"]" intoString:nil];
 	if (!ok) {
-		*error = [NSError sel_errorForParsing:@"Expected ] to close attribute" forString:scanner.string atPosition:scanner.scanLocation];
+		*error = ParseError(@"Expected ] to close attribute", scanner.string, scanner.scanLocation);
 		return nil;
 	}
 	
@@ -631,7 +621,7 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 		return orCombinatorPredicate(@[ attributeIsExactlyPredicate(attributeName, attributeValue),
                                         attributeStartsWithPredicate(attributeName, [attributeValue stringByAppendingString:@"-"]) ]);
 	} else {
-		*error = [NSError sel_errorForParsing:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		*error = ParseError(@"Unexpected operator", scanner.string, scanner.scanLocation - operator.length);
 		return nil;
 	}
 }
@@ -650,7 +640,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 		inputPredicate = scanTagPredicate(scanner, parsedString, error);
 		
 		if (!inputPredicate) {
-			*error = [NSError sel_errorForParsing:@"Expected tag" forString:scanner.string atPosition:scanner.scanLocation];
+			*error = ParseError(@"Expected tag", scanner.string, scanner.scanLocation);
 			return nil;
 		}
 		
@@ -667,7 +657,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 										 scanPredicateFromPseudoClass(scanner, inputPredicate, parsedString, error));
 	} else if ([operator isEqualToString:@"::"]) {
 		// We don't support *any* pseudo-elements.
-		*error = [NSError sel_errorForParsing:@"Pseudo elements unsupported" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		*error = ParseError(@"Pseudo elements unsupported", scanner.string, scanner.scanLocation - operator.length);
 		return nil;
 	} else if ([operator isEqualToString:@"["]) {
 		return bothCombinatorPredicate(  inputPredicate,
@@ -694,7 +684,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 		return bothCombinatorPredicate(inputPredicate, hasIDPredicate(idName));
 	}
 	else {
-		*error = [NSError sel_errorForParsing:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
+		*error = ParseError(@"Unexpected operator", scanner.string, scanner.scanLocation - operator.length);
 		return nil;
 	}
 }
@@ -756,6 +746,12 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 }
 
 @end
+
+NSString * const HTMLSelectorErrorDomain = @"HTMLSelectorErrorDomain";
+
+NSString * const HTMLSelectorInputStringErrorKey = @"HTMLSelectorInputString";
+
+NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 
 @implementation HTMLNode (HTMLSelector)
 

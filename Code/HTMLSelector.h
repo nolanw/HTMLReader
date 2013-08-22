@@ -37,11 +37,28 @@
 + (instancetype)selectorForString:(NSString *)selectorString;
 
 /**
- * `nil` if the selector string parsed succesfully, or an NSError instance on failure.
+ * `nil` if the selector string parsed succesfully, or an NSError instance on failure. Errors are in the HTMLSelectorErrorDomain.
  */
 @property (readonly, strong, nonatomic) NSError *error;
 
 @end
+
+#pragma mark HTMLSelectorErrorDomain
+
+/**
+ * Error domain for all selector parse errors. Errors in this domain describe in localizedFailureReason where in the input the error occurred.
+ */
+extern NSString * const HTMLSelectorErrorDomain;
+
+/**
+ * The corresponding value is an NSString of the input that caused the error.
+ */
+extern NSString * const HTMLSelectorInputStringErrorKey;
+
+/**
+ * The corresponding value is an NSNumber of the 0-based index into the input string at which the parse error occurred.
+ */
+extern NSString * const HTMLSelectorLocationErrorKey;
 
 /**
  * HTMLSelector expands the HTMLNode class to match nodes in the subtree rooted at an instance of HTMLNode.
@@ -59,6 +76,8 @@
 - (NSArray *)nodesForSelector:(HTMLSelector *)selector;
 
 @end
+
+#pragma mark nth Expressions
 
 /**
  * HTMLNthExpression represents the expression in an :nth-child (or similar) pseudo-class.
