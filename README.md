@@ -1,18 +1,18 @@
 # HTMLReader
 
-A [WHATWG-compliant HTML parser][whatwg-spec] in Objective-C.
+A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-level-3] in Objective-C.
 
+[selectors-level-3]: http://www.w3.org/TR/css3-selectors/
 [whatwg-spec]: http://whatwg.org/html
 
 ## Usage
 
 ```objc
-#import "HTMLReader.h"
+#import <HTMLReader/HTMLReader.h>
 
 NSString *html = @"<p><b>Ahoy there sailor!</b></p>";
 HTMLDocument *document = [HTMLDocument documentWithString:html];
-HTMLElementNode *body = document.rootNode.childNodes[1];
-HTMLTextNode *text = [[body.childNodes[0] childNodes][0] childNodes][0];
+HTMLTextNode *text = [[document nodesForSelectorString:@"b"][0] childNodes][0];
 NSLog(@"%@", text.data); // => Ahoy there sailor!
 ```
 
@@ -56,3 +56,9 @@ HTMLReader uses [html5lib's tests][html5lib-tests] for tokenization and tree con
 ## License
 
 HTMLReader is in the public domain.
+
+## Acknowledgements
+
+HTMLReader is developed by [Nolan Waite](https://github.com/nolanw).
+
+Thanks to [Chris Williams](https://github.com/ultramiraculous/) for contributing the implementation of CSS selectors.
