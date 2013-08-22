@@ -6,6 +6,7 @@
 //
 
 #import "HTMLNode.h"
+#import "HTMLMutability.h"
 #import "HTMLString.h"
 
 @interface HTMLTreeEnumerator : NSEnumerator
@@ -130,6 +131,12 @@
 {
     return [[self.class allocWithZone:zone] init];
 }
+
+@end
+
+@interface HTMLElementNode ()
+
+@property (assign, nonatomic) HTMLNamespace namespace;
 
 @end
 

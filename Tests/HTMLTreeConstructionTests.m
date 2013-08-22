@@ -6,6 +6,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "HTMLMutability.h"
 #import "HTMLParser.h"
 #import "HTMLTestUtilities.h"
 #import <objc/runtime.h>

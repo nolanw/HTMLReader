@@ -6,7 +6,7 @@
 //
 
 #import "HTMLTokenizer.h"
-#import "HTMLAttribute.h"
+#import "HTMLParser.h"
 #import "HTMLString.h"
 
 @interface HTMLTagToken ()
@@ -33,6 +33,19 @@
 
 @end
 
+@interface HTMLParser ()
+
+@property (readonly, strong, nonatomic) HTMLElementNode *adjustedCurrentNode;
+
+@end
+
+@interface HTMLAttribute ()
+
+- (void)appendLongCharacterToName:(UTF32Char)character;
+- (void)appendLongCharacterToValue:(UTF32Char)character;
+- (void)appendStringToValue:(NSString *)string;
+
+@end
 
 @implementation HTMLTokenizer
 {

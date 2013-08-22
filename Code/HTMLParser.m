@@ -6,6 +6,7 @@
 //
 
 #import "HTMLParser.h"
+#import "HTMLMutability.h"
 #import "HTMLString.h"
 #import "HTMLTokenizer.h"
 
