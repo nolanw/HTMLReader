@@ -7,7 +7,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "HTMLParser.h"
+#import "HTMLDocument.h"
 #import "HTMLSelector.h"
 
 extern HTMLNthExpression parseNth(NSString *nthString);
