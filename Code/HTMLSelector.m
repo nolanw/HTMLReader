@@ -693,6 +693,12 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 {
 	//Trim non-functional whitespace
 	selectorString = [selectorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    // An empty selector is an invalid selector.
+    if (selectorString.length == 0) {
+        *error = ParseError(@"Empty selector", selectorString, 0);
+        return nil;
+    }
 	
 	NSScanner *scanner = [NSScanner scannerWithString:selectorString];
     scanner.caseSensitive = NO; //Section 3 states that in HTML parsing, selectors are case-insensitive

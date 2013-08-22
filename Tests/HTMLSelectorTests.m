@@ -186,6 +186,8 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 - (void)testBadInput
 {
 	ExpectError(@"[id]asdf");
+    ExpectError(@"h2..foo");
+    ExpectError(@"");
 }
 
 @end
