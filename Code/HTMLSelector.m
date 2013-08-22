@@ -709,9 +709,9 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	
 	do{
 		lastPredicate = scanPredicate(scanner, lastPredicate, parsedString, error);
-	} while (!!lastPredicate && ![scanner isAtEnd] && !*error);
+	} while (lastPredicate && ![scanner isAtEnd] && !*error);
 	
-	NSCAssert(!!lastPredicate || !!*error, @"Need either a predicate or error at this point");
+	NSCAssert(lastPredicate || *error, @"Need either a predicate or error at this point");
 	
 	return lastPredicate;
 }
