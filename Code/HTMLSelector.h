@@ -39,7 +39,7 @@
 /**
  * `nil` if the selector string parsed succesfully, or an NSError instance on failure.
  */
-@property (readonly, strong, nonatomic) NSError *parseError;
+@property (readonly, strong, nonatomic) NSError *error;
 
 @end
 

@@ -181,4 +181,11 @@ extern HTMLNthExpression parseNth(NSString *nthString);
                                                 @"child1", @"child2", @"child3" ]));
 }
 
+#define ExpectError(selectorString) XCTAssertNotNil([HTMLSelector selectorForString:selectorString].error)
+
+- (void)testBadInput
+{
+	ExpectError(@"[id]asdf");
+}
+
 @end

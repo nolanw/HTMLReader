@@ -636,55 +636,62 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 	}
 }
 
-HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate previousPredicate, NSString **parsedString, NSError **error)
+HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSString **parsedString, NSError **error)
 {
-
 	NSString *identifier = scanIdentifier(scanner, parsedString, error);
 	
-	if (identifier)
-	{
-		return isTagTypePredicate(identifier);
+	return identifier ? isTagTypePredicate(identifier) : isTagTypePredicate(@"*");
+}
+
+
+HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate inputPredicate, NSString **parsedString, NSError **error)
+{
+	if (!inputPredicate) {
+		inputPredicate = scanTagPredicate(scanner, parsedString, error);
+		
+		if (!inputPredicate) {
+			*error = [NSError sel_errorForParsing:@"Expected tag" forString:scanner.string atPosition:scanner.scanLocation];
+			return nil;
+		}
+		
+		//If we're out of things to scan, all we have is this tag, no operators on it
+		if (scanner.isAtEnd) return inputPredicate;
 	}
 	
 	
 	NSString *operator = scanOperator(scanner, parsedString, error);
 
-	if (!previousPredicate) {
-		*error = [NSError sel_errorForParsing:@"Operators require a previous identifier" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
-		return nil;
-	}
 	
 	if ([operator isEqualToString:@":"]) {
-		return bothCombinatorPredicate(previousPredicate,
-										 scanPredicateFromPseudoClass(scanner, previousPredicate, parsedString, error));
+		return bothCombinatorPredicate(inputPredicate,
+										 scanPredicateFromPseudoClass(scanner, inputPredicate, parsedString, error));
 	} else if ([operator isEqualToString:@"::"]) {
 		// We don't support *any* pseudo-elements.
 		*error = [NSError sel_errorForParsing:@"Pseudo elements unsupported" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
 		return nil;
 	} else if ([operator isEqualToString:@"["]) {
-		return bothCombinatorPredicate(  previousPredicate,
+		return bothCombinatorPredicate(  inputPredicate,
 									     scanAttributePredicate(scanner, parsedString, error)  );
-	} else if (operator.length == 0) {
+	} else if ([operator isEqualToString:@""]) {
 		//Whitespace combinator
 		//y descendant of an x
 		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 descendantOfPredicate(previousPredicate) );
+										 descendantOfPredicate(inputPredicate) );
 	} else if ([operator isEqualToString:@">"]) {
 		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 childOfOtherPredicatePredicate(previousPredicate) );
+										 childOfOtherPredicatePredicate(inputPredicate) );
 	} else if ([operator isEqualToString:@"+"]) {
 		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 adjacentSiblingPredicate(previousPredicate));
+										 adjacentSiblingPredicate(inputPredicate));
 	} else if ([operator isEqualToString:@"~"]) {
 		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 generalSiblingPredicate(previousPredicate));
+										 generalSiblingPredicate(inputPredicate));
 	} else if ([operator isEqualToString:@"."]) {
 		NSString *className = scanIdentifier(scanner, parsedString, error);
-		return bothCombinatorPredicate(previousPredicate, isKindOfClassPredicate(className));
+		return bothCombinatorPredicate(inputPredicate, isKindOfClassPredicate(className));
 	} else if ([operator isEqualToString:@"#"]) {
 		NSString *idName = scanIdentifier(scanner, parsedString, error);
-		return bothCombinatorPredicate(previousPredicate, hasIDPredicate(idName));
-
+		return bothCombinatorPredicate(inputPredicate, hasIDPredicate(idName));
 	}
 	else {
 		*error = [NSError sel_errorForParsing:@"Unexpected operator" forString:scanner.string atPosition:scanner.scanLocation-operator.length];
@@ -702,11 +709,11 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
     scanner.charactersToBeSkipped = nil;
 	
 	//Scan out predicate parts and combine them
-	HTMLSelectorPredicate lastPredicate = isTagTypePredicate(@"*");
+	HTMLSelectorPredicate lastPredicate = nil;
 	
-	while(!!lastPredicate && ![scanner isAtEnd] && !*error){
+	do{
 		lastPredicate = scanPredicate(scanner, lastPredicate, parsedString, error);
-	}
+	} while (!!lastPredicate && ![scanner isAtEnd] && !*error);
 	
 	NSCAssert(!!lastPredicate || !!*error, @"Need either a predicate or error at this point");
 	
@@ -717,7 +724,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 @property (copy, nonatomic) HTMLSelectorPredicate predicate;
 @property (copy, nonatomic) NSString *parsedString;
-@property (strong, nonatomic) NSError *parseError;
+@property (strong, nonatomic) NSError *error;
 
 @end
 
@@ -734,7 +741,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	NSError *error = nil;
 	NSString *parsedString = @"";
 	self.predicate = SelectorFunctionForString(selectorString, &parsedString, &error);
-	self.parseError = error;
+	self.error = error;
 	self.parsedString = parsedString;
     return self;
 }
@@ -744,7 +751,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
     if (self.predicate) {
         return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.parsedString];
     } else {
-        return [NSString stringWithFormat:@"<%@: %p ERROR: '%@'>", self.class, self, self.parseError];
+        return [NSString stringWithFormat:@"<%@: %p ERROR: '%@'>", self.class, self, self.error];
 	}
 }
 
@@ -759,7 +766,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 - (NSArray *)nodesForSelector:(HTMLSelector *)selector
 {
-	NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.parseError);
+	NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
     
 	NSMutableArray *ret = [NSMutableArray new];
 	for (HTMLElementNode *node in self.treeEnumerator) {
