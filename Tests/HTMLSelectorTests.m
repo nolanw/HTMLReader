@@ -41,15 +41,17 @@ extern HTMLNthExpression parseNth(NSString *nthString);
                     @"  <parent id='three-children'> <elem id='child1'> </elem> <other id='child2'> </other> <elem id='child3'> </elem> </parent>"
                     @"  <input id='root-enabled'>"
                     @"  <input id='root-disabled' disabled>"
-                    @"  <fieldset disabled>"
-                    @"    <input id='fieldset-disabled'>"
+                    @"  <fieldset disabled id='fieldset-disabled'>"
+                    @"    <input id='input-disabled-by-fieldset'>"
                     @"    <legend>"
-                    @"      <input id='legend-enabled'>"
+                    @"      <input id='input-enabled-by-legend'>"
                     @"    </legend>"
                     @"    <legend>"
-                    @"      <input id='legend-disabled'>"
+                    @"      <input id='input-disabled-by-legend'>"
                     @"    </legend>"
                     @"  </fieldset>"
+                    @"  <a href='' id='a-enabled'></a>"
+                    @"  <a name='' id='a-disabled'></a>"
                     @"</root>"];
     }
     return _testDoc;
@@ -155,10 +157,15 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     TestMatchedElementIDs(@"elem:NOT(elem#only-child)", (@[ @"child1", @"child3" ]));
 }
 
-- (void)testUIElementStatesPseudoClasses
+- (void)testDisabledPseudoClass
 {
-    TestMatchedElementIDs(@"input:disabled", (@[ @"root-disabled", @"fieldset-disabled", @"legend-disabled" ]));
-    TestMatchedElementIDs(@"input:enabled", (@[ @"root-enabled", @"legend-enabled" ]));
+    TestMatchedElementIDs(@":disabled", (@[ @"root-disabled", @"fieldset-disabled",
+                                            @"input-disabled-by-fieldset", @"input-disabled-by-legend" ]));
+}
+
+- (void)testEnabledPseudoClass
+{
+    TestMatchedElementIDs(@":enabled", (@[ @"root-enabled", @"input-enabled-by-legend", @"a-enabled" ]));
 }
 
 - (void)testAttributeSelectors

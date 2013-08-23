@@ -360,7 +360,26 @@ HTMLSelectorPredicateGen isDisabledPredicate(void)
 
 HTMLSelectorPredicateGen isEnabledPredicate(void)
 {
-	return negatePredicate(isDisabledPredicate());
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/selectors.html#selector-enabled
+    HTMLSelectorPredicate hasHrefAttribute = hasAttributePredicate(@"href");
+    HTMLSelectorPredicate enabledByHref = orCombinatorPredicate(@[ isTagTypePredicate(@"a"),
+                                                                   isTagTypePredicate(@"area"),
+                                                                   isTagTypePredicate(@"link")
+                                                                   ]);
+    HTMLSelectorPredicate canOtherwiseBeEnabled = orCombinatorPredicate(@[ isTagTypePredicate(@"button"),
+                                                                           isTagTypePredicate(@"input"),
+                                                                           isTagTypePredicate(@"select"),
+                                                                           isTagTypePredicate(@"textarea"),
+                                                                           isTagTypePredicate(@"optgroup"),
+                                                                           isTagTypePredicate(@"option"),
+                                                                           isTagTypePredicate(@"menuitem"),
+                                                                           isTagTypePredicate(@"fieldset")
+                                                                           ]);
+    return orCombinatorPredicate(@[ andCombinatorPredicate(@[ enabledByHref, hasHrefAttribute ]),
+                                    andCombinatorPredicate(@[ canOtherwiseBeEnabled,
+                                                              negatePredicate(isDisabledPredicate())
+                                                              ])
+                                    ]);
 }
 
 HTMLSelectorPredicateGen isCheckedPredicate(void)
