@@ -95,7 +95,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     NSArray *nodes = [self.testDoc nodesForSelectorString:(selectorString)]; \
     NSMutableArray *IDs = [NSMutableArray new]; \
     for (HTMLElementNode *node in nodes) { \
-        [IDs addObject:(node[@"id"] ?: [NSNull null])]; \
+        [IDs addObject:(node[@"id"] ?: node.tagName)]; \
     } \
     XCTAssertEqualObjects(IDs, expectedIDs); \
 } while(0)
