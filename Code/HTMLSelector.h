@@ -67,12 +67,22 @@ extern NSString * const HTMLSelectorLocationErrorKey;
 /**
  * Returns the nodes matched by selectorString, or nil if the string could not be parsed.
  */
-- (NSArray *)nodesForSelectorString:(NSString *)selectorString;
+- (NSArray *)nodesMatchingSelector:(NSString *)selectorString;
 
 /**
- * Returns the nodes matched by selector, or nil if the selector has a parse error.
+ * Returns the first node matched by selectorString, or nil if there is no such node or the string could not be parsed.
  */
-- (NSArray *)nodesForSelector:(HTMLSelector *)selector;
+- (HTMLElementNode *)firstNodeMatchingSelector:(NSString *)selectorString;
+
+/**
+ * Returns the nodes matched by selector.
+ */
+- (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector;
+
+/**
+ * Returns the first node matched by selector, or nil if there is no such node.
+ */
+- (HTMLElementNode *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
 
 @end
 

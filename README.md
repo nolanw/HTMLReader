@@ -12,7 +12,7 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 
 NSString *html = @"<p><b>Ahoy there sailor!</b></p>";
 HTMLDocument *document = [HTMLDocument documentWithString:html];
-HTMLTextNode *text = [[document nodesForSelectorString:@"b"][0] childNodes][0];
+HTMLTextNode *text = [document firstNodeMatchingSelector:@"b" childNodes][0];
 NSLog(@"%@", text.data); // => Ahoy there sailor!
 ```
 

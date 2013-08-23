@@ -92,7 +92,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 }
 
 #define TestMatchedElementIDs(selectorString, expectedIDs) do { \
-    NSArray *nodes = [self.testDoc nodesForSelectorString:(selectorString)]; \
+    NSArray *nodes = [self.testDoc nodesMatchingSelector:(selectorString)]; \
     NSMutableArray *IDs = [NSMutableArray new]; \
     for (HTMLElementNode *node in nodes) { \
         [IDs addObject:(node[@"id"] ?: node.tagName)]; \
@@ -208,6 +208,13 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 	ExpectError(@"[id]asdf");
     ExpectError(@"h2..foo");
     ExpectError(@"");
+}
+
+- (void)testConvenienceMethods
+{
+    XCTAssertEqualObjects([self.testDoc firstNodeMatchingSelector:@"fieldset"].tagName, @"fieldset");
+    NSArray *legends = [self.testDoc nodesMatchingSelector:@"legend"];
+    XCTAssertEqualObjects([legends valueForKey:@"tagName"], (@[ @"legend", @"legend" ]));
 }
 
 @end

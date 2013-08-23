@@ -819,12 +819,17 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 
 @implementation HTMLNode (HTMLSelector)
 
-- (NSArray *)nodesForSelectorString:(NSString *)selectorString
+- (NSArray *)nodesMatchingSelector:(NSString *)selectorString
 {
-	return [self nodesForSelector:[HTMLSelector selectorForString:selectorString]];
+	return [self nodesMatchingParsedSelector:[HTMLSelector selectorForString:selectorString]];
 }
 
-- (NSArray *)nodesForSelector:(HTMLSelector *)selector
+- (HTMLElementNode *)firstNodeMatchingSelector:(NSString *)selectorString
+{
+    return [self firstNodeMatchingParsedSelector:[HTMLSelector selectorForString:selectorString]];
+}
+
+- (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector
 {
 	NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
     
@@ -834,7 +839,20 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 			[ret addObject:node];
 		}
 	}
-	return ret;}
+	return ret;
+}
+
+- (HTMLElementNode *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector
+{
+    NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
+    
+    for (HTMLElementNode *node in self.treeEnumerator) {
+        if ([node isKindOfClass:[HTMLElementNode class]] && selector.predicate(node)) {
+            return node;
+        }
+    }
+    return nil;
+}
 
 @end
 
