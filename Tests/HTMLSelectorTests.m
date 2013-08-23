@@ -157,6 +157,19 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     TestMatchedElementIDs(@"elem:NOT(elem#only-child)", (@[ @"child1", @"child3" ]));
 }
 
+- (void)testLinkPseudoClass
+{
+    TestMatchedElementIDs(@":link", (@[ @"a-enabled" ]));
+}
+
+- (void)testTrivialPseudoClasses
+{
+    TestMatchedElementIDs(@":visited", (@[]));
+    TestMatchedElementIDs(@":active", (@[]));
+    TestMatchedElementIDs(@":hover", (@[]));
+    TestMatchedElementIDs(@":focus", (@[]));
+}
+
 - (void)testDisabledPseudoClass
 {
     TestMatchedElementIDs(@":disabled", (@[ @"root-disabled", @"fieldset-disabled",

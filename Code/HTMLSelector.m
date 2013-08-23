@@ -50,6 +50,13 @@ HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 	};
 }
 
+HTMLSelectorPredicateGen neverPredicate(void)
+{
+    return ^(__unused HTMLElementNode *node) {
+        return NO;
+    };
+}
+
 #pragma mark - Combinators
 
 HTMLSelectorPredicateGen bothCombinatorPredicate(HTMLSelectorPredicate a, HTMLSelectorPredicate b)
@@ -321,6 +328,17 @@ HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
 	return attributeIsExactlyPredicate(@"id", idValue);
 }
 
+HTMLSelectorPredicateGen isLinkPredicate(void)
+{
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/selectors.html#selector-link
+    return andCombinatorPredicate(@[ orCombinatorPredicate(@[ isTagTypePredicate(@"a"),
+                                                              isTagTypePredicate(@"area"),
+                                                              isTagTypePredicate(@"link")
+                                                              ]),
+                                     hasAttributePredicate(@"href")
+                                     ]);
+}
+
 HTMLSelectorPredicateGen isDisabledPredicate(void)
 {
     HTMLSelectorPredicateGen (*and)(NSArray *) = andCombinatorPredicate;
@@ -513,6 +531,12 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 						  @"empty": isEmptyPredicate(),
 						  @"root": isRootPredicate(),
 						  
+                          @"link": isLinkPredicate(),
+                          @"visited": neverPredicate(),
+                          @"active": neverPredicate(),
+                          @"hover": neverPredicate(),
+                          @"focus": neverPredicate(),
+                          
 						  @"enabled": isEnabledPredicate(),
 						  @"disabled": isDisabledPredicate(),
 						  @"checked": isCheckedPredicate()

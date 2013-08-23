@@ -10,13 +10,11 @@
 /**
  * The HTMLSelector class concisely locates a set of nodes in an HTMLDocument.
  *
- * It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ with the following exceptions:
+ * It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ per the WHATWG HTML spec with the following exceptions:
  *
- *     The link pseudo-classes (:link, :visited) are not supported.
- *     The user action pseudo-classes (:active, :hover, :focus) are not supported.
- *     The target pseudo-class (:target) is not supported.
- *     The :lang() pseudo-class is not supported.
- *     The pseudo-elements ::first-line, ::first-leter, ::before, ::after are not supported.
+ * @li The target pseudo-class (:target) is not supported.
+ * @li The :lang() and :dir() pseudo-classes are not supported.
+ * @li Pseudo-elements (including ::first-line, ::first-leter, ::before, ::after) are not supported.
  */
 @interface HTMLSelector : NSObject
 
