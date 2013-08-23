@@ -321,26 +321,41 @@ HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
 	return attributeIsExactlyPredicate(@"id", idValue);
 }
 
-HTMLSelectorPredicateGen isFormControlPredicate(void)
-{
-    // I couldn't find this list written out anywhere, so I wrote down any elements in the "Forms" section of the HTML spec that have a "disabled" attribute.
-    NSArray *tagNames = @[ @"input", @"button", @"select", @"optgroup", @"option", @"textarea", @"keygen" ];
-    NSMutableArray *predicates = [NSMutableArray new];
-    for (NSString *tagName in tagNames) {
-        [predicates addObject:isTagTypePredicate(tagName)];
-    }
-    return orCombinatorPredicate(predicates);
-}
-
 HTMLSelectorPredicateGen isDisabledPredicate(void)
 {
+    HTMLSelectorPredicateGen (*and)(NSArray *) = andCombinatorPredicate;
+    HTMLSelectorPredicateGen (*or)(NSArray *) = orCombinatorPredicate;
+    HTMLSelectorPredicateGen (*not)(HTMLSelectorPredicate) = negatePredicate;
+    HTMLSelectorPredicate hasDisabledAttribute = hasAttributePredicate(@"disabled");
+    
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/common-idioms.html#concept-element-disabled
+    HTMLSelectorPredicate disabledOptgroup = and(@[ isTagTypePredicate(@"optgroup"), hasDisabledAttribute ]);
+    HTMLSelectorPredicate disabledFieldset = and(@[ isTagTypePredicate(@"fieldset"), hasDisabledAttribute ]);
+    HTMLSelectorPredicate disabledMenuitem = and(@[ isTagTypePredicate(@"menuitem"), hasDisabledAttribute ]);
+    
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#concept-fe-disabled
-    HTMLSelectorPredicate descendantOfDisabledFieldset = descendantOfPredicate(bothCombinatorPredicate(isTagTypePredicate(@"fieldset"),
-																									   hasAttributePredicate(@"disabled") ));
-    HTMLSelectorPredicate descendantOfFirstLegendOfDisabledFieldset = descendantOfPredicate(bothCombinatorPredicate(isFirstChildOfTypePredicate(isTagTypePredicate(@"legend")), descendantOfDisabledFieldset));
-    return andCombinatorPredicate(@[ isFormControlPredicate(),
-                                  orCombinatorPredicate(@[ hasAttributePredicate(@"disabled"),
-                                                        andCombinatorPredicate(@[ descendantOfDisabledFieldset, negatePredicate(descendantOfFirstLegendOfDisabledFieldset) ]) ]) ]);
+    HTMLSelectorPredicate formElement = or(@[ isTagTypePredicate(@"button"),
+                                              isTagTypePredicate(@"input"),
+                                              isTagTypePredicate(@"select"),
+                                              isTagTypePredicate(@"textarea")
+                                              ]);
+    HTMLSelectorPredicate firstLegend = isFirstChildOfTypePredicate(isTagTypePredicate(@"legend"));
+    HTMLSelectorPredicate firstLegendOfDisabledFieldset = and(@[ firstLegend, descendantOfPredicate(disabledFieldset) ]);
+    HTMLSelectorPredicate disabledFormElement = and(@[ formElement,
+                                                       or(@[ hasDisabledAttribute,
+                                                             and(@[ descendantOfPredicate(disabledFieldset),
+                                                                    not(descendantOfPredicate(firstLegendOfDisabledFieldset))
+                                                                    ])
+                                                             ])
+                                                      ]);
+    
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#concept-option-disabled
+    HTMLSelectorPredicate disabledOption = and(@[ isTagTypePredicate(@"option"),
+                                                  or(@[ hasDisabledAttribute,
+                                                        descendantOfPredicate(disabledOptgroup) ])
+                                                  ]);
+    
+    return or(@[ disabledOptgroup, disabledFieldset, disabledMenuitem, disabledFormElement, disabledOption ]);
 }
 
 HTMLSelectorPredicateGen isEnabledPredicate(void)
