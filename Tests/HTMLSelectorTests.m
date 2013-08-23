@@ -51,7 +51,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
                     @"    </legend>"
                     @"  </fieldset>"
                     @"  <a href='' id='a-enabled'></a>"
-                    @"  <a name='' id='a-disabled'></a>"
+                    @"  <a name='' id='a-neither-enabled-nor-disabled'></a>"
                     @"</root>"];
     }
     return _testDoc;
