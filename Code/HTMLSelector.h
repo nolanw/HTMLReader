@@ -15,6 +15,7 @@
  * @li The target pseudo-class (:target) is not supported.
  * @li The :lang() and :dir() pseudo-classes are not supported.
  * @li Pseudo-elements (including ::first-line, ::first-leter, ::before, ::after) are not supported.
+ * @li The :not() pseudo-class supports any selector. (The spec only supports a simple selector.)
  */
 @interface HTMLSelector : NSObject
 
