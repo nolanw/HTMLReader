@@ -217,6 +217,7 @@
         escapedValue = [escapedValue stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
         [string appendFormat:@" %@=\"%@\"", serializedName, escapedValue];
     }
+    [string appendString:@">"];
     if ([@[ @"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed", @"frame", @"hr", @"img", @"input",
             @"keygen", @"link", @"menuitem", @"meta", @"param", @"source", @"track", @"wbr"
             ] containsObject:self.tagName]) {
@@ -230,7 +231,6 @@
             }
         }
     }
-    [string appendString:@">"];
     [string appendString:self.innerHTML];
     [string appendFormat:@"</%@>", self.tagName];
     return string;

@@ -17,6 +17,12 @@
 
 @implementation HTMLSerializerTests
 
+- (void)testBareElement
+{
+    HTMLElementNode *node = [[HTMLElementNode alloc] initWithTagName:@"br"];
+    XCTAssertEqualObjects(node.serializedFragment, @"<br>");
+}
+
 // From html5lib's serializers/core.test
 
 - (void)testAttributes
