@@ -73,7 +73,7 @@
     }
 }
 
--(NSArray *)childElementNodes
+- (NSArray *)childElementNodes
 {
 	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:_childNodes.count];
 	
@@ -93,7 +93,7 @@
     return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:NO];
 }
 
--(NSEnumerator *)reversedTreeEnumerator
+- (NSEnumerator *)reversedTreeEnumerator
 {
 	return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:YES];
 }

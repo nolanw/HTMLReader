@@ -124,6 +124,9 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
  */
 - (id)objectForKeyedSubscript:(id)key;
 
+/**
+ * This element's namespace.
+ */
 @property (readonly, assign, nonatomic) HTMLNamespace namespace;
 
 @end
