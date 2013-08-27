@@ -76,6 +76,18 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
  */
 - (id)objectForKeyedSubscript:(id)key;
 
+/**
+ * Returns the serialized HTML fragment of this node's children.
+ *
+ * This is what's described as "the HTML fragment serialization algorithm" by the spec.
+ */
+- (NSString *)innerHTML;
+
+/**
+ * Returns the serialized HTML fragment of this node. Subclasses must override.
+ */
+- (NSString *)serializedFragment;
+
 @end
 
 /**

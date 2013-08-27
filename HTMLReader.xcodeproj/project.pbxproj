@@ -21,6 +21,7 @@
 		1CC666AB17B0C82200E457E7 /* HTMLTreeTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeTraversalTests.m */; };
 		1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
 		1CC666B117B14E1800E457E7 /* HTMLTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666B017B14E1800E457E7 /* HTMLTestUtilities.m */; };
+		1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */; };
 		83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518817BAFE3500C144DF /* HTMLSelector.m */; };
 		83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 		1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeConstructionTests.m; sourceTree = "<group>"; };
 		1CC666AF17B14E1800E457E7 /* HTMLTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTestUtilities.h; sourceTree = "<group>"; };
 		1CC666B017B14E1800E457E7 /* HTMLTestUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTestUtilities.m; sourceTree = "<group>"; };
+		1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializerTests.m; sourceTree = "<group>"; };
 		1CF4626F17C69B45001FA529 /* HTMLMutability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLMutability.h; sourceTree = "<group>"; };
 		83C4518717BAFE3500C144DF /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSelector.h; sourceTree = "<group>"; };
 		83C4518817BAFE3500C144DF /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */,
+				1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */,
 				1CC666AF17B14E1800E457E7 /* HTMLTestUtilities.h */,
 				1CC666B017B14E1800E457E7 /* HTMLTestUtilities.m */,
 				1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */,
@@ -296,6 +299,7 @@
 			files = (
 				1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */,
 				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,
+				1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */,
 				1CC666AB17B0C82200E457E7 /* HTMLTreeTraversalTests.m in Sources */,
 				83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */,
 				1CC666B117B14E1800E457E7 /* HTMLTestUtilities.m in Sources */,
