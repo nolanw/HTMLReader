@@ -9,6 +9,8 @@
 #import "HTMLParser.h"
 #import "HTMLString.h"
 
+enum {NotFound32 = INT32_MAX};
+
 @interface HTMLTagToken ()
 
 - (void)appendLongCharacterToTagName:(UTF32Char)character;
@@ -72,7 +74,7 @@
     self.state = HTMLDataTokenizerState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
-    _reconsume = NSNotFound;
+    _reconsume = NotFound32;
     return self;
 }
 
@@ -107,7 +109,7 @@
 - (void)characterReferenceInDataState
 {
     [self switchToState:HTMLDataTokenizerState];
-    _additionalAllowedCharacter = NSNotFound;
+    _additionalAllowedCharacter = NotFound32;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
         [self emitCharacterTokensWithString:data];
@@ -142,7 +144,7 @@
 - (void)characterReferenceInRCDATAState
 {
     [self switchToState:HTMLRCDATATokenizerState];
-    _additionalAllowedCharacter = NSNotFound;
+    _additionalAllowedCharacter = NotFound32;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
         [self emitCharacterTokensWithString:data];
@@ -2200,9 +2202,9 @@ static inline SEL HTMLSelectorFromTokenizerState(HTMLTokenizerState state)
 
 - (int)consumeNextInputCharacter
 {
-    if (_reconsume != NSNotFound) {
+    if (_reconsume != NotFound32) {
         int character = _reconsume;
-        _reconsume = NSNotFound;
+        _reconsume = NotFound32;
         return character;
     } else if (_scanner.isAtEnd) {
         return EOF;
@@ -2344,7 +2346,7 @@ static inline SEL HTMLSelectorFromTokenizerState(HTMLTokenizerState state)
     if (_scanner.isAtEnd) return nil;
     NSUInteger initialScanLocation = _scanner.scanLocation;
     unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
-    if (_additionalAllowedCharacter != NSNotFound && nextInputCharacter == _additionalAllowedCharacter) {
+    if (_additionalAllowedCharacter != NotFound32 && nextInputCharacter == _additionalAllowedCharacter) {
         return nil;
     }
     switch (nextInputCharacter) {
@@ -4864,7 +4866,7 @@ static const struct {
 {
     if (!_attributes) return;
     NSUInteger i = [_attributes indexOfObject:oldAttribute];
-    if (i == NSNotFound) return;
+    if (i == NotFound32) return;
     [_attributes replaceObjectAtIndex:i withObject:newAttribute];
 }
 

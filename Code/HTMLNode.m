@@ -437,7 +437,7 @@
         return currentNode;
     }
     for (NSUInteger i = 0; i < [_nextNodePath length] - 1; i++) {
-		int index = _isReversed ?  [currentNode childNodes].count - [_nextNodePath indexAtPosition:i] - 1 : [_nextNodePath indexAtPosition:i];
+		NSInteger index = _isReversed ?  [currentNode childNodes].count - [_nextNodePath indexAtPosition:i] - 1 : [_nextNodePath indexAtPosition:i];
         currentNode = currentNode.childNodes[index];
     }
     NSUInteger lastIndex = [_nextNodePath indexAtPosition:[_nextNodePath length] - 1];
@@ -449,7 +449,7 @@
         return [self nextObject];
     }
     _nextNodePath = [_nextNodePath indexPathByAddingIndex:0];
-	int index = _isReversed ?  [currentNode childNodes].count - lastIndex - 1 :lastIndex;
+	NSInteger index = _isReversed ?  [currentNode childNodes].count - lastIndex - 1 :lastIndex;
     return currentNode.childNodes[index];
 }
 
