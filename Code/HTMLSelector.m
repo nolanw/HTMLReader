@@ -601,10 +601,15 @@ NSCharacterSet *identifierCharacters()
 	return set;
 }
 
-NSCharacterSet *operatorCharacters()
+NSCharacterSet *tagModifierCharacters()
+{
+	return [NSMutableCharacterSet characterSetWithCharactersInString:@".:#["];
+}
+
+NSCharacterSet *combinatorCharacters()
 {
 	//Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
-	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~.:#["];
+	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~"];
 	[set formUnionWithCharacterSet:SelectorsWhitespaceSet()];
 	return set;
 }
@@ -616,7 +621,16 @@ NSString *scanIdentifier(NSScanner* scanner,  __unused NSString **parsedString, 
 	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-NSString *scanOperator(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
+NSString *scanTagModifier(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
+{
+	NSString *modifier;
+	[scanner scanCharactersFromSet:tagModifierCharacters() intoString:&modifier];
+	modifier = [modifier stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	modifier = [modifier length] != 0 ? modifier : nil;
+	return modifier;
+}
+
+NSString *scanCombinator(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
 {
 	NSString *operator;
 	[scanner scanUpToCharactersFromSet:identifierCharacters() intoString:&operator];
@@ -694,55 +708,70 @@ HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSString **parsedS
 
 HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate inputPredicate, NSString **parsedString, NSError **error)
 {
-	if (!inputPredicate) {
-		inputPredicate = scanTagPredicate(scanner, parsedString, error);
+	HTMLSelectorPredicate tagPredicate = scanTagPredicate(scanner, parsedString, error);
+	
+	inputPredicate = inputPredicate ? bothCombinatorPredicate(tagPredicate, inputPredicate) : tagPredicate;
+	
+	//If we're out of things to scan, all we have is this tag, no operators on it
+	if (scanner.isAtEnd) return inputPredicate;
+	
+	NSString *modifier;
+	
+	do {
+		modifier = scanTagModifier(scanner, parsedString, error);
 		
-		if (!inputPredicate) {
-			*error = ParseError(@"Expected tag", scanner.string, scanner.scanLocation);
+		//Pseudo and attribute
+		if ([modifier isEqualToString:@":"]) {
+			inputPredicate = bothCombinatorPredicate(inputPredicate,
+													 scanPredicateFromPseudoClass(scanner, inputPredicate, parsedString, error));
+		} else if ([modifier isEqualToString:@"::"]) {
+			// We don't support *any* pseudo-elements.
+			*error = ParseError(@"Pseudo elements unsupported", scanner.string, scanner.scanLocation - modifier.length);
+			return nil;
+		} else if ([modifier isEqualToString:@"["]) {
+			inputPredicate = bothCombinatorPredicate(  inputPredicate,
+													 scanAttributePredicate(scanner, parsedString, error));
+		} else if ([modifier isEqualToString:@"."]) {
+			NSString *className = scanIdentifier(scanner, parsedString, error);
+			inputPredicate =  bothCombinatorPredicate(inputPredicate, isKindOfClassPredicate(className));
+		} else if ([modifier isEqualToString:@"#"]) {
+			NSString *idName = scanIdentifier(scanner, parsedString, error);
+			inputPredicate =  bothCombinatorPredicate(inputPredicate, hasIDPredicate(idName));
+		} else if (modifier != nil)
+		{
+			*error = ParseError(@"Unexpected modifier", scanner.string, scanner.scanLocation - modifier.length);
 			return nil;
 		}
 		
-		//If we're out of things to scan, all we have is this tag, no operators on it
-		if (scanner.isAtEnd) return inputPredicate;
-	}
+	} while (modifier != nil);
 	
-	
-	NSString *operator = scanOperator(scanner, parsedString, error);
 
 	
-	if ([operator isEqualToString:@":"]) {
-		return bothCombinatorPredicate(inputPredicate,
-										 scanPredicateFromPseudoClass(scanner, inputPredicate, parsedString, error));
-	} else if ([operator isEqualToString:@"::"]) {
-		// We don't support *any* pseudo-elements.
-		*error = ParseError(@"Pseudo elements unsupported", scanner.string, scanner.scanLocation - operator.length);
-		return nil;
-	} else if ([operator isEqualToString:@"["]) {
-		return bothCombinatorPredicate(  inputPredicate,
-									     scanAttributePredicate(scanner, parsedString, error)  );
-	} else if ([operator isEqualToString:@""]) {
+	//Pseudo and attribute cases require that this is
+	//either the end of the selector, or there's another
+	//combinator after them
+	
+	if (scanner.isAtEnd) return inputPredicate;
+	
+	NSString *combinator = scanCombinator(scanner, parsedString, error);
+	
+	if ([combinator isEqualToString:@""]) {
 		//Whitespace combinator
 		//y descendant of an x
-		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 descendantOfPredicate(inputPredicate) );
-	} else if ([operator isEqualToString:@">"]) {
-		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 childOfOtherPredicatePredicate(inputPredicate) );
-	} else if ([operator isEqualToString:@"+"]) {
-		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 adjacentSiblingPredicate(inputPredicate));
-	} else if ([operator isEqualToString:@"~"]) {
-		return bothCombinatorPredicate(  scanPredicate(scanner, nil, parsedString, error),
-										 generalSiblingPredicate(inputPredicate));
-	} else if ([operator isEqualToString:@"."]) {
-		NSString *className = scanIdentifier(scanner, parsedString, error);
-		return bothCombinatorPredicate(inputPredicate, isKindOfClassPredicate(className));
-	} else if ([operator isEqualToString:@"#"]) {
-		NSString *idName = scanIdentifier(scanner, parsedString, error);
-		return bothCombinatorPredicate(inputPredicate, hasIDPredicate(idName));
+		return descendantOfPredicate(inputPredicate);
+	} else if ([combinator isEqualToString:@">"]) {
+		return childOfOtherPredicatePredicate(inputPredicate);
+	} else if ([combinator isEqualToString:@"+"]) {
+		return adjacentSiblingPredicate(inputPredicate);
+	} else if ([combinator isEqualToString:@"~"]) {
+		return generalSiblingPredicate(inputPredicate);
+	}
+	if (combinator == nil) {
+		*error = ParseError(@"Expected a combinator here", scanner.string, scanner.scanLocation);
+		return nil;
 	}
 	else {
-		*error = ParseError(@"Unexpected operator", scanner.string, scanner.scanLocation - operator.length);
+		*error = ParseError(@"Unexpected combinator", scanner.string, scanner.scanLocation - combinator.length);
 		return nil;
 	}
 }

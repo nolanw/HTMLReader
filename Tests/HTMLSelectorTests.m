@@ -201,6 +201,11 @@ extern HTMLNthExpression parseNth(NSString *nthString);
                                                 @"child1", @"child2", @"child3" ]));
 }
 
+- (void)testComplexSelectors
+{
+	TestMatchedElementIDs(@"input#input-disabled-by-fieldset + legend input", (@[ @"input-enabled-by-legend" ]));
+}
+
 #define ExpectError(selectorString) XCTAssertNotNil([HTMLSelector selectorForString:selectorString].error)
 
 - (void)testBadInput
