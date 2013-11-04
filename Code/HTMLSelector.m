@@ -633,7 +633,7 @@ NSString *scanTagModifier(NSScanner* scanner,  __unused NSString **parsedString,
 NSString *scanCombinator(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
 {
 	NSString *operator;
-	[scanner scanCharactersFromSet:operatorCharacters() intoString:&operator];
+	[scanner scanCharactersFromSet:combinatorCharacters() intoString:&operator];
 	operator = [operator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	return operator;
 }
