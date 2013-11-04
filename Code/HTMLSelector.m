@@ -596,7 +596,7 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 
 NSCharacterSet *identifierCharacters()
 {
-	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"*-"];
+	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"-_"];
 	[set formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
 	return set;
 }
@@ -633,7 +633,7 @@ NSString *scanTagModifier(NSScanner* scanner,  __unused NSString **parsedString,
 NSString *scanCombinator(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
 {
 	NSString *operator;
-	[scanner scanUpToCharactersFromSet:identifierCharacters() intoString:&operator];
+	[scanner scanCharactersFromSet:operatorCharacters() intoString:&operator];
 	operator = [operator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	return operator;
 }
@@ -701,8 +701,12 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSString **parsedString, NSError **error)
 {
 	NSString *identifier = scanIdentifier(scanner, parsedString, error);
-	
-	return identifier ? isTagTypePredicate(identifier) : isTagTypePredicate(@"*");
+	if (identifier) {
+        return isTagTypePredicate(identifier);
+    } else {
+        [scanner scanString:@"*" intoString:nil];
+        return isTagTypePredicate(@"*");
+    }
 }
 
 

@@ -199,6 +199,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     
     TestMatchedElementIDs(@"[id *= child]", (@[ @"one-child", @"only-child", @"three-children",
                                                 @"child1", @"child2", @"child3" ]));
+    TestMatchedElementIDs(@"[id*='ly-child']", (@[ @"only-child" ]));
 }
 
 - (void)testComplexSelectors
