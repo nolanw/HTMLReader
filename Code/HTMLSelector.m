@@ -261,11 +261,15 @@ HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLas
 		//Index relative to start/end
 		NSInteger nthPosition;
 		if (fromLast) {
-			nthPosition = [parentElements indexOfObject:node] + 1;
-		} else {
 			nthPosition = parentElements.count - [parentElements indexOfObject:node];
+		} else {
+			nthPosition = [parentElements indexOfObject:node] + 1;
 		}
-		return (nthPosition - nth.c) % nth.n == 0;
+        if (nth.n > 0) {
+            return (nthPosition - nth.c) % nth.n == 0;
+        } else {
+            return nthPosition == nth.c;
+        }
 	};
 }
 

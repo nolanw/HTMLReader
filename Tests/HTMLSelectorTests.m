@@ -125,6 +125,7 @@ extern HTMLNthExpression parseNth(NSString *nthString);
     TestMatchedElementIDs(@"elem:last-of-type", (@[ @"only-child", @"child3" ]));
     TestMatchedElementIDs(@"other:first-of-type", (@[ @"child2" ]));
     TestMatchedElementIDs(@"other:first-of-type", (@[ @"child2" ]));
+    TestMatchedElementIDs(@"parent:first-child", (@[ @"empty" ]));
 }
 
 - (void)testAdjacentSiblingCombinator
