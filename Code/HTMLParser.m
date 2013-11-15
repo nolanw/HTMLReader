@@ -41,66 +41,11 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     HTMLForeignContentInsertionMode, // SPEC This faux insertion mode is just for us.
 };
 
-static inline NSString * NSStringFromHTMLInsertionMode(HTMLInsertionMode mode)
-{
-    switch (mode) {
-        case HTMLInvalidInsertionMode:
-            return @"invalidInsertionMode";
-        case HTMLInitialInsertionMode:
-            return @"initialInsertionMode";
-        case HTMLBeforeHtmlInsertionMode:
-            return @"beforeHtmlInsertionMode";
-        case HTMLBeforeHeadInsertionMode:
-            return @"beforeHeadInsertionMode";
-        case HTMLInHeadInsertionMode:
-            return @"inHeadInsertionMode";
-        case HTMLInHeadNoscriptInsertionMode:
-            return @"inHeadNoscriptInsertionMode";
-        case HTMLAfterHeadInsertionMode:
-            return @"afterHeadInsertionMode";
-        case HTMLInBodyInsertionMode:
-            return @"inBodyInsertionMode";
-        case HTMLTextInsertionMode:
-            return @"textInsertionMode";
-        case HTMLInTableInsertionMode:
-            return @"inTableInsertionMode";
-        case HTMLInTableTextInsertionMode:
-            return @"inTableTextInsertionMode";
-        case HTMLInCaptionInsertionMode:
-            return @"inCaptionInsertionMode";
-        case HTMLInColumnGroupInsertionMode:
-            return @"inColumnGroupInsertionMode";
-        case HTMLInTableBodyInsertionMode:
-            return @"inTableBodyInsertionMode";
-        case HTMLInRowInsertionMode:
-            return @"inRowInsertionMode";
-        case HTMLInCellInsertionMode:
-            return @"inCellInsertionMode";
-        case HTMLInSelectInsertionMode:
-            return @"inSelectInsertionMode";
-        case HTMLInSelectInTableInsertionMode:
-            return @"inSelectInTableInsertionMode";
-        case HTMLAfterBodyInsertionMode:
-            return @"afterBodyInsertionMode";
-        case HTMLInFramesetInsertionMode:
-            return @"inFramesetInsertionMode";
-        case HTMLAfterFramesetInsertionMode:
-            return @"afterFramesetInsertionMode";
-        case HTMLAfterAfterBodyInsertionMode:
-            return @"afterAfterBodyInsertionMode";
-        case HTMLAfterAfterFramesetInsertionMode:
-            return @"afterAfterFramesetInsertionMode";
-        case HTMLForeignContentInsertionMode:
-            return @"foreignContentInsertionMode";
-    }
-}
-
 @interface HTMLParser ()
 
 @property (readonly, strong, nonatomic) HTMLElementNode *currentNode;
 
 @end
-
 
 @implementation HTMLParser
 {
@@ -2554,23 +2499,306 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
             return;
         }
     }
-    NSString *modeString = NSStringFromHTMLInsertionMode(insertionMode);
-    NSString *tokenType = [NSStringFromClass([token class]) substringFromIndex:4];
-    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"%@Handle%@:",
-                                         modeString, tokenType]);
-    if (![self respondsToSelector:selector]) {
-        selector = NSSelectorFromString([NSString stringWithFormat:@"%@HandleAnythingElse:",
-                                         modeString]);
+    switch (insertionMode) {
+        case HTMLInitialInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self initialInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self initialInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self initialInsertionModeHandleDOCTYPEToken:token];
+            } else {
+                return [self initialInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLBeforeHtmlInsertionMode:
+            if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self beforeHtmlInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self beforeHtmlInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self beforeHtmlInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self beforeHtmlInsertionModeHandleStartTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self beforeHtmlInsertionModeHandleEndTagToken:token];
+            } else {
+                return [self beforeHtmlInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLBeforeHeadInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self beforeHeadInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self beforeHeadInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self beforeHeadInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self beforeHeadInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self beforeHeadInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self beforeHeadInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInHeadInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inHeadInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self inHeadInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self inHeadInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inHeadInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inHeadInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inHeadInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLAfterHeadInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self afterHeadInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self afterHeadInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self afterHeadInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self afterHeadInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self afterHeadInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self afterHeadInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInBodyInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inBodyInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self inBodyInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self inBodyInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inBodyInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self inBodyInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inBodyInsertionModeHandleStartTagToken:token];
+            }
+            // fall through
+            
+        case HTMLTextInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self textInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self textInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self textInsertionModeHandleEOFToken:token];
+            }
+            // fall through
+            
+        case HTMLInTableInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inTableInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self inTableInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self inTableInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inTableInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self inTableInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inTableInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inTableInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInTableTextInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inTableTextInsertionModeHandleCharacterToken:token];
+            } else {
+                return [self inTableTextInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInCaptionInsertionMode:
+            if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inCaptionInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inCaptionInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inCaptionInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInColumnGroupInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inColumnGroupInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self inColumnGroupInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self inColumnGroupInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inColumnGroupInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self inColumnGroupInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inColumnGroupInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inColumnGroupInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInTableBodyInsertionMode:
+            if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inTableBodyInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inTableBodyInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inTableBodyInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInRowInsertionMode:
+            if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inRowInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inRowInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inRowInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInCellInsertionMode:
+            if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inCellInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inCellInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inCellInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInSelectInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inSelectInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self inSelectInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self inSelectInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inSelectInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self inSelectInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inSelectInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inSelectInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInSelectInTableInsertionMode:
+            if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inSelectInTableInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inSelectInTableInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inSelectInTableInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLAfterBodyInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self afterBodyInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self afterBodyInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self afterBodyInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self afterBodyInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self afterBodyInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self afterBodyInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self afterBodyInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLInFramesetInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self inFramesetInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self inFramesetInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self inFramesetInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self inFramesetInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self inFramesetInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self inFramesetInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self inFramesetInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLAfterFramesetInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self afterFramesetInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self afterFramesetInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self afterFramesetInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self afterFramesetInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self afterFramesetInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self afterFramesetInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self afterFramesetInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLAfterAfterBodyInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self afterAfterBodyInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self afterAfterBodyInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self afterAfterBodyInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self afterAfterBodyInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self afterAfterBodyInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self afterAfterBodyInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLAfterAfterFramesetInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self afterAfterFramesetInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self afterAfterFramesetInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self afterAfterFramesetInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
+                return [self afterAfterFramesetInsertionModeHandleEOFToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self afterAfterFramesetInsertionModeHandleStartTagToken:token];
+            } else {
+                return [self afterAfterFramesetInsertionModeHandleAnythingElse:token];
+            }
+            
+        case HTMLForeignContentInsertionMode:
+            if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+                return [self foreignContentInsertionModeHandleCharacterToken:token];
+            } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
+                return [self foreignContentInsertionModeHandleCommentToken:token];
+            } else if ([token isKindOfClass:[HTMLDOCTYPEToken class]]) {
+                return [self foreignContentInsertionModeHandleDOCTYPEToken:token];
+            } else if ([token isKindOfClass:[HTMLEndTagToken class]]) {
+                return [self foreignContentInsertionModeHandleEndTagToken:token];
+            } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
+                return [self foreignContentInsertionModeHandleStartTagToken:token];
+            }
+            // fall through
+            
+        default:
+            NSAssert(NO, @"cannot handle %@ token in insertion mode %zd", [token class], insertionMode);
+            break;
     }
-    if ([self respondsToSelector:selector]) {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self performSelector:selector withObject:token];
-        #pragma clang diagnostic pop
-        return;
-    }
-    NSAssert(NO, @"this shouldn't happen: stuck in mode %@", modeString);
-    NSLog(@"this shouldn't happen: stuck in mode %@", modeString);
 }
 
 - (void)reprocessToken:(id)token
