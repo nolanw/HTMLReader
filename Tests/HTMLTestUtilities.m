@@ -1,9 +1,6 @@
-//
 //  HTMLTestUtilities.m
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-08-06.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLTestUtilities.h"
 #import <XCTest/XCTest.h>

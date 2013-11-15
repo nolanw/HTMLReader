@@ -1,9 +1,6 @@
-//
 //  HTMLParser.m
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-07-02.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLParser.h"
 #import "HTMLMutability.h"

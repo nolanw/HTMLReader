@@ -1,9 +1,6 @@
-//
 //  HTMLSelector.h
-//  HTMLReader
 //
-//  Created by Chris Williams on 8/13/13.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLNode.h"
 

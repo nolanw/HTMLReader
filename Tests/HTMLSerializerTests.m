@@ -1,11 +1,8 @@
-//
 //  HTMLSerializerTests.m
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-08-27.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
-// TODO Use html5lib's serializer tests directly. (And update them for the current spec.)
+// TODO Use html5lib's serializer tests directly.
 
 #import <XCTest/XCTest.h>
 #import "HTMLNode.h"

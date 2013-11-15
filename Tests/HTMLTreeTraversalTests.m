@@ -1,9 +1,6 @@
-//
 //  HTMLTreeTraversalTests.m
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-08-03.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <XCTest/XCTest.h>
 #import "HTMLParser.h"

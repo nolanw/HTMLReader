@@ -1,9 +1,6 @@
-//
 //  HTMLTokenizer.h
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-06-14.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
 #import "HTMLAttribute.h"

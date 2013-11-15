@@ -1,9 +1,6 @@
-//
 //  HTMLDocument.m
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-06-26.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLDocument.h"
 #import "HTMLParser.h"

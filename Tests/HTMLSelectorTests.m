@@ -1,9 +1,6 @@
-//
 //  HTMLSelectorTest.m
-//  HTMLReader
 //
-//  Created by Chris Williams on 8/13/13.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <XCTest/XCTest.h>
 

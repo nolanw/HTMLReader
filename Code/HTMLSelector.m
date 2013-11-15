@@ -1,11 +1,8 @@
-//
 //  HTMLSelector.m
-//  HTMLReader
 //
-//  Created by Chris Williams on 8/13/13.
-//
-// Impliments CSS Selectors Level 3 from:
-// http://www.w3.org/TR/css3-selectors/
+//  Public domain. https://github.com/nolanw/HTMLReader
+
+// Implements CSS Selectors Level 3 http://www.w3.org/TR/css3-selectors/
 
 #import "HTMLSelector.h"
 

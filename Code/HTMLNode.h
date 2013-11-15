@@ -1,9 +1,6 @@
-//
 //  HTMLNode.h
-//  HTMLReader
 //
-//  Created by Nolan Waite on 2013-07-02.
-//
+//  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
 #import "HTMLAttribute.h"
@@ -120,7 +117,9 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 - (HTMLAttribute *)attributeNamed:(NSString *)name;
 
 /**
- * Identical to calling -attributeNamed: passing `key` for the name.
+ * Returns the value of the attribute named `key`, or nil if no such value exists.
+ *
+ * Attributes by default have a value of the empty string.
  */
 - (id)objectForKeyedSubscript:(id)key;
 
