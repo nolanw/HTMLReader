@@ -52,7 +52,7 @@
     
     // http://wiki.whatwg.org/wiki/Parser_tests#Tokenizer_Tests
     for (NSDictionary *test in json[@"tests"]) {
-        SEL selector = NSSelectorFromString([NSString stringWithFormat:@"test%d", i++]);
+        SEL selector = NSSelectorFromString([NSString stringWithFormat:@"test%zd", i++]);
         HTMLTokenizerTests *testCase = [self testCaseWithDictionary:test class:testClass selector:selector];
         [suite addTest:testCase];
     }

@@ -61,7 +61,7 @@
     NSString *singleTestString;
     NSInteger i = 1;
     while ([scanner scanUpToString:@"\n#data" intoString:&singleTestString]) {
-        SEL selector = NSSelectorFromString([NSString stringWithFormat:@"test%d", i++]);
+        SEL selector = NSSelectorFromString([NSString stringWithFormat:@"test%zd", i++]);
         [suite addTest:[self testCaseWithString:singleTestString class:testClass selector:selector]];
         [scanner scanString:singleTestString intoString:nil];
         [scanner scanString:@"\n" intoString:nil];
