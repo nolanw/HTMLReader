@@ -1,6 +1,6 @@
 # HTMLReader
 
-A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-level-3] in Objective-C.
+A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-level-3] in Objective-C and Foundation.
 
 [selectors-level-3]: http://www.w3.org/TR/css3-selectors/
 [whatwg-spec]: http://whatwg.org/html
@@ -12,19 +12,20 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 
 NSString *html = @"<p><b>Ahoy there sailor!</b></p>";
 HTMLDocument *document = [HTMLDocument documentWithString:html];
-HTMLTextNode *text = [document firstNodeMatchingSelector:@"b" childNodes][0];
-NSLog(@"%@", text.data); // => Ahoy there sailor!
+NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].innerHTML); // => Ahoy there sailor!
 ```
 
 ## Installation
 
 You have choices:
 
-1. Copy the files in the [Code](Code) folder into your project.
-2. Add the following line to your [Podfile][CocoaPods]:
+* Copy the files in the [Code](Code) folder into your project.
+* Add the following line to your [Podfile][CocoaPods]:
    
    `pod "HTMLReader", :git => "https://github.com/nolanw/HTMLReader"`
-3. Check out this repository, add `HTMLReader.xcodeproj` to your project/workspace, and add the HTMLReader static library to your target.
+* Clone this repository (perhaps add it as a submodule), add `HTMLReader.xcodeproj` to your project/workspace, and add `libHTMLReader.a` to your iOS target or `HTMLReader.framework` to your OS X target.
+
+HTMLReader has no dependencies other than Foundation. It is set to deploy on iOS 5 and OS X 10.7, though it's only tested regularly on iOS 7 and OS X 10.9.
 
 [CocoaPods]: http://docs.cocoapods.org/podfile.html#pod
 
