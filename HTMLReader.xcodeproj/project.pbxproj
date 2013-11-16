@@ -29,6 +29,7 @@
 		1C88297418369F320051653C /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
 		1C88297518369F320051653C /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
 		1C88297618369F320051653C /* HTMLTreeTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeTraversalTests.m */; };
+		1C9A2A171836FEED0059FE17 /* EntityFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A2A161836FEED0059FE17 /* EntityFetcher.m */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
 		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
 		1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E61783A95000754A8F /* HTMLAttribute.m */; };
@@ -85,6 +86,8 @@
 		1C8829781836A0A80051653C /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
 		1C9928B117B18E9300D6AD9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		1C9928B217B18E9300D6AD9A /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.md; sourceTree = "<group>"; };
+		1C9A2A071836FEAE0059FE17 /* Entity Fetcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Entity Fetcher"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C9A2A161836FEED0059FE17 /* EntityFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityFetcher.m; sourceTree = "<group>"; };
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3EC0176BC53900E982C9 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		1C9C3ECA176BC53900E982C9 /* Tests on iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +155,22 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
+		1C9A2A021836FE800059FE17 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1C9A2A151836FEED0059FE17 /* Entity Fetcher */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1C9A2A151836FEED0059FE17 /* Entity Fetcher */ = {
+			isa = PBXGroup;
+			children = (
+				1C9A2A161836FEED0059FE17 /* EntityFetcher.m */,
+			);
+			path = "Entity Fetcher";
+			sourceTree = "<group>";
+		};
 		1C9C3EB0176BC53800E982C9 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +181,7 @@
 				1C9928B217B18E9300D6AD9A /* TODO.md */,
 				1C9C3EBE176BC53900E982C9 /* Code */,
 				1C9C3ED3176BC53900E982C9 /* Tests */,
+				1C9A2A021836FE800059FE17 /* Utilities */,
 				1C88294218369DD70051653C /* Framework */,
 				1C9C3EBA176BC53900E982C9 /* Products */,
 			);
@@ -174,6 +194,7 @@
 				1C9C3ECA176BC53900E982C9 /* Tests on iOS.xctest */,
 				1C88293B18369DD70051653C /* HTMLReader.framework */,
 				1C88295018369DD70051653C /* Tests on OS X.xctest */,
+				1C9A2A071836FEAE0059FE17 /* Entity Fetcher */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,6 +293,21 @@
 			productReference = 1C88295018369DD70051653C /* Tests on OS X.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		1C9A2A061836FEAE0059FE17 /* Entity Fetcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C9A2A121836FEAE0059FE17 /* Build configuration list for PBXNativeTarget "Entity Fetcher" */;
+			buildPhases = (
+				1C9A2A031836FEAE0059FE17 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Entity Fetcher";
+			productName = "Entity Fetcher";
+			productReference = 1C9A2A071836FEAE0059FE17 /* Entity Fetcher */;
+			productType = "com.apple.product-type.tool";
+		};
 		1C9C3EB8176BC53800E982C9 /* HTMLReader iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C9C3EDE176BC53900E982C9 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */;
@@ -342,6 +378,7 @@
 				1C9C3EC9176BC53900E982C9 /* Tests on iOS */,
 				1C88293A18369DD70051653C /* HTMLReader OS X */,
 				1C88294F18369DD70051653C /* Tests on OS X */,
+				1C9A2A061836FEAE0059FE17 /* Entity Fetcher */,
 			);
 		};
 /* End PBXProject section */
@@ -411,6 +448,14 @@
 				1C88297518369F320051653C /* HTMLTreeConstructionTests.m in Sources */,
 				1C88297418369F320051653C /* HTMLTokenizerTests.m in Sources */,
 				1C88297318369F320051653C /* HTMLTestUtilities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C9A2A031836FEAE0059FE17 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C9A2A171836FEED0059FE17 /* EntityFetcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +628,50 @@
 			};
 			name = Release;
 		};
+		1C9A2A131836FEAE0059FE17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1C9A2A141836FEAE0059FE17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		1C9C3EDC176BC53900E982C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -720,6 +809,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1C9A2A121836FEAE0059FE17 /* Build configuration list for PBXNativeTarget "Entity Fetcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C9A2A131836FEAE0059FE17 /* Debug */,
+				1C9A2A141836FEAE0059FE17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		1C9C3EB4176BC53800E982C9 /* Build configuration list for PBXProject "HTMLReader" */ = {
 			isa = XCConfigurationList;
