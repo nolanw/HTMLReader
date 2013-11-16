@@ -75,6 +75,19 @@
     }
 }
 
+- (void)insertCharacter:(UTF32Char)character atChildNodeIndex:(NSUInteger)index
+{
+    id candidate = index > 0 ? _childNodes[index - 1] : nil;
+    HTMLTextNode *textNode;
+    if ([candidate isKindOfClass:[HTMLTextNode class]]) {
+        textNode = candidate;
+    } else {
+        textNode = [HTMLTextNode new];
+        [self insertChild:textNode atIndex:index];
+    }
+    [textNode appendLongCharacter:character];
+}
+
 - (NSArray *)childElementNodes
 {
 	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:_childNodes.count];

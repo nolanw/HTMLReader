@@ -33,6 +33,8 @@
 
 @property (readonly, assign, nonatomic) NSUInteger childNodeCount;
 
+- (void)insertCharacter:(UTF32Char)character atChildNodeIndex:(NSUInteger)childNodeIndex;
+
 @end
 
 /**

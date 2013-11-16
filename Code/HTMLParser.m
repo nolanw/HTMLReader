@@ -3012,16 +3012,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
     NSUInteger index;
     HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
     if ([adjustedInsertionLocation isKindOfClass:[HTMLDocument class]]) return;
-    HTMLTextNode *textNode;
-    if (index > 0 &&
-        [adjustedInsertionLocation.childNodes[index - 1] isKindOfClass:[HTMLTextNode class]])
-    {
-        textNode = adjustedInsertionLocation.childNodes[index - 1];
-    } else {
-        textNode = [HTMLTextNode new];
-        [adjustedInsertionLocation insertChild:textNode atIndex:index];
-    }
-    [textNode appendLongCharacter:character];
+    [adjustedInsertionLocation insertCharacter:character atChildNodeIndex:index];
 }
 
 - (void)insertNode:(HTMLNode *)node atAppropriatePlaceWithOverrideTarget:(HTMLElementNode *)overrideTarget
