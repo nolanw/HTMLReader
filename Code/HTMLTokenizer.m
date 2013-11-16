@@ -2043,157 +2043,145 @@ done:
 
 - (void)resume
 {
-    SEL selector = HTMLSelectorFromTokenizerState(self.state);
-    if ([self respondsToSelector:selector]) {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self performSelector:selector];
-        #pragma clang diagnostic pop
-    } else {
-        NSAssert(NO, @"Unimplemented tokenizer state %@", NSStringFromSelector(selector));
-        NSLog(@"Unimplemented tokenizer state %@", NSStringFromSelector(selector));
-    }
-}
-
-static inline SEL HTMLSelectorFromTokenizerState(HTMLTokenizerState state)
-{
-    switch (state) {
+    switch (self.state) {
         case HTMLDataTokenizerState:
-            return @selector(dataState);
+            return [self dataState];
         case HTMLCharacterReferenceInDataTokenizerState:
-            return @selector(characterReferenceInDataState);
+            return [self characterReferenceInDataState];
         case HTMLRCDATATokenizerState:
-            return @selector(RCDATAState);
+            return [self RCDATAState];
         case HTMLCharacterReferenceInRCDATATokenizerState:
-            return @selector(characterReferenceInRCDATAState);
+            return [self characterReferenceInRCDATAState];
         case HTMLRAWTEXTTokenizerState:
-            return @selector(RAWTEXTState);
+            return [self RAWTEXTState];
         case HTMLScriptDataTokenizerState:
-            return @selector(scriptDataState);
+            return [self scriptDataState];
         case HTMLPLAINTEXTTokenizerState:
-            return @selector(PLAINTEXTState);
+            return [self PLAINTEXTState];
         case HTMLTagOpenTokenizerState:
-            return @selector(tagOpenState);
+            return [self tagOpenState];
         case HTMLEndTagOpenTokenizerState:
-            return @selector(endTagOpenState);
+            return [self endTagOpenState];
         case HTMLTagNameTokenizerState:
-            return @selector(tagNameState);
+            return [self tagNameState];
         case HTMLRCDATALessThanSignTokenizerState:
-            return @selector(RCDATALessThanSignState);
+            return [self RCDATALessThanSignState];
         case HTMLRCDATAEndTagOpenTokenizerState:
-            return @selector(RCDATAEndTagOpenState);
+            return [self RCDATAEndTagOpenState];
         case HTMLRCDATAEndTagNameTokenizerState:
-            return @selector(RCDATAEndTagNameState);
+            return [self RCDATAEndTagNameState];
         case HTMLRAWTEXTLessThanSignTokenizerState:
-            return @selector(RAWTEXTLessThanSignState);
+            return [self RAWTEXTLessThanSignState];
         case HTMLRAWTEXTEndTagOpenTokenizerState:
-            return @selector(RAWTEXTEndTagOpenState);
+            return [self RAWTEXTEndTagOpenState];
         case HTMLRAWTEXTEndTagNameTokenizerState:
-            return @selector(RAWTEXTEndTagNameState);
+            return [self RAWTEXTEndTagNameState];
         case HTMLScriptDataLessThanSignTokenizerState:
-            return @selector(scriptDataLessThanSignState);
+            return [self scriptDataLessThanSignState];
         case HTMLScriptDataEndTagOpenTokenizerState:
-            return @selector(scriptDataEndTagOpenState);
+            return [self scriptDataEndTagOpenState];
         case HTMLScriptDataEndTagNameTokenizerState:
-            return @selector(scriptDataEndTagNameState);
+            return [self scriptDataEndTagNameState];
         case HTMLScriptDataEscapeStartTokenizerState:
-            return @selector(scriptDataEscapeStartState);
+            return [self scriptDataEscapeStartState];
         case HTMLScriptDataEscapeStartDashTokenizerState:
-            return @selector(scriptDataEscapeStartDashState);
+            return [self scriptDataEscapeStartDashState];
         case HTMLScriptDataEscapedTokenizerState:
-            return @selector(scriptDataEscapedState);
+            return [self scriptDataEscapedState];
         case HTMLScriptDataEscapedDashTokenizerState:
-            return @selector(scriptDataEscapedDashState);
+            return [self scriptDataEscapedDashState];
         case HTMLScriptDataEscapedDashDashTokenizerState:
-            return @selector(scriptDataEscapedDashDashState);
+            return [self scriptDataEscapedDashDashState];
         case HTMLScriptDataEscapedLessThanSignTokenizerState:
-            return @selector(scriptDataEscapedLessThanSignState);
+            return [self scriptDataEscapedLessThanSignState];
         case HTMLScriptDataEscapedEndTagOpenTokenizerState:
-            return @selector(scriptDataEscapedEndTagOpenState);
+            return [self scriptDataEscapedEndTagOpenState];
         case HTMLScriptDataEscapedEndTagNameTokenizerState:
-            return @selector(scriptDataEscapedEndTagNameState);
+            return [self scriptDataEscapedEndTagNameState];
         case HTMLScriptDataDoubleEscapeStartTokenizerState:
-            return @selector(scriptDataDoubleEscapeStartState);
+            return [self scriptDataDoubleEscapeStartState];
         case HTMLScriptDataDoubleEscapedTokenizerState:
-            return @selector(scriptDataDoubleEscapedState);
+            return [self scriptDataDoubleEscapedState];
         case HTMLScriptDataDoubleEscapedDashTokenizerState:
-            return @selector(scriptDataDoubleEscapedDashState);
+            return [self scriptDataDoubleEscapedDashState];
         case HTMLScriptDataDoubleEscapedDashDashTokenizerState:
-            return @selector(scriptDataDoubleEscapedDashDashState);
+            return [self scriptDataDoubleEscapedDashDashState];
         case HTMLScriptDataDoubleEscapedLessThanSignTokenizerState:
-            return @selector(scriptDataDoubleEscapedLessThanSignState);
+            return [self scriptDataDoubleEscapedLessThanSignState];
         case HTMLScriptDataDoubleEscapeEndTokenizerState:
-            return @selector(scriptDataDoubleEscapeEndState);
+            return [self scriptDataDoubleEscapeEndState];
         case HTMLBeforeAttributeNameTokenizerState:
-            return @selector(beforeAttributeNameState);
+            return [self beforeAttributeNameState];
         case HTMLAttributeNameTokenizerState:
-            return @selector(attributeNameState);
+            return [self attributeNameState];
         case HTMLAfterAttributeNameTokenizerState:
-            return @selector(afterAttributeNameState);
+            return [self afterAttributeNameState];
         case HTMLBeforeAttributeValueTokenizerState:
-            return @selector(beforeAttributeValueState);
+            return [self beforeAttributeValueState];
         case HTMLAttributeValueDoubleQuotedTokenizerState:
-            return @selector(attributeValueDoubleQuotedState);
+            return [self attributeValueDoubleQuotedState];
         case HTMLAttributeValueSingleQuotedTokenizerState:
-            return @selector(attributeValueSingleQuotedState);
+            return [self attributeValueSingleQuotedState];
         case HTMLAttributeValueUnquotedTokenizerState:
-            return @selector(attributeValueUnquotedState);
+            return [self attributeValueUnquotedState];
         case HTMLCharacterReferenceInAttributeValueTokenizerState:
-            return @selector(characterReferenceInAttributeValueState);
+            return [self characterReferenceInAttributeValueState];
         case HTMLAfterAttributeValueQuotedTokenizerState:
-            return @selector(afterAttributeValueQuotedState);
+            return [self afterAttributeValueQuotedState];
         case HTMLSelfClosingStartTagTokenizerState:
-            return @selector(selfClosingStartTagState);
+            return [self selfClosingStartTagState];
         case HTMLBogusCommentTokenizerState:
-            return @selector(bogusCommentState);
+            return [self bogusCommentState];
         case HTMLMarkupDeclarationOpenTokenizerState:
-            return @selector(markupDeclarationOpenState);
+            return [self markupDeclarationOpenState];
         case HTMLCommentStartTokenizerState:
-            return @selector(commentStartState);
+            return [self commentStartState];
         case HTMLCommentStartDashTokenizerState:
-            return @selector(commentStartDashState);
+            return [self commentStartDashState];
         case HTMLCommentTokenizerState:
-            return @selector(commentState);
+            return [self commentState];
         case HTMLCommentEndDashTokenizerState:
-            return @selector(commentEndDashState);
+            return [self commentEndDashState];
         case HTMLCommentEndTokenizerState:
-            return @selector(commentEndState);
+            return [self commentEndState];
         case HTMLCommentEndBangTokenizerState:
-            return @selector(commentEndBangState);
+            return [self commentEndBangState];
         case HTMLDOCTYPETokenizerState:
-            return @selector(DOCTYPEState);
+            return [self DOCTYPEState];
         case HTMLBeforeDOCTYPENameTokenizerState:
-            return @selector(beforeDOCTYPENameState);
+            return [self beforeDOCTYPENameState];
         case HTMLDOCTYPENameTokenizerState:
-            return @selector(DOCTYPENameState);
+            return [self DOCTYPENameState];
         case HTMLAfterDOCTYPENameTokenizerState:
-            return @selector(afterDOCTYPENameState);
+            return [self afterDOCTYPENameState];
         case HTMLAfterDOCTYPEPublicKeywordTokenizerState:
-            return @selector(afterDOCTYPEPublicKeywordState);
+            return [self afterDOCTYPEPublicKeywordState];
         case HTMLBeforeDOCTYPEPublicIdentifierTokenizerState:
-            return @selector(beforeDOCTYPEPublicIdentifierState);
+            return [self beforeDOCTYPEPublicIdentifierState];
         case HTMLDOCTYPEPublicIdentifierDoubleQuotedTokenizerState:
-            return @selector(DOCTYPEPublicIdentifierDoubleQuotedState);
+            return [self DOCTYPEPublicIdentifierDoubleQuotedState];
         case HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState:
-            return @selector(DOCTYPEPublicIdentifierSingleQuotedState);
+            return [self DOCTYPEPublicIdentifierSingleQuotedState];
         case HTMLAfterDOCTYPEPublicIdentifierTokenizerState:
-            return @selector(afterDOCTYPEPublicIdentifierState);
+            return [self afterDOCTYPEPublicIdentifierState];
         case HTMLBetweenDOCTYPEPublicAndSystemIdentifiersTokenizerState:
-            return @selector(betweenDOCTYPEPublicAndSystemIdentifiersState);
+            return [self betweenDOCTYPEPublicAndSystemIdentifiersState];
         case HTMLAfterDOCTYPESystemKeywordTokenizerState:
-            return @selector(afterDOCTYPESystemKeywordState);
+            return [self afterDOCTYPESystemKeywordState];
         case HTMLBeforeDOCTYPESystemIdentifierTokenizerState:
-            return @selector(beforeDOCTYPESystemIdentifierState);
+            return [self beforeDOCTYPESystemIdentifierState];
         case HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState:
-            return @selector(DOCTYPESystemIdentifierDoubleQuotedState);
+            return [self DOCTYPESystemIdentifierDoubleQuotedState];
         case HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState:
-            return @selector(DOCTYPESystemIdentifierSingleQuotedState);
+            return [self DOCTYPESystemIdentifierSingleQuotedState];
         case HTMLAfterDOCTYPESystemIdentifierTokenizerState:
-            return @selector(afterDOCTYPESystemIdentifierState);
+            return [self afterDOCTYPESystemIdentifierState];
         case HTMLBogusDOCTYPETokenizerState:
-            return @selector(bogusDOCTYPEState);
+            return [self bogusDOCTYPEState];
         case HTMLCDATASectionTokenizerState:
-            return @selector(CDATASectionState);
+            return [self CDATASectionState];
+        default:
+            NSAssert(NO, @"unexpected state %zd", self.state);
     }
 }
 
