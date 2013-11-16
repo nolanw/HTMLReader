@@ -68,6 +68,7 @@ int main(void) { @autoreleasepool
         return 1;
     }
     NSMutableArray *entities = [NSMutableArray new];
+    NSMutableArray *semicolonlessEntities = [NSMutableArray new];
     NSUInteger longestLength = 0;
     for (NSString *name in entitiesJSON) {
         if (name.length > longestLength) {
@@ -77,15 +78,31 @@ int main(void) { @autoreleasepool
         entity.name = name;
         NSDictionary *replacement = entitiesJSON[name];
         entity.codepoints = replacement[@"codepoints"];
-        [entities addObject:entity];
+        if ([name hasSuffix:@";"]) {
+            [entities addObject:entity];
+        } else {
+            [semicolonlessEntities addObject:entity];
+        }
     }
-    [entities sortUsingComparator:^(Entity *a, Entity *b) {
+    static NSComparator comparator = ^(Entity *a, Entity *b) {
         return [a.name compare:b.name];
-    }];
+    };
+    [entities sortUsingComparator:comparator];
+    [semicolonlessEntities sortUsingComparator:comparator];
+    
+    printf("static const NamedReferenceTable NamedReferences[] = {\n");
     for (Entity *entity in entities) {
-        printf("%s\n", entity.description.UTF8String);
+        printf("    %s\n", entity.description.UTF8String);
     }
+    printf("};\n\n");
+    
+    printf("static const NamedReferenceTable NamedSemicolonlessReferences[] = {\n");
+    for (Entity *entity in semicolonlessEntities) {
+        printf("    %s\n", entity.description.UTF8String);
+    }
+    printf("};\n\n");
+    
     // -1 for the ampersand we ignore.
-    printf("\nstatic const NSUInteger LongestReferenceNameLength = %tu;\n", longestLength - 1);
+    printf("static const NSUInteger LongestReferenceNameLength = %tu;\n", longestLength - 1);
     return 0;
 } }
