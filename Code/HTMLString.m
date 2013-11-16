@@ -7,11 +7,8 @@
 inline void AppendLongCharacter(NSMutableString *self, UTF32Char character)
 {
     unichar surrogates[2];
-    if (CFStringGetSurrogatePairForLongCharacter(character, surrogates)) {
-        [self appendFormat:@"%C%C", surrogates[0], surrogates[1]];
-    } else {
-        [self appendFormat:@"%C", surrogates[0]];
-    }
+    Boolean two = CFStringGetSurrogatePairForLongCharacter(character, surrogates);
+    CFStringAppendCharacters((__bridge CFMutableStringRef)self, surrogates, two ? 2 : 1);
 }
 
 void EnumerateLongCharacters(NSString *self, void (^block)(UTF32Char character))
