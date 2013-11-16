@@ -151,7 +151,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [self processToken:[HTMLEOFToken new]];
     if (_context) {
         HTMLNode *root = _document.childNodes[0];
-        while (_document.childNodes.count > 0) {
+        while (_document.childNodeCount > 0) {
             [_document removeChild:_document.childNodes[0]];
         }
         for (HTMLNode *child in root.childNodes) {
@@ -2924,7 +2924,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 {
     NSUInteger index;
     if (node) {
-        index = node.childNodes.count;
+        index = node.childNodeCount;
     } else {
         node = [self appropriatePlaceForInsertingANodeIndex:&index];
     }
@@ -2952,7 +2952,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
         }
         if (!lastTable) {
             HTMLElementNode *html = _stackOfOpenElements[0];
-            *index = html.childNodes.count;
+            *index = html.childNodeCount;
             return html;
         }
         if (lastTable.parentNode) {
@@ -2961,10 +2961,10 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
         }
         NSUInteger indexOfLastTable = [_stackOfOpenElements indexOfObject:lastTable];
         HTMLElementNode *previousNode = _stackOfOpenElements[indexOfLastTable - 1];
-        *index = previousNode.childNodes.count;
+        *index = previousNode.childNodeCount;
         return previousNode;
     } else {
-        *index = target.childNodes.count;
+        *index = target.childNodeCount;
         return target;
     }
 }

@@ -48,6 +48,11 @@
     [_childNodes setArray:childNodes];
 }
 
+- (NSUInteger)childNodeCount
+{
+    return _childNodes.count;
+}
+
 - (void)appendChild:(HTMLNode *)child
 {
     [child.parentNode removeChild:child];
@@ -221,8 +226,8 @@
         return string;
     }
     if ([@[ @"pre", @"textarea", @"listing" ] containsObject:self.tagName]) {
-        if (self.childNodes.count > 0 && [self.childNodes[0] isKindOfClass:[HTMLTextNode class]]) {
-            HTMLTextNode *textNode = self.childNodes[0];
+        if ([self.childNodes.firstObject isKindOfClass:[HTMLTextNode class]]) {
+            HTMLTextNode *textNode = self.childNodes.firstObject;
             if ([textNode.data hasPrefix:@"\n"]) {
                 [string appendString:@"\n"];
             }
@@ -260,7 +265,7 @@
     }
     return [NSString stringWithFormat:@"<%@: %p <%@%@%@> %@ child node%@>", self.class, self,
             namespace, self.tagName, attributes,
-            @(self.childNodes.count), self.childNodes.count == 1 ? @"" : @"s"];
+            @(self.childNodeCount), self.childNodeCount == 1 ? @"" : @"s"];
 }
 
 @end

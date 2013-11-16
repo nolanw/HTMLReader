@@ -31,6 +31,8 @@
  */
 - (void)removeChild:(HTMLNode *)child;
 
+@property (readonly, assign, nonatomic) NSUInteger childNodeCount;
+
 @end
 
 /**
