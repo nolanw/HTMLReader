@@ -6,8 +6,6 @@
 #import "HTMLParser.h"
 #import "HTMLString.h"
 
-enum {NotFound32 = INT32_MAX};
-
 @interface HTMLTagToken ()
 
 - (void)appendLongCharacterToTagName:(UTF32Char)character;
@@ -48,7 +46,9 @@ enum {NotFound32 = INT32_MAX};
 
 @implementation HTMLTokenizer
 {
-    NSScanner *_scanner;
+    NSString *_string;
+    NSUInteger _scanLocation;
+    CFStringInlineBuffer _buffer;
     HTMLTokenizerState _state;
     NSMutableArray *_tokenQueue;
     NSMutableString *_characterBuffer;
@@ -56,22 +56,21 @@ enum {NotFound32 = INT32_MAX};
     HTMLTokenizerState _sourceAttributeValueState;
     HTMLAttribute *_currentAttribute;
     NSMutableString *_temporaryBuffer;
-    int _additionalAllowedCharacter;
+    NSInteger _additionalAllowedCharacter;
     NSString *_mostRecentEmittedStartTagName;
-    int _reconsume;
+    NSInteger _reconsume;
     BOOL _done;
 }
 
 - (id)initWithString:(NSString *)string
 {
     if (!(self = [super init])) return nil;
-    _scanner = [NSScanner scannerWithString:string];
-    _scanner.charactersToBeSkipped = nil;
-    _scanner.caseSensitive = YES;
+    _string = [string copy] ?: @"";
+    CFStringInitInlineBuffer((__bridge CFStringRef)_string, &_buffer, CFRangeMake(0, _string.length));
     self.state = HTMLDataTokenizerState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
-    _reconsume = NotFound32;
+    _reconsume = NSNotFound;
     return self;
 }
 
@@ -82,7 +81,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)dataState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '&':
             [self switchToState:HTMLCharacterReferenceInDataTokenizerState];
@@ -92,13 +91,13 @@ enum {NotFound32 = INT32_MAX};
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in data state"];
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
         case EOF:
             _done = YES;
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
@@ -106,7 +105,7 @@ enum {NotFound32 = INT32_MAX};
 - (void)characterReferenceInDataState
 {
     [self switchToState:HTMLDataTokenizerState];
-    _additionalAllowedCharacter = NotFound32;
+    _additionalAllowedCharacter = NSNotFound;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
         [self emitCharacterTokensWithString:data];
@@ -117,7 +116,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RCDATAState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '&':
             [self switchToState:HTMLCharacterReferenceInRCDATATokenizerState];
@@ -133,7 +132,7 @@ enum {NotFound32 = INT32_MAX};
             _done = YES;
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
@@ -141,7 +140,7 @@ enum {NotFound32 = INT32_MAX};
 - (void)characterReferenceInRCDATAState
 {
     [self switchToState:HTMLRCDATATokenizerState];
-    _additionalAllowedCharacter = NotFound32;
+    _additionalAllowedCharacter = NSNotFound;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
         [self emitCharacterTokensWithString:data];
@@ -152,7 +151,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RAWTEXTState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '<':
             [self switchToState:HTMLRAWTEXTLessThanSignTokenizerState];
@@ -165,14 +164,14 @@ enum {NotFound32 = INT32_MAX};
             _done = YES;
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '<':
             [self switchToState:HTMLScriptDataLessThanSignTokenizerState];
@@ -185,14 +184,14 @@ enum {NotFound32 = INT32_MAX};
             _done = YES;
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)PLAINTEXTState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\0':
             [self emitParseError:@"U+0000 NULL in PLAINTEXT state"];
@@ -202,14 +201,24 @@ enum {NotFound32 = INT32_MAX};
             _done = YES;
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
+static inline BOOL is_upper(NSInteger c)
+{
+    return c >= 'A' && c <= 'Z';
+}
+
+static inline BOOL is_lower(NSInteger c)
+{
+    return c >= 'a' && c <= 'z';
+}
+
 - (void)tagOpenState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '!':
             [self switchToState:HTMLMarkupDeclarationOpenTokenizerState];
@@ -220,12 +229,12 @@ enum {NotFound32 = INT32_MAX};
         case '?':
             [self emitParseError:@"Bogus ? in tag open state"];
             [self switchToState:HTMLBogusCommentTokenizerState];
-            _scanner.scanLocation--;
+            _scanLocation--;
             break;
         default:
-            if (isupper(c) || islower(c)) {
+            if (is_upper(c) || is_lower(c)) {
                 _currentToken = [HTMLStartTagToken new];
-                unichar toAppend = c + (isupper(c) ? 0x0020 : 0);
+                unichar toAppend = c + (is_upper(c) ? 0x0020 : 0);
                 [_currentToken appendLongCharacterToTagName:toAppend];
                 [self switchToState:HTMLTagNameTokenizerState];
             } else {
@@ -240,7 +249,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)endTagOpenState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '>':
             [self emitParseError:@"Unexpected > in end tag open state"];
@@ -254,9 +263,9 @@ enum {NotFound32 = INT32_MAX};
             [self reconsume:c];
             break;
         default:
-            if (isupper(c) || islower(c)) {
+            if (is_upper(c) || is_lower(c)) {
                 _currentToken = [HTMLEndTagToken new];
-                unichar toAppend = c + (isupper(c) ? 0x0020 : 0);
+                unichar toAppend = c + (is_upper(c) ? 0x0020 : 0);
                 [_currentToken appendLongCharacterToTagName:toAppend];
                 [self switchToState:HTMLTagNameTokenizerState];
             } else {
@@ -271,7 +280,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)tagNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -295,10 +304,10 @@ enum {NotFound32 = INT32_MAX};
             [self switchToState:HTMLDataTokenizerState];
             break;
         default:
-            if (isupper(c)) {
-                [_currentToken appendLongCharacterToTagName:c + 0x0020];
+            if (is_upper(c)) {
+                [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
             } else {
-                [_currentToken appendLongCharacterToTagName:c];
+                [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
             }
             break;
     }
@@ -306,7 +315,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RCDATALessThanSignState
 {
-    int c = [self consumeNextInputCharacter];
+    NSInteger c = [self consumeNextInputCharacter];
     if (c == '/') {
         _temporaryBuffer = [NSMutableString new];
         [self switchToState:HTMLRCDATAEndTagOpenTokenizerState];
@@ -319,16 +328,16 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RCDATAEndTagOpenState
 {
-    int c = [self consumeNextInputCharacter];
-    if (isupper(c)) {
+    NSInteger c = [self consumeNextInputCharacter];
+    if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLRCDATAEndTagNameTokenizerState];
-    } else if (islower(c)) {
+    } else if (is_lower(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLRCDATAEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLRCDATATokenizerState];
@@ -340,7 +349,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RCDATAEndTagNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -365,12 +374,12 @@ enum {NotFound32 = INT32_MAX};
             }
             break;
     }
-    if (isupper(c)) {
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
-    } else if (islower(c)) {
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+    if (is_upper(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
+    } else if (is_lower(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLRCDATATokenizerState];
         [self emitCharacterToken:'<'];
@@ -382,7 +391,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RAWTEXTLessThanSignState
 {
-    int c = [self consumeNextInputCharacter];
+    NSInteger c = [self consumeNextInputCharacter];
     if (c == '/') {
         _temporaryBuffer = [NSMutableString new];
         [self switchToState:HTMLRAWTEXTEndTagOpenTokenizerState];
@@ -395,16 +404,16 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RAWTEXTEndTagOpenState
 {
-    int c = [self consumeNextInputCharacter];
-    if (isupper(c)) {
+    NSInteger c = [self consumeNextInputCharacter];
+    if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLRAWTEXTEndTagNameTokenizerState];
-    } else if (islower(c)) {
+    } else if (is_lower(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLRAWTEXTEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLRAWTEXTTokenizerState];
@@ -416,7 +425,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)RAWTEXTEndTagNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -441,12 +450,12 @@ enum {NotFound32 = INT32_MAX};
             }
             break;
     }
-    if (isupper(c)) {
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
-    } else if (islower(c)) {
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+    if (is_upper(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
+    } else if (is_lower(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLRAWTEXTTokenizerState];
         [self emitCharacterToken:'<'];
@@ -458,7 +467,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataLessThanSignState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '/':
             _temporaryBuffer = [NSMutableString new];
@@ -479,16 +488,16 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEndTagOpenState
 {
-    int c = [self consumeNextInputCharacter];
-    if (isupper(c)) {
+    NSInteger c = [self consumeNextInputCharacter];
+    if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLScriptDataEndTagNameTokenizerState];
-    } else if (islower(c)) {
+    } else if (is_lower(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLScriptDataEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLScriptDataTokenizerState];
@@ -500,7 +509,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEndTagNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -525,12 +534,12 @@ enum {NotFound32 = INT32_MAX};
             }
             break;
     }
-    if (isupper(c)) {
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
-    } else if (islower(c)) {
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+    if (is_upper(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
+    } else if (is_lower(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLScriptDataTokenizerState];
         [self emitCharacterToken:'<'];
@@ -542,7 +551,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEscapeStartState
 {
-    int c = [self consumeNextInputCharacter];
+    NSInteger c = [self consumeNextInputCharacter];
     if (c == '-') {
         [self switchToState:HTMLScriptDataEscapeStartDashTokenizerState];
         [self emitCharacterToken:'-'];
@@ -554,7 +563,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEscapeStartDashState
 {
-    int c = [self consumeNextInputCharacter];
+    NSInteger c = [self consumeNextInputCharacter];
     if (c == '-') {
         [self switchToState:HTMLScriptDataEscapedDashDashTokenizerState];
         [self emitCharacterToken:'-'];
@@ -566,7 +575,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEscapedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataEscapedDashTokenizerState];
@@ -585,14 +594,14 @@ enum {NotFound32 = INT32_MAX};
             [self reconsume:EOF];
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataEscapedDashState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataEscapedDashDashTokenizerState];
@@ -613,14 +622,14 @@ enum {NotFound32 = INT32_MAX};
             break;
         default:
             [self switchToState:HTMLScriptDataEscapedTokenizerState];
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataEscapedDashDashState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self emitCharacterToken:'-'];
@@ -644,32 +653,32 @@ enum {NotFound32 = INT32_MAX};
             break;
         default:
             [self switchToState:HTMLScriptDataEscapedTokenizerState];
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataEscapedLessThanSignState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '/':
             _temporaryBuffer = [NSMutableString new];
             [self switchToState:HTMLScriptDataEscapedEndTagOpenTokenizerState];
             break;
         default:
-            if (isupper(c)) {
+            if (is_upper(c)) {
                 _temporaryBuffer = [NSMutableString new];
-                AppendLongCharacter(_temporaryBuffer, c + 0x0020);
+                AppendLongCharacter(_temporaryBuffer, (UTF32Char)c + 0x0020);
                 [self switchToState:HTMLScriptDataDoubleEscapeStartTokenizerState];
                 [self emitCharacterToken:'<'];
-                [self emitCharacterToken:c];
-            } else if (islower(c)) {
+                [self emitCharacterToken:(UTF32Char)c];
+            } else if (is_lower(c)) {
                 _temporaryBuffer = [NSMutableString new];
-                AppendLongCharacter(_temporaryBuffer, c);
+                AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
                 [self switchToState:HTMLScriptDataDoubleEscapeStartTokenizerState];
                 [self emitCharacterToken:'<'];
-                [self emitCharacterToken:c];
+                [self emitCharacterToken:(UTF32Char)c];
             } else {
                 [self switchToState:HTMLScriptDataEscapedTokenizerState];
                 [self emitCharacterToken:'<'];
@@ -681,16 +690,16 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEscapedEndTagOpenState
 {
-    int c = [self consumeNextInputCharacter];
-    if (isupper(c)) {
+    NSInteger c = [self consumeNextInputCharacter];
+    if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLScriptDataEscapedEndTagNameTokenizerState];
-    } else if (islower(c)) {
+    } else if (is_lower(c)) {
         _currentToken = [HTMLEndTagToken new];
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
         [self switchToState:HTMLScriptDataEscapedEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLScriptDataEscapedTokenizerState];
@@ -702,7 +711,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataEscapedEndTagNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -727,12 +736,12 @@ enum {NotFound32 = INT32_MAX};
             }
             break;
     }
-    if (isupper(c)) {
-        [_currentToken appendLongCharacterToTagName:c + 0x0020];
-        AppendLongCharacter(_temporaryBuffer, c);
-    } else if (islower(c)) {
-        [_currentToken appendLongCharacterToTagName:c];
-        AppendLongCharacter(_temporaryBuffer, c);
+    if (is_upper(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
+    } else if (is_lower(c)) {
+        [_currentToken appendLongCharacterToTagName:(UTF32Char)c];
+        AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLScriptDataEscapedTokenizerState];
         [self emitCharacterToken:'<'];
@@ -744,7 +753,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataDoubleEscapeStartState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -757,15 +766,15 @@ enum {NotFound32 = INT32_MAX};
             } else {
                 [self switchToState:HTMLScriptDataEscapedTokenizerState];
             }
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
         default:
-            if (isupper(c)) {
-                AppendLongCharacter(_temporaryBuffer, c + 0x0020);
-                [self emitCharacterToken:c];
-            } else if (islower(c)) {
-                AppendLongCharacter(_temporaryBuffer, c);
-                [self emitCharacterToken:c];
+            if (is_upper(c)) {
+                AppendLongCharacter(_temporaryBuffer, (UTF32Char)c + 0x0020);
+                [self emitCharacterToken:(UTF32Char)c];
+            } else if (is_lower(c)) {
+                AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
+                [self emitCharacterToken:(UTF32Char)c];
             } else {
                 [self switchToState:HTMLScriptDataEscapedTokenizerState];
                 [self reconsume:c];
@@ -776,7 +785,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataDoubleEscapedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataDoubleEscapedDashTokenizerState];
@@ -796,14 +805,14 @@ enum {NotFound32 = INT32_MAX};
             [self reconsume:EOF];
             break;
         default:
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataDoubleEscapedDashState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataDoubleEscapedDashDashTokenizerState];
@@ -825,14 +834,14 @@ enum {NotFound32 = INT32_MAX};
             break;
         default:
             [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataDoubleEscapedDashDashState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self emitCharacterToken:'-'];
@@ -857,14 +866,14 @@ enum {NotFound32 = INT32_MAX};
             break;
         default:
             [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataDoubleEscapedLessThanSignState
 {
-    int c = [self consumeNextInputCharacter];
+    NSInteger c = [self consumeNextInputCharacter];
     if (c == '/') {
         _temporaryBuffer = [NSMutableString new];
         [self switchToState:HTMLScriptDataDoubleEscapeEndTokenizerState];
@@ -877,7 +886,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)scriptDataDoubleEscapeEndState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -890,15 +899,15 @@ enum {NotFound32 = INT32_MAX};
             } else {
                 [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
             }
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
             break;
         default:
-            if (isupper(c)) {
-                AppendLongCharacter(_temporaryBuffer, c + 0x0020);
-                [self emitCharacterToken:c];
-            } else if (islower(c)) {
-                AppendLongCharacter(_temporaryBuffer, c);
-                [self emitCharacterToken:c];
+            if (is_upper(c)) {
+                AppendLongCharacter(_temporaryBuffer, (UTF32Char)c + 0x0020);
+                [self emitCharacterToken:(UTF32Char)c];
+            } else if (is_lower(c)) {
+                AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
+                [self emitCharacterToken:(UTF32Char)c];
             } else {
                 [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
                 [self reconsume:c];
@@ -909,7 +918,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)beforeAttributeNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -934,7 +943,7 @@ enum {NotFound32 = INT32_MAX};
         case '\'':
         case '<':
         case '=':
-            [self emitParseError:@"Unexpected %c in before attribute name state", c];
+            [self emitParseError:@"Unexpected %c in before attribute name state", (char)c];
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in before attribute name state"];
@@ -945,10 +954,10 @@ enum {NotFound32 = INT32_MAX};
         anythingElse:
             [_currentToken addNewAttribute];
             _currentAttribute = [_currentToken attributes].lastObject;
-            if (isupper(c)) {
-                [_currentAttribute appendLongCharacterToName:c + 0x0020];
+            if (is_upper(c)) {
+                [_currentAttribute appendLongCharacterToName:(UTF32Char)c + 0x0020];
             } else {
-                [_currentAttribute appendLongCharacterToName:c];
+                [_currentAttribute appendLongCharacterToName:(UTF32Char)c];
             }
             [self switchToState:HTMLAttributeNameTokenizerState];
             break;
@@ -957,7 +966,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)attributeNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -982,7 +991,7 @@ enum {NotFound32 = INT32_MAX};
         case '"':
         case '\'':
         case '<':
-            [self emitParseError:@"Unexpected %c in attribute name state", c];
+            [self emitParseError:@"Unexpected %c in attribute name state", (char)c];
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in attribute name state"];
@@ -991,10 +1000,10 @@ enum {NotFound32 = INT32_MAX};
             break;
         default:
         anythingElse:
-            if (isupper(c)) {
-                [_currentAttribute appendLongCharacterToName:c + 0x0020];
+            if (is_upper(c)) {
+                [_currentAttribute appendLongCharacterToName:(UTF32Char)c + 0x0020];
             } else {
-                [_currentAttribute appendLongCharacterToName:c];
+                [_currentAttribute appendLongCharacterToName:(UTF32Char)c];
             }
             break;
     }
@@ -1002,7 +1011,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)afterAttributeNameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1029,7 +1038,7 @@ enum {NotFound32 = INT32_MAX};
         case '"':
         case '\'':
         case '<':
-            [self emitParseError:@"Unexpected %c in after attribute name state", c];
+            [self emitParseError:@"Unexpected %c in after attribute name state", (char)c];
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in after attribute name state"];
@@ -1040,10 +1049,10 @@ enum {NotFound32 = INT32_MAX};
         anythingElse:
             [_currentToken addNewAttribute];
             _currentAttribute = [_currentToken attributes].lastObject;
-            if (isupper(c)) {
-                [_currentAttribute appendLongCharacterToName:c + 0x0020];
+            if (is_upper(c)) {
+                [_currentAttribute appendLongCharacterToName:(UTF32Char)c + 0x0020];
             } else {
-                [_currentAttribute appendLongCharacterToName:c];
+                [_currentAttribute appendLongCharacterToName:(UTF32Char)c];
             }
             [self switchToState:HTMLAttributeNameTokenizerState];
             break;
@@ -1052,7 +1061,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)beforeAttributeValueState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1082,7 +1091,7 @@ enum {NotFound32 = INT32_MAX};
         case '<':
         case '=':
         case '`':
-            [self emitParseError:@"Unexpected %c in before attribute value state", c];
+            [self emitParseError:@"Unexpected %c in before attribute value state", (char)c];
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in before attribute value state"];
@@ -1091,7 +1100,7 @@ enum {NotFound32 = INT32_MAX};
             break;
         default:
         anythingElse:
-            [_currentAttribute appendLongCharacterToValue:c];
+            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
             [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
             break;
     }
@@ -1099,7 +1108,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)attributeValueDoubleQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '"':
             [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
@@ -1119,14 +1128,14 @@ enum {NotFound32 = INT32_MAX};
             [self reconsume:EOF];
             break;
         default:
-            [_currentAttribute appendLongCharacterToValue:c];
+            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
             break;
     }
 }
 
 - (void)attributeValueSingleQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\'':
             [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
@@ -1146,14 +1155,14 @@ enum {NotFound32 = INT32_MAX};
             [self reconsume:EOF];
             break;
         default:
-            [_currentAttribute appendLongCharacterToValue:c];
+            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
             break;
     }
 }
 
 - (void)attributeValueUnquotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1179,16 +1188,16 @@ enum {NotFound32 = INT32_MAX};
         case '<':
         case '=':
         case '`':
-            [self emitParseError:@"Unexpected %c in attribute value unquoted state", c];
-            goto anythingElseAttributeValueUnquotedState;
+            [self emitParseError:@"Unexpected %c in attribute value unquoted state", (char)c];
+            goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in attribute value unquoted state"];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
         default:
-        anythingElseAttributeValueUnquotedState:
-            [_currentAttribute appendLongCharacterToValue:c];
+        anythingElse:
+            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
             break;
     }
 }
@@ -1206,7 +1215,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)afterAttributeValueQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1236,7 +1245,7 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)selfClosingStartTagState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '>':
             [_currentToken setSelfClosingFlag:YES];
@@ -1260,7 +1269,7 @@ enum {NotFound32 = INT32_MAX};
 {
     _currentToken = [HTMLCommentToken new];
     for (;;) {
-        int c = [self consumeNextInputCharacter];
+        NSInteger c = [self consumeNextInputCharacter];
         if (c == EOF) {
             [self reconsume:EOF];
             break;
@@ -1269,7 +1278,7 @@ enum {NotFound32 = INT32_MAX};
         } else if (c == '\0') {
             [_currentToken appendLongCharacter:0xFFFD];
         } else {
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
         }
     }
     [self emitCurrentToken];
@@ -1278,32 +1287,29 @@ enum {NotFound32 = INT32_MAX};
 
 - (void)markupDeclarationOpenState
 {
-    if ([_scanner scanString:@"--" intoString:nil]) {
+    NSScanner *scanner = [self scannerAtCurrentScanLocation];
+    if ([scanner scanString:@"--" intoString:nil]) {
+        _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
         _currentToken = [[HTMLCommentToken alloc] initWithData:@""];
         [self switchToState:HTMLCommentStartTokenizerState];
-        return;
-    }
-    _scanner.caseSensitive = NO;
-    if ([_scanner scanString:@"DOCTYPE" intoString:nil]) {
-        [self switchToState:HTMLDOCTYPETokenizerState];
-        goto done;
-    }
-    if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML &&
-        [_scanner scanString:@"[CDATA[" intoString:nil])
-    {
+    } else if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML && [scanner scanString:@"[CDATA[" intoString:nil]) {
+        _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
         [self switchToState:HTMLCDATASectionTokenizerState];
-        goto done;
+    } else {
+        scanner.caseSensitive = NO;
+        if ([scanner scanString:@"DOCTYPE" intoString:nil]) {
+            _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
+            [self switchToState:HTMLDOCTYPETokenizerState];
+        } else {
+            [self emitParseError:@"Bogus character in markup declaration open state"];
+            [self switchToState:HTMLBogusCommentTokenizerState];
+        }
     }
-    [self emitParseError:@"Bogus character in markup declaration open state"];
-    [self switchToState:HTMLBogusCommentTokenizerState];
-    
-done:
-    _scanner.caseSensitive = YES;
 }
 
 - (void)commentStartState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentStartDashTokenizerState];
@@ -1325,7 +1331,7 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
             [self switchToState:HTMLCommentTokenizerState];
             break;
     }
@@ -1333,7 +1339,7 @@ done:
 
 - (void)commentStartDashState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentEndTokenizerState];
@@ -1357,7 +1363,7 @@ done:
             break;
         default:
             [_currentToken appendLongCharacter:'-'];
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
             [self switchToState:HTMLCommentTokenizerState];
             break;
     }
@@ -1365,7 +1371,7 @@ done:
 
 - (void)commentState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentEndDashTokenizerState];
@@ -1381,14 +1387,14 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
             break;
     }
 }
 
 - (void)commentEndDashState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentEndTokenizerState];
@@ -1407,7 +1413,7 @@ done:
             break;
         default:
             [_currentToken appendLongCharacter:'-'];
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
             [self switchToState:HTMLCommentTokenizerState];
             break;
     }
@@ -1415,7 +1421,7 @@ done:
 
 - (void)commentEndState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '>':
             [self switchToState:HTMLDataTokenizerState];
@@ -1444,7 +1450,7 @@ done:
         default:
             [self emitParseError:@"Unexpected character in comment end state"];
             [_currentToken appendString:@"--"];
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
             [self switchToState:HTMLCommentTokenizerState];
             break;
     }
@@ -1452,7 +1458,7 @@ done:
 
 - (void)commentEndBangState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [_currentToken appendString:@"--!"];
@@ -1475,7 +1481,7 @@ done:
             break;
         default:
             [_currentToken appendString:@"--!"];
-            [_currentToken appendLongCharacter:c];
+            [_currentToken appendLongCharacter:(UTF32Char)c];
             [self switchToState:HTMLCommentTokenizerState];
             break;
     }
@@ -1483,7 +1489,7 @@ done:
 
 - (void)DOCTYPEState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1509,7 +1515,7 @@ done:
 
 - (void)beforeDOCTYPENameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1539,10 +1545,10 @@ done:
             break;
         default:
             _currentToken = [HTMLDOCTYPEToken new];
-            if (isupper(c)) {
-                [_currentToken appendLongCharacterToName:c + 0x0020];
+            if (is_upper(c)) {
+                [_currentToken appendLongCharacterToName:(UTF32Char)c + 0x0020];
             } else {
-                [_currentToken appendLongCharacterToName:c];
+                [_currentToken appendLongCharacterToName:(UTF32Char)c];
             }
             [self switchToState:HTMLDOCTYPENameTokenizerState];
             break;
@@ -1551,7 +1557,7 @@ done:
 
 - (void)DOCTYPENameState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1575,10 +1581,10 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            if (isupper(c)) {
-                [_currentToken appendLongCharacterToName:c + 0x0020];
+            if (is_upper(c)) {
+                [_currentToken appendLongCharacterToName:(UTF32Char)c + 0x0020];
             } else {
-                [_currentToken appendLongCharacterToName:c];
+                [_currentToken appendLongCharacterToName:(UTF32Char)c];
             }
             break;
     }
@@ -1586,7 +1592,8 @@ done:
 
 - (void)afterDOCTYPENameState
 {
-    int c;
+    NSUInteger initialScanLocation = _scanLocation;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1604,27 +1611,31 @@ done:
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default:
-            if (!_scanner.isAtEnd) _scanner.scanLocation--;
-            _scanner.caseSensitive = NO;
-            if ([_scanner scanString:@"PUBLIC" intoString:nil]) {
+        default: {
+            _scanLocation = initialScanLocation;
+            NSScanner *scanner = [self scannerAtCurrentScanLocation];
+            scanner.caseSensitive = NO;
+            if ([scanner scanString:@"PUBLIC" intoString:nil]) {
+                _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
                 [self switchToState:HTMLAfterDOCTYPEPublicKeywordTokenizerState];
-            } else if ([_scanner scanString:@"SYSTEM" intoString:nil]) {
+            } else if ([scanner scanString:@"SYSTEM" intoString:nil]) {
+                _scanLocation = scanner.scanLocation;
                 [self switchToState:HTMLAfterDOCTYPESystemKeywordTokenizerState];
             } else {
-                if (!_scanner.isAtEnd) _scanner.scanLocation++;
+                scanner.scanLocation += 1;
+                _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
                 [self emitParseError:@"Unexpected character in after DOCTYPE name state"];
                 [_currentToken setForceQuirks:YES];
                 [self switchToState:HTMLBogusDOCTYPETokenizerState];
             }
-            _scanner.caseSensitive = YES;
             break;
+        }
     }
 }
 
 - (void)afterDOCTYPEPublicKeywordState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1665,7 +1676,7 @@ done:
 
 - (void)beforeDOCTYPEPublicIdentifierState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1703,7 +1714,7 @@ done:
 
 - (void)DOCTYPEPublicIdentifierDoubleQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '"':
             [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
@@ -1726,14 +1737,14 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            [_currentToken appendLongCharacterToPublicIdentifier:c];
+            [_currentToken appendLongCharacterToPublicIdentifier:(UTF32Char)c];
             break;
     }
 }
 
 - (void)DOCTYPEPublicIdentifierSingleQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\'':
             [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
@@ -1756,14 +1767,14 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            [_currentToken appendLongCharacterToPublicIdentifier:c];
+            [_currentToken appendLongCharacterToPublicIdentifier:(UTF32Char)c];
             break;
     }
 }
 
 - (void)afterDOCTYPEPublicIdentifierState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1802,7 +1813,7 @@ done:
 
 - (void)betweenDOCTYPEPublicAndSystemIdentifiersState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1838,7 +1849,7 @@ done:
 
 - (void)afterDOCTYPESystemKeywordState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1879,7 +1890,7 @@ done:
 
 - (void)beforeDOCTYPESystemIdentifierState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1917,7 +1928,7 @@ done:
 
 - (void)DOCTYPESystemIdentifierDoubleQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '"':
             [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
@@ -1940,14 +1951,14 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            [_currentToken appendLongCharacterToSystemIdentifier:c];
+            [_currentToken appendLongCharacterToSystemIdentifier:(UTF32Char)c];
             break;
     }
 }
 
 - (void)DOCTYPESystemIdentifierSingleQuotedState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\'':
             [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
@@ -1970,14 +1981,14 @@ done:
             [self reconsume:EOF];
             break;
         default:
-            [_currentToken appendLongCharacterToSystemIdentifier:c];
+            [_currentToken appendLongCharacterToSystemIdentifier:(UTF32Char)c];
             break;
     }
 }
 
 - (void)afterDOCTYPESystemIdentifierState
 {
-    int c;
+    NSInteger c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -2004,7 +2015,7 @@ done:
 
 - (void)bogusDOCTYPEState
 {
-    int c = [self consumeNextInputCharacter];
+    NSInteger c = [self consumeNextInputCharacter];
     if (c == '>') {
         [self switchToState:HTMLDataTokenizerState];
         [self emitCurrentToken];
@@ -2020,7 +2031,7 @@ done:
     [self switchToState:HTMLDataTokenizerState];
     NSInteger squareBracketsSeen = 0;
     for (;;) {
-        int c = [self consumeNextInputCharacter];
+        NSInteger c = [self consumeNextInputCharacter];
         if (c == ']' && squareBracketsSeen < 2) {
             squareBracketsSeen++;
         } else if (c == ']' && squareBracketsSeen == 2) {
@@ -2036,7 +2047,7 @@ done:
                 break;
             }
             squareBracketsSeen = 0;
-            [self emitCharacterToken:c];
+            [self emitCharacterToken:(UTF32Char)c];
         }
     }
 }
@@ -2185,22 +2196,29 @@ done:
     }
 }
 
-- (int)consumeNextInputCharacter
+- (NSInteger)consumeNextInputCharacter
 {
-    if (_reconsume != NotFound32) {
-        int character = _reconsume;
-        _reconsume = NotFound32;
+    if (_reconsume != NSNotFound) {
+        NSInteger character = _reconsume;
+        _reconsume = NSNotFound;
         return character;
-    } else if (_scanner.isAtEnd) {
+    } else if (_scanLocation == NSNotFound) {
         return EOF;
     } else {
-        int32_t character = [_scanner.string characterAtIndex:_scanner.scanLocation++];
+        NSInteger character = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation++);
+        if (character == 0 && _scanLocation > _string.length) {
+            _scanLocation = NSNotFound;
+            return EOF;
+        }
         if (CFStringIsSurrogateHighCharacter(character)) {
             // Got a lead surrogate. Check for trail.
-            unichar trail = _scanner.isAtEnd ? 0xFFFD : [_scanner.string characterAtIndex:_scanner.scanLocation];
+            unichar trail = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation);
             if (CFStringIsSurrogateLowCharacter(trail)) {
                 // Got a trail surrogate.
-                _scanner.scanLocation++;
+                _scanLocation++;
+                if (_scanLocation >= _string.length) {
+                    _scanLocation = NSNotFound;
+                }
                 character = CFStringGetLongCharacterForSurrogatePair(character, trail);
             } else {
                 // Lead surrogate with no trail.
@@ -2239,8 +2257,11 @@ done:
             [self emitParseError:@"Control or undefined character"];
         }
         if (character == '\r') {
-            if (!_scanner.isAtEnd && [_scanner.string characterAtIndex:_scanner.scanLocation] == '\n') {
-                _scanner.scanLocation++;
+            if (CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation) == '\n') {
+                _scanLocation++;
+                if (_scanLocation >= _string.length) {
+                    _scanLocation = NSNotFound;
+                }
             }
             return '\n';
         }
@@ -2258,9 +2279,18 @@ done:
     self.state = state;
 }
 
-- (void)reconsume:(int)character
+- (void)reconsume:(NSInteger)character
 {
     _reconsume = character;
+}
+
+- (NSScanner *)scannerAtCurrentScanLocation
+{
+    NSScanner *scanner = [NSScanner scannerWithString:_string];
+    scanner.scanLocation = _scanLocation;
+    scanner.charactersToBeSkipped = nil;
+    scanner.caseSensitive = YES;
+    return scanner;
 }
 
 - (void)emit:(id)token
@@ -2328,10 +2358,10 @@ done:
 
 - (NSString *)attemptToConsumeCharacterReferenceIsPartOfAnAttribute:(BOOL)partOfAnAttribute
 {
-    if (_scanner.isAtEnd) return nil;
-    NSUInteger initialScanLocation = _scanner.scanLocation;
-    unichar nextInputCharacter = [_scanner.string characterAtIndex:_scanner.scanLocation];
-    if (_additionalAllowedCharacter != NotFound32 && nextInputCharacter == _additionalAllowedCharacter) {
+    if (_scanLocation == NSNotFound) return nil;
+    NSUInteger initialScanLocation = _scanLocation;
+    unichar nextInputCharacter = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation);
+    if (_additionalAllowedCharacter != NSNotFound && nextInputCharacter == _additionalAllowedCharacter) {
         return nil;
     }
     switch (nextInputCharacter) {
@@ -2343,30 +2373,30 @@ done:
         case '&':
             return nil;
         case '#': {
-            [_scanner scanString:@"#" intoString:nil];
-            _scanner.caseSensitive = NO;
-            BOOL hex = [_scanner scanString:@"x" intoString:nil];
-            _scanner.caseSensitive = YES;
+            NSScanner *scanner = [self scannerAtCurrentScanLocation];
+            scanner.caseSensitive = NO;
+            [scanner scanString:@"#" intoString:nil];
+            BOOL hex = [scanner scanString:@"x" intoString:nil];
             unsigned int number;
             BOOL ok;
             if (hex) {
-                ok = [_scanner scanHexInt:&number];
+                ok = [scanner scanHexInt:&number];
             } else {
                 int scannedNumber;
-                ok = [_scanner scanInt:&scannedNumber];
+                ok = [scanner scanInt:&scannedNumber];
                 if (ok) {
                     number = scannedNumber;
                 }
             }
             if (!ok) {
-                _scanner.scanLocation = initialScanLocation;
                 [self emitParseError:@"Numeric entity with no numbers"];
                 return nil;
             }
-            ok = [_scanner scanString:@";" intoString:nil];
+            ok = [scanner scanString:@";" intoString:nil];
             if (!ok) {
                 [self emitParseError:@"Missing semicolon for numeric entity"];
             }
+            _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
             ReplacementTable *found = Win1252TableLookup(number);
             if (found) {
                 [self emitParseError:@"Invalid numeric entity (has replacement)"];
@@ -2409,20 +2439,23 @@ done:
             }
         }
         default: {
-            NSRange range = NSMakeRange(_scanner.scanLocation, LongestReferenceNameLength);
-            if (NSMaxRange(range) > _scanner.string.length) {
-                range.length = _scanner.string.length - range.location;
+            NSRange range = NSMakeRange(_scanLocation, LongestReferenceNameLength);
+            if (NSMaxRange(range) > _string.length) {
+                range.length = _string.length - range.location;
             }
-            NSString *substring = [_scanner.string substringWithRange:range];
+            NSString *substring = [_string substringWithRange:range];
             NamedReferenceTable *longestMatch = LongestNamedReferencePrefix(substring);
             if (longestMatch) {
-                [_scanner scanString:longestMatch->name intoString:nil];
-                if ([_scanner.string characterAtIndex:(_scanner.scanLocation - 1)] != ';') {
+                _scanLocation += longestMatch->name.length;
+                if (_scanLocation >= _string.length) {
+                    _scanLocation = NSNotFound;
+                }
+                if (![longestMatch->name hasSuffix:@";"]) {
                     if (partOfAnAttribute) {
-                        if (!_scanner.isAtEnd) {
-                            unichar next = [_scanner.string characterAtIndex:_scanner.scanLocation];
+                        if (_scanLocation != NSNotFound) {
+                            unichar next = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation);
                             if (next == '=' || [[NSCharacterSet alphanumericCharacterSet] characterIsMember:next]) {
-                                _scanner.scanLocation = initialScanLocation;
+                                _scanLocation = initialScanLocation;
                                 if (next == '=') {
                                     [self emitParseError:@"Named entity in attribute ending with ="];
                                 }
@@ -2434,11 +2467,12 @@ done:
                 }
                 return longestMatch->characters;
             } else {
+                NSScanner *scanner = [self scannerAtCurrentScanLocation];
                 NSCharacterSet *alphanumeric = [NSCharacterSet alphanumericCharacterSet];
-                if ([_scanner scanCharactersFromSet:alphanumeric intoString:nil] && [_scanner scanString:@";" intoString:nil]) {
+                if ([scanner scanCharactersFromSet:alphanumeric intoString:nil] && [scanner scanString:@";" intoString:nil]) {
                     [self emitParseError:@"Unknown named entity with semicolon"];
                 }
-                _scanner.scanLocation = initialScanLocation;
+                _scanLocation = initialScanLocation;
                 return nil;
             }
         }
@@ -4906,7 +4940,7 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 {
     if (!_attributes) return;
     NSUInteger i = [_attributes indexOfObject:oldAttribute];
-    if (i == NotFound32) return;
+    if (i == NSNotFound) return;
     [_attributes replaceObjectAtIndex:i withObject:newAttribute];
 }
 
