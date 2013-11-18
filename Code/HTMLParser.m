@@ -2687,6 +2687,7 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
             }
             
         case HTMLInBodyInsertionMode:
+        inBodyInsertionMode:
             if ([token isKindOfClass:[HTMLCharacterToken class]]) {
                 return [self inBodyInsertionModeHandleCharacterToken:token];
             } else if ([token isKindOfClass:[HTMLCommentToken class]]) {
@@ -2788,7 +2789,7 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
             } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
                 return [self inCellInsertionModeHandleStartTagToken:token];
             } else {
-                return [self inCellInsertionModeHandleAnythingElse:token];
+                goto inBodyInsertionMode;
             }
             
         case HTMLInSelectInsertionMode:
