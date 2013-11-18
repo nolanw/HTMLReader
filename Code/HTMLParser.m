@@ -2699,8 +2699,9 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
                 return [self inBodyInsertionModeHandleEOFToken:token];
             } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
                 return [self inBodyInsertionModeHandleStartTagToken:token];
+            } else {
+                NSAssert(NO, @"invalid %@ in in body insertion mode", [token class]);
             }
-            // fall through
             
         case HTMLTextInsertionMode:
             if ([token isKindOfClass:[HTMLCharacterToken class]]) {
@@ -2709,8 +2710,9 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
                 return [self textInsertionModeHandleEndTagToken:token];
             } else if ([token isKindOfClass:[HTMLEOFToken class]]) {
                 return [self textInsertionModeHandleEOFToken:token];
+            } else {
+                NSAssert(NO, @"invalid %@ in text insertion mode", [token class]);
             }
-            // fall through
             
         case HTMLInTableInsertionMode:
             if ([token isKindOfClass:[HTMLCharacterToken class]]) {
@@ -2907,8 +2909,9 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
                 return [self foreignContentInsertionModeHandleEndTagToken:token];
             } else if ([token isKindOfClass:[HTMLStartTagToken class]]) {
                 return [self foreignContentInsertionModeHandleStartTagToken:token];
+            } else {
+                NSAssert(NO, @"invalid %@ in foreign content insertion mode", [token class]);
             }
-            // fall through
             
         default:
             NSAssert(NO, @"cannot handle %@ token in insertion mode %zd", [token class], insertionMode);
