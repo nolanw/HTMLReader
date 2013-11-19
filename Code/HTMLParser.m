@@ -1338,22 +1338,95 @@ static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
 static BOOL IsSpecialElement(HTMLElementNode *element)
 {
     if (element.namespace == HTMLNamespaceHTML) {
-        return [@[ @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont",
-                @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center",
-                @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed",
-                @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset",
-                @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr",
-                @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link", @"listing",
-                @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed",
-                @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre",
-                @"script", @"section", @"select", @"source", @"style", @"summary", @"table",
-                @"tbody", @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title",
-                @"tr", @"track", @"ul", @"wbr", @"xmp" ] containsObject:element.tagName];
+        return StringIsEqualToAnyOf(element.tagName,
+                                    @"address",
+                                    @"applet",
+                                    @"area",
+                                    @"article",
+                                    @"aside",
+                                    @"base",
+                                    @"basefont",
+                                    @"bgsound",
+                                    @"blockquote",
+                                    @"body",
+                                    @"br",
+                                    @"button",
+                                    @"caption",
+                                    @"center",
+                                    @"col",
+                                    @"colgroup",
+                                    @"dd",
+                                    @"details",
+                                    @"dir",
+                                    @"div",
+                                    @"dl",
+                                    @"dt",
+                                    @"embed",
+                                    @"fieldset",
+                                    @"figcaption",
+                                    @"figure",
+                                    @"footer",
+                                    @"form",
+                                    @"frame",
+                                    @"frameset",
+                                    @"h1",
+                                    @"h2",
+                                    @"h3",
+                                    @"h4",
+                                    @"h5",
+                                    @"h6",
+                                    @"head",
+                                    @"header",
+                                    @"hgroup",
+                                    @"hr",
+                                    @"html",
+                                    @"iframe",
+                                    @"img",
+                                    @"input",
+                                    @"isindex",
+                                    @"li",
+                                    @"link",
+                                    @"listing",
+                                    @"main",
+                                    @"marquee",
+                                    @"menu",
+                                    @"menuitem",
+                                    @"meta",
+                                    @"nav",
+                                    @"noembed",
+                                    @"noframes",
+                                    @"noscript",
+                                    @"object",
+                                    @"ol",
+                                    @"p",
+                                    @"param",
+                                    @"plaintext",
+                                    @"pre",
+                                    @"script",
+                                    @"section",
+                                    @"select",
+                                    @"source",
+                                    @"style",
+                                    @"summary",
+                                    @"table",
+                                    @"tbody",
+                                    @"td",
+                                    @"template",
+                                    @"textarea",
+                                    @"tfoot",
+                                    @"th",
+                                    @"thead",
+                                    @"title",
+                                    @"tr",
+                                    @"track",
+                                    @"ul",
+                                    @"wbr",
+                                    @"xmp",
+                                    nil);
     } else if (element.namespace == HTMLNamespaceMathML) {
-        return [@[ @"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml" ]
-                containsObject:element.tagName];
+        return StringIsEqualToAnyOf(element.tagName, @"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml", nil);
     } else if (element.namespace == HTMLNamespaceSVG) {
-        return [@[ @"foreignObject", @"desc", @"title" ] containsObject:element.tagName];
+        return StringIsEqualToAnyOf(element.tagName, @"foreignObject", @"desc", @"title", nil);
     } else {
         return NO;
     }
@@ -1384,9 +1457,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inTableInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if ([@[ @"table", @"tbody", @"tfoot", @"thead", @"tr" ]
-         containsObject:self.currentNode.tagName])
-    {
+    if (StringIsEqualToAnyOf(self.currentNode.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr", nil)) {
         _pendingTableCharacterTokens = [NSMutableArray new];
         [self switchInsertionMode:HTMLInTableTextInsertionMode];
         [self reprocessToken:token];
@@ -1421,11 +1492,11 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"colgroup"]];
         [self switchInsertionMode:HTMLInColumnGroupInsertionMode];
         [self reprocessToken:token];
-    } else if ([@[ @"tbody", @"tfoot", @"thead" ] containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"tbody", @"tfoot", @"thead", nil)) {
         [self clearStackBackToATableContext];
         [self insertElementForToken:token];
         [self switchInsertionMode:HTMLInTableBodyInsertionMode];
-    } else if ([@[ @"td", @"th", @"tr" ] containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"td", @"th", @"tr", nil)) {
         [self clearStackBackToATableContext];
         [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"tbody"]];
         [self switchInsertionMode:HTMLInTableBodyInsertionMode];
@@ -1441,7 +1512,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [_stackOfOpenElements removeLastObject];
         [self resetInsertionModeAppropriately];
         [self reprocessToken:token];
-    } else if ([@[ @"style", @"script" ] containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"style", @"script", nil)) {
         [self processToken:token usingRulesForInsertionMode:HTMLInHeadInsertionMode];
     } else if ([token.tagName isEqualToString:@"input"]) {
         HTMLAttribute *type;
@@ -1481,9 +1552,19 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         }
         [_stackOfOpenElements removeLastObject];
         [self resetInsertionModeAppropriately];
-    } else if ([@[ @"body", @"caption", @"col", @"colgroup", @"html", @"tbody", @"td", @"tfoot",
-                @"th", @"thead", @"tr" ] containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"body",
+                                    @"caption",
+                                    @"col",
+                                    @"colgroup",
+                                    @"html",
+                                    @"tbody",
+                                    @"td",
+                                    @"tfoot",
+                                    @"th",
+                                    @"thead",
+                                    @"tr",
+                                    nil)) {
         [self addParseError:@"End tag '%@' in <table>", token.tagName];
     } else {
         [self inTableInsertionModeHandleAnythingElse:token];
@@ -1563,9 +1644,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [self switchInsertionMode:HTMLInTableInsertionMode];
     } else if ([token.tagName isEqualToString:@"table"]) {
         [self inCaptionInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
-    } else if ([@[ @"body", @"col", @"colgroup", @"html", @"tbody", @"td", @"tfoot", @"th",
-                @"thead", @"tr" ] containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"body", @"col", @"colgroup", @"html", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil)) {
         [self addParseError:@"End tag '%@' in <caption>", token.tagName];
     } else {
         [self inCaptionInsertionModeHandleAnythingElse:token];
@@ -1574,9 +1653,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inCaptionInsertionModeHandleStartTagToken:(HTMLStartTagToken *)token
 {
-    if ([@[ @"caption", @"col", @"colgorup", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr" ]
-         containsObject:token.tagName])
-    {
+    if (StringIsEqualToAnyOf(token.tagName, @"caption", @"col", @"colgorup", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil)) {
         [self inCaptionInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
     } else {
         [self inCaptionInsertionModeHandleAnythingElse:token];
@@ -1677,15 +1754,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [self clearStackBackToATableBodyContext];
         [self insertElementForToken:token];
         [self switchInsertionMode:HTMLInRowInsertionMode];
-    } else if ([@[ @"th", @"td" ] containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"th", @"td", nil)) {
         [self addParseError:@"Start tag '%@' in <table> body", token.tagName];
         [self clearStackBackToATableBodyContext];
         [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"tr"]];
         [self switchInsertionMode:HTMLInRowInsertionMode];
         [self reprocessToken:token];
-    } else if ([@[ @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead" ]
-                containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead", nil)) {
         [self inTableBodyInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
     } else {
         [self inTableBodyInsertionModeHandleAnythingElse:token];
@@ -1694,7 +1769,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inTableBodyInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
 {
-    if ([@[ @"tbody", @"tfoot", @"thead" ] containsObject:token.tagName]) {
+    if (StringIsEqualToAnyOf(token.tagName, @"tbody", @"tfoot", @"thead", nil)) {
         if (![self elementInTableScopeWithTagName:token.tagName]) {
             [self addParseError:@"End tag '%@' for unknown element in <table> body", token.tagName];
             return;
@@ -1704,9 +1779,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [self switchInsertionMode:HTMLInTableInsertionMode];
     } else if ([token.tagName isEqualToString:@"table"]) {
         [self inTableBodyInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
-    } else if ([@[ @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th", @"tr" ]
-                containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th", @"tr", nil)) {
         [self addParseError:@"End tag '%@' in <table> body", token.tagName];
     } else {
         [self inTableBodyInsertionModeHandleAnythingElse:token];
@@ -1743,14 +1816,12 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inRowInsertionModeHandleStartTagToken:(HTMLStartTagToken *)token
 {
-    if ([@[ @"th", @"td" ] containsObject:token.tagName]) {
+    if (StringIsEqualToAnyOf(token.tagName, @"th", @"td", nil)) {
         [self clearStackBackToATableRowContext];
         [self insertElementForToken:token];
         [self switchInsertionMode:HTMLInCellInsertionMode];
         [self pushMarkerOnToListOfActiveFormattingElements];
-    } else if ([@[ @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead", @"tr" ]
-                containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead", @"tr", nil)) {
         [self inRowInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
     } else {
         [self inRowInsertionModeHandleAnythingElse:token];
@@ -1769,7 +1840,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [self switchInsertionMode:HTMLInTableBodyInsertionMode];
     } else if ([token.tagName isEqualToString:@"table"]) {
         [self inRowInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
-    } else if ([@[ @"tbody", @"tfoot", @"thead" ] containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"tbody", @"tfoot", @"thead", nil)) {
         if (![self elementInTableScopeWithTagName:token.tagName]) {
             [self addParseError:@"End tag '%@' for unknown element in <tr>", token.tagName];
             return;
@@ -1781,9 +1852,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [_stackOfOpenElements removeLastObject];
         [self switchInsertionMode:HTMLInTableBodyInsertionMode];
         [self reprocessToken:token];
-    } else if ([@[ @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th" ]
-                containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th", nil)) {
         [self addParseError:@"End tag '%@' in <tr>", token.tagName];
     } else {
         [self inRowInsertionModeHandleAnythingElse:token];
@@ -1820,9 +1889,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inCellInsertionModeHandleStartTagToken:(HTMLStartTagToken *)token
 {
-    if ([@[ @"caption", @"col", @"colgroup", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr" ]
-         containsObject:token.tagName])
-    {
+    if (StringIsEqualToAnyOf(token.tagName, @"caption", @"col", @"colgroup", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil)) {
         if (![self elementInTableScopeWithTagNameInArray:@[ @"td", @"th" ]]) {
             [self addParseError:@"Start tag '%@' outside cell in cell", token.tagName];
             return;
@@ -1836,7 +1903,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inCellInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
 {
-    if ([@[ @"td", @"th" ] containsObject:token.tagName]) {
+    if (StringIsEqualToAnyOf(token.tagName, @"td", @"th", nil)) {
         if (![self elementInTableScopeWithTagName:token.tagName]) {
             [self addParseError:@"End tag '%@' outside cell in cell", token.tagName];
             return;
@@ -1851,13 +1918,9 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
         [_stackOfOpenElements removeLastObject];
         [self clearActiveFormattingElementsUpToLastMarker];
         [self switchInsertionMode:HTMLInRowInsertionMode];
-    } else if ([@[ @"body", @"caption", @"col", @"colgroup", @"html" ]
-                containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"body", @"caption", @"col", @"colgroup", @"html", nil)) {
         [self addParseError:@"End tag '%@' in cell", token.tagName];
-    } else if ([@[ @"table", @"tbody", @"tfoot", @"thead", @"tr" ]
-                containsObject:token.tagName])
-    {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr", nil)) {
         if (![self elementInTableScopeWithTagName:token.tagName]) {
             [self addParseError:@"End tag '%@' for unknown element in cell", token.tagName];
             return;
