@@ -584,14 +584,21 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
     [self addParseError:@"Unexpected DOCTYPE in <body>"];
 }
 
-#define ConstantArray(...) ({ \
-    static NSArray *array; \
-    static dispatch_once_t onceToken; \
-    dispatch_once(&onceToken, ^{ \
-        array = @[ __VA_ARGS__ ]; \
-    }); \
-    array; \
-})
+static inline BOOL StringIsEqualToAnyOf(NSString *string, ...) NS_REQUIRES_NIL_TERMINATION;
+static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
+{
+    va_list args;
+    va_start(args, string);
+    NSString *one;
+    while ((one = va_arg(args, NSString *))) {
+        if ([string isEqualToString:one]) {
+            va_end(args);
+            return YES;
+        }
+    }
+    va_end(args);
+    return NO;
+}
 
 - (void)inBodyInsertionModeHandleStartTagToken:(HTMLStartTagToken *)token
 {
@@ -603,17 +610,17 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
                 [element addAttribute:attribute];
             }
         }
-    } else if ([ConstantArray(
-                              @"base",
-                              @"basefont",
-                              @"bgsound",
-                              @"link",
-                              @"meta",
-                              @"noframes",
-                              @"script",
-                              @"style",
-                              @"title",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"base",
+                                    @"basefont",
+                                    @"bgsound",
+                                    @"link",
+                                    @"meta",
+                                    @"noframes",
+                                    @"script",
+                                    @"style",
+                                    @"title",
+                                    nil)) {
         [self processToken:token usingRulesForInsertionMode:HTMLInHeadInsertionMode];
     } else if ([token.tagName isEqualToString:@"body"]) {
         [self addParseError:@"Start tag named body in <body>"];
@@ -643,47 +650,46 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         }
         [self insertElementForToken:token];
         [self switchInsertionMode:HTMLInFramesetInsertionMode];
-    } else if ([ConstantArray(
-                              @"address",
-                              @"article",
-                              @"aside",
-                              @"blockquote",
-                              @"center",
-                              @"details",
-                              @"dialog",
-                              @"dir",
-                              @"div",
-                              @"dl",
-                              @"fieldset",
-                              @"figcaption",
-                              @"figure",
-                              @"footer",
-                              @"header",
-                              @"hgroup",
-                              @"main",
-                              @"menu",
-                              @"nav",
-                              @"ol",
-                              @"p",
-                              @"section",
-                              @"summary",
-                              @"ul",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"address",
+                                    @"article",
+                                    @"aside",
+                                    @"blockquote",
+                                    @"center",
+                                    @"details",
+                                    @"dialog",
+                                    @"dir",
+                                    @"div",
+                                    @"dl",
+                                    @"fieldset",
+                                    @"figcaption",
+                                    @"figure",
+                                    @"footer",
+                                    @"header",
+                                    @"hgroup",
+                                    @"main",
+                                    @"menu",
+                                    @"nav",
+                                    @"ol",
+                                    @"p",
+                                    @"section",
+                                    @"summary",
+                                    @"ul",
+                                    nil)) {
         if ([self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
         [self insertElementForToken:token];
-    } else if ([ConstantArray(@"h1", @"h2", @"h3", @"h4", @"h5", @"h6") containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil)) {
         if ([self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
-        if ([ConstantArray(@"h1", @"h2", @"h3", @"h4", @"h5", @"h6") containsObject:self.currentNode.tagName])
-        {
+        if (StringIsEqualToAnyOf(self.currentNode.tagName, @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil)) {
             [self addParseError:@"Nested header start tag %@ in <body>", token.tagName];
             [_stackOfOpenElements removeLastObject];
         }
         [self insertElementForToken:token];
-    } else if ([token.tagName isEqualToString:@"pre"] || [token.tagName isEqualToString:@"listing"]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"pre", @"listing", nil)) {
         if ([self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
@@ -717,7 +723,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         }
         if (IsSpecialElement(node) &&
             !(node.namespace == HTMLNamespaceHTML &&
-              [ConstantArray(@"address", @"div", @"p") containsObject:node.tagName]))
+              StringIsEqualToAnyOf(node.tagName, @"address", @"div", @"p", nil)))
         {
             goto done;
         }
@@ -797,20 +803,20 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [self reconstructTheActiveFormattingElements];
         HTMLElementNode *element = [self insertElementForToken:token];
         [self pushElementOnToListOfActiveFormattingElements:element];
-    } else if ([ConstantArray(
-                              @"b",
-                              @"big",
-                              @"code",
-                              @"em",
-                              @"font",
-                              @"i",
-                              @"s",
-                              @"small",
-                              @"strike",
-                              @"strong",
-                              @"tt",
-                              @"u",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"b",
+                                    @"big",
+                                    @"code",
+                                    @"em",
+                                    @"font",
+                                    @"i",
+                                    @"s",
+                                    @"small",
+                                    @"strike",
+                                    @"strong",
+                                    @"tt",
+                                    @"u",
+                                    nil)) {
         [self reconstructTheActiveFormattingElements];
         HTMLElementNode *element = [self insertElementForToken:token];
         [self pushElementOnToListOfActiveFormattingElements:element];
@@ -826,7 +832,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         }
         HTMLElementNode *element = [self insertElementForToken:token];
         [self pushElementOnToListOfActiveFormattingElements:element];
-    } else if ([ConstantArray(@"applet", @"marquee", @"object") containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"applet", @"marquee", @"object", nil)) {
         [self reconstructTheActiveFormattingElements];
         [self insertElementForToken:token];
         [self pushMarkerOnToListOfActiveFormattingElements];
@@ -838,14 +844,14 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         [self insertElementForToken:token];
         _framesetOkFlag = NO;
         [self switchInsertionMode:HTMLInTableInsertionMode];
-    } else if ([ConstantArray(
-                              @"area",
-                              @"br",
-                              @"embed",
-                              @"img",
-                              @"keygen",
-                              @"wbr",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"area",
+                                    @"br",
+                                    @"embed",
+                                    @"img",
+                                    @"keygen",
+                                    @"wbr",
+                                    nil)) {
         [self reconstructTheActiveFormattingElements];
         [self insertElementForToken:token];
         [_stackOfOpenElements removeLastObject];
@@ -864,12 +870,12 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         if (!type || [type.value caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
             _framesetOkFlag = NO;
         }
-    } else if ([ConstantArray(
-                              @"menuitem",
-                              @"param",
-                              @"source",
-                              @"track",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"menuitem",
+                                    @"param",
+                                    @"source",
+                                    @"track",
+                                    nil)) {
         [self insertElementForToken:token];
         [_stackOfOpenElements removeLastObject];
     } else if ([token.tagName isEqualToString:@"hr"]) {
@@ -912,7 +918,7 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         });
         HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input"];
         for (HTMLAttribute *attribute in token.attributes) {
-            if (![ConstantArray(@"name", @"action", @"prompt") containsObject:attribute.name]) {
+            if (!StringIsEqualToAnyOf(attribute.name, @"name", @"action", @"prompt", nil)) {
                 [inputToken addAttributeWithName:attribute.name value:attribute.value];
             }
         }
@@ -994,19 +1000,19 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         if (token.selfClosingFlag) {
             [_stackOfOpenElements removeLastObject];
         }
-    } else if ([ConstantArray(
-                              @"caption",
-                              @"col",
-                              @"colgroup",
-                              @"frame",
-                              @"head",
-                              @"tbody",
-                              @"td",
-                              @"tfoot",
-                              @"th",
-                              @"thead",
-                              @"tr",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"caption",
+                                    @"col",
+                                    @"colgroup",
+                                    @"frame",
+                                    @"head",
+                                    @"tbody",
+                                    @"td",
+                                    @"tfoot",
+                                    @"th",
+                                    @"thead",
+                                    @"tr",
+                                    nil)) {
         [self addParseError:@"Start tag named %@ ignored in <body>", token.tagName];
     } else {
         [self reconstructTheActiveFormattingElements];
@@ -1016,10 +1022,21 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
 
 - (void)inBodyInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
 {
-    NSArray *list = @[ @"dd", @"dt", @"li", @"p", @"tbody", @"td", @"tfoot", @"th", @"thead",
-                       @"tr", @"body", @"html" ];
     for (HTMLElementNode *node in _stackOfOpenElements) {
-        if (![list containsObject:node.tagName]) {
+        if (!StringIsEqualToAnyOf(node.tagName,
+                                  @"dd",
+                                  @"dt",
+                                  @"li",
+                                  @"p",
+                                  @"tbody",
+                                  @"td",
+                                  @"tfoot",
+                                  @"th",
+                                  @"thead",
+                                  @"tr",
+                                  @"body",
+                                  @"html",
+                                  nil)) {
             [self addParseError:@"Unclosed %@ element in <body> at end of file", node.tagName];
             break;
         }
@@ -1035,24 +1052,24 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             return;
         }
         for (HTMLElementNode *element in _stackOfOpenElements.reverseObjectEnumerator) {
-            if (![ConstantArray(
-                                @"dd",
-                                @"dt",
-                                @"li",
-                                @"optgroup",
-                                @"option",
-                                @"p",
-                                @"rp",
-                                @"rt",
-                                @"tbody",
-                                @"td",
-                                @"tfoot",
-                                @"th",
-                                @"thead",
-                                @"tr",
-                                @"body",
-                                @"html",
-                                ) containsObject:element.tagName]) {
+            if (!StringIsEqualToAnyOf(element.tagName,
+                                      @"dd",
+                                      @"dt",
+                                      @"li",
+                                      @"optgroup",
+                                      @"option",
+                                      @"p",
+                                      @"rp",
+                                      @"rt",
+                                      @"tbody",
+                                      @"td",
+                                      @"tfoot",
+                                      @"th",
+                                      @"thead",
+                                      @"tr",
+                                      @"body",
+                                      @"html",
+                                      nil)) {
                 [self addParseError:@"Misplaced %@ element in <body>", element.tagName];
                 break;
             }
@@ -1061,34 +1078,34 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         if ([token.tagName isEqualToString:@"html"]) {
             [self reprocessToken:token];
         }
-    } else if ([ConstantArray(
-                              @"address",
-                              @"article",
-                              @"aside",
-                              @"blockquote",
-                              @"button",
-                              @"center",
-                              @"details",
-                              @"dialog",
-                              @"dir",
-                              @"div",
-                              @"dl",
-                              @"fieldset",
-                              @"figcaption",
-                              @"figure",
-                              @"footer",
-                              @"header",
-                              @"hgroup",
-                              @"listing",
-                              @"main",
-                              @"menu",
-                              @"nav",
-                              @"ol",
-                              @"pre",
-                              @"section",
-                              @"summary",
-                              @"ul",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"address",
+                                    @"article",
+                                    @"aside",
+                                    @"blockquote",
+                                    @"button",
+                                    @"center",
+                                    @"details",
+                                    @"dialog",
+                                    @"dir",
+                                    @"div",
+                                    @"dl",
+                                    @"fieldset",
+                                    @"figcaption",
+                                    @"figure",
+                                    @"footer",
+                                    @"header",
+                                    @"hgroup",
+                                    @"listing",
+                                    @"main",
+                                    @"menu",
+                                    @"nav",
+                                    @"ol",
+                                    @"pre",
+                                    @"section",
+                                    @"summary",
+                                    @"ul",
+                                    nil)) {
         if (![self elementInScopeWithTagName:token.tagName]) {
             [self addParseError:@"End tag '%@' for unmatched open tag in <body>", token.tagName];
             return;
@@ -1145,8 +1162,8 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
             [_stackOfOpenElements removeLastObject];
         }
         [_stackOfOpenElements removeLastObject];
-    } else if ([ConstantArray(@"h1", @"h2", @"h3", @"h4", @"h5", @"h6") containsObject:token.tagName]) {
-        if (![self elementInScopeWithTagNameInArray:ConstantArray(@"h1", @"h2", @"h3", @"h4", @"h5", @"h6")]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil)) {
+        if (![self elementInScopeWithTagNameInArray:@[ @"h1", @"h2", @"h3", @"h4", @"h5", @"h6" ]]) {
             [self addParseError:@"Not closing unknown '%@' element in <body>", token.tagName];
             return;
         }
@@ -1154,31 +1171,31 @@ static inline BOOL IsSpaceCharacterToken(HTMLCharacterToken *token)
         if (![self.currentNode.tagName isEqualToString:token.tagName]) {
             [self addParseError:@"Misnested end tag '%@' in <body>", token.tagName];
         }
-        while (![ConstantArray(@"h1", @"h2", @"h3", @"h4", @"h5", @"h6") containsObject:self.currentNode.tagName]) {
+        while (!StringIsEqualToAnyOf(self.currentNode.tagName, @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil)) {
             [_stackOfOpenElements removeLastObject];
         }
         [_stackOfOpenElements removeLastObject];
-    } else if ([ConstantArray(
-                              @"a",
-                              @"b",
-                              @"big",
-                              @"code",
-                              @"em",
-                              @"font",
-                              @"i",
-                              @"nobr",
-                              @"s",
-                              @"small",
-                              @"strike",
-                              @"strong",
-                              @"tt",
-                              @"u",
-                              ) containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName,
+                                    @"a",
+                                    @"b",
+                                    @"big",
+                                    @"code",
+                                    @"em",
+                                    @"font",
+                                    @"i",
+                                    @"nobr",
+                                    @"s",
+                                    @"small",
+                                    @"strike",
+                                    @"strong",
+                                    @"tt",
+                                    @"u",
+                                    nil)) {
         if (![self runAdoptionAgencyAlgorithmForTagName:token.tagName]) {
             [self inBodyInsertionModeHandleAnyOtherEndTagToken:token];
             return;
         }
-    } else if ([ConstantArray(@"applet", @"marquee", @"object") containsObject:token.tagName]) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"applet", @"marquee", @"object", nil)) {
         if (![self elementInScopeWithTagName:token.tagName]) {
             [self addParseError:@"Not closing unknown '%@' element in <body>", token.tagName];
             return;
@@ -3059,9 +3076,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
                                                             index:(out NSUInteger *)index
 {
     HTMLElementNode *target = overrideTarget ?: self.currentNode;
-    if (_fosterParenting &&
-        [@[ @"table", @"tbody", @"tfoot", @"thead", @"tr" ] containsObject:target.tagName])
-    {
+    if (_fosterParenting && StringIsEqualToAnyOf(target.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr", nil)) {
         HTMLElementNode *lastTable;
         for (HTMLElementNode *element in _stackOfOpenElements.reverseObjectEnumerator) {
             if ([element.tagName isEqualToString:@"table"]) {
