@@ -3,7 +3,6 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLTestUtilities.h"
-#import <XCTest/XCTest.h>
 
 NSString * html5libTestPath(void)
 {

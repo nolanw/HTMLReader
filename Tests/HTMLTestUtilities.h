@@ -2,7 +2,7 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
 
 extern NSString * html5libTestPath(void);
 
