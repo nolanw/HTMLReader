@@ -765,7 +765,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLReader.framework/Versions/A/HTMLReader";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tests/Prefix.pch;
@@ -779,7 +778,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLReader.framework/Versions/A/HTMLReader";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tests/Prefix.pch;
@@ -817,6 +815,7 @@
 				1C9A2A141836FEAE0059FE17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1C9C3EB4176BC53800E982C9 /* Build configuration list for PBXProject "HTMLReader" */ = {
 			isa = XCConfigurationList;
