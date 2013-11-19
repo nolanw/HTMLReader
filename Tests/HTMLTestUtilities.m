@@ -22,8 +22,7 @@ BOOL ShouldRunTestsForParameterizedTestClass(Class class)
         return NO;
     } else {
         NSArray *tests = [scope componentsSeparatedByString:@","];
-        NSString *parameterizedName = [NSString stringWithFormat:@"%@/test", NSStringFromClass(class)];
         BOOL invertScope = [defaults boolForKey:@"XCTestInvertScope"];
-        return [tests containsObject:parameterizedName] != invertScope;
+        return [tests containsObject:NSStringFromClass(class)] != invertScope;
     }
 }
