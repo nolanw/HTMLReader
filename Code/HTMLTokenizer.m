@@ -1622,7 +1622,7 @@ static inline BOOL is_lower(NSInteger c)
                 _scanLocation = scanner.scanLocation;
                 [self switchToState:HTMLAfterDOCTYPESystemKeywordTokenizerState];
             } else {
-                scanner.scanLocation += 1;
+                scanner.scanLocation += (c >= 0x100000) ? 2 : 1;
                 _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
                 [self emitParseError:@"Unexpected character in after DOCTYPE name state"];
                 [_currentToken setForceQuirks:YES];
