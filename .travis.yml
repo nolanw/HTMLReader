@@ -1,0 +1,6 @@
+language: objective-c
+xcode_project: HTMLReader.xcodeproj
+xcode_scheme: HTMLReader OS X
+notifications:
+  email:
+    - nolan@nolanw.ca
