@@ -7,7 +7,7 @@
 #import "HTMLParser.h"
 #import <objc/runtime.h>
 
-@interface HTMLTreeConstructionTests : XCTestCase
+@interface HTMLTreeConstructionTest : NSObject
 
 @property (copy, nonatomic) NSString *data;
 @property (copy, nonatomic) NSArray *expectedErrors;
@@ -16,80 +16,67 @@
 
 @end
 
+@implementation HTMLTreeConstructionTest
+
+@end
+
+@interface HTMLTreeConstructionTests : XCTestCase
+
+@end
+
 @implementation HTMLTreeConstructionTests
 
-+ (id)defaultTestSuite
++ (id <NSFastEnumeration>)testFileURLs
 {
-    if (!ShouldRunTestsForParameterizedTestClass([HTMLTreeConstructionTests class])) {
-        return nil;
-    }
     NSURL *testsURL = [[NSURL URLWithString:html5libTestPath()] URLByAppendingPathComponent:@"tree-construction"];
-    NSArray *potentialTestURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:testsURL
-                                                               includingPropertiesForKeys:nil
-                                                                                  options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                                    error:nil];
-    XCTestSuite *suite = [XCTestSuite testSuiteWithName:@"html5lib tree construction tests"];
-    for (NSURL *testURL in potentialTestURLs) {
-        // TODO stop skipping template tests once we implement templates.
-        if ([testURL.lastPathComponent isEqualToString:@"template.dat"]) continue;
-        if ([testURL.pathExtension isEqualToString:@"dat"]) {
-            [suite addTest:[self testSuiteWithFileAtURL:testURL]];
-        }
-    }
-    return suite;
+    NSArray *candidates = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:testsURL
+                                                        includingPropertiesForKeys:nil
+                                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                             error:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pathExtension = 'dat' AND lastPathComponent != 'template.dat'"];
+    return [candidates filteredArrayUsingPredicate:predicate];
 }
 
-+ (XCTestSuite *)testSuiteWithFileAtURL:(NSURL *)testURL
+- (id <NSFastEnumeration>)singleTestStringsWithFileURL:(NSURL *)fileURL
 {
-    NSString *suiteName = testURL.lastPathComponent.stringByDeletingPathExtension;
-    XCTestSuite *suite = [XCTestSuite testSuiteWithName:suiteName];
-    NSString *testClassName = [NSString stringWithFormat:@"%@-%@", NSStringFromClass(self), suiteName];
-    Class testClass = objc_allocateClassPair(self, testClassName.UTF8String, 0);
-    objc_registerClassPair(testClass);
-    Method testMethod = class_getInstanceMethod(testClass, @selector(genericTestMethod));
-    NSString *testString = [NSString stringWithContentsOfURL:testURL
-                                                    encoding:NSUTF8StringEncoding
-                                                       error:nil];
+    NSString *testString = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
     NSScanner *scanner = [NSScanner scannerWithString:testString];
     scanner.charactersToBeSkipped = nil;
     scanner.caseSensitive = YES;
+    NSMutableArray *strings = [NSMutableArray new];
     
-    // http://wiki.whatwg.org/wiki/Parser_tests#Tree_Construction_Tests
+    // https://github.com/html5lib/html5lib-tests/blob/master/tree-construction/README.md
     NSString *singleTestString;
-    NSInteger i = 1;
     while ([scanner scanUpToString:@"\n#data" intoString:&singleTestString]) {
-        SEL selector = sel_registerName([NSString stringWithFormat:@"test%zd", i++].UTF8String);
-        class_addMethod(testClass, selector, method_getImplementation(testMethod), method_getTypeEncoding(testMethod));
-        [suite addTest:[self testCaseWithString:singleTestString class:testClass selector:selector]];
-        [scanner scanString:singleTestString intoString:nil];
+        [strings addObject:singleTestString];
         [scanner scanString:@"\n" intoString:nil];
     }
-    return suite;
+    return strings;
 }
 
-+ (instancetype)testCaseWithString:(NSString *)string class:(Class)class selector:(SEL)selector
+- (HTMLTreeConstructionTest *)testWithSingleTestString:(NSString *)string
 {
-    HTMLTreeConstructionTests *testCase = [class testCaseWithSelector:selector];
+    HTMLTreeConstructionTest *test = [HTMLTreeConstructionTest new];
     NSScanner *scanner = [NSScanner scannerWithString:string];
     scanner.charactersToBeSkipped = nil;
     scanner.caseSensitive = YES;
     [scanner scanString:@"#data\n" intoString:nil];
     NSString *data;
     [scanner scanUpToString:@"\n#errors\n" intoString:&data];
-    testCase.data = data;
+    test.data = data;
     
     [scanner scanString:@"\n#errors\n" intoString:nil];
     NSString *errorLines;
     if ([scanner scanUpToString:@"#document" intoString:&errorLines]) {
         NSArray *errors = [errorLines componentsSeparatedByString:@"\n"];
         errors = [errors subarrayWithRange:NSMakeRange(0, errors.count - 1)];
-        testCase.expectedErrors = errors;
+        test.expectedErrors = errors;
     }
     
     NSString *fragment;
     if ([scanner scanString:@"#document-fragment\n" intoString:nil]) {
         [scanner scanUpToString:@"\n" intoString:&fragment];
-        testCase.documentFragment = fragment;
+        test.documentFragment = fragment;
         [scanner scanString:@"\n" intoString:nil];
     }
     
@@ -118,8 +105,8 @@
         }
         [scanner scanString:@"\n" intoString:nil];
     }
-    testCase.expectedRootNodes = roots;
-    return testCase;
+    test.expectedRootNodes = roots;
+    return test;
 }
 
 static id NodeOrAttributeFromString(NSString *s)
@@ -191,28 +178,37 @@ static id NodeOrAttributeFromString(NSString *s)
     }
 }
 
-- (void)genericTestMethod
+- (void)test
 {
-    HTMLParser *parser;
-    if (self.documentFragment) {
-        HTMLElementNode *context = [[HTMLElementNode alloc] initWithTagName:self.documentFragment];
-        parser = [[HTMLParser alloc] initWithString:self.data context:context];
-    } else {
-        parser = [[HTMLParser alloc] initWithString:self.data];
-    }
-    NSString *description = [NSString stringWithFormat:@"parsed: %@\nfixture:\n%@",
-                             parser.document.recursiveDescription,
-                             [[self.expectedRootNodes valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]];
-    XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, self.expectedRootNodes), @"%@", description);
-    if (parser.errors.count != self.expectedErrors.count) {
-        NSLog(@"-[%@ %@] ignoring mismatch in number (%tu) of parse errors:\n%@\n%tu expected:\n%@\n%@",
-              [self class],
-              NSStringFromSelector(_cmd),
-              parser.errors.count,
-              [parser.errors componentsJoinedByString:@"\n"],
-              self.expectedErrors.count,
-              [self.expectedErrors componentsJoinedByString:@"\n"],
-              description);
+    for (NSURL *testFileURL in [[self class] testFileURLs]) {
+        NSString *testName = [[testFileURL lastPathComponent] stringByDeletingPathExtension];
+        id <NSFastEnumeration> testStrings = [self singleTestStringsWithFileURL:testFileURL];
+        NSUInteger i = 0;
+        for (NSString *singleTestString in testStrings) {
+            i++;
+            HTMLTreeConstructionTest *test = [self testWithSingleTestString:singleTestString];
+            HTMLParser *parser;
+            if (test.documentFragment) {
+                HTMLElementNode *context = [[HTMLElementNode alloc] initWithTagName:test.documentFragment];
+                parser = [[HTMLParser alloc] initWithString:test.data context:context];
+            } else {
+                parser = [[HTMLParser alloc] initWithString:test.data];
+            }
+            NSString *description = [NSString stringWithFormat:@"parsed: %@\nfixture:\n%@",
+                                     parser.document.recursiveDescription,
+                                     [[test.expectedRootNodes valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]];
+            XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, test.expectedRootNodes), @"%@", description);
+            if (parser.errors.count != test.expectedErrors.count) {
+                NSLog(@"-[HTMLTreeConstructionTests-%@ test%zu] ignoring mismatch in number (%tu) of parse errors:\n%@\n%tu expected:\n%@\n%@",
+                      testName,
+                      i,
+                      parser.errors.count,
+                      [parser.errors componentsJoinedByString:@"\n"],
+                      test.expectedErrors.count,
+                      [test.expectedErrors componentsJoinedByString:@"\n"],
+                      description);
+            }
+        }
     }
 }
 

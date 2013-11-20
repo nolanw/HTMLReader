@@ -7,63 +7,22 @@
 #import "HTMLTokenizer.h"
 #import <objc/runtime.h>
 
-@interface HTMLTokenizerTests : XCTestCase
+@interface HTMLTokenizerTest : NSObject
 
-@property (readonly, copy, nonatomic) NSDictionary *dictionary;
+@property (copy, nonatomic) NSDictionary *dictionary;
 @property (readonly, copy, nonatomic) NSArray *expectedTokens;
 @property (readonly, copy, nonatomic) NSArray *tokenizers;
-@property (copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSString *name;
 
 @end
 
-@implementation HTMLTokenizerTests
+@implementation HTMLTokenizerTest
 
-+ (id)defaultTestSuite
+- (id)initWithDictionary:(NSDictionary *)dictionary
 {
-    if (!ShouldRunTestsForParameterizedTestClass([HTMLTokenizerTests class])) {
-        return nil;
-    }
-    NSURL *testURL = [[NSURL URLWithString:html5libTestPath()] URLByAppendingPathComponent:@"tokenizer"];
-    NSArray *potentialTestURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:testURL
-                                                               includingPropertiesForKeys:0
-                                                                                  options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                                    error:nil];
-    XCTestSuite *suite = [XCTestSuite testSuiteWithName:@"html5lib tokenizer tests"];
-    for (NSURL *testURL in potentialTestURLs) {
-        if ([testURL.pathExtension isEqualToString:@"test"]) {
-            [suite addTest:[self testSuiteWithFileAtURL:testURL]];
-        }
-    }
-    return suite;
-}
-
-+ (XCTestSuite *)testSuiteWithFileAtURL:(NSURL *)testURL
-{
-    NSString *suiteName = testURL.lastPathComponent.stringByDeletingPathExtension;
-    XCTestSuite *suite = [XCTestSuite testSuiteWithName:suiteName];
-    NSString *testClassName = [NSString stringWithFormat:@"%@-%@", NSStringFromClass(self), suiteName];
-    Class testClass = objc_allocateClassPair(self, testClassName.UTF8String, 0);
-    objc_registerClassPair(testClass);
-    NSData *testData = [NSData dataWithContentsOfURL:testURL];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:testData options:0 error:nil];
-    NSInteger i = 1;
-    Method testMethod = class_getInstanceMethod(testClass, @selector(genericTestMethod));
-    
-    // http://wiki.whatwg.org/wiki/Parser_tests#Tokenizer_Tests
-    for (NSDictionary *test in json[@"tests"]) {
-        SEL selector = sel_registerName([NSString stringWithFormat:@"test%zd", i++].UTF8String);
-        class_addMethod(testClass, selector, method_getImplementation(testMethod), method_getTypeEncoding(testMethod));
-        HTMLTokenizerTests *testCase = [testClass testCaseWithSelector:selector];
-        testCase->_dictionary = test;
-        testCase.name = test[@"description"];
-        [suite addTest:testCase];
-    }
-    
-    return suite;
-}
-
-- (void)setUp
-{
+    self = [super init];
+    if (!self) return nil;
+    _dictionary = [dictionary copy];
     NSMutableArray *expectedTokens = [NSMutableArray new];
     for (id test in _dictionary[@"output"]) {
         if ([test isEqual:@"ParseError"]) {
@@ -103,7 +62,7 @@
             doctype.forceQuirks = ![test[4] boolValue];
             [expectedTokens addObject:doctype];
         } else {
-            XCTFail(@"unexpected token type %@ in tokenizer test", tokenType);
+            NSAssert(NO, @"unexpected token type %@ in tokenizer test", tokenType);
         }
     }
     _expectedTokens = expectedTokens;
@@ -128,6 +87,9 @@
         [tokenizers addObject:tokenizer];
     }
     _tokenizers = tokenizers;
+    
+    _name = [dictionary[@"description"] copy];
+    return self;
 }
 
 static NSString * UnDoubleEscape(NSString *input)
@@ -153,11 +115,51 @@ static NSString * UnDoubleEscape(NSString *input)
     return output;
 }
 
-- (void)genericTestMethod
+@end
+
+@interface HTMLTokenizerTests : XCTestCase
+
+@end
+
+@implementation HTMLTokenizerTests
+
++ (id <NSFastEnumeration>)testFileURLs
 {
-    for (HTMLTokenizer *tokenizer in _tokenizers) {
-        NSArray *parsedTokens = tokenizer.allObjects;
-        XCTAssertEqualObjects(parsedTokens, _expectedTokens, @"%@", _dictionary[@"description"]);
+    NSURL *testsURL = [[NSURL URLWithString:html5libTestPath()] URLByAppendingPathComponent:@"tokenizer"];
+    NSArray *candidates = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:testsURL
+                                                        includingPropertiesForKeys:0
+                                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                             error:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pathExtension = 'test'"];
+    return [candidates filteredArrayUsingPredicate:predicate];
+}
+
+- (id <NSFastEnumeration>)testsWithTestFileURL:(NSURL *)testFileURL
+{
+    NSData *testData = [NSData dataWithContentsOfURL:testFileURL];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:testData options:0 error:nil];
+    NSMutableArray *tests = [NSMutableArray new];
+    
+    // https://github.com/html5lib/html5lib-tests/blob/master/tokenizer/README.md
+    for (NSDictionary *JSONTest in json[@"tests"]) {
+        HTMLTokenizerTest *test = [[HTMLTokenizerTest alloc] initWithDictionary:JSONTest];
+        [tests addObject:test];
+    }
+    return tests;
+}
+
+- (void)test
+{
+    for (NSURL *testFileURL in [[self class] testFileURLs]) {
+        NSString *testName = [testFileURL.lastPathComponent stringByDeletingPathExtension];
+        NSUInteger i = 0;
+        for (HTMLTokenizerTest *test in [self testsWithTestFileURL:testFileURL]) {
+            i++;
+            for (HTMLTokenizer *tokenizer in test.tokenizers) {
+                NSArray *parsedTokens = tokenizer.allObjects;
+                XCTAssertEqualObjects(parsedTokens, test.expectedTokens, @"-[%@%@-test%zu] %@", [self class], testName, i, test.name);
+            }
+        }
     }
 }
 
