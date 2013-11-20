@@ -62,10 +62,13 @@
     scanner.caseSensitive = YES;
     [scanner scanString:@"#data\n" intoString:nil];
     NSString *data;
-    [scanner scanUpToString:@"\n#errors\n" intoString:&data];
+    [scanner scanUpToString:@"#errors\n" intoString:&data];
+    if (data.length > 0) {
+        data = [data substringToIndex:data.length - 1];
+    }
     test.data = data;
     
-    [scanner scanString:@"\n#errors\n" intoString:nil];
+    [scanner scanString:@"#errors\n" intoString:nil];
     NSString *errorLines;
     if ([scanner scanUpToString:@"#document" intoString:&errorLines]) {
         NSArray *errors = [errorLines componentsSeparatedByString:@"\n"];
@@ -194,7 +197,9 @@ static id NodeOrAttributeFromString(NSString *s)
             } else {
                 parser = [[HTMLParser alloc] initWithString:test.data];
             }
-            NSString *description = [NSString stringWithFormat:@"parsed: %@\nfixture:\n%@",
+            NSString *description = [NSString stringWithFormat:@"%@ test%zu parsed: %@\nfixture:\n%@",
+                                     testName,
+                                     i,
                                      parser.document.recursiveDescription,
                                      [[test.expectedRootNodes valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]];
             XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, test.expectedRootNodes), @"%@", description);
