@@ -197,14 +197,14 @@ static id NodeOrAttributeFromString(NSString *s)
             } else {
                 parser = [[HTMLParser alloc] initWithString:test.data];
             }
-            NSString *description = [NSString stringWithFormat:@"%@ test%zu parsed: %@\nfixture:\n%@",
+            NSString *description = [NSString stringWithFormat:@"%@ test%tu parsed: %@\nfixture:\n%@",
                                      testName,
                                      i,
                                      parser.document.recursiveDescription,
                                      [[test.expectedRootNodes valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]];
             XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, test.expectedRootNodes), @"%@", description);
             if (parser.errors.count != test.expectedErrors.count) {
-                NSLog(@"-[HTMLTreeConstructionTests-%@ test%zu] ignoring mismatch in number (%tu) of parse errors:\n%@\n%tu expected:\n%@\n%@",
+                NSLog(@"-[HTMLTreeConstructionTests-%@ test%tu] ignoring mismatch in number (%tu) of parse errors:\n%@\n%tu expected:\n%@\n%@",
                       testName,
                       i,
                       parser.errors.count,

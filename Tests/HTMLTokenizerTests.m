@@ -157,7 +157,7 @@ static NSString * UnDoubleEscape(NSString *input)
             i++;
             for (HTMLTokenizer *tokenizer in test.tokenizers) {
                 NSArray *parsedTokens = tokenizer.allObjects;
-                XCTAssertEqualObjects(parsedTokens, test.expectedTokens, @"-[%@%@-test%zu] %@", [self class], testName, i, test.name);
+                XCTAssertEqualObjects(parsedTokens, test.expectedTokens, @"-[%@%@-test%tu] %@", [self class], testName, i, test.name);
             }
         }
     }
