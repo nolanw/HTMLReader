@@ -55,7 +55,7 @@
     HTMLTokenizerState _sourceAttributeValueState;
     HTMLAttribute *_currentAttribute;
     NSMutableString *_temporaryBuffer;
-    NSInteger _additionalAllowedCharacter;
+    UTF32Char _additionalAllowedCharacter;
     NSString *_mostRecentEmittedStartTagName;
     BOOL _done;
 }
@@ -102,7 +102,7 @@
 - (void)characterReferenceInDataState
 {
     [self switchToState:HTMLDataTokenizerState];
-    _additionalAllowedCharacter = NSNotFound;
+    _additionalAllowedCharacter = (UTF32Char)EOF;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
         [self emitCharacterTokenWithString:data];
@@ -134,7 +134,7 @@
 - (void)characterReferenceInRCDATAState
 {
     [self switchToState:HTMLRCDATATokenizerState];
-    _additionalAllowedCharacter = NSNotFound;
+    _additionalAllowedCharacter = (UTF32Char)EOF;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
         [self emitCharacterTokenWithString:data];
@@ -2226,7 +2226,7 @@ static inline BOOL is_lower(NSInteger c)
 - (NSString *)attemptToConsumeCharacterReferenceIsPartOfAnAttribute:(BOOL)partOfAnAttribute
 {
     UTF32Char c = _inputStream.nextInputCharacter;
-    if (c == _additionalAllowedCharacter) {
+    if (_additionalAllowedCharacter != (UTF32Char)EOF && c == _additionalAllowedCharacter) {
         return nil;
     }
     switch (c) {
