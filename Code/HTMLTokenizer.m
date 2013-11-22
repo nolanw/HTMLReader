@@ -2523,7 +2523,7 @@ static const ReplacementTable Win1252Table[] = {
 
 static inline ReplacementTable * Win1252TableLookup(unsigned int number)
 {
-    static int (^comparator)(const void *, const void *) = ^(const void *voidKey, const void *voidItem) {
+    static int (^comparator)() = ^(const void *voidKey, const void *voidItem) {
         const unsigned int *key = voidKey;
         const ReplacementTable *item = voidItem;
         if (item->number < *key) {
@@ -4784,7 +4784,7 @@ static const NSUInteger LongestReferenceNameLength = 32;
 static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 {
     // Binary search to quickly find any prefix.
-    static int (^comparator)(const void *, const void *) = ^int(const void *voidKey, const void *voidItem) {
+    static int (^comparator)() = ^int(const void *voidKey, const void *voidItem) {
         const NSString *key = (__bridge const NSString *)voidKey;
         const NamedReferenceTable *item = voidItem;
         if ([key hasPrefix:item->name]) {
