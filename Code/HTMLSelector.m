@@ -595,24 +595,34 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 
 #pragma mark
 
-NSCharacterSet *identifierCharacters()
+static NSCharacterSet *identifierCharacters()
 {
-	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"-_"];
-	[set formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
-	return set;
+    static NSCharacterSet *frozenSet;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@"-_"];
+        [set formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
+        frozenSet = [set copy];
+    });
+	return frozenSet;
 }
 
-NSCharacterSet *tagModifierCharacters()
+static NSCharacterSet *tagModifierCharacters()
 {
-	return [NSMutableCharacterSet characterSetWithCharactersInString:@".:#["];
+	return [NSCharacterSet characterSetWithCharactersInString:@".:#["];
 }
 
-NSCharacterSet *combinatorCharacters()
+static NSCharacterSet *combinatorCharacters()
 {
-	//Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
-	NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~"];
-	[set formUnionWithCharacterSet:SelectorsWhitespaceSet()];
-	return set;
+    static NSCharacterSet *frozenSet;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
+        NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~"];
+        [set formUnionWithCharacterSet:SelectorsWhitespaceSet()];
+        frozenSet = [set copy];
+    });
+	return frozenSet;
 }
 
 NSString *scanIdentifier(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
