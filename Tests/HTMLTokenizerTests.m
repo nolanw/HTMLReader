@@ -13,6 +13,7 @@
 @property (readonly, copy, nonatomic) NSArray *expectedTokens;
 @property (readonly, copy, nonatomic) NSArray *tokenizers;
 @property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSArray *parseErrors;
 
 @end
 
@@ -24,9 +25,17 @@
     if (!self) return nil;
     _dictionary = [dictionary copy];
     NSMutableArray *expectedTokens = [NSMutableArray new];
+    NSMutableArray *parseErrors = [NSMutableArray new];
+    NSMutableString *characterBuffer = [NSMutableString new];
+    void (^flushCharacterBuffer)() = ^{
+        if (characterBuffer.length > 0) {
+            [expectedTokens addObject:[[HTMLCharacterToken alloc] initWithString:characterBuffer]];
+            characterBuffer.string = @"";
+        }
+    };
     for (id test in _dictionary[@"output"]) {
         if ([test isEqual:@"ParseError"]) {
-            [expectedTokens addObject:[HTMLParseErrorToken new]];
+            [parseErrors addObject:[HTMLParseErrorToken new]];
             continue;
         }
         NSString *tokenType = test[0];
@@ -35,10 +44,12 @@
             if (_dictionary[@"doubleEscaped"]) {
                 output = UnDoubleEscape(test[1]);
             }
-            EnumerateLongCharacters(output, ^(UTF32Char character) {
-                [expectedTokens addObject:[[HTMLCharacterToken alloc] initWithData:character]];
-            });
-        } else if ([tokenType isEqualToString:@"Comment"]) {
+            [characterBuffer appendString:output];
+            continue;
+        } else {
+            flushCharacterBuffer();
+        }
+        if ([tokenType isEqualToString:@"Comment"]) {
             NSString *comment = test[1];
             if (_dictionary[@"doubleEscaped"]) {
                 comment = UnDoubleEscape(test[1]);
@@ -65,7 +76,9 @@
             NSAssert(NO, @"unexpected token type %@ in tokenizer test", tokenType);
         }
     }
+    flushCharacterBuffer();
     _expectedTokens = expectedTokens;
+    _parseErrors = parseErrors;
     
     NSString *input = _dictionary[@"input"];
     if (_dictionary[@"doubleEscaped"]) {
@@ -150,6 +163,10 @@ static NSString * UnDoubleEscape(NSString *input)
 
 - (void)test
 {
+    NSPredicate *parseErrorPredicate = [NSPredicate predicateWithBlock:^BOOL(id token, __unused NSDictionary *bindings) {
+        return [token isKindOfClass:[HTMLParseErrorToken class]];
+    }];
+    NSPredicate *otherTokenPredicate = [NSCompoundPredicate notPredicateWithSubpredicate:parseErrorPredicate];
     for (NSURL *testFileURL in [[self class] testFileURLs]) {
         NSString *testName = [testFileURL.lastPathComponent stringByDeletingPathExtension];
         NSUInteger i = 0;
@@ -157,11 +174,37 @@ static NSString * UnDoubleEscape(NSString *input)
             i++;
             for (HTMLTokenizer *tokenizer in test.tokenizers) {
                 HTMLTokenizerState initialState = tokenizer.state;
-                NSArray *parsedTokens = tokenizer.allObjects;
-                XCTAssertEqualObjects(parsedTokens, test.expectedTokens, @"-[%@%@-test%tu] %@ (%zd)", [self class], testName, i, test.name, initialState);
+                NSArray *tokens = tokenizer.allObjects;
+                NSArray *parseErrors = [tokens filteredArrayUsingPredicate:parseErrorPredicate];
+                NSArray *parsedTokens = [self concatenateCharacterTokens:[tokens filteredArrayUsingPredicate:otherTokenPredicate]];
+                NSString *description = [NSString stringWithFormat:@"%@ test%tu] %@ (%zd)", testName, i, test.name, initialState];
+                XCTAssertEqualObjects(parsedTokens, test.expectedTokens, @"%@", description);
+                XCTAssertEqualObjects(parseErrors, test.parseErrors, @"%@", description);
             }
         }
     }
+}
+
+- (NSArray *)concatenateCharacterTokens:(NSArray *)separateTokens
+{
+    NSMutableArray *tokens = [NSMutableArray new];
+    NSMutableString *currentString = [NSMutableString new];
+    void (^flushCurrentString)() = ^{
+        if (currentString.length > 0) {
+            [tokens addObject:[[HTMLCharacterToken alloc] initWithString:currentString]];
+            currentString.string = @"";
+        }
+    };
+    for (HTMLCharacterToken *token in separateTokens) {
+        if ([token isKindOfClass:[HTMLCharacterToken class]]) {
+            [currentString appendString:token.string];
+        } else {
+            flushCurrentString();
+            [tokens addObject:token];
+        }
+    }
+    flushCurrentString();
+    return tokens;
 }
 
 @end

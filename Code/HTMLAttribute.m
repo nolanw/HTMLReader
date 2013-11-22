@@ -54,6 +54,7 @@
 
 - (void)appendStringToValue:(NSString *)string
 {
+    if (string.length == 0) return;
     [_value appendString:string];
 }
 

@@ -4,6 +4,7 @@
 
 #import "HTMLTokenizer.h"
 #import "HTMLParser.h"
+#import "HTMLPreprocessedInputStream.h"
 #import "HTMLString.h"
 
 @interface HTMLTagToken ()
@@ -18,8 +19,8 @@
 @interface HTMLDOCTYPEToken ()
 
 - (void)appendLongCharacterToName:(UTF32Char)character;
-- (void)appendLongCharacterToPublicIdentifier:(UTF32Char)character;
-- (void)appendLongCharacterToSystemIdentifier:(UTF32Char)character;
+- (void)appendStringToPublicIdentifier:(NSString *)string;
+- (void)appendStringToSystemIdentifier:(NSString *)string;
 
 @end
 
@@ -46,9 +47,7 @@
 
 @implementation HTMLTokenizer
 {
-    NSString *_string;
-    NSUInteger _scanLocation;
-    CFStringInlineBuffer _buffer;
+    HTMLPreprocessedInputStream *_inputStream;
     HTMLTokenizerState _state;
     NSMutableArray *_tokenQueue;
     NSMutableString *_characterBuffer;
@@ -58,19 +57,20 @@
     NSMutableString *_temporaryBuffer;
     NSInteger _additionalAllowedCharacter;
     NSString *_mostRecentEmittedStartTagName;
-    NSInteger _reconsume;
     BOOL _done;
 }
 
 - (id)initWithString:(NSString *)string
 {
     if (!(self = [super init])) return nil;
-    _string = [string copy] ?: @"";
-    CFStringInitInlineBuffer((__bridge CFStringRef)_string, &_buffer, CFRangeMake(0, _string.length));
+    _inputStream = [[HTMLPreprocessedInputStream alloc] initWithString:string];
+    __weak __typeof__(self) weakSelf = self;
+    [_inputStream setErrorBlock:^(NSString *error) {
+        [weakSelf emitParseError:@"%@", error];
+    }];
     self.state = HTMLDataTokenizerState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
-    _reconsume = NSNotFound;
     return self;
 }
 
@@ -81,23 +81,20 @@
 
 - (void)dataState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '&':
-            [self switchToState:HTMLCharacterReferenceInDataTokenizerState];
-            break;
-        case '<':
-            [self switchToState:HTMLTagOpenTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in data state"];
-            [self emitCharacterToken:(UTF32Char)c];
-            break;
+        }
+        return c == '&' || c == '<';
+    }];
+    [self emitCharacterTokenWithString:string];
+    switch ([self consumeNextInputCharacter]) {
+        case '&':
+            return [self switchToState:HTMLCharacterReferenceInDataTokenizerState];
+        case '<':
+            return [self switchToState:HTMLTagOpenTokenizerState];
         case EOF:
             _done = YES;
-            break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
@@ -108,31 +105,28 @@
     _additionalAllowedCharacter = NSNotFound;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
-        [self emitCharacterTokensWithString:data];
+        [self emitCharacterTokenWithString:data];
     } else {
-        [self emitCharacterToken:'&'];
+        [self emitCharacterTokenWithString:@"&"];
     }
 }
 
 - (void)RCDATAState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '&':
-            [self switchToState:HTMLCharacterReferenceInRCDATATokenizerState];
-            break;
-        case '<':
-            [self switchToState:HTMLRCDATALessThanSignTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in RCDATA state"];
-            [self emitCharacterToken:0xFFFD];
-            break;
+        }
+        return c == '&' || c == '<';
+    }];
+    [self emitCharacterTokenWithString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '&':
+            return [self switchToState:HTMLCharacterReferenceInRCDATATokenizerState];
+        case '<':
+            return [self switchToState:HTMLRCDATALessThanSignTokenizerState];
         case EOF:
             _done = YES;
-            break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
@@ -143,67 +137,58 @@
     _additionalAllowedCharacter = NSNotFound;
     NSString *data = [self attemptToConsumeCharacterReference];
     if (data) {
-        [self emitCharacterTokensWithString:data];
+        [self emitCharacterTokenWithString:data];
     } else {
-        [self emitCharacterToken:'&'];
+        [self emitCharacterTokenWithString:@"&"];
     }
 }
 
 - (void)RAWTEXTState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '<':
-            [self switchToState:HTMLRAWTEXTLessThanSignTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in RAWTEXT state"];
-            [self emitCharacterToken:0xFFFD];
-            break;
+        }
+        return c == '<';
+    }];
+    [self emitCharacterTokenWithString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '<':
+            return [self switchToState:HTMLRAWTEXTLessThanSignTokenizerState];
         case EOF:
             _done = YES;
-            break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '<':
-            [self switchToState:HTMLScriptDataLessThanSignTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in script data state"];
-            [self emitCharacterToken:0xFFFD];
-            break;
+        }
+        return c == '<';
+    }];
+    [self emitCharacterTokenWithString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '<':
+            return [self switchToState:HTMLScriptDataLessThanSignTokenizerState];
         case EOF:
             _done = YES;
-            break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)PLAINTEXTState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in PLAINTEXT state"];
-            [self emitCharacterToken:0xFFFD];
-            break;
-        case EOF:
-            _done = YES;
-            break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
-            break;
-    }
+        }
+        return NO;
+    }];
+    [self emitCharacterTokenWithString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    _done = YES;
 }
 
 static inline BOOL is_upper(NSInteger c)
@@ -218,7 +203,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)tagOpenState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '!':
             [self switchToState:HTMLMarkupDeclarationOpenTokenizerState];
@@ -229,7 +214,8 @@ static inline BOOL is_lower(NSInteger c)
         case '?':
             [self emitParseError:@"Bogus ? in tag open state"];
             [self switchToState:HTMLBogusCommentTokenizerState];
-            _scanLocation--;
+            // SPEC We are to "emit a comment token whose data is the concatenation of all characters starting from and including the character that caused the state machine to switch into the bogus comment state...". This is effectively, but not explicitly, reconsuming the current input character.
+            [_inputStream reconsumeCurrentInputCharacter];
             break;
         default:
             if (is_upper(c) || is_lower(c)) {
@@ -240,7 +226,7 @@ static inline BOOL is_lower(NSInteger c)
             } else {
                 [self emitParseError:@"Unexpected character in tag open state"];
                 [self switchToState:HTMLDataTokenizerState];
-                [self emitCharacterToken:'<'];
+                [self emitCharacterTokenWithString:@"<"];
                 [self reconsume:c];
             }
             break;
@@ -249,7 +235,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)endTagOpenState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '>':
             [self emitParseError:@"Unexpected > in end tag open state"];
@@ -258,8 +244,7 @@ static inline BOOL is_lower(NSInteger c)
         case EOF:
             [self emitParseError:@"EOF in end tag open state"];
             [self switchToState:HTMLDataTokenizerState];
-            [self emitCharacterToken:'<'];
-            [self emitCharacterToken:'/'];
+            [self emitCharacterTokenWithString:@"</"];
             [self reconsume:c];
             break;
         default:
@@ -271,7 +256,7 @@ static inline BOOL is_lower(NSInteger c)
             } else {
                 [self emitParseError:@"Unexpected character in end tag open state"];
                 [self switchToState:HTMLBogusCommentTokenizerState];
-                // SPEC The spec doesn't say to reconsume the input character. Instead, it says the bogus comment state is responsible for starting the comment at the character that caused a transition into the bogus comment state. But then we duplicate parse errors for invalid Unicode code points. Effectively what we want is to reconsume.
+                // SPEC We are to "emit a comment token whose data is the concatenation of all characters starting from and including the character that caused the state machine to switch into the bogus comment state...". This is effectively, but not explicitly, reconsuming the current input character.
                 [self reconsume:c];
             }
             break;
@@ -280,7 +265,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)tagNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -315,20 +300,20 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)RCDATALessThanSignState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (c == '/') {
         _temporaryBuffer = [NSMutableString new];
         [self switchToState:HTMLRCDATAEndTagOpenTokenizerState];
     } else {
         [self switchToState:HTMLRCDATATokenizerState];
-        [self emitCharacterToken:'<'];
+        [self emitCharacterTokenWithString:@"<"];
         [self reconsume:c];
     }
 }
 
 - (void)RCDATAEndTagOpenState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
         [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
@@ -341,15 +326,14 @@ static inline BOOL is_lower(NSInteger c)
         [self switchToState:HTMLRCDATAEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLRCDATATokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
+        [self emitCharacterTokenWithString:@"</"];
         [self reconsume:c];
     }
 }
 
 - (void)RCDATAEndTagNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -382,29 +366,28 @@ static inline BOOL is_lower(NSInteger c)
         AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLRCDATATokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
-        [self emitCharacterTokensWithString:_temporaryBuffer];
+        [self emitCharacterTokenWithString:@"</"];
+        [self emitCharacterTokenWithString:_temporaryBuffer];
         [self reconsume:c];
     }
 }
 
 - (void)RAWTEXTLessThanSignState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (c == '/') {
         _temporaryBuffer = [NSMutableString new];
         [self switchToState:HTMLRAWTEXTEndTagOpenTokenizerState];
     } else {
         [self switchToState:HTMLRAWTEXTTokenizerState];
-        [self emitCharacterToken:'<'];
+        [self emitCharacterTokenWithString:@"<"];
         [self reconsume:c];
     }
 }
 
 - (void)RAWTEXTEndTagOpenState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
         [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
@@ -417,15 +400,14 @@ static inline BOOL is_lower(NSInteger c)
         [self switchToState:HTMLRAWTEXTEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLRAWTEXTTokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
+        [self emitCharacterTokenWithString:@"</"];
         [self reconsume:c];
     }
 }
 
 - (void)RAWTEXTEndTagNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -458,16 +440,15 @@ static inline BOOL is_lower(NSInteger c)
         AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLRAWTEXTTokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
-        [self emitCharacterTokensWithString:_temporaryBuffer];
+        [self emitCharacterTokenWithString:@"</"];
+        [self emitCharacterTokenWithString:_temporaryBuffer];
         [self reconsume:c];
     }
 }
 
 - (void)scriptDataLessThanSignState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '/':
             _temporaryBuffer = [NSMutableString new];
@@ -475,12 +456,11 @@ static inline BOOL is_lower(NSInteger c)
             break;
         case '!':
             [self switchToState:HTMLScriptDataEscapeStartTokenizerState];
-            [self emitCharacterToken:'<'];
-            [self emitCharacterToken:'!'];
+            [self emitCharacterTokenWithString:@"<!"];
             break;
         default:
             [self switchToState:HTMLScriptDataTokenizerState];
-            [self emitCharacterToken:'<'];
+            [self emitCharacterTokenWithString:@"<"];
             [self reconsume:c];
             break;
     }
@@ -488,7 +468,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataEndTagOpenState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
         [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
@@ -501,15 +481,14 @@ static inline BOOL is_lower(NSInteger c)
         [self switchToState:HTMLScriptDataEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLScriptDataTokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
+        [self emitCharacterTokenWithString:@"</"];
         [self reconsume:c];
     }
 }
 
 - (void)scriptDataEndTagNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -542,19 +521,18 @@ static inline BOOL is_lower(NSInteger c)
         AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLScriptDataTokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
-        [self emitCharacterTokensWithString:_temporaryBuffer];
+        [self emitCharacterTokenWithString:@"</"];
+        [self emitCharacterTokenWithString:_temporaryBuffer];
         [self reconsume:c];
     }
 }
 
 - (void)scriptDataEscapeStartState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (c == '-') {
         [self switchToState:HTMLScriptDataEscapeStartDashTokenizerState];
-        [self emitCharacterToken:'-'];
+        [self emitCharacterTokenWithString:@"-"];
     } else {
         [self switchToState:HTMLScriptDataTokenizerState];
         [self reconsume:c];
@@ -563,10 +541,10 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataEscapeStartDashState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (c == '-') {
         [self switchToState:HTMLScriptDataEscapedDashDashTokenizerState];
-        [self emitCharacterToken:'-'];
+        [self emitCharacterTokenWithString:@"-"];
     } else {
         [self switchToState:HTMLScriptDataTokenizerState];
         [self reconsume:c];
@@ -575,37 +553,35 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataEscapedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
+            [self emitParseError:@"U+0000 NULL in script data escaped state"];
+        }
+        return c == '-' || c == '<';
+    }];
+    [self emitCharacterTokenWithString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataEscapedDashTokenizerState];
-            [self emitCharacterToken:'-'];
+            [self emitCharacterTokenWithString:@"-"];
             break;
         case '<':
-            [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
-            break;
-        case '\0':
-            [self emitParseError:@"U+0000 NULL in script data escaped state"];
-            [self emitCharacterToken:0xFFFD];
-            break;
+            return [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
         case EOF:
             [self switchToState:HTMLDataTokenizerState];
             [self emitParseError:@"EOF in script data escaped state"];
             [self reconsume:EOF];
-            break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
             break;
     }
 }
 
 - (void)scriptDataEscapedDashState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataEscapedDashDashTokenizerState];
-            [self emitCharacterToken:'-'];
+            [self emitCharacterTokenWithString:@"-"];
             break;
         case '<':
             [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
@@ -613,7 +589,7 @@ static inline BOOL is_lower(NSInteger c)
         case '\0':
             [self emitParseError:@"U+0000 NULL in script data escaped dash state"];
             [self switchToState:HTMLScriptDataEscapedTokenizerState];
-            [self emitCharacterToken:0xFFFD];
+            [self emitCharacterTokenWithString:@"\uFFFD"];
             break;
         case EOF:
             [self emitParseError:@"EOF in script data escaped dash state"];
@@ -629,22 +605,22 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataEscapedDashDashState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
-            [self emitCharacterToken:'-'];
+            [self emitCharacterTokenWithString:@"-"];
             break;
         case '<':
             [self switchToState:HTMLScriptDataEscapedLessThanSignTokenizerState];
             break;
         case '>':
             [self switchToState:HTMLScriptDataTokenizerState];
-            [self emitCharacterToken:'>'];
+            [self emitCharacterTokenWithString:@">"];
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in script data escaped dash dash state"];
             [self switchToState:HTMLScriptDataEscapedTokenizerState];
-            [self emitCharacterToken:0xFFFD];
+            [self emitCharacterTokenWithString:@"\uFFFD"];
             break;
         case EOF:
             [self emitParseError:@"EOF in script data escaped dash dash state"];
@@ -660,7 +636,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataEscapedLessThanSignState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '/':
             _temporaryBuffer = [NSMutableString new];
@@ -671,17 +647,17 @@ static inline BOOL is_lower(NSInteger c)
                 _temporaryBuffer = [NSMutableString new];
                 AppendLongCharacter(_temporaryBuffer, (UTF32Char)c + 0x0020);
                 [self switchToState:HTMLScriptDataDoubleEscapeStartTokenizerState];
-                [self emitCharacterToken:'<'];
+                [self emitCharacterTokenWithString:@"<"];
                 [self emitCharacterToken:(UTF32Char)c];
             } else if (is_lower(c)) {
                 _temporaryBuffer = [NSMutableString new];
                 AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
                 [self switchToState:HTMLScriptDataDoubleEscapeStartTokenizerState];
-                [self emitCharacterToken:'<'];
+                [self emitCharacterTokenWithString:@"<"];
                 [self emitCharacterToken:(UTF32Char)c];
             } else {
                 [self switchToState:HTMLScriptDataEscapedTokenizerState];
-                [self emitCharacterToken:'<'];
+                [self emitCharacterTokenWithString:@"<"];
                 [self reconsume:c];
             }
             break;
@@ -690,7 +666,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataEscapedEndTagOpenState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (is_upper(c)) {
         _currentToken = [HTMLEndTagToken new];
         [_currentToken appendLongCharacterToTagName:(UTF32Char)c + 0x0020];
@@ -703,15 +679,14 @@ static inline BOOL is_lower(NSInteger c)
         [self switchToState:HTMLScriptDataEscapedEndTagNameTokenizerState];
     } else {
         [self switchToState:HTMLScriptDataEscapedTokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
+        [self emitCharacterTokenWithString:@"</"];
         [self reconsume:c];
     }
 }
 
 - (void)scriptDataEscapedEndTagNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -744,16 +719,15 @@ static inline BOOL is_lower(NSInteger c)
         AppendLongCharacter(_temporaryBuffer, (UTF32Char)c);
     } else {
         [self switchToState:HTMLScriptDataEscapedTokenizerState];
-        [self emitCharacterToken:'<'];
-        [self emitCharacterToken:'/'];
-        [self emitCharacterTokensWithString:_temporaryBuffer];
+        [self emitCharacterTokenWithString:@"</"];
+        [self emitCharacterTokenWithString:_temporaryBuffer];
         [self reconsume:c];
     }
 }
 
 - (void)scriptDataDoubleEscapeStartState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -785,47 +759,46 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataDoubleEscapedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
+            [self emitParseError:@"U+0000 NULL in script data double escaped state"];
+        }
+        return c == '-' || c == '<';
+    }];
+    [self emitCharacterTokenWithString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataDoubleEscapedDashTokenizerState];
-            [self emitCharacterToken:'-'];
+            [self emitCharacterTokenWithString:@"-"];
             break;
         case '<':
             [self switchToState:HTMLScriptDataDoubleEscapedLessThanSignTokenizerState];
-            [self emitCharacterToken:'<'];
-            break;
-        case '\0':
-            [self emitParseError:@"U+0000 NULL in script data double escaped state"];
-            [self emitCharacterToken:0xFFFD];
+            [self emitCharacterTokenWithString:@"<"];
             break;
         case EOF:
             [self emitParseError:@"EOF in script data double escaped state"];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
-        default:
-            [self emitCharacterToken:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)scriptDataDoubleEscapedDashState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLScriptDataDoubleEscapedDashDashTokenizerState];
-            [self emitCharacterToken:'-'];
+            [self emitCharacterTokenWithString:@"-"];
             break;
         case '<':
             [self switchToState:HTMLScriptDataDoubleEscapedLessThanSignTokenizerState];
-            [self emitCharacterToken:'<'];
+            [self emitCharacterTokenWithString:@"<"];
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in script data double escaped dash state"];
             [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
-            [self emitCharacterToken:0xFFFD];
+            [self emitCharacterTokenWithString:@"\uFFFD"];
             break;
         case EOF:
             [self emitParseError:@"EOF in script data double escaped dash state"];
@@ -841,23 +814,23 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataDoubleEscapedDashDashState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
-            [self emitCharacterToken:'-'];
+            [self emitCharacterTokenWithString:@"-"];
             break;
         case '<':
             [self switchToState:HTMLScriptDataDoubleEscapedLessThanSignTokenizerState];
-            [self emitCharacterToken:'<'];
+            [self emitCharacterTokenWithString:@"<"];
             break;
         case '>':
             [self switchToState:HTMLScriptDataTokenizerState];
-            [self emitCharacterToken:'>'];
+            [self emitCharacterTokenWithString:@">"];
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in script data double escaped dash dash state"];
             [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
-            [self emitCharacterToken:0xFFFD];
+            [self emitCharacterTokenWithString:@"\uFFFD"];
             break;
         case EOF:
             [self emitParseError:@"EOF in script data double escaped dash dash state"];
@@ -873,11 +846,11 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataDoubleEscapedLessThanSignState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (c == '/') {
         _temporaryBuffer = [NSMutableString new];
         [self switchToState:HTMLScriptDataDoubleEscapeEndTokenizerState];
-        [self emitCharacterToken:'/'];
+        [self emitCharacterTokenWithString:@"/"];
     } else {
         [self switchToState:HTMLScriptDataDoubleEscapedTokenizerState];
         [self reconsume:c];
@@ -886,7 +859,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)scriptDataDoubleEscapeEndState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -918,7 +891,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)beforeAttributeNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -966,7 +939,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)attributeNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1011,7 +984,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)afterAttributeNameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1061,7 +1034,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)beforeAttributeValueState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1108,68 +1081,71 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)attributeValueDoubleQuotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
+            [self emitParseError:@"U+0000 NULL in attribute value double quoted state"];
+        }
+        return c == '"' || c == '&';
+    }];
+    [_currentAttribute appendStringToValue:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
         case '"':
-            [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
-            break;
+            return [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
         case '&':
             [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
             _additionalAllowedCharacter = '"';
             _sourceAttributeValueState = HTMLAttributeValueDoubleQuotedTokenizerState;
-            break;
-        case '\0':
-            [self emitParseError:@"U+0000 NULL in attribute value double quoted state"];
-            [_currentAttribute appendLongCharacterToValue:0xFFFD];
             break;
         case EOF:
             [self emitParseError:@"EOF in attribute value double quoted state"];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)attributeValueSingleQuotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
+            [self emitParseError:@"U+0000 NULL in attribute value single quoted state"];
+        }
+        return c == '\'' || c == '&';
+    }];
+    [_currentAttribute appendStringToValue:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
         case '\'':
-            [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
-            break;
+            return [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
         case '&':
             [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
             _additionalAllowedCharacter = '\'';
             _sourceAttributeValueState = HTMLAttributeValueSingleQuotedTokenizerState;
-            break;
-        case '\0':
-            [self emitParseError:@"U+0000 NULL in attribute value single quoted state"];
-            [_currentAttribute appendLongCharacterToValue:0xFFFD];
             break;
         case EOF:
             [self emitParseError:@"EOF in attribute value single quoted state"];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)attributeValueUnquotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
+            [self emitParseError:@"U+0000 NULL in attribute value unquoted state"];
+        } else if (c == '"' || c == '\'' || c == '<' || c == '=' || c == '`') {
+            [self emitParseError:@"Unexpected %c in attribute value unquoted state", (char)c];
+        }
+        return is_whitespace(c) || c == '&' || c == '>';
+    }];
+    [_currentAttribute appendStringToValue:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
         case '\f':
         case ' ':
-            [self switchToState:HTMLBeforeAttributeNameTokenizerState];
-            break;
+            return [self switchToState:HTMLBeforeAttributeNameTokenizerState];
         case '&':
             [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
             _additionalAllowedCharacter = '>';
@@ -1179,25 +1155,10 @@ static inline BOOL is_lower(NSInteger c)
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             break;
-        case '\0':
-            [self emitParseError:@"U+0000 NULL in attribute value unquoted state"];
-            [_currentAttribute appendLongCharacterToValue:0xFFFD];
-            break;
-        case '"':
-        case '\'':
-        case '<':
-        case '=':
-        case '`':
-            [self emitParseError:@"Unexpected %c in attribute value unquoted state", (char)c];
-            goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in attribute value unquoted state"];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
-            break;
-        default:
-        anythingElse:
-            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
             break;
     }
 }
@@ -1215,7 +1176,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)afterAttributeValueQuotedState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1245,7 +1206,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)selfClosingStartTagState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '>':
             [_currentToken setSelfClosingFlag:YES];
@@ -1267,49 +1228,35 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)bogusCommentState
 {
-    _currentToken = [HTMLCommentToken new];
-    for (;;) {
-        NSInteger c = [self consumeNextInputCharacter];
-        if (c == EOF) {
-            [self reconsume:EOF];
-            break;
-        } else if (c == '>') {
-            break;
-        } else if (c == '\0') {
-            [_currentToken appendLongCharacter:0xFFFD];
-        } else {
-            [_currentToken appendLongCharacter:(UTF32Char)c];
-        }
-    }
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        return c == '>';
+    }];
+    _currentToken = [[HTMLCommentToken alloc] initWithData:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
     [self emitCurrentToken];
     [self switchToState:HTMLDataTokenizerState];
+    if ([self consumeNextInputCharacter] == (UTF32Char)EOF) {
+        [self reconsume:EOF];
+    }
 }
 
 - (void)markupDeclarationOpenState
 {
-    NSScanner *scanner = [self scannerAtCurrentScanLocation];
-    if ([scanner scanString:@"--" intoString:nil]) {
-        _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
+    if ([_inputStream consumeString:@"--" matchingCase:YES]) {
         _currentToken = [[HTMLCommentToken alloc] initWithData:@""];
         [self switchToState:HTMLCommentStartTokenizerState];
-    } else if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML && [scanner scanString:@"[CDATA[" intoString:nil]) {
-        _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
+    } else if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML && [_inputStream consumeString:@"[CDATA[" matchingCase:YES]) {
         [self switchToState:HTMLCDATASectionTokenizerState];
+    } else if ([_inputStream consumeString:@"DOCTYPE" matchingCase:NO]) {
+        [self switchToState:HTMLDOCTYPETokenizerState];
     } else {
-        scanner.caseSensitive = NO;
-        if ([scanner scanString:@"DOCTYPE" intoString:nil]) {
-            _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
-            [self switchToState:HTMLDOCTYPETokenizerState];
-        } else {
-            [self emitParseError:@"Bogus character in markup declaration open state"];
-            [self switchToState:HTMLBogusCommentTokenizerState];
-        }
+        [self emitParseError:@"Bogus character in markup declaration open state"];
+        [self switchToState:HTMLBogusCommentTokenizerState];
     }
 }
 
 - (void)commentStartState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentStartDashTokenizerState];
@@ -1339,7 +1286,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)commentStartDashState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentEndTokenizerState];
@@ -1371,30 +1318,28 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)commentState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '-':
-            [self switchToState:HTMLCommentEndDashTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in comment state"];
-            [_currentToken appendLongCharacter:0xFFFD];
-            break;
+        }
+        return c == '-';
+    }];
+    [_currentToken appendString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '-':
+            return [self switchToState:HTMLCommentEndDashTokenizerState];
         case EOF:
             [self emitParseError:@"EOF in comment state"];
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentToken appendLongCharacter:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)commentEndDashState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [self switchToState:HTMLCommentEndTokenizerState];
@@ -1421,7 +1366,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)commentEndState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '>':
             [self switchToState:HTMLDataTokenizerState];
@@ -1458,7 +1403,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)commentEndBangState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '-':
             [_currentToken appendString:@"--!"];
@@ -1489,7 +1434,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)DOCTYPEState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1515,7 +1460,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)beforeDOCTYPENameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1557,7 +1502,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)DOCTYPENameState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1592,8 +1537,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)afterDOCTYPENameState
 {
-    NSUInteger initialScanLocation = _scanLocation;
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1611,31 +1555,34 @@ static inline BOOL is_lower(NSInteger c)
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default: {
-            _scanLocation = initialScanLocation;
-            NSScanner *scanner = [self scannerAtCurrentScanLocation];
-            scanner.caseSensitive = NO;
-            if ([scanner scanString:@"PUBLIC" intoString:nil]) {
-                _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
+        case 'P':
+        case 'p':
+            if ([_inputStream consumeString:@"UBLIC" matchingCase:NO]) {
                 [self switchToState:HTMLAfterDOCTYPEPublicKeywordTokenizerState];
-            } else if ([scanner scanString:@"SYSTEM" intoString:nil]) {
-                _scanLocation = scanner.scanLocation;
+            } else {
+                goto anythingElse;
+            }
+            break;
+        case 'S':
+        case 's':
+            if ([_inputStream consumeString:@"YSTEM" matchingCase:NO]) {
                 [self switchToState:HTMLAfterDOCTYPESystemKeywordTokenizerState];
             } else {
-                scanner.scanLocation += (c >= 0x100000) ? 2 : 1;
-                _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
+                goto anythingElse;
+            }
+            break;
+        default:
+        anythingElse:
                 [self emitParseError:@"Unexpected character in after DOCTYPE name state"];
                 [_currentToken setForceQuirks:YES];
                 [self switchToState:HTMLBogusDOCTYPETokenizerState];
-            }
             break;
-        }
     }
 }
 
 - (void)afterDOCTYPEPublicKeywordState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1676,7 +1623,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)beforeDOCTYPEPublicIdentifierState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1714,15 +1661,16 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)DOCTYPEPublicIdentifierDoubleQuotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '"':
-            [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in DOCTYPE public identifier double quoted state"];
-            [_currentToken appendLongCharacterToPublicIdentifier:0xFFFD];
-            break;
+        }
+        return c == '"' || c == '>';
+    }];
+    [_currentToken appendStringToPublicIdentifier:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '"':
+            return [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
         case '>':
             [self emitParseError:@"Unexpected > in DOCTYPE public identifier double quoted state"];
             [_currentToken setForceQuirks:YES];
@@ -1736,23 +1684,21 @@ static inline BOOL is_lower(NSInteger c)
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentToken appendLongCharacterToPublicIdentifier:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)DOCTYPEPublicIdentifierSingleQuotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '\'':
-            [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in DOCTYPE public identifier single quoted state"];
-            [_currentToken appendLongCharacterToPublicIdentifier:0xFFFD];
-            break;
+        }
+        return c == '\'' || c == '>';
+    }];
+    [_currentToken appendStringToPublicIdentifier:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '\'':
+            return [self switchToState:HTMLAfterDOCTYPEPublicIdentifierTokenizerState];
         case '>':
             [self emitParseError:@"Unexpected > in DOCTYPE public identifier single quoted state"];
             [_currentToken setForceQuirks:YES];
@@ -1766,15 +1712,12 @@ static inline BOOL is_lower(NSInteger c)
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentToken appendLongCharacterToPublicIdentifier:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)afterDOCTYPEPublicIdentifierState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1813,7 +1756,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)betweenDOCTYPEPublicAndSystemIdentifiersState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1849,7 +1792,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)afterDOCTYPESystemKeywordState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1890,7 +1833,7 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)beforeDOCTYPESystemIdentifierState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -1928,15 +1871,16 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)DOCTYPESystemIdentifierDoubleQuotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '"':
-            [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in DOCTYPE system identifier double quoted state"];
-            [_currentToken appendLongCharacterToSystemIdentifier:0xFFFD];
-            break;
+        }
+        return c == '"' || c == '>';
+    }];
+    [_currentToken appendStringToSystemIdentifier:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '"':
+            return [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
         case '>':
             [self emitParseError:@"Unexpected > in DOCTYPE system identifier double quoted state"];
             [_currentToken setForceQuirks:YES];
@@ -1950,23 +1894,21 @@ static inline BOOL is_lower(NSInteger c)
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentToken appendLongCharacterToSystemIdentifier:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)DOCTYPESystemIdentifierSingleQuotedState
 {
-    NSInteger c;
-    switch (c = [self consumeNextInputCharacter]) {
-        case '\'':
-            [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
-            break;
-        case '\0':
+    NSString *string = [self consumeCharactersUpToFirstPassingTest:^BOOL(UTF32Char c) {
+        if (c == '\0') {
             [self emitParseError:@"U+0000 NULL in DOCTYPE system identifier single quoted state"];
-            [_currentToken appendLongCharacterToSystemIdentifier:0xFFFD];
-            break;
+        }
+        return c == '\'' || c == '>';
+    }];
+    [_currentToken appendStringToSystemIdentifier:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    switch ([self consumeNextInputCharacter]) {
+        case '\'':
+            return [self switchToState:HTMLAfterDOCTYPESystemIdentifierTokenizerState];
         case '>':
             [self emitParseError:@"Unexpected > in DOCTYPE system identifier single quoted state"];
             [_currentToken setForceQuirks:YES];
@@ -1980,15 +1922,12 @@ static inline BOOL is_lower(NSInteger c)
             [self emitCurrentToken];
             [self reconsume:EOF];
             break;
-        default:
-            [_currentToken appendLongCharacterToSystemIdentifier:(UTF32Char)c];
-            break;
     }
 }
 
 - (void)afterDOCTYPESystemIdentifierState
 {
-    NSInteger c;
+    UTF32Char c;
     switch (c = [self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
@@ -2015,11 +1954,11 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)bogusDOCTYPEState
 {
-    NSInteger c = [self consumeNextInputCharacter];
+    UTF32Char c = [self consumeNextInputCharacter];
     if (c == '>') {
         [self switchToState:HTMLDataTokenizerState];
         [self emitCurrentToken];
-    } else if (c == EOF) {
+    } else if (c == (UTF32Char)EOF) {
         [self switchToState:HTMLDataTokenizerState];
         [self emitCurrentToken];
         [self reconsume:EOF];
@@ -2031,18 +1970,18 @@ static inline BOOL is_lower(NSInteger c)
     [self switchToState:HTMLDataTokenizerState];
     NSInteger squareBracketsSeen = 0;
     for (;;) {
-        NSInteger c = [self consumeNextInputCharacter];
+        UTF32Char c = [self consumeNextInputCharacter];
         if (c == ']' && squareBracketsSeen < 2) {
             squareBracketsSeen++;
         } else if (c == ']' && squareBracketsSeen == 2) {
-            [self emitCharacterToken:']'];
+            [self emitCharacterTokenWithString:@"]"];
         } else if (c == '>' && squareBracketsSeen == 2) {
             break;
         } else {
             for (NSInteger i = 0; i < squareBracketsSeen; i++) {
-                [self emitCharacterToken:']'];
+                [self emitCharacterTokenWithString:@"]"];
             }
-            if (c == EOF) {
+            if (c == (UTF32Char)EOF) {
                 [self reconsume:c];
                 break;
             }
@@ -2196,77 +2135,14 @@ static inline BOOL is_lower(NSInteger c)
     }
 }
 
-- (NSInteger)consumeNextInputCharacter
+- (UTF32Char)consumeNextInputCharacter
 {
-    if (_reconsume != NSNotFound) {
-        NSInteger character = _reconsume;
-        _reconsume = NSNotFound;
-        return character;
-    } else if (_scanLocation == NSNotFound) {
-        return EOF;
-    } else {
-        NSInteger character = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation++);
-        if (character == 0 && _scanLocation > _string.length) {
-            _scanLocation = NSNotFound;
-            return EOF;
-        }
-        if (CFStringIsSurrogateHighCharacter(character)) {
-            // Got a lead surrogate. Check for trail.
-            unichar trail = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation);
-            if (CFStringIsSurrogateLowCharacter(trail)) {
-                // Got a trail surrogate.
-                _scanLocation++;
-                if (_scanLocation >= _string.length) {
-                    _scanLocation = NSNotFound;
-                }
-                character = CFStringGetLongCharacterForSurrogatePair(character, trail);
-            } else {
-                // Lead surrogate with no trail.
-                [self emitParseError:@"Lead surrogate with no trail"];
-                return 0xFFFD;
-            }
-        } else if (CFStringIsSurrogateLowCharacter(character)) {
-            // Trail surrogate with no lead.
-            [self emitParseError:@"Trail surrogate with no lead"];
-            return 0xFFFD;
-        }
-        #define InRange(a, b) (character >= (a) && character <= (b))
-        if (InRange(0x0001, 0x0008) ||
-            InRange(0x000E, 0x001F) ||
-            InRange(0x007F, 0x009F) ||
-            InRange(0xFDD0, 0xFDEF) ||
-            character == 0x000B ||
-            InRange(0xFFFE, 0xFFFF) ||
-            InRange(0x1FFFE, 0x1FFFF) ||
-            InRange(0x2FFFE, 0x2FFFF) ||
-            InRange(0x3FFFE, 0x3FFFF) ||
-            InRange(0x4FFFE, 0x4FFFF) ||
-            InRange(0x5FFFE, 0x5FFFF) ||
-            InRange(0x6FFFE, 0x6FFFF) ||
-            InRange(0x7FFFE, 0x7FFFF) ||
-            InRange(0x8FFFE, 0x8FFFF) ||
-            InRange(0x9FFFE, 0x9FFFF) ||
-            InRange(0xAFFFE, 0xAFFFF) ||
-            InRange(0xBFFFE, 0xBFFFF) ||
-            InRange(0xCFFFE, 0xCFFFF) ||
-            InRange(0xDFFFE, 0xDFFFF) ||
-            InRange(0xEFFFE, 0xEFFFF) ||
-            InRange(0xFFFFE, 0xFFFFF) ||
-            InRange(0x10FFFE, 0x10FFFF))
-        {
-            [self emitParseError:@"Control or undefined character"];
-        }
-        if (character == '\r') {
-            if (CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation) == '\n') {
-                _scanLocation++;
-                if (_scanLocation >= _string.length) {
-                    _scanLocation = NSNotFound;
-                }
-            }
-            return '\n';
-        }
-        return character;
-    }
+    return [_inputStream consumeNextInputCharacter];
+}
+
+- (NSString *)consumeCharactersUpToFirstPassingTest:(BOOL(^)(UTF32Char c))test
+{
+    return [_inputStream consumeCharactersUpToFirstPassingTest:test];
 }
 
 - (void)switchToState:(HTMLTokenizerState)state
@@ -2279,18 +2155,9 @@ static inline BOOL is_lower(NSInteger c)
     self.state = state;
 }
 
-- (void)reconsume:(NSInteger)character
+- (void)reconsume:(__unused UTF32Char)character
 {
-    _reconsume = character;
-}
-
-- (NSScanner *)scannerAtCurrentScanLocation
-{
-    NSScanner *scanner = [NSScanner scannerWithString:_string];
-    scanner.scanLocation = _scanLocation;
-    scanner.charactersToBeSkipped = nil;
-    scanner.caseSensitive = YES;
-    return scanner;
+    [_inputStream reconsumeCurrentInputCharacter];
 }
 
 - (void)emit:(id)token
@@ -2323,14 +2190,14 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)emitCharacterToken:(UTF32Char)character
 {
-    [self emit:[[HTMLCharacterToken alloc] initWithData:character]];
+    [self emit:[[HTMLCharacterToken alloc] initWithString:StringWithLongCharacter(character)]];
 }
 
-- (void)emitCharacterTokensWithString:(NSString *)string
+- (void)emitCharacterTokenWithString:(NSString *)string
 {
-    EnumerateLongCharacters(string, ^(UTF32Char character) {
-        [self emitCharacterToken:character];
-    });
+    if (string.length > 0) {
+        [self emit:[[HTMLCharacterToken alloc] initWithString:string]];
+    }
 }
 
 - (void)emitCurrentToken
@@ -2358,45 +2225,38 @@ static inline BOOL is_lower(NSInteger c)
 
 - (NSString *)attemptToConsumeCharacterReferenceIsPartOfAnAttribute:(BOOL)partOfAnAttribute
 {
-    if (_scanLocation == NSNotFound) return nil;
-    NSUInteger initialScanLocation = _scanLocation;
-    unichar nextInputCharacter = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation);
-    if (_additionalAllowedCharacter != NSNotFound && nextInputCharacter == _additionalAllowedCharacter) {
+    UTF32Char c = _inputStream.nextInputCharacter;
+    if (c == _additionalAllowedCharacter) {
         return nil;
     }
-    switch (nextInputCharacter) {
+    switch (c) {
         case '\t':
         case '\n':
         case '\f':
         case ' ':
         case '<':
         case '&':
+        case EOF:
             return nil;
         case '#': {
-            NSScanner *scanner = [self scannerAtCurrentScanLocation];
-            scanner.caseSensitive = NO;
-            [scanner scanString:@"#" intoString:nil];
-            BOOL hex = [scanner scanString:@"x" intoString:nil];
+            [_inputStream consumeNextInputCharacter];
+            BOOL hex = [_inputStream consumeString:@"X" matchingCase:NO];
             unsigned int number;
             BOOL ok;
             if (hex) {
-                ok = [scanner scanHexInt:&number];
+                ok = [_inputStream consumeHexInt:&number];
             } else {
-                int scannedNumber;
-                ok = [scanner scanInt:&scannedNumber];
-                if (ok) {
-                    number = scannedNumber;
-                }
+                ok = [_inputStream consumeUnsignedInt:&number];
             }
             if (!ok) {
+                [_inputStream unconsumeInputCharacters:(hex ? 2 : 1)];
                 [self emitParseError:@"Numeric entity with no numbers"];
                 return nil;
             }
-            ok = [scanner scanString:@";" intoString:nil];
+            ok = [_inputStream consumeString:@";" matchingCase:YES];
             if (!ok) {
                 [self emitParseError:@"Missing semicolon for numeric entity"];
             }
-            _scanLocation = scanner.isAtEnd ? NSNotFound : scanner.scanLocation;
             ReplacementTable *found = Win1252TableLookup(number);
             if (found) {
                 [self emitParseError:@"Invalid numeric entity (has replacement)"];
@@ -2406,75 +2266,37 @@ static inline BOOL is_lower(NSInteger c)
                 [self emitParseError:@"Invalid numeric entity (outside valid Unicode range)"];
                 return @"\uFFFD";
             }
-            if ((number >= 0x0001 && number <= 0x0008) ||
-                (number >= 0x000E && number <= 0x001F) ||
-                (number >= 0x007F && number <= 0x009F) ||
-                (number >= 0xFDD0 && number <= 0xFDEF) ||
-                number == 0x000B ||
-                number == 0xFFFE || number == 0xFFFF ||
-                number == 0x1FFFE || number == 0x1FFFF ||
-                number == 0x2FFFE || number == 0x2FFFF ||
-                number == 0x3FFFE || number == 0x3FFFF ||
-                number == 0x4FFFE || number == 0x4FFFF ||
-                number == 0x5FFFE || number == 0x5FFFF ||
-                number == 0x6FFFE || number == 0x6FFFF ||
-                number == 0x7FFFE || number == 0x7FFFF ||
-                number == 0x8FFFE || number == 0x8FFFF ||
-                number == 0x9FFFE || number == 0x9FFFF ||
-                number == 0xAFFFE || number == 0xAFFFF ||
-                number == 0xBFFFE || number == 0xBFFFF ||
-                number == 0xCFFFE || number == 0xCFFFF ||
-                number == 0xDFFFE || number == 0xDFFFF ||
-                number == 0xEFFFE || number == 0xEFFFF ||
-                number == 0xFFFFE || number == 0xFFFFF ||
-                number == 0x10FFFE || number == 0x10FFFF)
-            {
+            if (is_undefined_or_disallowed(number)) {
                 [self emitParseError:@"Invalid numeric entity (in bad Unicode range)"];
             }
-            unichar surrogates[2];
-            if (CFStringGetSurrogatePairForLongCharacter(number, surrogates)) {
-                return [NSString stringWithFormat:@"%C%C", surrogates[0], surrogates[1]];
-            } else {
-                return [NSString stringWithFormat:@"%C", surrogates[0]];
-            }
+            return StringWithLongCharacter(number);
         }
         default: {
-            NSRange range = NSMakeRange(_scanLocation, LongestReferenceNameLength);
-            if (NSMaxRange(range) > _string.length) {
-                range.length = _string.length - range.location;
-            }
-            NSString *substring = [_string substringWithRange:range];
+            NSString *substring = [_inputStream nextUnprocessedCharactersWithMaximumLength:LongestReferenceNameLength];
             NamedReferenceTable *longestMatch = LongestNamedReferencePrefix(substring);
-            if (longestMatch) {
-                _scanLocation += longestMatch->name.length;
-                if (_scanLocation >= _string.length) {
-                    _scanLocation = NSNotFound;
-                }
-                if (![longestMatch->name hasSuffix:@";"]) {
-                    if (partOfAnAttribute) {
-                        if (_scanLocation != NSNotFound) {
-                            unichar next = CFStringGetCharacterFromInlineBuffer(&_buffer, _scanLocation);
-                            if (next == '=' || [[NSCharacterSet alphanumericCharacterSet] characterIsMember:next]) {
-                                _scanLocation = initialScanLocation;
-                                if (next == '=') {
-                                    [self emitParseError:@"Named entity in attribute ending with ="];
-                                }
-                                return nil;
-                            }
-                        }
-                    }
-                    [self emitParseError:@"Named entity missing semicolon"];
-                }
-                return longestMatch->characters;
-            } else {
-                NSScanner *scanner = [self scannerAtCurrentScanLocation];
+            if (!longestMatch) {
+                NSScanner *scanner = [_inputStream unprocessedScanner];
                 NSCharacterSet *alphanumeric = [NSCharacterSet alphanumericCharacterSet];
                 if ([scanner scanCharactersFromSet:alphanumeric intoString:nil] && [scanner scanString:@";" intoString:nil]) {
                     [self emitParseError:@"Unknown named entity with semicolon"];
                 }
-                _scanLocation = initialScanLocation;
                 return nil;
             }
+            [_inputStream consumeString:longestMatch->name matchingCase:YES];
+            if (![longestMatch->name hasSuffix:@";"] && partOfAnAttribute) {
+                UTF32Char next = _inputStream.nextInputCharacter;
+                if (next == '=' || [[NSCharacterSet alphanumericCharacterSet] characterIsMember:next]) {
+                    [_inputStream unconsumeInputCharacters:longestMatch->name.length];
+                    if (next == '=') {
+                        [self emitParseError:@"Named entity in attribute ending with ="];
+                    }
+                    return nil;
+                }
+            }
+            if (![longestMatch->name hasSuffix:@";"]) {
+                [self emitParseError:@"Named entity missing semicolon"];
+            }
+            return longestMatch->characters;
         }
     }
 }
@@ -4867,10 +4689,11 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
     _publicIdentifier = [string mutableCopy];
 }
 
-- (void)appendLongCharacterToPublicIdentifier:(UTF32Char)character
+- (void)appendStringToPublicIdentifier:(NSString *)string
 {
+    if (string.length == 0) return;
     if (!_publicIdentifier) _publicIdentifier = [NSMutableString new];
-    AppendLongCharacter(_publicIdentifier, character);
+    [_publicIdentifier appendString:string];
 }
 
 - (NSString *)systemIdentifier
@@ -4883,10 +4706,11 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
     _systemIdentifier = [string mutableCopy];
 }
 
-- (void)appendLongCharacterToSystemIdentifier:(UTF32Char)character
+- (void)appendStringToSystemIdentifier:(NSString *)string
 {
+    if (string.length == 0) return;
     if (!_systemIdentifier) _systemIdentifier = [NSMutableString new];
-    AppendLongCharacter(_systemIdentifier, character);
+    [_systemIdentifier appendString:string];
 }
 
 #pragma mark NSObject
@@ -5069,13 +4893,13 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 - (id)initWithData:(NSString *)data
 {
     if (!(self = [super init])) return nil;
-    _data = [NSMutableString stringWithString:data];
+    _data = [NSMutableString stringWithString:(data ?: @"")];
     return self;
 }
 
 - (id)init
 {
-    return [self initWithData:@""];
+    return [self initWithData:nil];
 }
 
 - (NSString *)data
@@ -5093,6 +4917,7 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 
 - (void)appendString:(NSString *)string
 {
+    if (string.length == 0) return;
     [_data appendString:string];
 }
 
@@ -5123,33 +4948,60 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 
 @implementation HTMLCharacterToken
 
-- (id)initWithData:(UTF32Char)data
+- (id)initWithString:(NSString *)string
 {
     if (!(self = [super init])) return nil;
-    _data = data;
+    _string = [string copy];
     return self;
+}
+
+- (instancetype)leadingWhitespaceToken
+{
+    CFRange range = CFRangeMake(0, self.string.length);
+    CFStringInlineBuffer buffer;
+    CFStringInitInlineBuffer((__bridge CFStringRef)self.string, &buffer, range);
+    for (CFIndex i = 0; i < range.length; i++) {
+        if (!is_whitespace(CFStringGetCharacterFromInlineBuffer(&buffer, i))) {
+            NSString *leadingWhitespace = [self.string substringToIndex:i];
+            if (leadingWhitespace.length > 0) {
+                return [[[self class] alloc] initWithString:leadingWhitespace];
+            } else {
+                return nil;
+            }
+        }
+    }
+    return self;
+}
+
+- (instancetype)afterLeadingWhitespaceToken
+{
+    CFRange range = CFRangeMake(0, self.string.length);
+    CFStringInlineBuffer buffer;
+    CFStringInitInlineBuffer((__bridge CFStringRef)self.string, &buffer, range);
+    for (CFIndex i = 0; i < range.length; i++) {
+        if (!is_whitespace(CFStringGetCharacterFromInlineBuffer(&buffer, i))) {
+            NSString *afterLeadingWhitespace = [self.string substringFromIndex:i];
+            return [[[self class] alloc] initWithString:afterLeadingWhitespace];
+        }
+    }
+    return nil;
 }
 
 #pragma mark NSObject
 
 - (NSString *)description
 {
-    NSMutableString *description = [NSMutableString new];
-    [description appendFormat:@"<%@: %p '", self.class, self];
-    AppendLongCharacter(description, self.data);
-    [description appendString:@"'>"];
-    return description;
+    return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.string];
 }
 
 - (BOOL)isEqual:(HTMLCharacterToken *)other
 {
-    return ([other isKindOfClass:[HTMLCharacterToken class]] &&
-            other.data == self.data);
+    return [other isKindOfClass:[HTMLCharacterToken class]] && [other.string isEqualToString:self.string];
 }
 
 - (NSUInteger)hash
 {
-    return self.data;
+    return self.string.hash;
 }
 
 @end

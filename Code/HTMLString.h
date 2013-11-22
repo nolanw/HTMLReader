@@ -21,3 +21,9 @@ extern inline void AppendLongCharacter(NSMutableString *self, UTF32Char characte
  * @param block The block to execute, which has no return value and takes a code point as its sole parameter.
  */
 extern void EnumerateLongCharacters(NSString *self, void (^block)(UTF32Char character));
+
+extern inline NSString * StringWithLongCharacter(UTF32Char character);
+
+extern inline BOOL is_whitespace(UTF32Char c);
+
+extern inline BOOL is_undefined_or_disallowed(UTF32Char c);

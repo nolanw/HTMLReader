@@ -33,7 +33,7 @@
 
 @property (readonly, assign, nonatomic) NSUInteger childNodeCount;
 
-- (void)insertCharacter:(UTF32Char)character atChildNodeIndex:(NSUInteger)childNodeIndex;
+- (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)childNodeIndex;
 
 @end
 
@@ -61,11 +61,6 @@
  */
 @interface HTMLTextNode (HTMLParser)
 
-/**
- * Append a character to this text node's data.
- *
- * @param character The character to append.
- */
-- (void)appendLongCharacter:(UTF32Char)character;
+- (void)appendString:(NSString *)string;
 
 @end

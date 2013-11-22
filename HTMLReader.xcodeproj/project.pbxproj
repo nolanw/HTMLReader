@@ -34,6 +34,8 @@
 		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
 		1CACE9E71783A95000754A8F /* HTMLAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E61783A95000754A8F /* HTMLAttribute.m */; };
 		1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
+		1CB0B960183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */; };
+		1CB0B961183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */; };
 		1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
 		1CC666AB17B0C82200E457E7 /* HTMLTreeTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeTraversalTests.m */; };
 		1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
@@ -98,6 +100,8 @@
 		1CACE9E61783A95000754A8F /* HTMLAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAttribute.m; sourceTree = "<group>"; };
 		1CACE9E81783AA6600754A8F /* HTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLString.h; sourceTree = "<group>"; };
 		1CACE9E91783AA6600754A8F /* HTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLString.m; sourceTree = "<group>"; };
+		1CB0B95D183F2C7100021DBE /* HTMLPreprocessedInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLPreprocessedInputStream.h; sourceTree = "<group>"; };
+		1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLPreprocessedInputStream.m; sourceTree = "<group>"; };
 		1CB61D2417BB671A00EE9653 /* HTMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLReader.h; sourceTree = "<group>"; };
 		1CB61D2717BB68F100EE9653 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		1CB61D2817BB7A2700EE9653 /* HTMLReader.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = HTMLReader.podspec; sourceTree = "<group>"; };
@@ -211,6 +215,8 @@
 				1CACE9E31783A92F00754A8F /* HTMLNode.m */,
 				1C25D40817837A8A00F7C10D /* HTMLParser.h */,
 				1C25D40917837A8A00F7C10D /* HTMLParser.m */,
+				1CB0B95D183F2C7100021DBE /* HTMLPreprocessedInputStream.h */,
+				1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */,
 				1CB61D2417BB671A00EE9653 /* HTMLReader.h */,
 				83C4518717BAFE3500C144DF /* HTMLSelector.h */,
 				83C4518817BAFE3500C144DF /* HTMLSelector.m */,
@@ -428,6 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB0B961183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
 				1C88296718369DF70051653C /* HTMLNode.m in Sources */,
 				1C88296918369DF70051653C /* HTMLSelector.m in Sources */,
 				1C88296B18369DF70051653C /* HTMLTokenizer.m in Sources */,
@@ -463,6 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB0B960183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
 				1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */,
 				83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */,
 				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,

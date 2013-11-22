@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     BOOL _framesetOkFlag;
     BOOL _ignoreNextTokenIfLineFeed;
     NSMutableArray *_activeFormattingElements;
-    NSMutableArray *_pendingTableCharacterTokens;
+    NSMutableString *_pendingTableCharacters;
     BOOL _fosterParenting;
     BOOL _done;
     BOOL _fragmentParsingAlgorithm;
@@ -166,17 +166,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     return [_errors copy];
 }
 
-static inline BOOL is_whitespace(UTF32Char c)
-{
-    return c == '\t' || c == '\n' || c == '\f' || c == ' ';
-}
-
 #pragma mark - The "initial" insertion mode
 
 - (void)initialInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (!is_whitespace(token.data)) {
-        [self initialInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *afterWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterWhitespace) {
+        [self initialInsertionModeHandleAnythingElse:afterWhitespace];
     }
 }
 
@@ -343,8 +339,9 @@ static inline BOOL is_whitespace(UTF32Char c)
 
 - (void)beforeHtmlInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (!is_whitespace(token.data)) {
-        [self beforeHtmlInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *afterWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterWhitespace) {
+        [self beforeHtmlInsertionModeHandleAnythingElse:afterWhitespace];
     }
 }
 
@@ -382,8 +379,9 @@ static inline BOOL is_whitespace(UTF32Char c)
 
 - (void)beforeHeadInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (!is_whitespace(token.data)) {
-        [self beforeHeadInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *afterWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterWhitespace) {
+        [self beforeHeadInsertionModeHandleAnythingElse:afterWhitespace];
     }
 }
 
@@ -431,10 +429,13 @@ static inline BOOL is_whitespace(UTF32Char c)
 
 - (void)inHeadInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self insertCharacter:token.data];
-    } else {
-        [self inHeadInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self insertString:leadingWhitespace.string];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self inHeadInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -500,10 +501,13 @@ static inline BOOL is_whitespace(UTF32Char c)
 
 - (void)afterHeadInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self insertCharacter:token.data];
-    } else {
-        [self afterHeadInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self insertString:leadingWhitespace.string];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self afterHeadInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -562,14 +566,17 @@ static inline BOOL is_whitespace(UTF32Char c)
 
 - (void)inBodyInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (token.data == '\0') {
+    NSUInteger startingLength = token.string.length;
+    NSString *string = [token.string stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+    for (NSUInteger i = 0, end = startingLength - string.length; i < end; i++) {
         [self addParseError:@"Ignoring U+0000 NULL in <body>"];
-    } else {
-        [self reconstructTheActiveFormattingElements];
-        [self insertCharacter:token.data];
-        if (!is_whitespace(token.data)) {
-            _framesetOkFlag = NO;
-        }
+    }
+    if (string.length == 0) return;
+    [self reconstructTheActiveFormattingElements];
+    [self insertString:string];
+    NSCharacterSet *nonWhitespaceSet = [[NSCharacterSet characterSetWithCharactersInString:@"\t\n\f\r "] invertedSet];
+    if ([string rangeOfCharacterFromSet:nonWhitespaceSet].location != NSNotFound) {
+        _framesetOkFlag = NO;
     }
 }
 
@@ -912,9 +919,7 @@ static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
                 break;
             }
         }
-        EnumerateLongCharacters(prompt, ^(UTF32Char character) {
-            [self insertCharacter:character];
-        });
+        [self insertString:prompt];
         HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input"];
         for (HTMLAttribute *attribute in token.attributes) {
             if (!StringIsEqualToAnyOf(attribute.name, @"name", @"action", @"prompt", nil)) {
@@ -1432,7 +1437,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)textInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    [self insertCharacter:token.data];
+    [self insertString:token.string];
 }
 
 - (void)textInsertionModeHandleEOFToken:(HTMLEOFToken *)token
@@ -1454,7 +1459,7 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 - (void)inTableInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
     if (StringIsEqualToAnyOf(self.currentNode.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr", nil)) {
-        _pendingTableCharacterTokens = [NSMutableArray new];
+        _pendingTableCharacters = [NSMutableString new];
         [self switchInsertionMode:HTMLInTableTextInsertionMode];
         [self reprocessToken:token];
     } else {
@@ -1592,28 +1597,22 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inTableTextInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (token.data == '\0') {
+    NSUInteger startingLength = token.string.length;
+    NSString *string = [token.string stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+    for (NSUInteger i = 0, end = startingLength - string.length; i < end; i++) {
         [self addParseError:@"Ignoring U+0000 NULL in <table> text"];
-    } else {
-        [_pendingTableCharacterTokens addObject:token];
     }
+    [_pendingTableCharacters appendString:string];
 }
 
 - (void)inTableTextInsertionModeHandleAnythingElse:(id)token
 {
-    NSUInteger firstNonSpace = [_pendingTableCharacterTokens indexOfObjectPassingTest:
-                                ^BOOL(HTMLCharacterToken *c, __unused NSUInteger _, __unused BOOL *__)
-    {
-        return !is_whitespace(c.data);
-    }];
-    if (firstNonSpace != NSNotFound) {
-        for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
-            [self inTableInsertionModeHandleAnythingElse:token];
-        }
+    NSCharacterSet *nonWhitespaceSet = [[NSCharacterSet characterSetWithCharactersInString:@" \t\n\f\r"] invertedSet];
+    if ([_pendingTableCharacters rangeOfCharacterFromSet:nonWhitespaceSet].location != NSNotFound) {
+        HTMLCharacterToken *characterToken = [[HTMLCharacterToken alloc] initWithString:_pendingTableCharacters];
+        [self inTableInsertionModeHandleAnythingElse:characterToken];
     } else {
-        for (HTMLCharacterToken *token in _pendingTableCharacterTokens) {
-            [self insertCharacter:token.data];
-        }
+        [self insertString:_pendingTableCharacters];
     }
     [self switchInsertionMode:_originalInsertionMode];
     [self reprocessToken:token];
@@ -1681,10 +1680,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inColumnGroupInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self insertCharacter:token.data];
-    } else {
-        [self inColumnGroupInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self insertString:leadingWhitespace.string];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self inColumnGroupInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -1952,10 +1954,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inSelectInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (token.data == '\0') {
+    NSUInteger startingLength = token.string.length;
+    NSString *string = [token.string stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+    for (NSUInteger i = 0, end = startingLength - string.length; i < end; i++) {
         [self addParseError:@"Ignoring U+0000 NULL in <select>"];
-    } else {
-        [self insertCharacter:token.data];
+    }
+    if (string.length > 0) {
+        [self insertString:string];
     }
 }
 
@@ -2107,10 +2112,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)afterBodyInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self processToken:token usingRulesForInsertionMode:HTMLInBodyInsertionMode];
-    } else {
-        [self afterBodyInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self processToken:leadingWhitespace usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self afterBodyInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -2162,10 +2170,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)inFramesetInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self insertCharacter:token.data];
-    } else {
-        [self inFramesetInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self insertString:leadingWhitespace.string];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self inFramesetInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -2232,10 +2243,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)afterFramesetInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self insertCharacter:token.data];
-    } else {
-        [self afterFramesetInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self insertString:leadingWhitespace.string];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self afterFramesetInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -2293,10 +2307,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)afterAfterBodyInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self processToken:token usingRulesForInsertionMode:HTMLInBodyInsertionMode];
-    } else {
-        [self afterAfterBodyInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self processToken:leadingWhitespace usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self afterAfterBodyInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -2335,10 +2352,13 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)afterAfterFramesetInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (is_whitespace(token.data)) {
-        [self processToken:token usingRulesForInsertionMode:HTMLInBodyInsertionMode];
-    } else {
-        [self afterAfterFramesetInsertionModeHandleAnythingElse:token];
+    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
+    if (leadingWhitespace) {
+        [self processToken:leadingWhitespace usingRulesForInsertionMode:HTMLInBodyInsertionMode];
+    }
+    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
+    if (afterLeadingWhitespace) {
+        [self afterAfterFramesetInsertionModeHandleAnythingElse:afterLeadingWhitespace];
     }
 }
 
@@ -2367,15 +2387,18 @@ static BOOL IsSpecialElement(HTMLElementNode *element)
 
 - (void)foreignContentInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    if (token.data == '\0') {
-        [self addParseError:@"U+0000 NULL character in foreign content"];
-        [self insertCharacter:0xFFFD];
-    } else {
-        [self insertCharacter:token.data];
-        if (!is_whitespace(token.data)) {
+    CFStringInlineBuffer buffer;
+    CFRange range = CFRangeMake(0, token.string.length);
+    CFStringInitInlineBuffer((__bridge CFStringRef)token.string, &buffer, range);
+    for (CFIndex i = 0; i < range.length; i++) {
+        unichar c = CFStringGetCharacterFromInlineBuffer(&buffer, i);
+        if (c == '\0') {
+            [self addParseError:@"U+0000 NULL character in foreign content"];
+        } else if (!is_whitespace(c)) {
             _framesetOkFlag = NO;
         }
     }
+    [self insertString:[token.string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
 }
 
 - (void)foreignContentInsertionModeHandleCommentToken:(HTMLCommentToken *)token
@@ -2683,10 +2706,14 @@ static BOOL IsHTMLIntegrationPoint(HTMLElementNode *node)
     }
     if (_ignoreNextTokenIfLineFeed) {
         _ignoreNextTokenIfLineFeed = NO;
-        if ([token isKindOfClass:[HTMLCharacterToken class]] &&
-            [(HTMLCharacterToken *)token data] == '\n')
-        {
-            return;
+        HTMLCharacterToken *characterToken = token;
+        if ([characterToken isKindOfClass:[HTMLCharacterToken class]] && [characterToken.string characterAtIndex:0] == '\n') {
+            NSString *string = [characterToken.string substringFromIndex:1];
+            if (string.length > 0) {
+                token = [[HTMLCharacterToken alloc] initWithString:string];
+            } else {
+                return;
+            }
         }
     }
     switch (insertionMode) {
@@ -3199,12 +3226,13 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
     [_stackOfOpenElements addObject:element];
 }
 
-- (void)insertCharacter:(UTF32Char)character
+- (void)insertString:(NSString *)string
 {
     NSUInteger index;
     HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
-    if ([adjustedInsertionLocation isKindOfClass:[HTMLDocument class]]) return;
-    [adjustedInsertionLocation insertCharacter:character atChildNodeIndex:index];
+    if (![adjustedInsertionLocation isKindOfClass:[HTMLDocument class]]) {
+        [adjustedInsertionLocation insertString:string atChildNodeIndex:index];
+    }
 }
 
 - (void)insertNode:(HTMLNode *)node atAppropriatePlaceWithOverrideTarget:(HTMLElementNode *)overrideTarget

@@ -7,6 +7,8 @@
 #import "HTMLParser.h"
 #import <objc/runtime.h>
 
+#define SHOUT_ABOUT_PARSE_ERRORS NO
+
 @interface HTMLTreeConstructionTest : NSObject
 
 @property (copy, nonatomic) NSString *data;
@@ -65,6 +67,8 @@
     [scanner scanUpToString:@"#errors\n" intoString:&data];
     if (data.length > 0) {
         data = [data substringToIndex:data.length - 1];
+    } else {
+        data = @"";
     }
     test.data = data;
     
@@ -203,7 +207,7 @@ static id NodeOrAttributeFromString(NSString *s)
                                      parser.document.recursiveDescription,
                                      [[test.expectedRootNodes valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]];
             XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, test.expectedRootNodes), @"%@", description);
-            if (parser.errors.count != test.expectedErrors.count) {
+            if (SHOUT_ABOUT_PARSE_ERRORS && parser.errors.count != test.expectedErrors.count) {
                 NSLog(@"-[HTMLTreeConstructionTests-%@ test%tu] ignoring mismatch in number (%tu) of parse errors:\n%@\n%tu expected:\n%@\n%@",
                       testName,
                       i,

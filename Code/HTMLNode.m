@@ -75,7 +75,7 @@
     }
 }
 
-- (void)insertCharacter:(UTF32Char)character atChildNodeIndex:(NSUInteger)index
+- (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)index
 {
     id candidate = index > 0 ? _childNodes[index - 1] : nil;
     HTMLTextNode *textNode;
@@ -85,7 +85,7 @@
         textNode = [HTMLTextNode new];
         [self insertChild:textNode atIndex:index];
     }
-    [textNode appendLongCharacter:character];
+    [textNode appendString:string];
 }
 
 - (NSArray *)childElementNodes
@@ -302,9 +302,9 @@
     return self;
 }
 
-- (void)appendLongCharacter:(UTF32Char)character
+- (void)appendString:(NSString *)string
 {
-    AppendLongCharacter(_data, character);
+    [_data appendString:string];
 }
 
 - (NSString *)data

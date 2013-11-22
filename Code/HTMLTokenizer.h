@@ -224,15 +224,23 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 
 /**
  * Returns an initialized HTMLCharacterToken. This is the designated initializer.
- *
- * @param data The code point represented by this token.
  */
-- (id)initWithData:(UTF32Char)data;
+- (id)initWithString:(NSString *)string;
 
 /**
- * The code point represented by this token.
+ * The code points represented by this token.
  */
-@property (readonly, nonatomic) UTF32Char data;
+@property (readonly, copy, nonatomic) NSString *string;
+
+/**
+ * Returns a token for the leading whitespace, or nil if there is no leading whitespace.
+ */
+- (instancetype)leadingWhitespaceToken;
+
+/**
+ * Returns a token for the characters after leading whitespace, or nil if the token is entirely whitespace.
+ */
+- (instancetype)afterLeadingWhitespaceToken;
 
 @end
 
