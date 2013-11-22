@@ -981,8 +981,6 @@ static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
         [self reconstructTheActiveFormattingElements];
         AdjustMathMLAttributesForToken(token);
         AdjustForeignAttributesForToken(token);
-        // SPEC The spec says to insert a foreign element for this token, which would avoid foster
-        //      parenting. That's not actually what's supposed to happen.
         HTMLElementNode *element = [self createElementForToken:token inNamespace:HTMLNamespaceMathML];
         [self insertElement:element];
         if (token.selfClosingFlag) {
@@ -992,8 +990,6 @@ static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
         [self reconstructTheActiveFormattingElements];
         AdjustSVGAttributesForToken(token);
         AdjustForeignAttributesForToken(token);
-        // SPEC The spec says to insert a foreign element for this token, which would avoid foster
-        //      parenting. That's not actually what's supposed to happen.
         HTMLElementNode *element = [self createElementForToken:token inNamespace:HTMLNamespaceSVG];
         [self insertElement:element];
         if (token.selfClosingFlag) {
