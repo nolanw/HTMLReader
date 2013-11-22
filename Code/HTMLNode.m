@@ -40,7 +40,7 @@
 
 - (NSArray *)childNodes
 {
-    return [_childNodes copy];
+    return _childNodes;
 }
 
 - (void)setChildNodes:(NSArray *)childNodes

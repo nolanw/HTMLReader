@@ -154,7 +154,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         while (_document.childNodeCount > 0) {
             [_document removeChild:_document.childNodes[0]];
         }
-        for (HTMLNode *child in root.childNodes) {
+        for (HTMLNode *child in [root.childNodes copy]) {
             [_document appendChild:child];
         }
     }
@@ -1320,7 +1320,7 @@ static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
         }
         [self insertNode:lastNode atAppropriatePlaceWithOverrideTarget:commonAncestor];
         HTMLElementNode *formattingClone = [formattingElement copy];
-        for (id childNode in furthestBlock.childNodes) {
+        for (id childNode in [furthestBlock.childNodes copy]) {
             [formattingClone appendChild:childNode];
         }
         [furthestBlock appendChild:formattingClone];
