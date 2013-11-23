@@ -433,7 +433,14 @@
 @implementation HTMLTreeEnumerator
 {
 	BOOL _isReversed;
-    NSIndexPath *_nextNodePath;
+    NSUInteger *_nextNodePath;
+    NSUInteger _nextNodePathCount;
+    NSUInteger _nextNodePathCapacity;
+}
+
+- (void)dealloc
+{
+    free(_nextNodePath);
 }
 
 - (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed
@@ -448,23 +455,28 @@
 {
     HTMLNode *currentNode = _node;
     if (!_nextNodePath) {
-        _nextNodePath = [NSIndexPath indexPathWithIndex:0];
+        _nextNodePathCapacity = 10;
+        _nextNodePath = calloc(_nextNodePathCapacity, sizeof(_nextNodePath[0]));
+        _nextNodePathCount = 1;
         return currentNode;
     }
-    for (NSUInteger i = 0; i < [_nextNodePath length] - 1; i++) {
-		NSInteger index = _isReversed ?  [currentNode childNodes].count - [_nextNodePath indexAtPosition:i] - 1 : [_nextNodePath indexAtPosition:i];
+    for (NSUInteger i = 0; i < _nextNodePathCount - 1; i++) {
+		NSInteger index = _isReversed ? currentNode.childNodes.count - _nextNodePath[i] - 1 : _nextNodePath[i];
         currentNode = currentNode.childNodes[index];
     }
-    NSUInteger lastIndex = [_nextNodePath indexAtPosition:[_nextNodePath length] - 1];
-    if (lastIndex >= [currentNode.childNodes count]) {
-        NSIndexPath *chopped = [_nextNodePath indexPathByRemovingLastIndex];
-        if ([chopped length] == 0) return nil;
-        NSUInteger newLast = [chopped indexAtPosition:[chopped length] - 1];
-        _nextNodePath = [[chopped indexPathByRemovingLastIndex] indexPathByAddingIndex:newLast + 1];
+    NSUInteger lastIndex = _nextNodePath[_nextNodePathCount - 1];
+    if (lastIndex >= currentNode.childNodes.count) {
+        _nextNodePathCount--;
+        if (_nextNodePathCount == 0) return nil;
+        _nextNodePath[_nextNodePathCount - 1]++;
         return [self nextObject];
     }
-    _nextNodePath = [_nextNodePath indexPathByAddingIndex:0];
-	NSInteger index = _isReversed ?  [currentNode childNodes].count - lastIndex - 1 :lastIndex;
+    if (_nextNodePathCount == _nextNodePathCapacity) {
+        _nextNodePathCapacity *= 2;
+        _nextNodePath = reallocf(_nextNodePath, _nextNodePathCapacity * sizeof(_nextNodePath[0]));
+    }
+    _nextNodePath[_nextNodePathCount++] = 0;
+	NSInteger index = _isReversed ? currentNode.childNodes.count - lastIndex - 1 : lastIndex;
     return currentNode.childNodes[index];
 }
 
