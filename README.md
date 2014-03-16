@@ -25,7 +25,7 @@ You have choices:
    `pod "HTMLReader", :git => "https://github.com/nolanw/HTMLReader"`
 * Clone this repository (perhaps add it as a submodule), add `HTMLReader.xcodeproj` to your project/workspace, and add `libHTMLReader.a` to your iOS target or `HTMLReader.framework` to your OS X target.
 
-HTMLReader has no dependencies other than Foundation. It is set to deploy on iOS 5 and OS X 10.7, though it's only tested regularly on iOS 7 and OS X 10.9.
+HTMLReader has no dependencies other than Foundation.
 
 [CocoaPods]: http://docs.cocoapods.org/podfile.html#pod
 
@@ -52,7 +52,11 @@ There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle d
 
 ## Does it work?
 
-HTMLReader continually runs [html5lib][html5lib-tests]'s tokenization and tree construction tests. Ignoring the tests for `<template>` (which HTMLReader does not implement), [![Build Status](https://travis-ci.org/nolanw/HTMLReader.png)](https://travis-ci.org/nolanw/HTMLReader).
+HTMLReader continually runs [html5lib][html5lib-tests]'s tokenization and tree construction tests, ignoring the tests for `<template>` (which HTMLReader does not implement).
+
+HTMLReader is continually tested on iOS 7 and OS X versions 10.8 and 10.9. It is continually built (but not tested, due to XCTest's availability) on iOS versions 6.1 and 5.1.
+
+Given all that:  [![Build Status](https://travis-ci.org/nolanw/HTMLReader.png?branch=master)](https://travis-ci.org/nolanw/HTMLReader)
 
 HTMLReader is used by at least [one shipping app][Awful].
 
