@@ -66,18 +66,18 @@
     return ok;
 }
 
-- (BOOL)consumeUnsignedInt:(out unsigned int *)number
+- (BOOL)consumeUnsignedInt:(out unsigned int *)outNumber
 {
     NSScanner *scanner = [self unprocessedScanner];
-    unsigned long long bigNumber;
-    BOOL ok = [scanner scanUnsignedLongLong:&bigNumber];
-    if (!ok) return NO;
+    long long number;
+    BOOL ok = [scanner scanLongLong:&number];
+    if (!ok || number < 0) return NO;
     _scanLocation = scanner.scanLocation;
-    if (number) {
-        if (bigNumber > UINT_MAX) {
-            *number = UINT_MAX;
+    if (outNumber) {
+        if (number > (long long)UINT_MAX) {
+            *outNumber = UINT_MAX;
         } else {
-            *number = (unsigned int)bigNumber;
+            *outNumber = (unsigned int)number;
         }
     }
     return ok;
