@@ -1,7 +1,14 @@
 language: objective-c
-xcode_project: HTMLReader.xcodeproj
-xcode_scheme: HTMLReader iOS
-xcode_sdk: iphonesimulator
+before_install:
+  - brew update
+  - brew install xctool || brew upgrade xctool
+env:
+  - TEST_SDK=iphonesimulator7.0
+  - TEST_SDK=iphonesimulator6.1 TEST_ACTION=build
+  - TEST_SDK=iphonesimulator5.1 TEST_ACTION=build
+  - TEST_SDK=macosx10.9 TEST_SCHEME="OS X"
+  - TEST_SDK=macosx10.8 TEST_SCHEME="OS X"
+script: xctool -project HTMLReader.xcodeproj -scheme "HTMLReader ${TEST_SCHEME:-iOS}" -sdk $TEST_SDK ${TEST_ACTION:-test}
 notifications:
   email:
     - nolan@nolanw.ca
