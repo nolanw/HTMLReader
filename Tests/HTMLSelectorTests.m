@@ -8,6 +8,11 @@
 
 extern HTMLNthExpression parseNth(NSString *nthString);
 
+BOOL HTMLNthExpressionEqualToExpression(HTMLNthExpression a, HTMLNthExpression b)
+{
+    return a.n == b.n && a.c == b.c;
+}
+
 @interface HTMLSelector (Private)
 
 @property (readonly) NSString *parsedEquivalent;
@@ -55,36 +60,36 @@ extern HTMLNthExpression parseNth(NSString *nthString);
 
 - (void)testNthParsing
 {
-	XCTAssertEqual(parseNth(@"odd"), HTMLNthExpressionOdd);
-	XCTAssertEqual(parseNth(@"even"), HTMLNthExpressionEven);
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"odd"), HTMLNthExpressionOdd));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"even"), HTMLNthExpressionEven));
 
-	XCTAssertEqual(parseNth(@"   odd    "), HTMLNthExpressionOdd);
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"   odd    "), HTMLNthExpressionOdd));
     
-    XCTAssertEqual(parseNth(@" oDD"), HTMLNthExpressionOdd);
-    XCTAssertEqual(parseNth(@"EVEN"), HTMLNthExpressionEven);
+    XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@" oDD"), HTMLNthExpressionOdd));
+    XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"EVEN"), HTMLNthExpressionEven));
 	
-	XCTAssertEqual(parseNth(@"2"), HTMLNthExpressionMake(0, 2));
-	XCTAssertEqual(parseNth(@"-2"), HTMLNthExpressionMake(0, -2));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2"), HTMLNthExpressionMake(0, 2)));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"-2"), HTMLNthExpressionMake(0, -2)));
 	
-	XCTAssertEqual(parseNth(@"n"), HTMLNthExpressionMake(1, 0));
-	XCTAssertEqual(parseNth(@"-n"), HTMLNthExpressionMake(-1, 0));
-	XCTAssertEqual(parseNth(@"2n"), HTMLNthExpressionMake(2, 0));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"n"), HTMLNthExpressionMake(1, 0)));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"-n"), HTMLNthExpressionMake(-1, 0)));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2n"), HTMLNthExpressionMake(2, 0)));
 	
-	XCTAssertEqual(parseNth(@"n + 1"), HTMLNthExpressionMake(1, 1));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"n + 1"), HTMLNthExpressionMake(1, 1)));
 	
-	XCTAssertEqual(parseNth(@"2n + 3"), HTMLNthExpressionMake(2, 3));
-	XCTAssertEqual(parseNth(@"2n - 3"), HTMLNthExpressionMake(2, -3));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2n + 3"), HTMLNthExpressionMake(2, 3)));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2n - 3"), HTMLNthExpressionMake(2, -3)));
     
-    XCTAssertEqual(parseNth(@"2n + 0"), HTMLNthExpressionMake(2, 0));
-    XCTAssertEqual(parseNth(@"2n - 0"), HTMLNthExpressionMake(2, 0));
+    XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2n + 0"), HTMLNthExpressionMake(2, 0)));
+    XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2n - 0"), HTMLNthExpressionMake(2, 0)));
     
-    XCTAssertEqual(parseNth(@"0n + 5"), HTMLNthExpressionMake(0, 5));
+    XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"0n + 5"), HTMLNthExpressionMake(0, 5)));
 
-	XCTAssertEqual(parseNth(@" - 3"), HTMLNthExpressionMake(0, -3));
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@" - 3"), HTMLNthExpressionMake(0, -3)));
 
-	XCTAssertEqual(parseNth(@"2 - 2n"), HTMLNthExpressionInvalid, @"bad order");
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2 - 2n"), HTMLNthExpressionInvalid), @"bad order");
     
-	XCTAssertEqual(parseNth(@"2n + 3b"), HTMLNthExpressionInvalid, @"bad character");
+	XCTAssertTrue(HTMLNthExpressionEqualToExpression(parseNth(@"2n + 3b"), HTMLNthExpressionInvalid), @"bad character");
 }
 
 #define TestMatchedElementIDs(selectorString, expectedIDs) do { \

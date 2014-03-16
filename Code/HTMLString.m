@@ -4,7 +4,7 @@
 
 #import "HTMLString.h"
 
-inline void AppendLongCharacter(NSMutableString *self, UTF32Char character)
+void AppendLongCharacter(NSMutableString *self, UTF32Char character)
 {
     unichar surrogates[2];
     Boolean two = CFStringGetSurrogatePairForLongCharacter(character, surrogates);
@@ -36,7 +36,7 @@ void EnumerateLongCharacters(NSString *self, void (^block)(UTF32Char character))
     }
 }
 
-inline NSString * StringWithLongCharacter(UTF32Char character)
+NSString * StringWithLongCharacter(UTF32Char character)
 {
     unichar surrogates[2];
     if (CFStringGetSurrogatePairForLongCharacter(character, surrogates)) {
@@ -46,12 +46,12 @@ inline NSString * StringWithLongCharacter(UTF32Char character)
     }
 }
 
-inline BOOL is_whitespace(UTF32Char c)
+BOOL is_whitespace(UTF32Char c)
 {
     return c == '\t' || c == '\n' || c == '\f' || c == ' ';
 }
 
-inline BOOL is_undefined_or_disallowed(UTF32Char c)
+BOOL is_undefined_or_disallowed(UTF32Char c)
 {
     return ((c >= 0x0001 && c <= 0x0008) ||
             (c >= 0x000E && c <= 0x001F) ||

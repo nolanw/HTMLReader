@@ -5,7 +5,6 @@
 #import "HTMLTestUtilities.h"
 #import "HTMLString.h"
 #import "HTMLTokenizer.h"
-#import <objc/runtime.h>
 
 @interface HTMLTokenizerTest : NSObject
 

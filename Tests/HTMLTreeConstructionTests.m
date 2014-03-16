@@ -5,7 +5,6 @@
 #import "HTMLTestUtilities.h"
 #import "HTMLMutability.h"
 #import "HTMLParser.h"
-#import <objc/runtime.h>
 
 #define SHOUT_ABOUT_PARSE_ERRORS NO
 

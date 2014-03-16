@@ -12,7 +12,7 @@
  * @param self The NSMutableString that will get a character.
  * @param character The character to append.
  */
-extern inline void AppendLongCharacter(NSMutableString *self, UTF32Char character);
+extern void AppendLongCharacter(NSMutableString *self, UTF32Char character);
 
 /**
  * Execute a block on every Unicode code point in a string. This takes care of code points that require the use of surrogate pairs.
@@ -22,8 +22,8 @@ extern inline void AppendLongCharacter(NSMutableString *self, UTF32Char characte
  */
 extern void EnumerateLongCharacters(NSString *self, void (^block)(UTF32Char character));
 
-extern inline NSString * StringWithLongCharacter(UTF32Char character);
+extern NSString * StringWithLongCharacter(UTF32Char character);
 
-extern inline BOOL is_whitespace(UTF32Char c);
+extern BOOL is_whitespace(UTF32Char c);
 
-extern inline BOOL is_undefined_or_disallowed(UTF32Char c);
+extern BOOL is_undefined_or_disallowed(UTF32Char c);
