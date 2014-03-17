@@ -3,62 +3,50 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLElement.h"
-
-@interface HTMLElement ()
-
-@property (assign, nonatomic) HTMLNamespace namespace;
-
-@end
+#import "HTMLOrderedDictionary.h"
 
 @implementation HTMLElement
 {
-    NSMutableArray *_attributes;
+    HTMLOrderedDictionary *_attributes;
 }
 
-- (id)initWithTagName:(NSString *)tagName
+- (id)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
 {
     self = [super init];
     if (!self) return nil;
     
     _tagName = [tagName copy];
-    _attributes = [NSMutableArray new];
+    _attributes = [HTMLOrderedDictionary new];
+    [_attributes addEntriesFromDictionary:attributes];
     
     return self;
 }
 
 - (id)init
 {
-    return [self initWithTagName:nil];
+    return [self initWithTagName:nil attributes:nil];
 }
 
 #pragma mark Element Attributes
 
-- (NSArray *)attributes
+- (NSDictionary *)attributes
 {
     return [_attributes copy];
 }
 
-- (void)addAttribute:(HTMLAttribute *)attribute
+- (id)objectForKeyedSubscript:(id)attributeName
 {
-    [_attributes addObject:attribute];
+    return _attributes[attributeName];
 }
 
-- (HTMLAttribute*)attributeNamed:(NSString*)name
+- (void)setObject:(NSString *)attributeValue forKeyedSubscript:(NSString *)attributeName
 {
-	for (HTMLAttribute *attribute in _attributes)
-	{
-		if ([[attribute name] compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame)
-		{
-			return attribute;
-		}
-	}
-	
-	return nil;
+    _attributes[attributeName] = attributeValue;
 }
 
-- (id)objectForKeyedSubscript:(NSString *)key
+- (void)removeAttributeWithName:(NSString *)attributeName
 {
-    return [self attributeNamed:key].value;
+    [_attributes removeObjectForKey:attributeName];
 }
 
 #pragma mark NSCopying
@@ -67,7 +55,7 @@
 {
     HTMLElement *copy = [super copyWithZone:zone];
     copy->_tagName = self.tagName;
-    copy->_attributes = [NSMutableArray arrayWithArray:_attributes];
+    copy->_attributes = [_attributes copy];
     return copy;
 }
 

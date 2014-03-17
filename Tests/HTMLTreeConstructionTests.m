@@ -100,9 +100,11 @@
         }
         NSString *nodeString;
         [scanner scanUpToString:@"\n| " intoString:&nodeString];
-        id nodeOrAttribute = NodeOrAttributeFromString(nodeString);
-        if ([nodeOrAttribute isKindOfClass:[HTMLAttribute class]]) {
-            [stack.lastObject addAttribute:nodeOrAttribute];
+        id nodeOrAttribute = NodeOrAttributeNameValuePairFromString(nodeString);
+        if ([nodeOrAttribute isKindOfClass:[NSArray class]]) {
+            HTMLElement *element = stack.lastObject;
+            NSArray *nameValuePair = nodeOrAttribute;
+            element[nameValuePair[0]] = nameValuePair[1];
         } else if (stack.count > 0) {
             [stack.lastObject appendChild:nodeOrAttribute];
         } else {
@@ -117,7 +119,7 @@
     return test;
 }
 
-static id NodeOrAttributeFromString(NSString *s)
+static id NodeOrAttributeNameValuePairFromString(NSString *s)
 {
     NSScanner *scanner = [NSScanner scannerWithString:s];
     scanner.charactersToBeSkipped = nil;
@@ -161,7 +163,7 @@ static id NodeOrAttributeFromString(NSString *s)
         NSArray *parts = [tagNameString componentsSeparatedByString:@" "];
         NSString *tagName = parts.count == 2 ? parts[1] : parts[0];
         NSString *namespace = parts.count == 2 ? parts[0] : nil;
-        HTMLElement *node = [[HTMLElement alloc] initWithTagName:tagName];
+        HTMLElement *node = [[HTMLElement alloc] initWithTagName:tagName attributes:nil];
         if ([namespace isEqualToString:@"svg"]) {
             node.namespace = HTMLNamespaceSVG;
         } else if ([namespace isEqualToString:@"math"]) {
@@ -169,20 +171,19 @@ static id NodeOrAttributeFromString(NSString *s)
         }
         return node;
     } else {
-        NSString *attributeNameString;
-        [scanner scanUpToString:@"=" intoString:&attributeNameString];
-        NSArray *parts = [attributeNameString componentsSeparatedByString:@" "];
-        NSString *prefix = parts.count == 2 ? parts[0] : nil;
-        NSString *name = parts.count == 2 ? parts[1] : parts[0];
+        NSString *name;
+        [scanner scanUpToString:@"=" intoString:&name];
+        NSRange space = [name rangeOfString:@" "];
+        if (space.location != NSNotFound) {
+            NSString *prefix = [name substringToIndex:space.location];
+            NSString *localName = [name substringFromIndex:NSMaxRange(space)];
+            name = [NSString stringWithFormat:@"%@:%@", prefix, localName];
+        }
         [scanner scanString:@"=\"" intoString:nil];
         NSUInteger endOfValue = [s rangeOfString:@"\"" options:NSBackwardsSearch].location;
         NSRange rangeOfValue = NSMakeRange(scanner.scanLocation, endOfValue - scanner.scanLocation);
         NSString *value = [s substringWithRange:rangeOfValue];
-        if (prefix) {
-            return [[HTMLNamespacedAttribute alloc] initWithPrefix:prefix name:name value:value];
-        } else {
-            return [[HTMLAttribute alloc] initWithName:name value:value];
-        }
+        return @[ name, value ];
     }
 }
 
@@ -197,7 +198,7 @@ static id NodeOrAttributeFromString(NSString *s)
             HTMLTreeConstructionTest *test = [self testWithSingleTestString:singleTestString];
             HTMLParser *parser;
             if (test.documentFragment) {
-                HTMLElement *context = [[HTMLElement alloc] initWithTagName:test.documentFragment];
+                HTMLElement *context = [[HTMLElement alloc] initWithTagName:test.documentFragment attributes:nil];
                 parser = [[HTMLParser alloc] initWithString:test.data context:context];
             } else {
                 parser = [[HTMLParser alloc] initWithString:test.data];
@@ -228,10 +229,7 @@ BOOL TreesAreTestEquivalent(id aThing, id bThing)
         if (![bThing isKindOfClass:[HTMLElement class]]) return NO;
         HTMLElement *a = aThing, *b = bThing;
         if (![a.tagName isEqualToString:b.tagName]) return NO;
-        NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES] ];
-        NSArray *sortedAAttributes = [a.attributes sortedArrayUsingDescriptors:descriptors];
-        NSArray *sortedBAttributes = [b.attributes sortedArrayUsingDescriptors:descriptors];
-        if (![sortedAAttributes isEqualToArray:sortedBAttributes]) return NO;
+        if (![a.attributes isEqual:b.attributes]) return NO;
         return TreesAreTestEquivalent(a.childNodes, b.childNodes);
     } else if ([aThing isKindOfClass:[HTMLTextNode class]]) {
         if (![bThing isKindOfClass:[HTMLTextNode class]]) return NO;

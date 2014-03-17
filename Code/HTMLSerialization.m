@@ -96,55 +96,68 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
 
 - (NSString *)description
 {
-    NSString *namespace = @"";
+    NSMutableString *description = [NSMutableString new];
+    [description appendFormat:@"<%@: %p <", self.class, self];
+    
     if (self.namespace == HTMLNamespaceMathML) {
-        namespace = @"math ";
+        [description appendString:@"math "];
     } else if (self.namespace == HTMLNamespaceSVG) {
-        namespace = @"svg ";
+        [description appendString:@"svg "];
     }
-    NSString *attributes = @"";
-    if (self.attributes.count > 0) {
-        attributes = [[self.attributes valueForKey:@"keyValueDescription"] componentsJoinedByString:@" "];
-        attributes = [@" " stringByAppendingString:attributes];
+    
+    [description appendString:self.tagName];
+    
+    [self.attributes enumerateKeysAndObjectsUsingBlock:^(id name, id value, BOOL *stop) {
+        [description appendFormat:@" %@=\"%@\"", name, value];
+    }];
+    
+    [description appendFormat:@"> %@ child", @(self.childNodeCount)];
+    if (self.childNodeCount != 1) {
+        [description appendString:@"ren"];
     }
-    return [NSString stringWithFormat:@"<%@: %p <%@%@%@> %@ child node%@>", self.class, self,
-            namespace, self.tagName, attributes,
-            @(self.childNodeCount), self.childNodeCount == 1 ? @"" : @"s"];
+    
+    [description appendString:@">"];
+    return description;
 }
 
 - (NSString *)serializedFragment
 {
-    NSMutableString *string = [NSMutableString stringWithFormat:@"<%@", self.tagName];
-    for (HTMLAttribute *attribute in self.attributes) {
-        NSString *serializedName = attribute.name;
-        if ([attribute isKindOfClass:[HTMLNamespacedAttribute class]]) {
-            HTMLNamespacedAttribute *namespacedAttribute = (HTMLNamespacedAttribute *)attribute;
-            if (!([namespacedAttribute.prefix isEqualToString:@"xmlns"] &&
-                  [namespacedAttribute.name isEqualToString:@"xmlns"])) {
-                serializedName = [NSString stringWithFormat:@"%@:%@",
-                                  namespacedAttribute.prefix, namespacedAttribute.name];
-            }
+    NSMutableString *fragment = [NSMutableString new];
+    [fragment appendFormat:@"<%@", self.tagName];
+    
+    [self.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *value, BOOL *stop) {
+        if ([name isEqualToString:@"xmlns:xmlns"]) {
+            name = @"xmlns";
         }
-        NSString *escapedValue = [attribute.value stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-        escapedValue = [escapedValue stringByReplacingOccurrencesOfString:@"\u00A0" withString:@"&nbsp;"];
-        escapedValue = [escapedValue stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
-        [string appendFormat:@" %@=\"%@\"", serializedName, escapedValue];
-    }
-    [string appendString:@">"];
+        NSMutableString *escapedValue = [value mutableCopy];
+        void (^replace)(id, id) = ^(NSString *search, NSString *replace) {
+            NSRange range = NSMakeRange(0, escapedValue.length);
+            [escapedValue replaceOccurrencesOfString:search withString:replace options:0 range:range];
+        };
+        replace(@"&", @"&amp;");
+        replace(@"\u00A0", @"&nbsp;");
+        replace(@"\"", @"&quot;");
+        [fragment appendFormat:@" %@=\"%@\"", name, escapedValue];
+    }];
+
+    [fragment appendString:@">"];
+    
     if (StringIsEqualToAnyOf(self.tagName, @"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed", @"frame", @"hr", @"img", @"input", @"keygen", @"link", @"menuitem", @"meta", @"param", @"source", @"track", @"wbr")) {
-        return string;
+        return fragment;
     }
+    
     if (StringIsEqualToAnyOf(self.tagName, @"pre", @"textarea", @"listing")) {
         if ([self.childNodes.firstObject isKindOfClass:[HTMLTextNode class]]) {
             HTMLTextNode *textNode = self.childNodes.firstObject;
             if ([textNode.data hasPrefix:@"\n"]) {
-                [string appendString:@"\n"];
+                [fragment appendString:@"\n"];
             }
         }
     }
-    [string appendString:self.innerHTML];
-    [string appendFormat:@"</%@>", self.tagName];
-    return string;
+    
+    [fragment appendString:self.innerHTML];
+    [fragment appendFormat:@"</%@>", self.tagName];
+    return fragment;
 }
 
 @end

@@ -154,14 +154,14 @@ HTMLSelectorPredicateGen isEmptyPredicate(void)
 HTMLSelectorPredicateGen hasAttributePredicate(NSString *attributeName)
 {
 	return ^BOOL(HTMLElement *node) {
-		return !![node attributeNamed:attributeName];
+		return !!node[attributeName];
 	};
 }
 
 HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElement *node) {
-		return [[node attributeNamed:attributeName].value isEqualToString:attributeValue];
+		return [node[attributeName] isEqualToString:attributeValue];
 	};
 }
 
@@ -183,22 +183,22 @@ HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate
 HTMLSelectorPredicateGen attributeStartsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElement *node) {
-		return [[node attributeNamed:attributeName].value hasPrefix:attributeValue];
+		return [node[attributeName] hasPrefix:attributeValue];
 	};
 }
 
 HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^BOOL(HTMLElement *node) {
-        HTMLAttribute *attribute = [node attributeNamed:attributeName];
-		return attribute && [attribute.value rangeOfString:attributeValue].location != NSNotFound;
+        NSString *value = node[attributeName];
+		return value && [value rangeOfString:attributeValue].location != NSNotFound;
 	};
 }
 
 HTMLSelectorPredicateGen attributeEndsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElement *node) {
-		return [[node attributeNamed:attributeName].value hasSuffix:attributeValue];
+		return [node[attributeName] hasSuffix:attributeValue];
 	};
 }
 

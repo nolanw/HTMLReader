@@ -3,9 +3,8 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
-#import "HTMLAttribute.h"
 #import "HTMLDocument.h"
-#import "HTMLNode.h"
+#import "HTMLElement.h"
 
 /**
  * An HTMLParser parses HTML. It implements the tree construction phase.

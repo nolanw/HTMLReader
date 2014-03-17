@@ -11,9 +11,6 @@
 
 - (void)appendLongCharacterToTagName:(UTF32Char)character;
 
-- (void)addNewAttribute;
-- (BOOL)removeLastAttributeIfDuplicateName;
-
 @end
 
 @interface HTMLDOCTYPEToken ()
@@ -37,14 +34,6 @@
 
 @end
 
-@interface HTMLAttribute ()
-
-- (void)appendLongCharacterToName:(UTF32Char)character;
-- (void)appendLongCharacterToValue:(UTF32Char)character;
-- (void)appendStringToValue:(NSString *)string;
-
-@end
-
 @implementation HTMLTokenizer
 {
     HTMLPreprocessedInputStream *_inputStream;
@@ -53,7 +42,8 @@
     NSMutableString *_characterBuffer;
     id _currentToken;
     HTMLTokenizerState _sourceAttributeValueState;
-    HTMLAttribute *_currentAttribute;
+    NSMutableString *_currentAttributeName;
+    NSMutableString *_currentAttributeValue;
     NSMutableString *_temporaryBuffer;
     UTF32Char _additionalAllowedCharacter;
     NSString *_mostRecentEmittedStartTagName;
@@ -907,9 +897,8 @@ static inline BOOL is_lower(NSInteger c)
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in before attribute name state"];
-            [_currentToken addNewAttribute];
-            _currentAttribute = [_currentToken attributes].lastObject;
-            [_currentAttribute appendLongCharacterToName:0xFFFD];
+            _currentAttributeName = [NSMutableString new];
+            AppendLongCharacter(_currentAttributeName, 0xFFFD);
             [self switchToState:HTMLAttributeNameTokenizerState];
             break;
         case '"':
@@ -925,12 +914,11 @@ static inline BOOL is_lower(NSInteger c)
             break;
         default:
         anythingElse:
-            [_currentToken addNewAttribute];
-            _currentAttribute = [_currentToken attributes].lastObject;
+            _currentAttributeName = [NSMutableString new];
             if (is_upper(c)) {
-                [_currentAttribute appendLongCharacterToName:(UTF32Char)c + 0x0020];
+                AppendLongCharacter(_currentAttributeName, (UTF32Char)c + 0x0020);
             } else {
-                [_currentAttribute appendLongCharacterToName:(UTF32Char)c];
+                AppendLongCharacter(_currentAttributeName, (UTF32Char)c);
             }
             [self switchToState:HTMLAttributeNameTokenizerState];
             break;
@@ -948,18 +936,20 @@ static inline BOOL is_lower(NSInteger c)
             [self switchToState:HTMLAfterAttributeNameTokenizerState];
             break;
         case '/':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLSelfClosingStartTagTokenizerState];
             break;
         case '=':
             [self switchToState:HTMLBeforeAttributeValueTokenizerState];
             break;
         case '>':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in attribute name state"];
-            [_currentAttribute appendLongCharacterToName:0xFFFD];
+            AppendLongCharacter(_currentAttributeName, 0xFFFD);
             break;
         case '"':
         case '\'':
@@ -968,15 +958,16 @@ static inline BOOL is_lower(NSInteger c)
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in attribute name state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
         default:
         anythingElse:
             if (is_upper(c)) {
-                [_currentAttribute appendLongCharacterToName:(UTF32Char)c + 0x0020];
+                AppendLongCharacter(_currentAttributeName, (UTF32Char)c + 0x0020);
             } else {
-                [_currentAttribute appendLongCharacterToName:(UTF32Char)c];
+                AppendLongCharacter(_currentAttributeName, (UTF32Char)c);
             }
             break;
     }
@@ -992,20 +983,22 @@ static inline BOOL is_lower(NSInteger c)
         case ' ':
             break;
         case '/':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLSelfClosingStartTagTokenizerState];
             break;
         case '=':
             [self switchToState:HTMLBeforeAttributeValueTokenizerState];
             break;
         case '>':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in after attribute name state"];
-            [_currentToken addNewAttribute];
-            _currentAttribute = [_currentToken attributes].lastObject;
-            [_currentAttribute appendLongCharacterToName:0xFFFD];
+            [self addCurrentAttributeToCurrentToken];
+            _currentAttributeName = [NSMutableString new];
+            AppendLongCharacter(_currentAttributeName, 0xFFFD);
             [self switchToState:HTMLAttributeNameTokenizerState];
             break;
         case '"':
@@ -1015,17 +1008,18 @@ static inline BOOL is_lower(NSInteger c)
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in after attribute name state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
         default:
         anythingElse:
-            [_currentToken addNewAttribute];
-            _currentAttribute = [_currentToken attributes].lastObject;
+            [self addCurrentAttributeToCurrentToken];
+            _currentAttributeName = [NSMutableString new];
             if (is_upper(c)) {
-                [_currentAttribute appendLongCharacterToName:(UTF32Char)c + 0x0020];
+                AppendLongCharacter(_currentAttributeName, (UTF32Char)c + 0x0020);
             } else {
-                [_currentAttribute appendLongCharacterToName:(UTF32Char)c];
+                AppendLongCharacter(_currentAttributeName, (UTF32Char)c);
             }
             [self switchToState:HTMLAttributeNameTokenizerState];
             break;
@@ -1042,22 +1036,27 @@ static inline BOOL is_lower(NSInteger c)
         case ' ':
             break;
         case '"':
+            _currentAttributeValue = [NSMutableString new];
             [self switchToState:HTMLAttributeValueDoubleQuotedTokenizerState];
             break;
         case '&':
+            _currentAttributeValue = [NSMutableString new];
             [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
             [self reconsume:c];
             break;
         case '\'':
+            _currentAttributeValue = [NSMutableString new];
             [self switchToState:HTMLAttributeValueSingleQuotedTokenizerState];
             break;
         case '\0':
             [self emitParseError:@"U+0000 NULL in before attribute value state"];
-            [_currentAttribute appendLongCharacterToValue:0xFFFD];
+            _currentAttributeValue = [NSMutableString new];
+            AppendLongCharacter(_currentAttributeValue, 0xFFFD);
             [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
             break;
         case '>':
             [self emitParseError:@"Unexpected > in before attribute value state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             break;
@@ -1068,12 +1067,14 @@ static inline BOOL is_lower(NSInteger c)
             goto anythingElse;
         case EOF:
             [self emitParseError:@"EOF in before attribute value state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
         default:
         anythingElse:
-            [_currentAttribute appendLongCharacterToValue:(UTF32Char)c];
+            _currentAttributeValue = [NSMutableString new];
+            AppendLongCharacter(_currentAttributeValue, (UTF32Char)c);
             [self switchToState:HTMLAttributeValueUnquotedTokenizerState];
             break;
     }
@@ -1086,8 +1087,8 @@ static inline BOOL is_lower(NSInteger c)
             [self emitParseError:@"U+0000 NULL in attribute value double quoted state"];
         }
         return c == '"' || c == '&';
-    }];
-    [_currentAttribute appendStringToValue:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    }] ?: @"";
+    [_currentAttributeValue appendString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
     switch ([self consumeNextInputCharacter]) {
         case '"':
             return [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
@@ -1098,6 +1099,7 @@ static inline BOOL is_lower(NSInteger c)
             break;
         case EOF:
             [self emitParseError:@"EOF in attribute value double quoted state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
@@ -1111,8 +1113,8 @@ static inline BOOL is_lower(NSInteger c)
             [self emitParseError:@"U+0000 NULL in attribute value single quoted state"];
         }
         return c == '\'' || c == '&';
-    }];
-    [_currentAttribute appendStringToValue:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    }] ?: @"";
+    [_currentAttributeValue appendString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
     switch ([self consumeNextInputCharacter]) {
         case '\'':
             return [self switchToState:HTMLAfterAttributeValueQuotedTokenizerState];
@@ -1123,6 +1125,7 @@ static inline BOOL is_lower(NSInteger c)
             break;
         case EOF:
             [self emitParseError:@"EOF in attribute value single quoted state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
@@ -1138,13 +1141,14 @@ static inline BOOL is_lower(NSInteger c)
             [self emitParseError:@"Unexpected %c in attribute value unquoted state", (char)c];
         }
         return is_whitespace(c) || c == '&' || c == '>';
-    }];
-    [_currentAttribute appendStringToValue:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
+    }] ?: @"";
+    [_currentAttributeValue appendString:[string stringByReplacingOccurrencesOfString:@"\0" withString:@"\uFFFD"]];
     switch ([self consumeNextInputCharacter]) {
         case '\t':
         case '\n':
         case '\f':
         case ' ':
+            [self addCurrentAttributeToCurrentToken];
             return [self switchToState:HTMLBeforeAttributeNameTokenizerState];
         case '&':
             [self switchToState:HTMLCharacterReferenceInAttributeValueTokenizerState];
@@ -1152,11 +1156,13 @@ static inline BOOL is_lower(NSInteger c)
             _sourceAttributeValueState = HTMLAttributeValueUnquotedTokenizerState;
             break;
         case '>':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             break;
         case EOF:
             [self emitParseError:@"EOF in attribute value unquoted state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
@@ -1167,9 +1173,9 @@ static inline BOOL is_lower(NSInteger c)
 {
     NSString *characters = [self attemptToConsumeCharacterReferenceAsPartOfAnAttribute];
     if (characters) {
-        [_currentAttribute appendStringToValue:characters];
+        [_currentAttributeValue appendString:characters];
     } else {
-        [_currentAttribute appendLongCharacterToValue:'&'];
+        [_currentAttributeValue appendString:@"&"];
     }
     [self switchToState:_sourceAttributeValueState];
 }
@@ -1182,22 +1188,27 @@ static inline BOOL is_lower(NSInteger c)
         case '\n':
         case '\f':
         case ' ':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLBeforeAttributeNameTokenizerState];
             break;
         case '/':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLSelfClosingStartTagTokenizerState];
             break;
         case '>':
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self emitCurrentToken];
             break;
         case EOF:
             [self emitParseError:@"EOF in after attribute value quoted state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLDataTokenizerState];
             [self reconsume:EOF];
             break;
         default:
             [self emitParseError:@"Unexpected character in after attribute value quoted state"];
+            [self addCurrentAttributeToCurrentToken];
             [self switchToState:HTMLBeforeAttributeNameTokenizerState];
             [self reconsume:c];
             break;
@@ -2147,11 +2158,6 @@ static inline BOOL is_lower(NSInteger c)
 
 - (void)switchToState:(HTMLTokenizerState)state
 {
-    if (self.state == HTMLAttributeNameTokenizerState) {
-        if ([_currentToken removeLastAttributeIfDuplicateName]) {
-            [self emitParseError:@"Duplicate attribute"];
-        }
-    }
     self.state = state;
 }
 
@@ -2211,6 +2217,18 @@ static inline BOOL is_lower(NSInteger c)
     HTMLEndTagToken *token = _currentToken;
     return ([token isKindOfClass:[HTMLEndTagToken class]] &&
             [token.tagName isEqualToString:_mostRecentEmittedStartTagName]);
+}
+
+- (void)addCurrentAttributeToCurrentToken
+{
+    HTMLTagToken *token = _currentToken;
+    if (token.attributes[_currentAttributeName]) {
+        [self emitParseError:@"Duplicate attribute"];
+    } else {
+        token.attributes[_currentAttributeName] = _currentAttributeValue ?: @"";
+    }
+    _currentAttributeName = nil;
+    _currentAttributeValue = nil;
 }
 
 - (NSString *)attemptToConsumeCharacterReference
@@ -4736,36 +4754,27 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 {
     NSMutableString *_tagName;
     BOOL _selfClosingFlag;
-    NSMutableArray *_attributes;
 }
 
 - (id)init
 {
-    if (!(self = [super init])) return nil;
+    self = [super init];
+    if (!self) return nil;
+    
     _tagName = [NSMutableString new];
-    _attributes = [NSMutableArray new];
+    _attributes = [HTMLOrderedDictionary new];
+    
     return self;
 }
 
 - (id)initWithTagName:(NSString *)tagName
 {
-    if (!(self = [self init])) return nil;
+    self = [self init];
+    if (!self) return nil;
+    
     [_tagName setString:tagName];
+    
     return self;
-}
-
-- (void)addAttributeWithName:(NSString *)name value:(NSString *)value
-{
-    if (!_attributes) _attributes = [NSMutableArray new];
-    [_attributes addObject:[[HTMLAttribute alloc] initWithName:name value:value]];
-}
-
-- (void)replaceAttribute:(HTMLAttribute *)oldAttribute withAttribute:(HTMLAttribute *)newAttribute
-{
-    if (!_attributes) return;
-    NSUInteger i = [_attributes indexOfObject:oldAttribute];
-    if (i == NSNotFound) return;
-    [_attributes replaceObjectAtIndex:i withObject:newAttribute];
 }
 
 - (NSString *)tagName
@@ -4788,38 +4797,9 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
     _selfClosingFlag = flag;
 }
 
-- (NSArray *)attributes
-{
-    return [_attributes copy];
-}
-
-- (void)setAttributes:(NSArray *)attributes
-{
-    if (!_attributes) _attributes = [NSMutableArray new];
-    [_attributes setArray:attributes];
-}
-
 - (void)appendLongCharacterToTagName:(UTF32Char)character
 {
     AppendLongCharacter(_tagName, character);
-}
-
-- (void)addNewAttribute
-{
-    [_attributes addObject:[HTMLAttribute new]];
-}
-
-- (BOOL)removeLastAttributeIfDuplicateName
-{
-    if (_attributes.count <= 1) return NO;
-    NSString *lastAttributeName = [_attributes.lastObject name];
-    for (NSUInteger i = 0; i < _attributes.count - 1; i++) {
-        if ([[_attributes[i] name] isEqualToString:lastAttributeName]) {
-            [_attributes removeLastObject];
-            return YES;
-        }
-    }
-    return NO;
 }
 
 #pragma mark NSObject
@@ -4844,9 +4824,7 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 - (id)copyWithTagName:(NSString *)tagName
 {
     HTMLStartTagToken *copy = [[self.class alloc] initWithTagName:tagName];
-    for (HTMLAttribute *attribute in self.attributes) {
-        [copy addAttributeWithName:attribute.name value:attribute.value];
-    }
+    copy.attributes = self.attributes;
     copy.selfClosingFlag = self.selfClosingFlag;
     return copy;
 }
@@ -4855,15 +4833,16 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 
 - (NSString *)description
 {
-    NSArray *attributeDescriptions = [self.attributes valueForKey:@"keyValueDescription"];
-    return [NSString stringWithFormat:@"<%@: %p <%@%@%@> >", self.class, self, self.tagName,
-            self.attributes.count > 0 ? @" " : @"", [attributeDescriptions componentsJoinedByString:@" "]];
+    NSMutableString *attributeDescription = [NSMutableString new];
+    [self.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *value, BOOL *stop) {
+        [attributeDescription appendFormat:@" %@=\"%@\"", name, value];
+    }];
+    return [NSString stringWithFormat:@"<%@: %p <%@%@> >", self.class, self, self.tagName, attributeDescription];
 }
 
 - (BOOL)isEqual:(HTMLStartTagToken *)other
 {
-    return ([super isEqual:other] &&
-            [other isKindOfClass:[HTMLStartTagToken class]]);
+    return ([super isEqual:other] && [other isKindOfClass:[HTMLStartTagToken class]]);
 }
 
 @end

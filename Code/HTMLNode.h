@@ -3,7 +3,6 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
-#import "HTMLAttribute.h"
 
 /**
  * HTML knows of three namespaces.

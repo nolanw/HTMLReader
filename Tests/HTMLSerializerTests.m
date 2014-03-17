@@ -16,7 +16,7 @@
 
 - (void)testBareElement
 {
-    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"br"];
+    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"br" attributes:nil];
     XCTAssertEqualObjects(node.serializedFragment, @"<br>");
 }
 
@@ -25,9 +25,7 @@
 - (void)testAttributes
 {
     #define TestAttribute(input, expected) do { \
-        HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"span"]; \
-        HTMLAttribute *attribute = [[HTMLAttribute alloc] initWithName:@"title" value:(input)]; \
-        [node addAttribute:attribute]; \
+        HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"span" attributes:@{ @"title": (input) }]; \
         XCTAssertEqualObjects(node.serializedFragment, (expected)); \
     } while (0)
     
@@ -67,7 +65,7 @@
 
 - (void)testRCDATA
 {
-    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"script"];
+    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"script" attributes:nil];
     [node appendChild:[[HTMLTextNode alloc] initWithData:@"a<b>c&d"]];
     XCTAssertEqualObjects(node.serializedFragment, @"<script>a<b>c&d</script>");
 }

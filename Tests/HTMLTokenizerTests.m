@@ -57,7 +57,7 @@
         } else if ([tokenType isEqualToString:@"StartTag"]) {
             HTMLStartTagToken *startTag = [[HTMLStartTagToken alloc] initWithTagName:test[1]];
             for (NSString *name in test[2]) {
-                [startTag addAttributeWithName:name value:[test[2] objectForKey:name]];
+                startTag.attributes[name] = [test[2] objectForKey:name];
             }
             startTag.selfClosingFlag = [test count] == 4;
             [expectedTokens addObject:startTag];

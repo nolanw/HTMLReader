@@ -3,7 +3,7 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
-#import "HTMLAttribute.h"
+#import "HTMLOrderedDictionary.h"
 #import "HTMLParser.h"
 
 /**
@@ -150,25 +150,9 @@ typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 @property (copy, nonatomic) NSString *tagName;
 
 /**
- * The attributes of this tag, represented by instances of HTMLAttribute.
+ * A dictionary mapping HTMLAttributeName keys to NSString values.
  */
-@property (copy, nonatomic) NSArray *attributes;
-
-/**
- * Adds an attribute to this tag.
- *
- * @param name The name of the new attribute.
- * @param value The value of the new attribute.
- */
-- (void)addAttributeWithName:(NSString *)name value:(NSString *)value;
-
-/**
- * Exchanges one attribute for another.
- *
- * @param oldAttribute The attribute to remove.
- * @param newAttribute The attribute to add.
- */
-- (void)replaceAttribute:(HTMLAttribute *)oldAttribute withAttribute:(HTMLAttribute *)newAttribute;
+@property (copy, nonatomic) HTMLOrderedDictionary *attributes;
 
 /**
  * YES if this tag is a self-closing tag (<br/>), or NO otherwise (<br> or </br>).

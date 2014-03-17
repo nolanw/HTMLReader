@@ -127,7 +127,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     if (_document) return _document;
     _document = [HTMLDocument new];
     if (_fragmentParsingAlgorithm) {
-        HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html"];
+        HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html" attributes:nil];
         [_document appendChild:root];
         [_stackOfOpenElements setArray:@[ root ]];
         [self resetInsertionModeAppropriately];
@@ -366,7 +366,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 
 - (void)beforeHtmlInsertionModeHandleAnythingElse:(id)token
 {
-    HTMLElement *html = [[HTMLElement alloc] initWithTagName:@"html"];
+    HTMLElement *html = [[HTMLElement alloc] initWithTagName:@"html" attributes:nil];
     [_document appendChild:html];
     [_stackOfOpenElements addObject:html];
     [self switchInsertionMode:HTMLBeforeHeadInsertionMode];
@@ -591,9 +591,10 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     if ([token.tagName isEqualToString:@"html"]) {
         [self addParseError:@"Start tag named html in <body>"];
         HTMLElement *element = _stackOfOpenElements[0];
-        for (HTMLAttribute *attribute in token.attributes) {
-            if (![[element.attributes valueForKey:@"name"] containsObject:attribute.name]) {
-                [element addAttribute:attribute];
+        NSDictionary *attributes = token.attributes;
+        for (NSString *attributeName in attributes) {
+            if (!element[attributeName]) {
+                element[attributeName] = attributes[attributeName];
             }
         }
     } else if (StringIsEqualToAnyOf(token.tagName, @"base", @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"script", @"style", @"title")) {
@@ -607,9 +608,10 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         }
         _framesetOkFlag = NO;
         HTMLElement *body = _stackOfOpenElements[1];
-        for (HTMLAttribute *attribute in token.attributes) {
-            if (![[body.attributes valueForKey:@"name"] containsObject:attribute.name]) {
-                [body addAttribute:attribute];
+        NSDictionary *attributes = token.attributes;
+        for (NSString *attributeName in attributes) {
+            if (!body[attributeName]) {
+                body[attributeName] = attributes[attributeName];
             }
         }
     } else if ([token.tagName isEqualToString:@"frameset"]) {
@@ -785,14 +787,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         [self reconstructTheActiveFormattingElements];
         [self insertElementForToken:token];
         [_stackOfOpenElements removeLastObject];
-        HTMLAttribute *type;
-        for (HTMLAttribute *attribute in token.attributes) {
-            if ([attribute.name isEqualToString:@"type"]) {
-                type = attribute;
-                break;
-            }
-        }
-        if (!type || [type.value caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
+        NSString *type = token.attributes[@"type"];
+        if (!type || [type caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
             _framesetOkFlag = NO;
         }
     } else if (StringIsEqualToAnyOf(token.tagName, @"menuitem", @"param", @"source", @"track")) {
@@ -817,30 +813,23 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         }
         HTMLElement *form = [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"form"]];
         _formElementPointer = form;
-        for (HTMLAttribute *attribute in token.attributes) {
-            if ([attribute.name isEqualToString:@"action"]) {
-                [form addAttribute:attribute];
-            }
+        NSString *action = token.attributes[@"action"];
+        if (action) {
+            form[@"action"] = action;
         }
         [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"hr"]];
         [_stackOfOpenElements removeLastObject];
         [self reconstructTheActiveFormattingElements];
         [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"label"]];
-        NSString *prompt = @"This is a searchable index. Enter search keywords: ";
-        for (HTMLAttribute *attribute in token.attributes) {
-            if ([attribute.name isEqualToString:@"prompt"]) {
-                prompt = attribute.value;
-                break;
-            }
-        }
+        NSString *prompt = token.attributes[@"prompt"] ?: @"This is a searchable index. Enter search keywords: ";
         [self insertString:prompt];
         HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input"];
-        for (HTMLAttribute *attribute in token.attributes) {
-            if (!StringIsEqualToAnyOf(attribute.name, @"name", @"action", @"prompt")) {
-                [inputToken addAttributeWithName:attribute.name value:attribute.value];
+        [token.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *value, BOOL *stop) {
+            if (!(StringIsEqualToAnyOf(name, @"name", @"action", @"prompt"))) {
+                inputToken.attributes[name] = value;
             }
-        }
-        [inputToken addAttributeWithName:@"name" value:@"isindex"];
+        }];
+        inputToken.attributes[@"name"] = @"isindex";
         [self insertElementForToken:inputToken];
         [_stackOfOpenElements removeLastObject];
         [_stackOfOpenElements removeLastObject];
@@ -1261,14 +1250,8 @@ static BOOL IsSpecialElement(HTMLElement *element)
     } else if (StringIsEqualToAnyOf(token.tagName, @"style", @"script")) {
         [self processToken:token usingRulesForInsertionMode:HTMLInHeadInsertionMode];
     } else if ([token.tagName isEqualToString:@"input"]) {
-        HTMLAttribute *type;
-        for (HTMLAttribute *attribute in token.attributes) {
-            if ([attribute.name isEqualToString:@"type"]) {
-                type = attribute;
-                break;
-            }
-        }
-        if (!type || [type.value caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
+        NSString *type = token.attributes[@"type"];
+        if (!type || [type caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
             [self inTableInsertionModeHandleAnythingElse:token];
             return;
         }
@@ -2139,9 +2122,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
 - (void)foreignContentInsertionModeHandleStartTagToken:(HTMLStartTagToken *)token
 {
     if (StringIsEqualToAnyOf(token.tagName, @"b", @"big", @"blockquote", @"body", @"br", @"center", @"code", @"dd", @"div", @"dl",  @"dt", @"em", @"embed", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"hr", @"i",  @"img", @"li", @"listing", @"menu", @"meta", @"nobr", @"ol", @"p", @"pre", @"ruby", @"s",  @"small", @"span", @"strong", @"strike", @"sub", @"sup", @"table", @"tt", @"u", @"ul",  @"var") ||
-        ([token.tagName isEqualToString:@"font"] &&
-         [@[ @"color", @"face", @"size" ] firstObjectCommonWithArray:[token.attributes valueForKey:@"name"]]))
-    {
+        ([token.tagName isEqualToString:@"font"] && (token.attributes[@"color"] || token.attributes[@"face"] || token.attributes[@"size"]))) {
         [self addParseError:@"Unexpected HTML start tag token in foreign content"];
         if (_fragmentParsingAlgorithm) {
             [self foreignContentInsertionModeHandleAnyOtherStartTagToken:token];
@@ -2177,11 +2158,13 @@ static BOOL IsSpecialElement(HTMLElement *element)
 
 static void AdjustMathMLAttributesForToken(HTMLStartTagToken *token)
 {
-    NSUInteger i = [[token.attributes valueForKey:@"name"] indexOfObject:@"definitionurl"];
-    if (i == NSNotFound) return;
-    HTMLAttribute *old = token.attributes[i];
-    HTMLAttribute *new = [[HTMLAttribute alloc] initWithName:@"definitionURL" value:old.value];
-    [token replaceAttribute:old withAttribute:new];
+    NSString *lowercaseName = @"definitionurl";
+    NSUInteger i = [token.attributes indexOfKey:lowercaseName];
+    if (i != NSNotFound) {
+        NSString *value = token.attributes[lowercaseName];
+        [token.attributes removeObjectForKey:lowercaseName];
+        [token.attributes insertObject:value forKey:@"definitionURL" atIndex:i];
+    }
 }
 
 static void FixSVGTagNameCaseForToken(HTMLStartTagToken *token)
@@ -2294,37 +2277,17 @@ static void AdjustSVGAttributesForToken(HTMLStartTagToken *token)
         @"ychannelselector": @"yChannelSelector",
         @"zoomandpan": @"zoomAndPan",
     };
-    NSMutableArray *newAttributes = [NSMutableArray new];
-    for (HTMLAttribute *attribute in token.attributes) {
-        NSString *replacement = names[attribute.name];
-        if (replacement) {
-            [newAttributes addObject:[[HTMLAttribute alloc] initWithName:replacement
-                                                                   value:attribute.value]];
-        } else {
-            [newAttributes addObject:attribute];
-        }
-    }
+    HTMLOrderedDictionary *newAttributes = [HTMLOrderedDictionary new];
+    [token.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *value, BOOL *stop) {
+        NSString *newName = names[name] ?: name;
+        newAttributes[newName] = value;
+    }];
     token.attributes = newAttributes;
 }
 
 static void AdjustForeignAttributesForToken(HTMLStartTagToken *token)
 {
-    NSMutableArray *newAttributes = [NSMutableArray new];
-    NSArray *toAdjust = @[ @"xlink:actuate", @"xlink:arcrole", @"xlink:href", @"xlink:role",
-                           @"xlink:show", @"xlink:title", @"xlink:type", @"xml:base", @"xml:lang",
-                           @"xml:space", @"xmlns:xlink" ];
-    for (HTMLAttribute *attribute in token.attributes) {
-        if ([toAdjust containsObject:attribute.name]) {
-            NSArray *parts = [attribute.name componentsSeparatedByString:@":"];
-            HTMLAttribute *new = [[HTMLNamespacedAttribute alloc] initWithPrefix:parts[0]
-                                                                            name:parts[1]
-                                                                           value:attribute.value];
-            [newAttributes addObject:new];
-        } else {
-            [newAttributes addObject:attribute];
-        }
-    }
-    token.attributes = newAttributes;
+    // no-op; we really don't care about attribute namespace
 }
 
 - (void)foreignContentInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
@@ -2397,19 +2360,17 @@ static BOOL IsMathMLTextIntegrationPoint(HTMLElement *node)
 static BOOL IsHTMLIntegrationPoint(HTMLElement *node)
 {
     if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
+        
         // SPEC We're told that "an annotation-xml element in the MathML namespace whose *start tag
         //      token* had an attribute with the name 'encoding'..." (emphasis mine) is an HTML
         //      integration point. Here we're examining the element node's attributes instead. This
         //      seems like a distinction without a difference.
-        for (HTMLAttribute *attribute in node.attributes) {
-            if ([attribute.name isEqualToString:@"encoding"]) {
-                if ([attribute.value caseInsensitiveCompare:@"text/html"] == NSOrderedSame) {
-                    return YES;
-                } else if ([attribute.value caseInsensitiveCompare:@"application/xhtml+xml"] ==
-                           NSOrderedSame)
-                {
-                    return YES;
-                }
+        NSString *encoding = node.attributes[@"encoding"];
+        if (encoding) {
+            if ([encoding caseInsensitiveCompare:@"text/html"] == NSOrderedSame) {
+                return YES;
+            } else if ([encoding caseInsensitiveCompare:@"application/xhtml+xml"] == NSOrderedSame) {
+                return YES;
             }
         }
     } else if (node.namespace == HTMLNamespaceSVG) {
@@ -2919,13 +2880,10 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
     return [self createElementForToken:token inNamespace:HTMLNamespaceHTML];
 }
 
-- (HTMLElement *)createElementForToken:(id)token inNamespace:(HTMLNamespace)namespace
+- (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)namespace
 {
-    HTMLElement *element = [[HTMLElement alloc] initWithTagName:[token tagName]];
+    HTMLElement *element = [[HTMLElement alloc] initWithTagName:token.tagName attributes:token.attributes];
     element.namespace = namespace;
-    for (HTMLAttribute *attribute in [token attributes]) {
-        [element addAttribute:attribute];
-    }
     return element;
 }
 
@@ -2956,8 +2914,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 - (void)insertNode:(HTMLNode *)node atAppropriatePlaceWithOverrideTarget:(HTMLElement *)overrideTarget
 {
     NSUInteger i;
-    HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:overrideTarget
-                                                                           index:&i];
+    HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:overrideTarget index:&i];
     [parent insertChild:node atIndex:i];
 }
 
@@ -3044,13 +3001,10 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 - (void)pushElementOnToListOfActiveFormattingElements:(HTMLElement *)element
 {
     NSInteger alreadyPresent = 0;
-    NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    NSArray *sortedElementAttributes = [element.attributes sortedArrayUsingDescriptors:descriptors];
     for (HTMLElement *node in _activeFormattingElements.reverseObjectEnumerator.allObjects) {
         if ([node isEqual:[HTMLMarker marker]]) break;
         if (![node.tagName isEqualToString:element.tagName]) continue;
-        NSArray *sortedNodeAttributes = [node.attributes sortedArrayUsingDescriptors:descriptors];
-        if (![sortedElementAttributes isEqualToArray:sortedNodeAttributes]) continue;
+        if (![node.attributes isEqual:element.attributes]) continue;
         alreadyPresent += 1;
         if (alreadyPresent == 3) {
             [_activeFormattingElements removeObject:node];
@@ -3089,9 +3043,7 @@ advance:
 create:;
     HTMLElement *entry = _activeFormattingElements[entryIndex];
     HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:entry.tagName];
-    for (HTMLAttribute *attribute in entry.attributes) {
-        [token addAttributeWithName:attribute.name value:attribute.value];
-    }
+    [token.attributes addEntriesFromDictionary:entry.attributes];
     HTMLElement *newElement = [self insertElementForToken:token];
     [_activeFormattingElements replaceObjectAtIndex:entryIndex withObject:newElement];
     if (entryIndex + 1 != _activeFormattingElements.count) {
