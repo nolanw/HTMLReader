@@ -2,7 +2,8 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import "HTMLNode.h"
+#import <Foundation/Foundation.h>
+#import "HTMLElement.h"
 
 /**
  * The HTMLSelector class concisely locates a set of nodes in an HTMLDocument.
@@ -69,7 +70,7 @@ extern NSString * const HTMLSelectorLocationErrorKey;
 /**
  * Returns the first node matched by selectorString, or nil if there is no such node or the string could not be parsed.
  */
-- (HTMLElementNode *)firstNodeMatchingSelector:(NSString *)selectorString;
+- (HTMLElement *)firstNodeMatchingSelector:(NSString *)selectorString;
 
 /**
  * Returns the nodes matched by selector.
@@ -79,7 +80,7 @@ extern NSString * const HTMLSelectorLocationErrorKey;
 /**
  * Returns the first node matched by selector, or nil if there is no such node.
  */
-- (HTMLElementNode *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
+- (HTMLElement *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
 
 @end
 

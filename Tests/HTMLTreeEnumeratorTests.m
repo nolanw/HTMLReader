@@ -1,15 +1,15 @@
-//  HTMLTreeTraversalTests.m
+//  HTMLTreeEnumeratorTests.m
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <XCTest/XCTest.h>
 #import "HTMLParser.h"
 
-@interface HTMLTreeTraversalTests : XCTestCase
+@interface HTMLTreeEnumeratorTests : XCTestCase
 
 @end
 
-@implementation HTMLTreeTraversalTests
+@implementation HTMLTreeEnumeratorTests
 
 - (void)testSingleNode
 {

@@ -5,8 +5,9 @@
 // Implements CSS Selectors Level 3 http://www.w3.org/TR/css3-selectors/
 
 #import "HTMLSelector.h"
+#import "HTMLTextNode.h"
 
-typedef BOOL (^HTMLSelectorPredicate)(HTMLElementNode *node);
+typedef BOOL (^HTMLSelectorPredicate)(HTMLElement *node);
 typedef HTMLSelectorPredicate HTMLSelectorPredicateGen;
 
 static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
@@ -42,14 +43,14 @@ HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 {
 	if (!predicate) return nil;
 	
-	return ^BOOL(HTMLElementNode *node) {
+	return ^BOOL(HTMLElement *node) {
 		return !predicate(node);
 	};
 }
 
 HTMLSelectorPredicateGen neverPredicate(void)
 {
-    return ^(__unused HTMLElementNode *node) {
+    return ^(__unused HTMLElement *node) {
         return NO;
     };
 }
@@ -62,7 +63,7 @@ HTMLSelectorPredicateGen bothCombinatorPredicate(HTMLSelectorPredicate a, HTMLSe
 	//in parsing, so return nil here
 	if (!a || !b) return nil;
 	
-	return ^BOOL(HTMLElementNode *node)
+	return ^BOOL(HTMLElement *node)
 	{
 		return a(node) && b(node);
 	};
@@ -70,7 +71,7 @@ HTMLSelectorPredicateGen bothCombinatorPredicate(HTMLSelectorPredicate a, HTMLSe
 
 HTMLSelectorPredicateGen andCombinatorPredicate(NSArray *predicates)
 {
-    return ^(HTMLElementNode *node) {
+    return ^(HTMLElement *node) {
         for (HTMLSelectorPredicate predicate in predicates) {
             if (!predicate(node)) {
                 return NO;
@@ -82,7 +83,7 @@ HTMLSelectorPredicateGen andCombinatorPredicate(NSArray *predicates)
 
 HTMLSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
 {
-	return ^(HTMLElementNode *node) {
+	return ^(HTMLElement *node) {
 		for (HTMLSelectorPredicate predicate in predicates) {
 			if (predicate(node)) {
 				return YES;
@@ -95,11 +96,11 @@ HTMLSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
 HTMLSelectorPredicateGen isTagTypePredicate(NSString *tagType)
 {
 	if ([tagType isEqualToString:@"*"]) {
-		return ^(__unused HTMLElementNode *node) {
+		return ^(__unused HTMLElement *node) {
             return YES;
         };
 	} else {
-		return ^BOOL(HTMLElementNode *node) {
+		return ^BOOL(HTMLElement *node) {
 			return [node.tagName compare:tagType options:NSCaseInsensitiveSearch] == NSOrderedSame;
 		};
 	}
@@ -109,9 +110,9 @@ HTMLSelectorPredicateGen childOfOtherPredicatePredicate(HTMLSelectorPredicate pa
 {
 	if (!parentPredicate) return nil;
 	
-	return ^BOOL(HTMLElementNode *node) {
-		return ([node.parentNode isKindOfClass:[HTMLElementNode class]] &&
-                parentPredicate((HTMLElementNode *)node.parentNode));
+	return ^BOOL(HTMLElement *node) {
+		return ([node.parentNode isKindOfClass:[HTMLElement class]] &&
+                parentPredicate((HTMLElement *)node.parentNode));
 	};
 }
 
@@ -119,11 +120,11 @@ HTMLSelectorPredicateGen descendantOfPredicate(HTMLSelectorPredicate parentPredi
 {
 	if (!parentPredicate) return nil;
 	
-	return ^(HTMLElementNode *node) {
+	return ^(HTMLElement *node) {
 		HTMLNode *parentNode = node.parentNode;
 		while (parentNode) {
-			if ([parentNode isKindOfClass:[HTMLElementNode class]] &&
-                parentPredicate((HTMLElementNode *)parentNode)) {
+			if ([parentNode isKindOfClass:[HTMLElement class]] &&
+                parentPredicate((HTMLElement *)parentNode)) {
 				return YES;
 			}
 			parentNode = parentNode.parentNode;
@@ -134,9 +135,9 @@ HTMLSelectorPredicateGen descendantOfPredicate(HTMLSelectorPredicate parentPredi
 
 HTMLSelectorPredicateGen isEmptyPredicate(void)
 {
-	return ^BOOL(HTMLElementNode *node) {
+	return ^BOOL(HTMLElement *node) {
         for (HTMLNode *child in node.childNodes) {
-            if ([child isKindOfClass:[HTMLElementNode class]]) {
+            if ([child isKindOfClass:[HTMLElement class]]) {
                 return NO;
             } else if ([child isKindOfClass:[HTMLTextNode class]]) {
                 HTMLTextNode *textChild = (HTMLTextNode *)child;
@@ -152,14 +153,14 @@ HTMLSelectorPredicateGen isEmptyPredicate(void)
 
 HTMLSelectorPredicateGen hasAttributePredicate(NSString *attributeName)
 {
-	return ^BOOL(HTMLElementNode *node) {
+	return ^BOOL(HTMLElement *node) {
 		return !![node attributeNamed:attributeName];
 	};
 }
 
 HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NSString *attributeValue)
 {
-	return ^(HTMLElementNode *node) {
+	return ^(HTMLElement *node) {
 		return [[node attributeNamed:attributeName].value isEqualToString:attributeValue];
 	};
 }
@@ -173,7 +174,7 @@ static NSCharacterSet * SelectorsWhitespaceSet(void)
 HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate(NSString *attributeName, NSString *attributeValue)
 {
     NSCharacterSet *whitespace = SelectorsWhitespaceSet();
-    return ^(HTMLElementNode *node) {
+    return ^(HTMLElement *node) {
         NSArray *items = [node[attributeName] componentsSeparatedByCharactersInSet:whitespace];
         return [items containsObject:attributeValue];
     };
@@ -181,14 +182,14 @@ HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate
 
 HTMLSelectorPredicateGen attributeStartsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
-	return ^(HTMLElementNode *node) {
+	return ^(HTMLElement *node) {
 		return [[node attributeNamed:attributeName].value hasPrefix:attributeValue];
 	};
 }
 
 HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSString *attributeValue)
 {
-	return ^BOOL(HTMLElementNode *node) {
+	return ^BOOL(HTMLElement *node) {
         HTMLAttribute *attribute = [node attributeNamed:attributeName];
 		return attribute && [attribute.value rangeOfString:attributeValue].location != NSNotFound;
 	};
@@ -196,7 +197,7 @@ HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSS
 
 HTMLSelectorPredicateGen attributeEndsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
-	return ^(HTMLElementNode *node) {
+	return ^(HTMLElement *node) {
 		return [[node attributeNamed:attributeName].value hasSuffix:attributeValue];
 	};
 }
@@ -225,7 +226,7 @@ HTMLSelectorPredicateGen adjacentSiblingPredicate(HTMLSelectorPredicate siblingT
 {
 	if (!siblingTest) return nil;
 	
-	return ^BOOL(HTMLElementNode *node) {
+	return ^BOOL(HTMLElement *node) {
 		NSArray *parentChildren = node.parentNode.childElementNodes;
 		NSUInteger nodeIndex = [parentChildren indexOfObject:node];
 		return nodeIndex != 0 && siblingTest([parentChildren objectAtIndex:nodeIndex - 1]);
@@ -236,8 +237,8 @@ HTMLSelectorPredicateGen generalSiblingPredicate(HTMLSelectorPredicate siblingTe
 {
 	if (!siblingTest) return nil;
 	
-	return ^(HTMLElementNode *node) {
-		for (HTMLElementNode *sibling in node.parentNode.childElementNodes) {
+	return ^(HTMLElement *node) {
+		for (HTMLElement *sibling in node.parentNode.childElementNodes) {
 			if ([sibling isEqual:node]) {
 				break;
 			}
@@ -274,12 +275,12 @@ HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, HTMLSe
 {
 	if (!typePredicate) return nil;
 	
-	return ^BOOL(HTMLElementNode *node) {
+	return ^BOOL(HTMLElement *node) {
 		id <NSFastEnumeration> enumerator = (fromLast
                                              ? node.parentNode.childElementNodes.reverseObjectEnumerator
                                              : node.parentNode.childElementNodes);
 		NSInteger count = 0;
-		for (HTMLElementNode *currentNode in enumerator) {
+		for (HTMLElement *currentNode in enumerator) {
 			if (typePredicate(currentNode)) {
 				count++;
 			}
@@ -422,7 +423,7 @@ HTMLSelectorPredicateGen isOnlyChildOfTypePredicate(HTMLSelectorPredicate typePr
 
 HTMLSelectorPredicateGen isRootPredicate(void)
 {
-	return ^BOOL(HTMLElementNode *node)
+	return ^BOOL(HTMLElement *node)
 	{
 		return !node.parentNode;
 	};
@@ -868,7 +869,7 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 	return [self nodesMatchingParsedSelector:[HTMLSelector selectorForString:selectorString]];
 }
 
-- (HTMLElementNode *)firstNodeMatchingSelector:(NSString *)selectorString
+- (HTMLElement *)firstNodeMatchingSelector:(NSString *)selectorString
 {
     return [self firstNodeMatchingParsedSelector:[HTMLSelector selectorForString:selectorString]];
 }
@@ -878,20 +879,20 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 	NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
     
 	NSMutableArray *ret = [NSMutableArray new];
-	for (HTMLElementNode *node in self.treeEnumerator) {
-		if ([node isKindOfClass:[HTMLElementNode class]] && selector.predicate(node)) {
+	for (HTMLElement *node in self.treeEnumerator) {
+		if ([node isKindOfClass:[HTMLElement class]] && selector.predicate(node)) {
 			[ret addObject:node];
 		}
 	}
 	return ret;
 }
 
-- (HTMLElementNode *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector
+- (HTMLElement *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector
 {
     NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
     
-    for (HTMLElementNode *node in self.treeEnumerator) {
-        if ([node isKindOfClass:[HTMLElementNode class]] && selector.predicate(node)) {
+    for (HTMLElement *node in self.treeEnumerator) {
+        if ([node isKindOfClass:[HTMLElement class]] && selector.predicate(node)) {
             return node;
         }
     }

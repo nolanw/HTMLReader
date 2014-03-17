@@ -3,7 +3,8 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
-#import "HTMLNode.h"
+#import "HTMLDocumentType.h"
+#import "HTMLElement.h"
 
 /**
  * HTMLDocumentQuirksMode can change parts of the parsing algorithm.
@@ -43,16 +44,16 @@ typedef NS_ENUM(NSInteger, HTMLDocumentQuirksMode)
 /**
  * The document type node.
  */
-@property (nonatomic) HTMLDocumentTypeNode *doctype;
+@property (strong, nonatomic) HTMLDocumentType *documentType;
 
 /**
  * The document's quirks mode.
  */
-@property (nonatomic) HTMLDocumentQuirksMode quirksMode;
+@property (assign, nonatomic) HTMLDocumentQuirksMode quirksMode;
 
 /**
  * The root node (usually the <html> element node), ignoring the document type node and any root-level comment nodes.
  */
-@property (readonly, strong, nonatomic) HTMLElementNode *rootNode;
+@property (readonly, strong, nonatomic) HTMLElement *rootElement;
 
 @end

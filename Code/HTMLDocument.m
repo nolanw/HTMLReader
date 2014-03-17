@@ -12,10 +12,10 @@
     return [[HTMLParser alloc] initWithString:string].document;
 }
 
-- (HTMLElementNode *)rootNode
+- (HTMLElement *)rootElement
 {
-    for (HTMLElementNode *node in self.childNodes) {
-        if ([node isKindOfClass:[HTMLElementNode class]] && [node.tagName isEqualToString:@"html"]) {
+    for (HTMLElement *node in self.childNodes) {
+        if ([node isKindOfClass:[HTMLElement class]] && [node.tagName isEqualToString:@"html"]) {
             return node;
         }
     }

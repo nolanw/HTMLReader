@@ -64,139 +64,34 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 - (NSEnumerator *)reversedTreeEnumerator;
 
 /**
- * Returns an NSString describing the subtree rooted at this node.
- */
-- (NSString *)recursiveDescription;
-
-/**
  * Returns nil. See -[HTMLElementNode objectForKeyedSubscript:].
  */
 - (id)objectForKeyedSubscript:(id)key;
 
 /**
- * Returns the serialized HTML fragment of this node's children.
+ * Add a node to this node's children.
  *
- * This is what's described as "the HTML fragment serialization algorithm" by the spec.
+ * @param child The node to add.
  */
-- (NSString *)innerHTML;
+- (void)appendChild:(HTMLNode *)child;
 
 /**
- * Returns the serialized HTML fragment of this node. Subclasses must override.
- */
-- (NSString *)serializedFragment;
-
-@end
-
-/**
- * An HTMLElementNode represents a parsed element.
- */
-@interface HTMLElementNode : HTMLNode
-
-/**
- * Returns an initialized HTMLElementNode. This is the designated initializer.
+ * Insert a node into this node's children.
  *
- * @param tagName The name of this element.
+ * @param child The node to insert.
+ * @param index The index for the inserted node.
  */
-- (id)initWithTagName:(NSString *)tagName;
+- (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index;
 
 /**
- * This element's name.
- */
-@property (readonly, copy, nonatomic) NSString *tagName;
-
-/**
- * This element's attributes.
- */
-@property (readonly, copy, nonatomic) NSArray *attributes;
-
-/**
- * Returns an attribute on this element, or nil if no matching element is found.
+ * Remove a node from this node's children.
  *
- * @param name The name of the attribute to return.
+ * @param child The node to remove.
  */
-- (HTMLAttribute *)attributeNamed:(NSString *)name;
+- (void)removeChild:(HTMLNode *)child;
 
-/**
- * Returns the value of the attribute named `key`, or nil if no such value exists.
- *
- * Attributes by default have a value of the empty string.
- */
-- (id)objectForKeyedSubscript:(id)key;
+@property (readonly, assign, nonatomic) NSUInteger childNodeCount;
 
-/**
- * This element's namespace.
- */
-@property (readonly, assign, nonatomic) HTMLNamespace namespace;
-
-@end
-
-/**
- * An HTMLTextNode represents a contiguous sequence of one or more characters.
- */
-@interface HTMLTextNode : HTMLNode
-
-/**
- * Returns an initialized HTMLTextNode. This is the designated initializer.
- *
- * @param data The text.
- */
-- (id)initWithData:(NSString *)data;
-
-/**
- * The node's text.
- */
-@property (readonly, copy, nonatomic) NSString *data;
-
-@end
-
-/**
- * An HTMLCommentNode represents a comment.
- */
-@interface HTMLCommentNode : HTMLNode
-
-/**
- * Returns an initialized HTMLCommentNode. This is the designated initializer.
- *
- * @param data The comment text.
- */
-- (id)initWithData:(NSString *)data;
-
-/**
- * The comment's text.
- */
-@property (readonly, copy, nonatomic) NSString *data;
-
-@end
-
-/**
- * An HTMLDocumentTypeNode represents an archaic description of the standards an HTML document is meant to adhere to.
- *
- * The only valid document type is `<!doctype html>`.
- */
-@interface HTMLDocumentTypeNode : HTMLNode
-
-/**
- * Returns an initialized HTMLDocumentTypeNode.
- *
- * @param name The document type's name. May be nil.
- * @param publicId The document type's public identifier (the second part of the document type). May be nil.
- * @param systemId The document type's system identifier (the third part of the document type). May be nil.
- */
-- (id)initWithName:(NSString *)name publicId:(NSString *)publicId systemId:(NSString *)systemId;
-
-/**
- * The document type's name, or nil if it has no name.
- */
-@property (readonly, copy, nonatomic) NSString *name;
-
-/**
- * The document type's public identifier, or nil if it has no public identifier.
- */
-@property (readonly, copy, nonatomic) NSString *publicId;
-
-/**
- * The document type's system identifier, or nil if it has no system identifier.
- */
-@property (readonly, copy, nonatomic) NSString *systemId;
+- (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)childNodeIndex;
 
 @end

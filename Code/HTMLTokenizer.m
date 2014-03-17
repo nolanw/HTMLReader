@@ -33,7 +33,7 @@
 
 @interface HTMLParser ()
 
-@property (readonly, strong, nonatomic) HTMLElementNode *adjustedCurrentNode;
+@property (readonly, strong, nonatomic) HTMLElement *adjustedCurrentNode;
 
 @end
 

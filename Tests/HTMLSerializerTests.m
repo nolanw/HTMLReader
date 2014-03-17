@@ -5,8 +5,8 @@
 // TODO Use html5lib's serializer tests directly.
 
 #import <XCTest/XCTest.h>
-#import "HTMLNode.h"
-#import "HTMLMutability.h"
+#import "HTMLReader.h"
+#import "HTMLTextNode.h"
 
 @interface HTMLSerializerTests : XCTestCase
 
@@ -16,7 +16,7 @@
 
 - (void)testBareElement
 {
-    HTMLElementNode *node = [[HTMLElementNode alloc] initWithTagName:@"br"];
+    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"br"];
     XCTAssertEqualObjects(node.serializedFragment, @"<br>");
 }
 
@@ -25,7 +25,7 @@
 - (void)testAttributes
 {
     #define TestAttribute(input, expected) do { \
-        HTMLElementNode *node = [[HTMLElementNode alloc] initWithTagName:@"span"]; \
+        HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"span"]; \
         HTMLAttribute *attribute = [[HTMLAttribute alloc] initWithName:@"title" value:(input)]; \
         [node addAttribute:attribute]; \
         XCTAssertEqualObjects(node.serializedFragment, (expected)); \
@@ -49,7 +49,7 @@
 - (void)testDoctype
 {
     #define TestDoctype(name, public, system, expected) do { \
-        HTMLDocumentTypeNode *node = [[HTMLDocumentTypeNode alloc] initWithName:(name) publicId:(public) systemId:(system)]; \
+        HTMLDocumentType *node = [[HTMLDocumentType alloc] initWithName:(name) publicIdentifier:(public) systemIdentifier:(system)]; \
         XCTAssertEqualObjects(node.serializedFragment, (expected)); \
     } while (0)
     
@@ -67,7 +67,7 @@
 
 - (void)testRCDATA
 {
-    HTMLElementNode *node = [[HTMLElementNode alloc] initWithTagName:@"script"];
+    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"script"];
     [node appendChild:[[HTMLTextNode alloc] initWithData:@"a<b>c&d"]];
     XCTAssertEqualObjects(node.serializedFragment, @"<script>a<b>c&d</script>");
 }

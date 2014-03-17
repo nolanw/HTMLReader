@@ -95,7 +95,7 @@ BOOL HTMLNthExpressionEqualToExpression(HTMLNthExpression a, HTMLNthExpression b
 #define TestMatchedElementIDs(selectorString, expectedIDs) do { \
     NSArray *nodes = [self.testDoc nodesMatchingSelector:(selectorString)]; \
     NSMutableArray *IDs = [NSMutableArray new]; \
-    for (HTMLElementNode *node in nodes) { \
+    for (HTMLElement *node in nodes) { \
         [IDs addObject:(node[@"id"] ?: node.tagName)]; \
     } \
     XCTAssertEqualObjects(IDs, expectedIDs); \

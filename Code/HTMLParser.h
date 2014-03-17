@@ -39,7 +39,7 @@
  * @param string The unparsed HTML fragment.
  * @param context A context element, or nil if there is no context.
  */
-+ (instancetype)parserForString:(NSString *)string context:(HTMLElementNode *)context;
++ (instancetype)parserForString:(NSString *)string context:(HTMLElement *)context;
 
 /**
  * Returns an HTMLParser initialized for parsing an HTML fragment. This is a designated initializer.
@@ -47,7 +47,7 @@
  * @param string The unparsed HTML fragment.
  * @param context A context element, or nil if there is no context.
  */
-- (id)initWithString:(NSString *)string context:(HTMLElementNode *)context;
+- (id)initWithString:(NSString *)string context:(HTMLElement *)context;
 
 /**
  * All encountered parse errors.

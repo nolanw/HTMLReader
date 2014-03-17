@@ -3,8 +3,10 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLTestUtilities.h"
-#import "HTMLMutability.h"
+#import "HTMLComment.h"
 #import "HTMLParser.h"
+#import "HTMLReader.h"
+#import "HTMLTextNode.h"
 
 #define SHOUT_ABOUT_PARSE_ERRORS NO
 
@@ -106,7 +108,7 @@
         } else {
             [roots addObject:nodeOrAttribute];
         }
-        if ([nodeOrAttribute isKindOfClass:[HTMLElementNode class]]) {
+        if ([nodeOrAttribute isKindOfClass:[HTMLElement class]]) {
             [stack addObject:nodeOrAttribute];
         }
         [scanner scanString:@"\n" intoString:nil];
@@ -124,7 +126,7 @@ static id NodeOrAttributeFromString(NSString *s)
         NSString *rest;
         [scanner scanUpToString:@">" intoString:&rest];
         if (!rest) {
-            return [HTMLDocumentTypeNode new];
+            return [HTMLDocumentType new];
         }
         NSScanner *doctypeScanner = [NSScanner scannerWithString:rest];
         doctypeScanner.charactersToBeSkipped = nil;
@@ -132,7 +134,7 @@ static id NodeOrAttributeFromString(NSString *s)
         NSString *name;
         [doctypeScanner scanUpToString:@" " intoString:&name];
         if (doctypeScanner.isAtEnd) {
-            return [[HTMLDocumentTypeNode alloc] initWithName:name publicId:nil systemId:nil];
+            return [[HTMLDocumentType alloc] initWithName:name publicIdentifier:nil systemIdentifier:nil];
         }
         [doctypeScanner scanString:@" \"" intoString:nil];
         NSString *publicId;
@@ -143,11 +145,11 @@ static id NodeOrAttributeFromString(NSString *s)
             .length = doctypeScanner.string.length - doctypeScanner.scanLocation - 1,
         };
         NSString *systemId = [doctypeScanner.string substringWithRange:rangeOfSystemId];
-        return [[HTMLDocumentTypeNode alloc] initWithName:name publicId:publicId systemId:systemId];
+        return [[HTMLDocumentType alloc] initWithName:name publicIdentifier:publicId systemIdentifier:systemId];
     } else if ([scanner scanString:@"<!-- " intoString:nil]) {
         NSUInteger endOfData = [s rangeOfString:@" -->" options:NSBackwardsSearch].location;
         NSRange rangeOfData = NSMakeRange(scanner.scanLocation, endOfData - scanner.scanLocation);
-        return [[HTMLCommentNode alloc] initWithData:[s substringWithRange:rangeOfData]];
+        return [[HTMLComment alloc] initWithData:[s substringWithRange:rangeOfData]];
     } else if ([scanner scanString:@"\"" intoString:nil]) {
         NSUInteger endOfData = [s rangeOfString:@"\"" options:NSBackwardsSearch].location;
         NSRange rangeOfData = NSMakeRange(scanner.scanLocation, endOfData - scanner.scanLocation);
@@ -159,7 +161,7 @@ static id NodeOrAttributeFromString(NSString *s)
         NSArray *parts = [tagNameString componentsSeparatedByString:@" "];
         NSString *tagName = parts.count == 2 ? parts[1] : parts[0];
         NSString *namespace = parts.count == 2 ? parts[0] : nil;
-        HTMLElementNode *node = [[HTMLElementNode alloc] initWithTagName:tagName];
+        HTMLElement *node = [[HTMLElement alloc] initWithTagName:tagName];
         if ([namespace isEqualToString:@"svg"]) {
             node.namespace = HTMLNamespaceSVG;
         } else if ([namespace isEqualToString:@"math"]) {
@@ -195,7 +197,7 @@ static id NodeOrAttributeFromString(NSString *s)
             HTMLTreeConstructionTest *test = [self testWithSingleTestString:singleTestString];
             HTMLParser *parser;
             if (test.documentFragment) {
-                HTMLElementNode *context = [[HTMLElementNode alloc] initWithTagName:test.documentFragment];
+                HTMLElement *context = [[HTMLElement alloc] initWithTagName:test.documentFragment];
                 parser = [[HTMLParser alloc] initWithString:test.data context:context];
             } else {
                 parser = [[HTMLParser alloc] initWithString:test.data];
@@ -222,9 +224,9 @@ static id NodeOrAttributeFromString(NSString *s)
 
 BOOL TreesAreTestEquivalent(id aThing, id bThing)
 {
-    if ([aThing isKindOfClass:[HTMLElementNode class]]) {
-        if (![bThing isKindOfClass:[HTMLElementNode class]]) return NO;
-        HTMLElementNode *a = aThing, *b = bThing;
+    if ([aThing isKindOfClass:[HTMLElement class]]) {
+        if (![bThing isKindOfClass:[HTMLElement class]]) return NO;
+        HTMLElement *a = aThing, *b = bThing;
         if (![a.tagName isEqualToString:b.tagName]) return NO;
         NSArray *descriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES] ];
         NSArray *sortedAAttributes = [a.attributes sortedArrayUsingDescriptors:descriptors];
@@ -235,16 +237,16 @@ BOOL TreesAreTestEquivalent(id aThing, id bThing)
         if (![bThing isKindOfClass:[HTMLTextNode class]]) return NO;
         HTMLTextNode *a = aThing, *b = bThing;
         return [a.data isEqualToString:b.data];
-    } else if ([aThing isKindOfClass:[HTMLCommentNode class]]) {
-        if (![bThing isKindOfClass:[HTMLCommentNode class]]) return NO;
-        HTMLCommentNode *a = aThing, *b = bThing;
+    } else if ([aThing isKindOfClass:[HTMLComment class]]) {
+        if (![bThing isKindOfClass:[HTMLComment class]]) return NO;
+        HTMLComment *a = aThing, *b = bThing;
         return [a.data isEqualToString:b.data];
-    } else if ([aThing isKindOfClass:[HTMLDocumentTypeNode class]]) {
-        if (![bThing isKindOfClass:[HTMLDocumentTypeNode class]]) return NO;
-        HTMLDocumentTypeNode *a = aThing, *b = bThing;
+    } else if ([aThing isKindOfClass:[HTMLDocumentType class]]) {
+        if (![bThing isKindOfClass:[HTMLDocumentType class]]) return NO;
+        HTMLDocumentType *a = aThing, *b = bThing;
         return (((a.name == nil && b.name == nil) || [a.name isEqualToString:b.name]) &&
-                [a.publicId isEqualToString:b.publicId] &&
-                [a.systemId isEqualToString:b.systemId]);
+                [a.publicIdentifier isEqualToString:b.publicIdentifier] &&
+                [a.systemIdentifier isEqualToString:b.systemIdentifier]);
     } else if ([aThing isKindOfClass:[NSArray class]]) {
         if (![bThing isKindOfClass:[NSArray class]]) return NO;
         NSArray *a = aThing, *b = bThing;

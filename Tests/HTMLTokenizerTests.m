@@ -176,7 +176,7 @@ static NSString * UnDoubleEscape(NSString *input)
                 NSArray *tokens = tokenizer.allObjects;
                 NSArray *parseErrors = [tokens filteredArrayUsingPredicate:parseErrorPredicate];
                 NSArray *parsedTokens = [self concatenateCharacterTokens:[tokens filteredArrayUsingPredicate:otherTokenPredicate]];
-                NSString *description = [NSString stringWithFormat:@"%@ test%tu] %@ (%zd)", testName, i, test.name, initialState];
+                NSString *description = [NSString stringWithFormat:@"%@ test%tu %@ (%zd)", testName, i, test.name, initialState];
                 XCTAssertEqualObjects(parsedTokens, test.expectedTokens, @"%@", description);
                 XCTAssertEqualObjects(parseErrors, test.parseErrors, @"%@", description);
             }
