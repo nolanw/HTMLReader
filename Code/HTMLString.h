@@ -27,3 +27,20 @@ extern NSString * StringWithLongCharacter(UTF32Char character);
 extern BOOL is_whitespace(UTF32Char c);
 
 extern BOOL is_undefined_or_disallowed(UTF32Char c);
+
+/**
+ * @return YES if the first parameter is equal to any subsequent parameter, otherwise NO.
+ */
+#define StringIsEqualToAnyOf(search, ...) ({ \
+    NSString *s = (search); \
+    __unsafe_unretained NSString *potentials[] = { __VA_ARGS__ }; \
+    BOOL found = NO; \
+    size_t count = sizeof(potentials) / sizeof(potentials[0]); \
+    for (NSUInteger i = 0; i < count; i++) { \
+        if ([s isEqualToString:potentials[i]]) { \
+            found = YES; \
+            break; \
+        } \
+    } \
+    found; \
+})

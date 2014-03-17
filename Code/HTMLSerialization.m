@@ -6,6 +6,7 @@
 #import "HTMLComment.h"
 #import "HTMLDocumentType.h"
 #import "HTMLElement.h"
+#import "HTMLString.h"
 #import "HTMLTextNode.h"
 
 @implementation HTMLNode (Serialization)
@@ -130,12 +131,10 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
         [string appendFormat:@" %@=\"%@\"", serializedName, escapedValue];
     }
     [string appendString:@">"];
-    if ([@[ @"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed", @"frame", @"hr", @"img", @"input",
-            @"keygen", @"link", @"menuitem", @"meta", @"param", @"source", @"track", @"wbr"
-            ] containsObject:self.tagName]) {
+    if (StringIsEqualToAnyOf(self.tagName, @"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed", @"frame", @"hr", @"img", @"input", @"keygen", @"link", @"menuitem", @"meta", @"param", @"source", @"track", @"wbr")) {
         return string;
     }
-    if ([@[ @"pre", @"textarea", @"listing" ] containsObject:self.tagName]) {
+    if (StringIsEqualToAnyOf(self.tagName, @"pre", @"textarea", @"listing")) {
         if ([self.childNodes.firstObject isKindOfClass:[HTMLTextNode class]]) {
             HTMLTextNode *textNode = self.childNodes.firstObject;
             if ([textNode.data hasPrefix:@"\n"]) {
@@ -167,8 +166,7 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
     if ([self.parentNode isKindOfClass:[HTMLElement class]]) {
         parentTagName = ((HTMLElement *)self.parentNode).tagName;
     }
-    if ([@[ @"style", @"script", @"xmp", @"iframe", @"noembed", @"noframes", @"plaintext", @"noscript"
-            ] containsObject:parentTagName]) {
+    if (StringIsEqualToAnyOf(parentTagName, @"style", @"script", @"xmp", @"iframe", @"noembed", @"noframes", @"plaintext", @"noscript")) {
         return self.data;
     } else {
         NSString *escaped = [self.data stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
