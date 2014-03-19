@@ -109,7 +109,7 @@
 	return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:YES];
 }
 
-- (id)objectForKeyedSubscript:(__unused NSString *)key
+- (id)objectForKeyedSubscript:(NSString *)key
 {
     // Implemented so we can subscript HTMLNode instances, even though only HTMLElementNode instances have attributes.
     return nil;

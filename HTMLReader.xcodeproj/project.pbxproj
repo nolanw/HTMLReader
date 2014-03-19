@@ -772,6 +772,7 @@
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
+					"-Wno-unused-parameter",
 				);
 			};
 			name = Debug;
@@ -803,6 +804,7 @@
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
+					"-Wno-unused-parameter",
 				);
 			};
 			name = Release;

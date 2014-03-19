@@ -162,7 +162,7 @@ static NSString * UnDoubleEscape(NSString *input)
 
 - (void)test
 {
-    NSPredicate *parseErrorPredicate = [NSPredicate predicateWithBlock:^BOOL(id token, __unused NSDictionary *bindings) {
+    NSPredicate *parseErrorPredicate = [NSPredicate predicateWithBlock:^BOOL(id token, NSDictionary *bindings) {
         return [token isKindOfClass:[HTMLParseErrorToken class]];
     }];
     NSPredicate *otherTokenPredicate = [NSCompoundPredicate notPredicateWithSubpredicate:parseErrorPredicate];

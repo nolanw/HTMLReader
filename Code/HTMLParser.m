@@ -327,7 +327,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 
 #pragma mark The "before html" insertion mode
 
-- (void)beforeHtmlInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)beforeHtmlInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE"];
 }
@@ -390,7 +390,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [self insertComment:token.data];
 }
 
-- (void)beforeHeadInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)beforeHeadInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE before <head>"];
 }
@@ -444,7 +444,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [self insertComment:token.data];
 }
 
-- (void)inHeadInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)inHeadInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in <head>"];
 }
@@ -516,7 +516,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [self insertComment:token.data];
 }
 
-- (void)afterHeadInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)afterHeadInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE after <head>"];
 }
@@ -585,7 +585,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     [self insertComment:token.data];
 }
 
-- (void)inBodyInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)inBodyInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in <body>"];
 }
@@ -1020,7 +1020,7 @@ static inline BOOL StringIsEqualToAnyOf(NSString *string, ...)
     }
 }
 
-- (void)inBodyInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
+- (void)inBodyInsertionModeHandleEOFToken:(HTMLEOFToken *)token
 {
     for (HTMLElement *node in _stackOfOpenElements) {
         if (!StringIsEqualToAnyOf(node.tagName,
@@ -1448,7 +1448,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self reprocessToken:token];
 }
 
-- (void)textInsertionModeHandleEndTagToken:(__unused HTMLEndTagToken *)token
+- (void)textInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
 {
     [_stackOfOpenElements removeLastObject];
     [self switchInsertionMode:_originalInsertionMode];
@@ -1472,7 +1472,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data];
 }
 
-- (void)inTableInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)inTableInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in <table>"];
 }
@@ -1695,7 +1695,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data];
 }
 
-- (void)inColumnGroupInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)inColumnGroupInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in <colgroup>"];
 }
@@ -1969,7 +1969,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data];
 }
 
-- (void)inSelectInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)inSelectInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in <select>"];
 }
@@ -2059,7 +2059,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self processToken:token usingRulesForInsertionMode:HTMLInBodyInsertionMode];
 }
 
-- (void)inSelectInsertionModeHandleAnythingElse:(__unused id)token
+- (void)inSelectInsertionModeHandleAnythingElse:(id)token
 {
     [self addParseError:@"Unexpected token in <select>"];
 }
@@ -2127,7 +2127,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data inNode:_stackOfOpenElements[0]];
 }
 
-- (void)afterBodyInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)afterBodyInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE after body"];
 }
@@ -2154,7 +2154,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     }
 }
 
-- (void)afterBodyInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
+- (void)afterBodyInsertionModeHandleEOFToken:(HTMLEOFToken *)token
 {
     [self stopParsing];
 }
@@ -2185,7 +2185,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data];
 }
 
-- (void)inFramesetInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)inFramesetInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in <frameset>"];
 }
@@ -2224,7 +2224,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     }
 }
 
-- (void)inFramesetInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
+- (void)inFramesetInsertionModeHandleEOFToken:(HTMLEOFToken *)token
 {
     if (!([self.currentNode.tagName isEqualToString:@"html"] &&
         _stackOfOpenElements.count == 1))
@@ -2234,7 +2234,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self stopParsing];
 }
 
-- (void)inFramesetInsertionModeHandleAnythingElse:(__unused id)token
+- (void)inFramesetInsertionModeHandleAnythingElse:(id)token
 {
     [self addParseError:@"Unexpected token in <frameset>"];
 }
@@ -2258,7 +2258,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data];
 }
 
-- (void)afterFramesetInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)afterFramesetInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE after <frameset>"];
 }
@@ -2283,12 +2283,12 @@ static BOOL IsSpecialElement(HTMLElement *element)
     }
 }
 
-- (void)afterFramesetInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
+- (void)afterFramesetInsertionModeHandleEOFToken:(HTMLEOFToken *)token
 {
     [self stopParsing];
 }
 
-- (void)afterFramesetInsertionModeHandleAnythingElse:(__unused id)token
+- (void)afterFramesetInsertionModeHandleAnythingElse:(id)token
 {
     [self addParseError:@"Unexpected token after <frameset>"];
 }
@@ -2326,7 +2326,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     }
 }
 
-- (void)afterAfterBodyInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
+- (void)afterAfterBodyInsertionModeHandleEOFToken:(HTMLEOFToken *)token
 {
     [self stopParsing];
 }
@@ -2373,12 +2373,12 @@ static BOOL IsSpecialElement(HTMLElement *element)
     }
 }
 
-- (void)afterAfterFramesetInsertionModeHandleEOFToken:(__unused HTMLEOFToken *)token
+- (void)afterAfterFramesetInsertionModeHandleEOFToken:(HTMLEOFToken *)token
 {
     [self stopParsing];
 }
 
-- (void)afterAfterFramesetInsertionModeHandleAnythingElse:(__unused id)token
+- (void)afterAfterFramesetInsertionModeHandleAnythingElse:(id)token
 {
     [self addParseError:@"Unexpected token after after <frameset>"];
 }
@@ -2406,7 +2406,7 @@ static BOOL IsSpecialElement(HTMLElement *element)
     [self insertComment:token.data];
 }
 
-- (void)foreignContentInsertionModeHandleDOCTYPEToken:(__unused HTMLDOCTYPEToken *)token
+- (void)foreignContentInsertionModeHandleDOCTYPEToken:(HTMLDOCTYPEToken *)token
 {
     [self addParseError:@"Unexpected DOCTYPE in foreign content"];
 }
@@ -3463,7 +3463,7 @@ static HTMLMarker *instance = nil;
 
 #pragma mark NSCopying
 
-- (id)copyWithZone:(__unused NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
     return self;
 }

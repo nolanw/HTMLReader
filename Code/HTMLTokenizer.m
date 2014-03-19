@@ -2155,7 +2155,7 @@ static inline BOOL is_lower(NSInteger c)
     self.state = state;
 }
 
-- (void)reconsume:(__unused UTF32Char)character
+- (void)reconsume:(UTF32Char)character
 {
     [_inputStream reconsumeCurrentInputCharacter];
 }

@@ -50,7 +50,7 @@ HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 
 HTMLSelectorPredicateGen neverPredicate(void)
 {
-    return ^(__unused HTMLElement *node) {
+    return ^(HTMLElement *node) {
         return NO;
     };
 }
@@ -96,7 +96,7 @@ HTMLSelectorPredicateGen orCombinatorPredicate(NSArray *predicates)
 HTMLSelectorPredicateGen isTagTypePredicate(NSString *tagType)
 {
 	if ([tagType isEqualToString:@"*"]) {
-		return ^(__unused HTMLElement *node) {
+		return ^(HTMLElement *node) {
             return YES;
         };
 	} else {
@@ -504,7 +504,7 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
 
 static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 														 HTMLSelectorPredicate typePredicate,
-                                                         __unused NSString **parsedString,
+                                                         NSString **parsedString,
                                                          NSError **error)
 {
 	typedef HTMLSelectorPredicate (^CSSThing)(HTMLNthExpression nth);
@@ -626,14 +626,14 @@ static NSCharacterSet *combinatorCharacters()
 	return frozenSet;
 }
 
-NSString *scanIdentifier(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
+NSString *scanIdentifier(NSScanner* scanner,  NSString **parsedString, NSError **error)
 {
 	NSString *ident;
 	[scanner scanCharactersFromSet:identifierCharacters() intoString:&ident];
 	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-NSString *scanTagModifier(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
+NSString *scanTagModifier(NSScanner* scanner,  NSString **parsedString, NSError **error)
 {
 	NSString *modifier;
 	[scanner scanCharactersFromSet:tagModifierCharacters() intoString:&modifier];
@@ -642,7 +642,7 @@ NSString *scanTagModifier(NSScanner* scanner,  __unused NSString **parsedString,
 	return modifier;
 }
 
-NSString *scanCombinator(NSScanner* scanner,  __unused NSString **parsedString, __unused NSError **error)
+NSString *scanCombinator(NSScanner* scanner,  NSString **parsedString, NSError **error)
 {
 	NSString *operator;
 	[scanner scanCharactersFromSet:combinatorCharacters() intoString:&operator];
