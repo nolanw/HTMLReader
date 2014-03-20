@@ -67,58 +67,35 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     BOOL _fragmentParsingAlgorithm;
 }
 
-+ (HTMLDocument *)documentForString:(NSString *)string
-{
-	return [[self parserForString:string] document];
-}
-
-+ (instancetype)parserForString:(NSString *)string
-{
-	return [[self alloc] initWithString:string];
-}
-
-- (id)initWithString:(NSString *)string
-{
-    if (!(self = [self init])) return nil;
-    _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
-    _tokenizer.parser = self;
-    return self;
-}
-
-+ (instancetype)parserForString:(NSString *)string context:(HTMLElement *)context
-{
-	return [[self alloc] initWithString:string context:context];
-}
-
 - (id)initWithString:(NSString *)string context:(HTMLElement *)context
 {
-    if (!(self = [self init])) return nil;
+    self = [self init];
+    if (!self) return nil;
+    
     _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
     _tokenizer.parser = self;
-    if (StringIsEqualToAnyOf(context.tagName, @"title", @"textarea")) {
-        _tokenizer.state = HTMLRCDATATokenizerState;
-    } else if (StringIsEqualToAnyOf(context.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
-        _tokenizer.state = HTMLRAWTEXTTokenizerState;
-    } else if ([context.tagName isEqualToString:@"script"]) {
-        _tokenizer.state = HTMLScriptDataTokenizerState;
-    } else if ([context.tagName isEqualToString:@"noscript"]) {
-        _tokenizer.state = HTMLRAWTEXTTokenizerState;
-    } else if ([context.tagName isEqualToString:@"plaintext"]) {
-        _tokenizer.state = HTMLPLAINTEXTTokenizerState;
-    }
     _context = context;
-    _fragmentParsingAlgorithm = YES;
-    return self;
-}
-
-- (id)init
-{
-    if (!(self = [super init])) return nil;
     _insertionMode = HTMLInitialInsertionMode;
     _stackOfOpenElements = [NSMutableArray new];
     _errors = [NSMutableArray new];
     _framesetOkFlag = YES;
     _activeFormattingElements = [NSMutableArray new];
+    _fragmentParsingAlgorithm = !!context;
+    
+    if (context) {
+        if (StringIsEqualToAnyOf(context.tagName, @"title", @"textarea")) {
+            _tokenizer.state = HTMLRCDATATokenizerState;
+        } else if (StringIsEqualToAnyOf(context.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
+            _tokenizer.state = HTMLRAWTEXTTokenizerState;
+        } else if ([context.tagName isEqualToString:@"script"]) {
+            _tokenizer.state = HTMLScriptDataTokenizerState;
+        } else if ([context.tagName isEqualToString:@"noscript"]) {
+            _tokenizer.state = HTMLRAWTEXTTokenizerState;
+        } else if ([context.tagName isEqualToString:@"plaintext"]) {
+            _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+        }
+    }
+    
     return self;
 }
 

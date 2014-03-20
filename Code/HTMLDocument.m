@@ -9,7 +9,8 @@
 
 + (instancetype)documentWithString:(NSString *)string
 {
-    return [[HTMLParser alloc] initWithString:string].document;
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:string context:nil];
+    return parser.document;
 }
 
 - (HTMLDocumentType *)documentType

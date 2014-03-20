@@ -201,7 +201,7 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
                 HTMLElement *context = [[HTMLElement alloc] initWithTagName:test.documentFragment attributes:nil];
                 parser = [[HTMLParser alloc] initWithString:test.data context:context];
             } else {
-                parser = [[HTMLParser alloc] initWithString:test.data];
+                parser = [[HTMLParser alloc] initWithString:test.data context:nil];
             }
             NSString *description = [NSString stringWithFormat:@"%@ test%tu parsed: %@\nfixture:\n%@",
                                      testName,
