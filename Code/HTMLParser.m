@@ -189,8 +189,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                                                    publicIdentifier:token.publicIdentifier
                                                    systemIdentifier:token.systemIdentifier];
     _document.quirksMode = ^{
-        if (token.forceQuirks) return HTMLQuirksMode;
-        if (![name isEqualToString:@"html"]) return HTMLQuirksMode;
+        if (token.forceQuirks) return HTMLQuirksModeQuirks;
+        if (![name isEqualToString:@"html"]) return HTMLQuirksModeQuirks;
         static NSString * Prefixes[] = {
             @"+//Silmaril//dtd html Pro v0r11 19970101//",
             @"-//AdvaSoft Ltd//DTD HTML 3.0 asWedit + extensions//",
@@ -250,38 +250,38 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         };
         for (size_t i = 0; i < sizeof(Prefixes) / sizeof(Prefixes[0]); i++) {
             if ([public hasPrefix:Prefixes[i]]) {
-                return HTMLQuirksMode;
+                return HTMLQuirksModeQuirks;
             }
         }
         if ([public isEqualToString:@"-//W3O//DTD W3 HTML Strict 3.0//EN//"] ||
             [public isEqualToString:@"-/W3C/DTD HTML 4.0 Transitional/EN"] ||
             [public isEqualToString:@"HTML"])
         {
-            return HTMLQuirksMode;
+            return HTMLQuirksModeQuirks;
         }
         if ([system isEqualToString:@"http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"]) {
-            return HTMLQuirksMode;
+            return HTMLQuirksModeQuirks;
         }
         if (!system) {
             if ([public hasPrefix:@"-//W3C//DTD HTML 4.01 Frameset//"] ||
                 [public hasPrefix:@"-//W3C//DTD HTML 4.01 Transitional//"])
             {
-                return HTMLQuirksMode;
+                return HTMLQuirksModeQuirks;
             }
         }
         if ([public hasPrefix:@"-//W3C//DTD XHTML 1.0 Frameset//"] ||
             [public hasPrefix:@"-//W3C//DTD XHTML 1.0 Transitional//"])
         {
-            return HTMLLimitedQuirksMode;
+            return HTMLQuirksModeLimitedQuirks;
         }
         if (system) {
             if ([public hasPrefix:@"-//W3C//DTD HTML 4.01 Frameset//"] ||
                 [public hasPrefix:@"-//W3C//DTD HTML 4.01 Transitional//"])
             {
-                return HTMLLimitedQuirksMode;
+                return HTMLQuirksModeLimitedQuirks;
             }
         }
-        return HTMLNoQuirksMode;
+        return HTMLQuirksModeNoQuirks;
     }();
     [self switchInsertionMode:HTMLBeforeHtmlInsertionMode];
 }
@@ -289,7 +289,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 - (void)initialInsertionModeHandleAnythingElse:(id)token
 {
     [self addParseError:@"Expected DOCTYPE"];
-    _document.quirksMode = HTMLQuirksMode;
+    _document.quirksMode = HTMLQuirksModeQuirks;
     [self switchInsertionMode:HTMLBeforeHtmlInsertionMode];
     [self reprocessToken:token];
 }
@@ -744,7 +744,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         [self pushMarkerOnToListOfActiveFormattingElements];
         _framesetOkFlag = NO;
     } else if ([token.tagName isEqualToString:@"table"]) {
-        if (_document.quirksMode != HTMLQuirksMode && [self elementInButtonScopeWithTagName:@"p"]) {
+        if (_document.quirksMode != HTMLQuirksModeQuirks && [self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
         [self insertElementForToken:token];

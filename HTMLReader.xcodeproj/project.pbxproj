@@ -147,6 +147,8 @@
 		1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSerialization.h; sourceTree = "<group>"; };
 		1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerialization.m; sourceTree = "<group>"; };
 		1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTests.m; sourceTree = "<group>"; };
+		1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLQuirksMode.h; sourceTree = "<group>"; };
+		1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNamespace.h; sourceTree = "<group>"; };
 		1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializerTests.m; sourceTree = "<group>"; };
 		83C4518717BAFE3500C144DF /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSelector.h; sourceTree = "<group>"; };
 		83C4518817BAFE3500C144DF /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */,
 				1CA5C20F18D7457400147FE7 /* HTMLElement.h */,
 				1CA5C21018D7457400147FE7 /* HTMLElement.m */,
+				1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */,
 				1CACE9E21783A92F00754A8F /* HTMLNode.h */,
 				1CACE9E31783A92F00754A8F /* HTMLNode.m */,
 				1CC6693418D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h */,
@@ -258,6 +261,7 @@
 				1C25D40917837A8A00F7C10D /* HTMLParser.m */,
 				1CB0B95D183F2C7100021DBE /* HTMLPreprocessedInputStream.h */,
 				1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */,
+				1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */,
 				1CB61D2417BB671A00EE9653 /* HTMLReader.h */,
 				83C4518717BAFE3500C144DF /* HTMLSelector.h */,
 				83C4518817BAFE3500C144DF /* HTMLSelector.m */,

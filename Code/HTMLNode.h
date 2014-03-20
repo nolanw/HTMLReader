@@ -5,27 +5,7 @@
 #import <Foundation/Foundation.h>
 @class HTMLDocument;
 @class HTMLElement;
-
-/**
- * HTML knows of three namespaces.
- */
-typedef NS_ENUM(NSInteger, HTMLNamespace)
-{
-    /**
-     * The default namespace is HTML.
-     */
-    HTMLNamespaceHTML,
-    
-    /**
-     * Most elements within <math> tags are in the MathML namespace.
-     */
-    HTMLNamespaceMathML,
-    
-    /**
-     * Most elements within <svg> tags are in the SVG namespace.
-     */
-    HTMLNamespaceSVG,
-};
+#import "HTMLNamespace.h"
 
 /**
  * HTMLNode is an abstract class whose instances represent a single element, block of text, comment, or document type.

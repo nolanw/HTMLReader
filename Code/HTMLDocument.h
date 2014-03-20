@@ -5,27 +5,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLDocumentType.h"
 #import "HTMLElement.h"
-
-/**
- * HTMLDocumentQuirksMode can change parts of the parsing algorithm.
- */
-typedef NS_ENUM(NSInteger, HTMLDocumentQuirksMode)
-{
-    /**
-     * The default quirks mode.
-     */
-    HTMLNoQuirksMode,
-    
-    /**
-     * A quirks mode for old versions of HTML.
-     */
-    HTMLQuirksMode,
-    
-    /**
-     * A quirks mode for (XHTML 1.0 or HTML 4.01) (Frameset or Transitional).
-     */
-    HTMLLimitedQuirksMode,
-};
+#import "HTMLNode.h"
+#import "HTMLQuirksMode.h"
 
 /**
  * An HTMLDocument is the root of a tree of nodes representing parsed HTML.
@@ -49,7 +30,7 @@ typedef NS_ENUM(NSInteger, HTMLDocumentQuirksMode)
 /**
  * The document's quirks mode.
  */
-@property (assign, nonatomic) HTMLDocumentQuirksMode quirksMode;
+@property (assign, nonatomic) HTMLQuirksMode quirksMode;
 
 /**
  * The root node (usually the <html> element node), ignoring the document type node and any root-level comment nodes.
