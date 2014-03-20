@@ -3,13 +3,15 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLNode.h"
-#import "HTMLElement.h"
+#import "HTMLDocument.h"
 #import "HTMLTextNode.h"
 #import "HTMLTreeEnumerator.h"
 
 @implementation HTMLNode
 {
-    NSMutableArray *_childNodes;
+    HTMLDocument *_document;
+    HTMLElement *_parentElement;
+    NSMutableOrderedSet *_children;
 }
 
 - (id)init
@@ -17,86 +19,87 @@
     self = [super init];
     if (!self) return nil;
     
-    _childNodes = [NSMutableArray new];
+    _children = [NSMutableOrderedSet new];
     
     return self;
 }
 
-- (HTMLNode *)rootNode
+- (HTMLDocument *)document
 {
-	HTMLNode *target = self;
-	
-	while (target.parentNode != nil)
-	{
-		target = target.parentNode;
-	}
-	
-	return target;
+    return _document ?: self.parentElement.document;
 }
 
-- (NSArray *)childNodes
+- (void)setDocument:(HTMLDocument *)document
 {
-    return _childNodes;
+    if (document == self.document) return;
+    [[_parentElement mutableChildren] removeObject:self];
+    [[_document mutableChildren] removeObject:self];
+    
+    _document = document;
+    _parentElement = nil;
+    
+    [[document mutableChildren] addObject:self];
 }
 
-- (void)setChildNodes:(NSArray *)childNodes
+- (void)setParentElement:(HTMLElement *)parentElement
 {
-    [_childNodes setArray:childNodes];
+    if (parentElement == _parentElement) return;
+    [[_parentElement mutableChildren] removeObject:self];
+    [[_document mutableChildren] removeObject:self];
+    
+    _parentElement = parentElement;
+    _document = nil;
+    
+    [[parentElement mutableChildren] addObject:self];
 }
 
-- (NSUInteger)childNodeCount
+- (NSOrderedSet *)children
 {
-    return _childNodes.count;
+    return [_children copy];
 }
 
-- (void)appendChild:(HTMLNode *)child
+- (NSMutableOrderedSet *)mutableChildren
 {
-    [child.parentNode removeChild:child];
-    [_childNodes addObject:child];
-    child->_parentNode = self;
+    return [self mutableOrderedSetValueForKey:@"children"];
 }
 
-- (void)insertChild:(HTMLNode *)child atIndex:(NSUInteger)index
+- (NSUInteger)countOfChildren
 {
-    [self appendChild:child];
-    [_childNodes exchangeObjectAtIndex:index withObjectAtIndex:_childNodes.count - 1];
+    return _children.count;
 }
 
-- (void)removeChild:(HTMLNode *)child
+- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
 {
-    NSUInteger i = [_childNodes indexOfObject:child];
-    if (i != NSNotFound) {
-        [_childNodes removeObjectAtIndex:i];
-        child->_parentNode = nil;
-    }
+    [_children insertObject:node atIndex:index];
+}
+
+- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
+{
+    [_children removeObjectAtIndex:index];
 }
 
 - (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)index
 {
-    id candidate = index > 0 ? _childNodes[index - 1] : nil;
+    id candidate = index > 0 ? _children[index - 1] : nil;
     HTMLTextNode *textNode;
     if ([candidate isKindOfClass:[HTMLTextNode class]]) {
         textNode = candidate;
     } else {
         textNode = [HTMLTextNode new];
-        [self insertChild:textNode atIndex:index];
+        [[self mutableChildren] insertObject:textNode atIndex:index];
     }
     [textNode appendString:string];
 }
 
 - (NSArray *)childElementNodes
 {
-	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:_childNodes.count];
-	
-	for (id node in _childNodes)
-	{
-		if ([node isKindOfClass:[HTMLElement class]])
-		{
-			[ret addObject:node];
+	NSMutableArray *childElements = [NSMutableArray arrayWithCapacity:_children.count];
+	for (id node in _children) {
+		if ([node isKindOfClass:[HTMLElement class]]) {
+			[childElements addObject:node];
 		}
 	}
-	
-	return ret;
+	return childElements;
 }
 
 - (NSEnumerator *)treeEnumerator
@@ -107,12 +110,6 @@
 - (NSEnumerator *)reversedTreeEnumerator
 {
 	return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:YES];
-}
-
-- (id)objectForKeyedSubscript:(NSString *)key
-{
-    // Implemented so we can subscript HTMLNode instances, even though only HTMLElementNode instances have attributes.
-    return nil;
 }
 
 #pragma mark NSCopying

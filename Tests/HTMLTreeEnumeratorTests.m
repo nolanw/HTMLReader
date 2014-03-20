@@ -44,7 +44,8 @@
 - (HTMLNode *)rootNodeWithString:(NSString *)string
 {
     HTMLDocument *document = [[HTMLParser alloc] initWithString:string context:nil].document;
-    return [document.childNodes[0] childNodes][0];
+    HTMLElement *body = document.rootElement.children.lastObject;
+    return body.children[0];
 }
 
 @end

@@ -60,6 +60,8 @@
 		1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CD524FB18D74CFF003F46A3 /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */; };
 		1CD524FC18D74CFF003F46A3 /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */; };
+		1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */; };
+		1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */; };
 		1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */; };
 		83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518817BAFE3500C144DF /* HTMLSelector.m */; };
 		83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */; };
@@ -144,6 +146,7 @@
 		1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeEnumerator.m; sourceTree = "<group>"; };
 		1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSerialization.h; sourceTree = "<group>"; };
 		1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerialization.m; sourceTree = "<group>"; };
+		1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTests.m; sourceTree = "<group>"; };
 		1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializerTests.m; sourceTree = "<group>"; };
 		83C4518717BAFE3500C144DF /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSelector.h; sourceTree = "<group>"; };
 		83C4518817BAFE3500C144DF /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
@@ -277,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */,
+				1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */,
 				83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */,
 				1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */,
 				1CC666AF17B14E1800E457E7 /* HTMLTestUtilities.h */,
@@ -507,6 +511,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				1C88297218369F320051653C /* HTMLSerializerTests.m in Sources */,
 				1C88297618369F320051653C /* HTMLTreeEnumeratorTests.m in Sources */,
 				1CC6694018D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */,
@@ -550,6 +555,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */,
 				1CC6693F18D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */,
 				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,

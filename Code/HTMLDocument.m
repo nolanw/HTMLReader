@@ -22,4 +22,17 @@
     return nil;
 }
 
+- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
+{
+    [super insertObject:node inChildrenAtIndex:index];
+    node.document = self;
+}
+
+- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
+{
+    HTMLNode *node = self.children[index];
+    [super removeObjectFromChildrenAtIndex:index];
+    node.document = nil;
+}
+
 @end

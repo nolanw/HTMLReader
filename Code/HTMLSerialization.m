@@ -26,14 +26,14 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
                                              startingAtIndex:0]];
     }
     [string appendString:self.description];
-    for (HTMLNode *node in self.childNodes) {
+    for (HTMLNode *node in self.children) {
         RecursiveDescriptionHelper(node, string, indentLevel + 1);
     }
 }
 
 - (NSString *)innerHTML
 {
-    NSArray *fragments = [self.childNodes valueForKey:@"serializedFragment"];
+    NSArray *fragments = [self.children.array valueForKey:@"serializedFragment"];
     return [fragments componentsJoinedByString:@""];
 }
 
@@ -111,8 +111,8 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
         [description appendFormat:@" %@=\"%@\"", name, value];
     }];
     
-    [description appendFormat:@"> %@ child", @(self.childNodeCount)];
-    if (self.childNodeCount != 1) {
+    [description appendFormat:@"> %@ child", @(self.countOfChildren)];
+    if (self.countOfChildren != 1) {
         [description appendString:@"ren"];
     }
     
@@ -147,8 +147,8 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
     }
     
     if (StringIsEqualToAnyOf(self.tagName, @"pre", @"textarea", @"listing")) {
-        if ([self.childNodes.firstObject isKindOfClass:[HTMLTextNode class]]) {
-            HTMLTextNode *textNode = self.childNodes.firstObject;
+        if ([self.children.firstObject isKindOfClass:[HTMLTextNode class]]) {
+            HTMLTextNode *textNode = self.children.firstObject;
             if ([textNode.data hasPrefix:@"\n"]) {
                 [fragment appendString:@"\n"];
             }
@@ -175,10 +175,7 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
 
 - (NSString *)serializedFragment
 {
-    NSString *parentTagName;
-    if ([self.parentNode isKindOfClass:[HTMLElement class]]) {
-        parentTagName = ((HTMLElement *)self.parentNode).tagName;
-    }
+    NSString *parentTagName = self.parentElement.tagName;
     if (StringIsEqualToAnyOf(parentTagName, @"style", @"script", @"xmp", @"iframe", @"noembed", @"noframes", @"plaintext", @"noscript")) {
         return self.data;
     } else {

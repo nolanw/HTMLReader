@@ -66,7 +66,8 @@
 - (void)testRCDATA
 {
     HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"script" attributes:nil];
-    [node appendChild:[[HTMLTextNode alloc] initWithData:@"a<b>c&d"]];
+    HTMLTextNode *textNode = [[HTMLTextNode alloc] initWithData:@"a<b>c&d"];
+    [[node mutableChildren] addObject:textNode];
     XCTAssertEqualObjects(node.serializedFragment, @"<script>a<b>c&d</script>");
 }
 

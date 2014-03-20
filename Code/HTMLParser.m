@@ -128,17 +128,15 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     _document = [HTMLDocument new];
     if (_fragmentParsingAlgorithm) {
         HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html" attributes:nil];
-        [_document appendChild:root];
+        _document.rootElement = root;
         [_stackOfOpenElements setArray:@[ root ]];
         [self resetInsertionModeAppropriately];
-        HTMLNode *nearestForm = _context;
+        HTMLElement *nearestForm = _context;
         while (nearestForm) {
-            if ([nearestForm isKindOfClass:[HTMLElement class]] &&
-                [((HTMLElement *)nearestForm).tagName isEqualToString:@"form"])
-            {
+            if ([nearestForm.tagName isEqualToString:@"form"]) {
                 break;
             }
-            nearestForm = nearestForm.parentNode;
+            nearestForm = nearestForm.parentElement;
         }
         _formElementPointer = (HTMLElement *)nearestForm;
     }
@@ -148,13 +146,10 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     }
     [self processToken:[HTMLEOFToken new]];
     if (_context) {
-        HTMLNode *root = _document.childNodes[0];
-        while (_document.childNodeCount > 0) {
-            [_document removeChild:_document.childNodes[0]];
-        }
-        for (HTMLNode *child in [root.childNodes copy]) {
-            [_document appendChild:child];
-        }
+        HTMLNode *root = _document.children[0];
+        NSMutableOrderedSet *documentChildren = [_document mutableChildren];
+        [documentChildren removeAllObjects];
+        [documentChildren addObjectsFromArray:root.children.array];
     }
     return _document;
 }
@@ -347,7 +342,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 {
     if ([token.tagName isEqualToString:@"html"]) {
         HTMLElement *html = [self createElementForToken:token];
-        [_document appendChild:html];
+        [[_document mutableChildren] addObject:html];
         [_stackOfOpenElements addObject:html];
         [self switchInsertionMode:HTMLBeforeHeadInsertionMode];
     } else {
@@ -367,7 +362,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 - (void)beforeHtmlInsertionModeHandleAnythingElse:(id)token
 {
     HTMLElement *html = [[HTMLElement alloc] initWithTagName:@"html" attributes:nil];
-    [_document appendChild:html];
+    [[_document mutableChildren] addObject:html];
     [_stackOfOpenElements addObject:html];
     [self switchInsertionMode:HTMLBeforeHeadInsertionMode];
     [self reprocessToken:token];
@@ -465,7 +460,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         NSUInteger index;
         HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
         HTMLElement *script = [self createElementForToken:token];
-        [adjustedInsertionLocation insertChild:script atIndex:index];
+        [[adjustedInsertionLocation mutableChildren] insertObject:script atIndex:index];
         [_stackOfOpenElements addObject:script];
         _tokenizer.state = HTMLScriptDataTokenizerState;
         [self switchInsertionMode:HTMLTextInsertionMode];
@@ -622,7 +617,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             return;
         }
         if (!_framesetOkFlag) return;
-        [_stackOfOpenElements[0] removeChild:_stackOfOpenElements[1]];
+        HTMLNode *topOfStack = _stackOfOpenElements[0];
+        [[topOfStack mutableChildren] removeObject:_stackOfOpenElements[1]];
         while (_stackOfOpenElements.count > 1) {
             [_stackOfOpenElements removeLastObject];
         }
@@ -1133,15 +1129,13 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             if ([lastNode isEqual:furthestBlock]) {
                 bookmark = [_activeFormattingElements indexOfObject:node] + 1;
             }
-            [node appendChild:lastNode];
+            [[node mutableChildren] addObject:lastNode];
             lastNode = node;
         }
         [self insertNode:lastNode atAppropriatePlaceWithOverrideTarget:commonAncestor];
         HTMLElement *formattingClone = [formattingElement copy];
-        for (id childNode in [furthestBlock.childNodes copy]) {
-            [formattingClone appendChild:childNode];
-        }
-        [furthestBlock appendChild:formattingClone];
+        [[formattingClone mutableChildren] addObjectsFromArray:furthestBlock.children.array];
+        [[furthestBlock mutableChildren] addObject:formattingClone];
         if ([_activeFormattingElements indexOfObject:formattingElement] < bookmark) {
             bookmark--;
         }
@@ -2824,11 +2818,12 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 {
     NSUInteger index;
     if (node) {
-        index = node.childNodeCount;
+        index = node.countOfChildren;
     } else {
         node = [self appropriatePlaceForInsertingANodeIndex:&index];
     }
-    [node insertChild:[[HTMLComment alloc] initWithData:data] atIndex:index];
+    HTMLComment *comment = [[HTMLComment alloc] initWithData:data];
+    [[node mutableChildren] insertObject:comment atIndex:index];
 }
 
 - (HTMLNode *)appropriatePlaceForInsertingANodeIndex:(out NSUInteger *)index
@@ -2850,19 +2845,19 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
         }
         if (!lastTable) {
             HTMLElement *html = _stackOfOpenElements[0];
-            *index = html.childNodeCount;
+            *index = html.countOfChildren;
             return html;
         }
-        if (lastTable.parentNode) {
-            *index = [lastTable.parentNode.childNodes indexOfObject:lastTable];
-            return lastTable.parentNode;
+        if (lastTable.parentElement) {
+            *index = [lastTable.parentElement.children indexOfObject:lastTable];
+            return lastTable.parentElement;
         }
         NSUInteger indexOfLastTable = [_stackOfOpenElements indexOfObject:lastTable];
         HTMLElement *previousNode = _stackOfOpenElements[indexOfLastTable - 1];
-        *index = previousNode.childNodeCount;
+        *index = previousNode.countOfChildren;
         return previousNode;
     } else {
-        *index = target.childNodeCount;
+        *index = target.countOfChildren;
         return target;
     }
 }
@@ -2898,7 +2893,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 {
     NSUInteger index;
     HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeIndex:&index];
-    [adjustedInsertionLocation insertChild:element atIndex:index];
+    [[adjustedInsertionLocation mutableChildren] insertObject:element atIndex:index];
     [_stackOfOpenElements addObject:element];
 }
 
@@ -2915,13 +2910,13 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 {
     NSUInteger i;
     HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:overrideTarget index:&i];
-    [parent insertChild:node atIndex:i];
+    [[parent mutableChildren] insertObject:node atIndex:i];
 }
 
 - (void)insertForeignElementForToken:(id)token inNamespace:(HTMLNamespace)namespace
 {
     HTMLElement *element = [self createElementForToken:token inNamespace:namespace];
-    [self.currentNode appendChild:element];
+    [[self.currentNode mutableChildren] addObject:element];
     [_stackOfOpenElements addObject:element];
 }
 

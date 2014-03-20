@@ -106,7 +106,7 @@
             NSArray *nameValuePair = nodeOrAttribute;
             element[nameValuePair[0]] = nameValuePair[1];
         } else if (stack.count > 0) {
-            [stack.lastObject appendChild:nodeOrAttribute];
+            [[stack.lastObject mutableChildren] addObject:nodeOrAttribute];
         } else {
             [roots addObject:nodeOrAttribute];
         }
@@ -208,7 +208,7 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
                                      i,
                                      parser.document.recursiveDescription,
                                      [[test.expectedRootNodes valueForKey:@"recursiveDescription"] componentsJoinedByString:@"\n"]];
-            XCTAssert(TreesAreTestEquivalent(parser.document.childNodes, test.expectedRootNodes), @"%@", description);
+            XCTAssert(TreesAreTestEquivalent(parser.document.children.array, test.expectedRootNodes), @"%@", description);
             if (SHOUT_ABOUT_PARSE_ERRORS && parser.errors.count != test.expectedErrors.count) {
                 NSLog(@"-[HTMLTreeConstructionTests-%@ test%tu] ignoring mismatch in number (%tu) of parse errors:\n%@\n%tu expected:\n%@\n%@",
                       testName,
@@ -225,12 +225,16 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
 
 BOOL TreesAreTestEquivalent(id aThing, id bThing)
 {
+    BOOL (^arrayLike)(id) = ^BOOL(id maybe) {
+        return [maybe conformsToProtocol:@protocol(NSFastEnumeration)] && [maybe respondsToSelector:@selector(count)];
+    };
+    
     if ([aThing isKindOfClass:[HTMLElement class]]) {
         if (![bThing isKindOfClass:[HTMLElement class]]) return NO;
         HTMLElement *a = aThing, *b = bThing;
         if (![a.tagName isEqualToString:b.tagName]) return NO;
         if (![a.attributes isEqual:b.attributes]) return NO;
-        return TreesAreTestEquivalent(a.childNodes, b.childNodes);
+        return TreesAreTestEquivalent(a.children, b.children);
     } else if ([aThing isKindOfClass:[HTMLTextNode class]]) {
         if (![bThing isKindOfClass:[HTMLTextNode class]]) return NO;
         HTMLTextNode *a = aThing, *b = bThing;
@@ -245,8 +249,8 @@ BOOL TreesAreTestEquivalent(id aThing, id bThing)
         return (((a.name == nil && b.name == nil) || [a.name isEqualToString:b.name]) &&
                 [a.publicIdentifier isEqualToString:b.publicIdentifier] &&
                 [a.systemIdentifier isEqualToString:b.systemIdentifier]);
-    } else if ([aThing isKindOfClass:[NSArray class]]) {
-        if (![bThing isKindOfClass:[NSArray class]]) return NO;
+    } else if (arrayLike(aThing)) {
+        if (!arrayLike(bThing)) return NO;
         NSArray *a = aThing, *b = bThing;
         if (a.count != b.count) return NO;
         for (NSUInteger i = 0; i < a.count; i++) {

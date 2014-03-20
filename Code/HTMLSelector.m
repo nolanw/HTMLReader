@@ -110,9 +110,8 @@ HTMLSelectorPredicateGen childOfOtherPredicatePredicate(HTMLSelectorPredicate pa
 {
 	if (!parentPredicate) return nil;
 	
-	return ^BOOL(HTMLElement *node) {
-		return ([node.parentNode isKindOfClass:[HTMLElement class]] &&
-                parentPredicate((HTMLElement *)node.parentNode));
+	return ^(HTMLElement *element) {
+		return parentPredicate(element.parentElement);
 	};
 }
 
@@ -120,14 +119,13 @@ HTMLSelectorPredicateGen descendantOfPredicate(HTMLSelectorPredicate parentPredi
 {
 	if (!parentPredicate) return nil;
 	
-	return ^(HTMLElement *node) {
-		HTMLNode *parentNode = node.parentNode;
-		while (parentNode) {
-			if ([parentNode isKindOfClass:[HTMLElement class]] &&
-                parentPredicate((HTMLElement *)parentNode)) {
+	return ^(HTMLElement *element) {
+		HTMLElement *parent = element.parentElement;
+		while (parent) {
+			if (parentPredicate(parent)) {
 				return YES;
 			}
-			parentNode = parentNode.parentNode;
+			parent = parent.parentElement;
 		}
 		return NO;
 	};
@@ -136,7 +134,7 @@ HTMLSelectorPredicateGen descendantOfPredicate(HTMLSelectorPredicate parentPredi
 HTMLSelectorPredicateGen isEmptyPredicate(void)
 {
 	return ^BOOL(HTMLElement *node) {
-        for (HTMLNode *child in node.childNodes) {
+        for (HTMLNode *child in node.children) {
             if ([child isKindOfClass:[HTMLElement class]]) {
                 return NO;
             } else if ([child isKindOfClass:[HTMLTextNode class]]) {
@@ -227,7 +225,7 @@ HTMLSelectorPredicateGen adjacentSiblingPredicate(HTMLSelectorPredicate siblingT
 	if (!siblingTest) return nil;
 	
 	return ^BOOL(HTMLElement *node) {
-		NSArray *parentChildren = node.parentNode.childElementNodes;
+		NSArray *parentChildren = node.parentElement.childElementNodes;
 		NSUInteger nodeIndex = [parentChildren indexOfObject:node];
 		return nodeIndex != 0 && siblingTest([parentChildren objectAtIndex:nodeIndex - 1]);
 	};
@@ -238,7 +236,7 @@ HTMLSelectorPredicateGen generalSiblingPredicate(HTMLSelectorPredicate siblingTe
 	if (!siblingTest) return nil;
 	
 	return ^(HTMLElement *node) {
-		for (HTMLElement *sibling in node.parentNode.childElementNodes) {
+		for (HTMLElement *sibling in node.parentElement.childElementNodes) {
 			if ([sibling isEqual:node]) {
 				break;
 			}
@@ -255,7 +253,7 @@ HTMLSelectorPredicateGen generalSiblingPredicate(HTMLSelectorPredicate siblingTe
 HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLast)
 {
 	return ^BOOL(HTMLNode *node) {
-		NSArray *parentElements = node.parentNode.childElementNodes;
+		NSArray *parentElements = node.parentElement.childElementNodes;
 		//Index relative to start/end
 		NSInteger nthPosition;
 		if (fromLast) {
@@ -277,8 +275,8 @@ HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, HTMLSe
 	
 	return ^BOOL(HTMLElement *node) {
 		id <NSFastEnumeration> enumerator = (fromLast
-                                             ? node.parentNode.childElementNodes.reverseObjectEnumerator
-                                             : node.parentNode.childElementNodes);
+                                             ? node.parentElement.childElementNodes.reverseObjectEnumerator
+                                             : node.parentElement.childElementNodes);
 		NSInteger count = 0;
 		for (HTMLElement *currentNode in enumerator) {
 			if (typePredicate(currentNode)) {
@@ -412,7 +410,7 @@ HTMLSelectorPredicateGen isCheckedPredicate(void)
 HTMLSelectorPredicateGen isOnlyChildPredicate(void)
 {
 	return ^BOOL(HTMLNode *node) {
-		return [node.parentNode childElementNodes].count == 1;
+		return [node.parentElement childElementNodes].count == 1;
 	};
 }
 
@@ -425,7 +423,7 @@ HTMLSelectorPredicateGen isRootPredicate(void)
 {
 	return ^BOOL(HTMLElement *node)
 	{
-		return !node.parentNode;
+		return !node.parentElement;
 	};
 }
 

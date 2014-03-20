@@ -3,6 +3,7 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLDocumentType.h"
+#import "HTMLDocument.h"
 
 @implementation HTMLDocumentType
 
@@ -23,9 +24,13 @@
     return [self initWithName:nil publicIdentifier:nil systemIdentifier:nil];
 }
 
-- (NSString *)serializedFragment
+- (void)setDocument:(HTMLDocument *)document
 {
-    return [NSString stringWithFormat:@"<!DOCTYPE %@>", self.name];
+    [super setDocument:document];
+    HTMLDocumentType *oldDocumentType = document.documentType;
+    if (oldDocumentType != self) {
+        [[document mutableChildren] removeObject:oldDocumentType];
+    }
 }
 
 #pragma mark NSCopying
