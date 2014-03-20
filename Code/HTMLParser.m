@@ -211,7 +211,6 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     _document.documentType = [[HTMLDocumentType alloc] initWithName:token.name
                                                    publicIdentifier:token.publicIdentifier
                                                    systemIdentifier:token.systemIdentifier];
-    [_document appendChild:_document.documentType];
     _document.quirksMode = ^{
         if (token.forceQuirks) return HTMLQuirksMode;
         if (![name isEqualToString:@"html"]) return HTMLQuirksMode;

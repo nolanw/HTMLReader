@@ -54,6 +54,6 @@ typedef NS_ENUM(NSInteger, HTMLDocumentQuirksMode)
 /**
  * The root node (usually the <html> element node), ignoring the document type node and any root-level comment nodes.
  */
-@property (readonly, strong, nonatomic) HTMLElement *rootElement;
+@property (strong, nonatomic) HTMLElement *rootElement;
 
 @end

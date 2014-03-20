@@ -12,14 +12,56 @@
     return [[HTMLParser alloc] initWithString:string].document;
 }
 
-- (HTMLElement *)rootElement
+- (HTMLDocumentType *)documentType
 {
-    for (HTMLElement *node in self.childNodes) {
-        if ([node isKindOfClass:[HTMLElement class]] && [node.tagName isEqualToString:@"html"]) {
+    for (id node in self.children) {
+        if ([node isKindOfClass:[HTMLDocumentType class]]) {
             return node;
         }
     }
     return nil;
+}
+
+- (void)setDocumentType:(HTMLDocumentType *)documentType
+{
+    HTMLDocumentType *oldDocumentType = self.documentType;
+    if (oldDocumentType == documentType) return;
+    
+    NSMutableOrderedSet *children = [self mutableChildren];
+    NSUInteger i = children.count;
+    if (oldDocumentType) {
+        i = [children indexOfObject:oldDocumentType];
+        [children removeObjectAtIndex:i];
+    }
+    if (documentType) {
+        [children insertObject:documentType atIndex:i];
+    }
+}
+
+- (HTMLElement *)rootElement
+{
+    for (id node in self.children) {
+        if ([node isKindOfClass:[HTMLElement class]]) {
+            return node;
+        }
+    }
+    return nil;
+}
+
+- (void)setRootElement:(HTMLElement *)rootElement
+{
+    HTMLElement *oldRootElement = self.rootElement;
+    if (oldRootElement == rootElement) return;
+    
+    NSMutableOrderedSet *children = [self mutableChildren];
+    NSUInteger i = children.count;
+    if (oldRootElement) {
+        i = [children indexOfObject:oldRootElement];
+        [children removeObjectAtIndex:i];
+    }
+    if (rootElement) {
+        [children insertObject:rootElement atIndex:i];
+    }
 }
 
 - (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
