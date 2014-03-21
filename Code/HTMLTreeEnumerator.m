@@ -20,9 +20,12 @@
 
 - (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed
 {
-    if (!(self = [super init])) return nil;
+    self = [super init];
+    if (!self) return nil;
+    
     _node = node;
 	_isReversed = reversed;
+    
     return self;
 }
 

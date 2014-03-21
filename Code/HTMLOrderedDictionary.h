@@ -4,30 +4,34 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * An HTMLOrderedDictionary is a mutable dictionary type that maintains its keys' insertion order.
+ */
 @interface HTMLOrderedDictionary : NSMutableDictionary
 
-- (id)initWithObjects:(const id[])objects forKeys:(const id <NSCopying>[])keys count:(NSUInteger)count;
-
-- (id)initWithCapacity:(NSUInteger)numItems;
-
-- (NSUInteger)count;
-
-- (id)objectForKey:(id)key;
-
+/**
+ * Returns the location of a key in the dictionary, or NSNotFound if the key is not present.
+ */
 - (NSUInteger)indexOfKey:(id)key;
 
-- (id)firstKey;
-
-- (id)lastKey;
-
-- (void)setObject:(id)object forKey:(id <NSCopying>)key;
-
-- (void)removeObjectForKey:(id)key;
-
+/**
+ * Moves or inserts a key in the dictionary, then pairs an object with that key. Throws an exception if either object or key is nil, or if index is out of bounds.
+ */
 - (void)insertObject:(id)object forKey:(id <NSCopying>)key atIndex:(NSUInteger)index;
 
-- (NSEnumerator *)keyEnumerator;
-
+/**
+ * Returns the key at a particular index in the dictionary. Throws an exception if index is out of bounds.
+ */
 - (id)objectAtIndexedSubscript:(NSUInteger)index;
+
+/**
+ * Returns the key at index 0 in the dictionary, or nil if the dictionary is empty.
+ */
+- (id)firstKey;
+
+/**
+ * Returns the key at index (count - 1) in the dictionary, or nil if the dictionary is empty.
+ */
+- (id)lastKey;
 
 @end

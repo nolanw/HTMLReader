@@ -6,7 +6,7 @@
 #import "HTMLElement.h"
 
 /**
- * The HTMLSelector class concisely locates a set of nodes in an HTMLDocument.
+ * An HTMLSelector concisely describes a set of nodes.
  *
  * It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ per the WHATWG HTML spec with the following exceptions:
  *
@@ -24,8 +24,6 @@
 
 /**
  * This is the designated initializer.
- *
- * @param selectorString A string representation of a selector.
  */
 - (id)initWithString:(NSString *)selectorString;
 
@@ -62,7 +60,7 @@ extern NSString * const HTMLSelectorInputStringErrorKey;
 extern NSString * const HTMLSelectorLocationErrorKey;
 
 /**
- * HTMLSelector expands the HTMLNode class to match nodes in the subtree rooted at an instance of HTMLNode.
+ * HTMLSelector expands the HTMLNode class to search for matches.
  */
 @interface HTMLNode (HTMLSelector)
 

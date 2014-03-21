@@ -6,18 +6,18 @@
 
 /**
  * An HTMLCommentNode represents a comment.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#comments
  */
 @interface HTMLComment : HTMLNode
 
 /**
- * Returns an initialized HTMLCommentNode. This is the designated initializer.
- *
- * @param data The comment text.
+ * This is the designated initializer.
  */
 - (id)initWithData:(NSString *)data;
 
 /**
- * The comment's text.
+ * The comment itself.
  */
 @property (readonly, copy, nonatomic) NSString *data;
 

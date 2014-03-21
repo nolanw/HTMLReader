@@ -8,30 +8,36 @@
 #import "HTMLTokenizerState.h"
 
 /**
+ * An HTMLTokenizer emits tokens derived from a string of HTML.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html
  */
 @interface HTMLTokenizer : NSEnumerator
 
 /**
- * Returns an initialized HTMLTokenizer.
- *
- * @param string The string to split into tokens.
+ * This is the designated initializer.
  */
 - (id)initWithString:(NSString *)string;
 
 /**
- * The current state of the tokenizer. Can be changed by the parser.
+ * The string where tokens come from.
  */
-@property (nonatomic) HTMLTokenizerState state;
+@property (readonly, copy, nonatomic) NSString *string;
 
 /**
- * The HTMLParser that is consuming the tokens from this tokenizer. Tokenization can change depending on the parser's state.
+ * The current state of the tokenizer. Sometimes the parser needs to change this.
+ */
+@property (assign, nonatomic) HTMLTokenizerState state;
+
+/**
+ * The parser that is consuming the tokenizer's tokens. Sometimes the tokenizer needs to know the parser's state.
  */
 @property (weak, nonatomic) HTMLParser *parser;
 
 @end
 
 /**
- * An HTMLDOCTYPEToken represents a <!DOCTYPE> tag.
+ * An HTMLDOCTYPEToken represents a `<!DOCTYPE>` tag.
  */
 @interface HTMLDOCTYPEToken : NSObject
 
@@ -53,19 +59,22 @@
 /**
  * YES if the parsed HTMLDocument's quirks mode should be set, or NO if other indicators should be used.
  */
-@property (nonatomic) BOOL forceQuirks;
+@property (assign, nonatomic) BOOL forceQuirks;
 
 @end
 
 /**
- * An HTMLTagToken abstractly represents opening (<p>) and closing (</p>) HTML tags with optional attributes.
+ * An HTMLTagToken abstractly represents opening (`<p>`) and closing (`</p>`) HTML tags with optional attributes.
  */
 @interface HTMLTagToken : NSObject
 
 /**
- * Returns an initialized HTMLTagToken. This is the designated initializer.
- *
- * @param tagName The name of this tag.
+ * This is the designated initializer.
+ */
+- (id)init;
+
+/**
+ * Initializes a token with a tag name.
  */
 - (id)initWithTagName:(NSString *)tagName;
 
@@ -87,7 +96,7 @@
 @end
 
 /**
- * An HTMLStartTagToken represents a start tag like <p>.
+ * An HTMLStartTagToken represents a start tag like `<p>`.
  */
 @interface HTMLStartTagToken : HTMLTagToken
 
@@ -101,7 +110,7 @@
 @end
 
 /**
- * An HTMLEndTagToken represents an end tag like </p>.
+ * An HTMLEndTagToken represents an end tag like `</p>`.
  */
 @interface HTMLEndTagToken : HTMLTagToken
 
@@ -113,7 +122,7 @@
 @interface HTMLCommentToken : NSObject
 
 /**
- * Returns an initialized HTMLCommentToken. This is the designated initializer.
+ * This is the designated initializer.
  *
  * @param data The comment's data.
  */
@@ -127,12 +136,12 @@
 @end
 
 /**
- * An HTMLCharacterToken represents a single code point as text in an HTML document.
+ * An HTMLCharacterToken represents a series of code points as text in an HTML document.
  */
 @interface HTMLCharacterToken : NSObject
 
 /**
- * Returns an initialized HTMLCharacterToken. This is the designated initializer.
+ * This is the designated initializer.
  */
 - (id)initWithString:(NSString *)string;
 
@@ -154,12 +163,14 @@
 @end
 
 /**
- * An HTMLParseErrorToken represents a parse error during tokenization. It's emitted as a parse error to give context to the error with respect to the tokens parsed before and after.
+ * An HTMLParseErrorToken represents a parse error during tokenization.
+ *
+ * Parse errors are emitted as tokens for context.
  */
 @interface HTMLParseErrorToken : NSObject
 
 /**
- * Returns an initialized HTMLParseErrorToken.
+ * This is the designated initializer.
  *
  * @param error The reason for the parse error.
  */
@@ -179,9 +190,6 @@
 
 @end
 
-/**
- * A category exposing methods used for testing the tokenizer.
- */
 @interface HTMLTokenizer (Testing)
 
 /**

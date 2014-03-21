@@ -22,10 +22,23 @@ extern void AppendLongCharacter(NSMutableString *self, UTF32Char character);
  */
 extern void EnumerateLongCharacters(NSString *self, void (^block)(UTF32Char character));
 
+/**
+ * Returns a string consisting solely of the character.
+ */
 extern NSString * StringWithLongCharacter(UTF32Char character);
 
+/**
+ * Whether or not the character is a whitespace character.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#space-character
+ */
 extern BOOL is_whitespace(UTF32Char c);
 
+/**
+ * Whether or not the character is allowed to be in an HTML document.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/parsing.html#preprocessing-the-input-stream
+ */
 extern BOOL is_undefined_or_disallowed(UTF32Char c);
 
 /**

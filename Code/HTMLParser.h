@@ -7,25 +7,31 @@
 #import "HTMLElement.h"
 
 /**
- * An HTMLParser parses HTML. It implements the tree construction phase.
+ * An HTMLParser turns a string into an HTMLDocument.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html
+ *
+ * @see HTMLTokenizer
  */
 @interface HTMLParser : NSObject
 
 /**
- * Returns an HTMLParser initialized for parsing an HTML fragment. This is a designated initializer.
+ * This is a designated initializer.
  *
- * @param string The unparsed HTML fragment.
- * @param context A context element, or nil if there is no context.
+ * @param string  A string of HTML.
+ * @param context A context element used for parsing a fragment of HTML, or nil if the fragment parsing algorithm is not to be used.
+ *
+ * For more information on the context parameter, see http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#parsing-html-fragments
  */
 - (id)initWithString:(NSString *)string context:(HTMLElement *)context;
 
 /**
- * All encountered parse errors.
+ * Instances of NSString representing the errors encountered while parsing the document.
  */
 @property (readonly, copy, nonatomic) NSArray *errors;
 
 /**
- * The parsed document.
+ * The parsed document. Lazily created on first access.
  */
 @property (readonly, strong, nonatomic) HTMLDocument *document;
 

@@ -52,7 +52,9 @@
 
 - (id)initWithString:(NSString *)string
 {
-    if (!(self = [super init])) return nil;
+    self = [super init];
+    if (!self) return nil;
+    
     _inputStream = [[HTMLPreprocessedInputStream alloc] initWithString:string];
     __weak __typeof__(self) weakSelf = self;
     [_inputStream setErrorBlock:^(NSString *error) {
@@ -61,7 +63,13 @@
     self.state = HTMLDataTokenizerState;
     _tokenQueue = [NSMutableArray new];
     _characterBuffer = [NSMutableString new];
+    
     return self;
+}
+
+- (NSString *)string
+{
+    return _inputStream.string;
 }
 
 - (void)setLastStartTag:(NSString *)tagName
@@ -4871,8 +4879,11 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 
 - (id)initWithData:(NSString *)data
 {
-    if (!(self = [super init])) return nil;
+    self = [super init];
+    if (!self) return nil;
+    
     _data = [NSMutableString stringWithString:(data ?: @"")];
+    
     return self;
 }
 
@@ -4929,8 +4940,11 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 
 - (id)initWithString:(NSString *)string
 {
-    if (!(self = [super init])) return nil;
+    self = [super init];
+    if (!self) return nil;
+    
     _string = [string copy];
+    
     return self;
 }
 
@@ -4989,8 +5003,11 @@ static NamedReferenceTable * LongestNamedReferencePrefix(NSString *search)
 
 - (id)initWithError:(NSString *)error
 {
-    if (!(self = [super init])) return nil;
+    self = [super init];
+    if (!self) return nil;
+    
     _error = [error copy];
+    
     return self;
 }
 

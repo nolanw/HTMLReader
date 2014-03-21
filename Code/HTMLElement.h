@@ -5,25 +5,33 @@
 #import "HTMLNode.h"
 
 /**
- * An HTMLElementNode represents a parsed element.
+ * An HTMLElement represents a subtree of content in an HTML document.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#elements
  */
 @interface HTMLElement : HTMLNode
 
 /**
- * Designated initializer.
+ * This is the designated initializer.
  *
- * @param tagName    The name of this element.
+ * @param tagName    What kind of element to make.
  * @param attributes A dictionary of attributes to start the element off. May be nil.
  */
 - (id)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;
 
 /**
- * This element's name.
+ * The element's kind.
  */
 @property (readonly, copy, nonatomic) NSString *tagName;
 
 /**
- * This element's attributes.
+ * The element's attributes.
+ *
+ * The attributes' sort order is stable when serialized. (This is required by the spec, but is not guaranteed by NSDictionary.)
+ *
+ * @see -objectForKeyedSubscript:
+ * @see -setObject:forKeyedSubscript:
+ * @see -removeAttributeWithName:
  */
 @property (readonly, copy, nonatomic) NSDictionary *attributes;
 
@@ -37,6 +45,9 @@
  */
 - (void)setObject:(NSString *)attributeValue forKeyedSubscript:(NSString *)attributeName;
 
+/**
+ * Removes the named attribute from the element.
+ */
 - (void)removeAttributeWithName:(NSString *)attributeName;
 
 /**

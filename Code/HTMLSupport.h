@@ -4,10 +4,12 @@
 
 #import <Foundation/Foundation.h>
 
+// NS_ENUM was defined circa iOS 6 and OS X 10.8, so we can't count on its presence.
 #ifndef NS_ENUM
 #   define NS_ENUM(_type, _name) _type _name; enum
 #endif
 
+// -[NSArray firstObject] was only publicly exposed in iOS 7 and OS X 10.9, but it was implemented much earlier.
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 40000 && __IPHONE_OS_VERSION_MIN_REQUIRED < 70000) || \
     (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && __MAC_OS_X_VERSION_MIN_REQUIRED < 1090)
 @interface NSArray (HTMLFirstObjectSupport)
@@ -17,6 +19,7 @@
 @end
 #endif
 
+// NSArray and NSDictionary have subscripting support via ARCLite, but the compiler wasn't always happily exposing that fact.
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40300 && __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
 @interface NSArray (HTMLSubscriptingSupport)
 

@@ -5,22 +5,25 @@
 #import "HTMLNode.h"
 
 /**
- * An HTMLTextNode represents a contiguous sequence of one or more characters.
+ * An HTMLTextNode represents text.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html#insert-a-character
  */
 @interface HTMLTextNode : HTMLNode
 
 /**
- * Returns an initialized HTMLTextNode. This is the designated initializer.
- *
- * @param data The text.
+ * This is the designated initializer.
  */
 - (id)initWithData:(NSString *)data;
 
 /**
- * The node's text.
+ * The text.
  */
 @property (readonly, copy, nonatomic) NSString *data;
 
+/**
+ * Adds a string to the end of the node's text.
+ */
 - (void)appendString:(NSString *)string;
 
 @end

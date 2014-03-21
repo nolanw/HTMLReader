@@ -10,20 +10,18 @@
 
 /**
  * An HTMLDocument is the root of a tree of nodes representing parsed HTML.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#writing
  */
 @interface HTMLDocument : HTMLNode
 
 /**
- * Parses a string of HTML.
- *
- * @param string Some HTML.
- *
- * @return An initialized HTMLDocument.
+ * Parses an HTML string into a document.
  */
 + (instancetype)documentWithString:(NSString *)string;
 
 /**
- * The document type node.
+ * The document type node. Setting a new documentType immediately removes the current documentType from the document.
  */
 @property (strong, nonatomic) HTMLDocumentType *documentType;
 
@@ -33,7 +31,7 @@
 @property (assign, nonatomic) HTMLQuirksMode quirksMode;
 
 /**
- * The root node (usually the <html> element node), ignoring the document type node and any root-level comment nodes.
+ * The first element in tree order. Typically the `<html>` element.
  */
 @property (strong, nonatomic) HTMLElement *rootElement;
 

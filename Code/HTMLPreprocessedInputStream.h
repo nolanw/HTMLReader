@@ -5,12 +5,14 @@
 #import <Foundation/Foundation.h>
 
 /**
- * An HTMLPreprocessedInputStream treats carriage return characters and raises parse errors on disallowed characters.
+ * An HTMLPreprocessedInputStream handles carriage returns, disallowed characters, and surrogate pairs.
+ *
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/parsing.html#preprocessing-the-input-stream
  */
 @interface HTMLPreprocessedInputStream : NSObject
 
 /**
- * Designated initializer.
+ * This is the designated initializer.
  */
 - (id)initWithString:(NSString *)string;
 
@@ -30,11 +32,11 @@
 - (BOOL)consumeString:(NSString *)string matchingCase:(BOOL)caseSensitive;
 
 /**
- * Consumes characters up to and including some character.
+ * Continually consumes characters until a certain character is encountered.
  *
- * @param predicate A block that is called against each character consumed. The block should return YES when consumption should stop.
+ * @param predicate A block that is called with each character consumed. When the block returns YES, character consumption stops.
  *
- * @return A string of the characters consumed, or nil if the stream is fully consumed.
+ * @return A string of the characters consumed, or nil if the stream is fully consumed before the block returns YES.
  */
 - (NSString *)consumeCharactersUpToFirstPassingTest:(BOOL(^)(UTF32Char character))test;
 

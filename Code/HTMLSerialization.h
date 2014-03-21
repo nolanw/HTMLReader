@@ -14,12 +14,12 @@
 /**
  * Returns the serialized HTML fragment of this node's children.
  *
- * This is what's described as "the HTML fragment serialization algorithm" by the spec.
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#serializing-html-fragments
  */
 - (NSString *)innerHTML;
 
 /**
- * Returns the serialized HTML fragment of this node. Subclasses must override.
+ * Returns the serialized HTML fragment of this node.
  */
 - (NSString *)serializedFragment;
 
