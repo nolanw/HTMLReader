@@ -10,9 +10,7 @@
 typedef BOOL (^HTMLSelectorPredicate)(HTMLElement *node);
 typedef HTMLSelectorPredicate HTMLSelectorPredicateGen;
 
-static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
-                                                       NSString **parsedString,
-                                                       NSError **error);
+static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString, NSError **error);
 
 static NSError * ParseError(NSString *reason, NSString *string, NSUInteger position)
 {
@@ -440,45 +438,6 @@ NSNumber * parseNumber(NSString *number, NSInteger defaultValue)
 
 #pragma mark Parse
 
-HTMLNthExpression parseNth(NSString *nthString)
-{
-	nthString = [nthString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	if ([nthString compare:@"odd" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-		return HTMLNthExpressionOdd;
-	} else if ([nthString compare:@"even" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
-		return HTMLNthExpressionEven;
-	} else {
-        NSCharacterSet *nthCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789 nN+-"] invertedSet];
-        if ([nthString rangeOfCharacterFromSet:nthCharacters].location != NSNotFound) {
-            return HTMLNthExpressionInvalid;
-        }
-	}
-	
-	NSArray *valueSplit = [nthString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"nN"]];
-	
-	if (valueSplit.count == 0 || valueSplit.count > 2) {
-		//No Ns or multiple Ns, fail
-		return HTMLNthExpressionInvalid;
-	} else if (valueSplit.count == 2) {
-		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
-		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
-		
-		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo) {
-			//"n" was defined, and only "-" was given as a multiplier
-			return HTMLNthExpressionMake(-1, numberTwo.integerValue);
-		} else if (numberOne && numberTwo) {
-			return HTMLNthExpressionMake(numberOne.integerValue, numberTwo.integerValue);
-		} else {
-			return HTMLNthExpressionInvalid;
-		}
-	} else {
-		NSNumber *number = parseNumber(valueSplit[0], 1);
-		
-		//"n" not found, use whole string as b
-		return HTMLNthExpressionMake(0, number.integerValue);
-	}
-}
-
 static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
 {
 	BOOL ok;
@@ -501,9 +460,8 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
 }
 
 static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
-														 HTMLSelectorPredicate typePredicate,
-                                                         NSString **parsedString,
-                                                         NSError **error)
+                                                             HTMLSelectorPredicate typePredicate,
+                                                             NSError **error)
 {
 	typedef HTMLSelectorPredicate (^CSSThing)(HTMLNthExpression nth);
     BOOL ok;
@@ -561,7 +519,7 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 		
 		if (!interior) return nil;
 		
-		HTMLNthExpression nth = parseNth(interior);
+		HTMLNthExpression nth = HTMLNthExpressionFromString(interior);
 		
 		if (HTMLNthExpressionEqualToNthExpression(nth, HTMLNthExpressionInvalid)) {
 			*error = ParseError(@"Failed to parse Nth statement", scanner.string, scanner.scanLocation);
@@ -583,7 +541,7 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
 	}
 	else if ([pseudo isEqualToString:@"not"]) {
 		NSString *toNegateString = scanFunctionInterior(scanner, error);
-		HTMLSelectorPredicate toNegate = SelectorFunctionForString(toNegateString, parsedString, error);
+		HTMLSelectorPredicate toNegate = SelectorFunctionForString(toNegateString, error);
 		return negatePredicate(toNegate);
 	}
 	
@@ -624,14 +582,14 @@ static NSCharacterSet *combinatorCharacters()
 	return frozenSet;
 }
 
-NSString *scanIdentifier(NSScanner* scanner,  NSString **parsedString, NSError **error)
+NSString *scanIdentifier(NSScanner *scanner,  NSError **error)
 {
 	NSString *ident;
 	[scanner scanCharactersFromSet:identifierCharacters() intoString:&ident];
 	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-NSString *scanTagModifier(NSScanner* scanner,  NSString **parsedString, NSError **error)
+NSString *scanTagModifier(NSScanner *scanner, NSError **error)
 {
 	NSString *modifier;
 	[scanner scanCharactersFromSet:tagModifierCharacters() intoString:&modifier];
@@ -640,7 +598,7 @@ NSString *scanTagModifier(NSScanner* scanner,  NSString **parsedString, NSError 
 	return modifier;
 }
 
-NSString *scanCombinator(NSScanner* scanner,  NSString **parsedString, NSError **error)
+NSString *scanCombinator(NSScanner *scanner,  NSError **error)
 {
 	NSString *operator;
 	[scanner scanCharactersFromSet:combinatorCharacters() intoString:&operator];
@@ -648,11 +606,11 @@ NSString *scanCombinator(NSScanner* scanner,  NSString **parsedString, NSError *
 	return operator;
 }
 
-HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **parsedString, NSError **error)
+HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSError **error)
 {
     NSCAssert([scanner.string characterAtIndex:scanner.scanLocation - 1] == '[', nil);
     
-	NSString *attributeName = scanIdentifier(scanner, parsedString, error);
+	NSString *attributeName = scanIdentifier(scanner, error);
 	NSString *operator;
     NSString *attributeValue;
     BOOL ok;
@@ -664,7 +622,7 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 		operator = [operator stringByTrimmingCharactersInSet:whitespace];
         operator = operator.length > 0 ? operator : @"=";
         [scanner scanCharactersFromSet:whitespace intoString:nil];
-        attributeValue = scanIdentifier(scanner, parsedString, error);
+        attributeValue = scanIdentifier(scanner, error);
         if (!attributeValue) {
             [scanner scanCharactersFromSet:whitespace intoString:nil];
             NSString *quote = [scanner.string substringWithRange:NSMakeRange(scanner.scanLocation, 1)];
@@ -708,9 +666,9 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSString **pars
 	}
 }
 
-HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSString **parsedString, NSError **error)
+HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSError **error)
 {
-	NSString *identifier = scanIdentifier(scanner, parsedString, error);
+	NSString *identifier = scanIdentifier(scanner, error);
 	if (identifier) {
         return isTagTypePredicate(identifier);
     } else {
@@ -720,9 +678,9 @@ HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSString **parsedS
 }
 
 
-HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate inputPredicate, NSString **parsedString, NSError **error)
+HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate inputPredicate, NSError **error)
 {
-	HTMLSelectorPredicate tagPredicate = scanTagPredicate(scanner, parsedString, error);
+	HTMLSelectorPredicate tagPredicate = scanTagPredicate(scanner, error);
 	
 	inputPredicate = inputPredicate ? bothCombinatorPredicate(tagPredicate, inputPredicate) : tagPredicate;
 	
@@ -732,24 +690,24 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	NSString *modifier;
 	
 	do {
-		modifier = scanTagModifier(scanner, parsedString, error);
+		modifier = scanTagModifier(scanner, error);
 		
 		//Pseudo and attribute
 		if ([modifier isEqualToString:@":"]) {
 			inputPredicate = bothCombinatorPredicate(inputPredicate,
-													 scanPredicateFromPseudoClass(scanner, inputPredicate, parsedString, error));
+													 scanPredicateFromPseudoClass(scanner, inputPredicate, error));
 		} else if ([modifier isEqualToString:@"::"]) {
 			// We don't support *any* pseudo-elements.
 			*error = ParseError(@"Pseudo elements unsupported", scanner.string, scanner.scanLocation - modifier.length);
 			return nil;
 		} else if ([modifier isEqualToString:@"["]) {
-			inputPredicate = bothCombinatorPredicate(  inputPredicate,
-													 scanAttributePredicate(scanner, parsedString, error));
+			inputPredicate = bothCombinatorPredicate(inputPredicate,
+													 scanAttributePredicate(scanner, error));
 		} else if ([modifier isEqualToString:@"."]) {
-			NSString *className = scanIdentifier(scanner, parsedString, error);
+			NSString *className = scanIdentifier(scanner, error);
 			inputPredicate =  bothCombinatorPredicate(inputPredicate, isKindOfClassPredicate(className));
 		} else if ([modifier isEqualToString:@"#"]) {
-			NSString *idName = scanIdentifier(scanner, parsedString, error);
+			NSString *idName = scanIdentifier(scanner, error);
 			inputPredicate =  bothCombinatorPredicate(inputPredicate, hasIDPredicate(idName));
 		} else if (modifier != nil)
 		{
@@ -767,7 +725,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	
 	if (scanner.isAtEnd) return inputPredicate;
 	
-	NSString *combinator = scanCombinator(scanner, parsedString, error);
+	NSString *combinator = scanCombinator(scanner, error);
 	
 	if ([combinator isEqualToString:@""]) {
 		//Whitespace combinator
@@ -790,7 +748,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	}
 }
 
-static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString, NSString **parsedString, NSError **error)
+static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString, NSError **error)
 {
 	//Trim non-functional whitespace
 	selectorString = [selectorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -809,7 +767,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	HTMLSelectorPredicate lastPredicate = nil;
 	
 	do{
-		lastPredicate = scanPredicate(scanner, lastPredicate, parsedString, error);
+		lastPredicate = scanPredicate(scanner, lastPredicate, error);
 	} while (lastPredicate && ![scanner isAtEnd] && !*error);
 	
 	NSCAssert(lastPredicate || *error, @"Need either a predicate or error at this point");
@@ -819,9 +777,11 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 @interface HTMLSelector ()
 
-@property (copy, nonatomic) HTMLSelectorPredicate predicate;
-@property (copy, nonatomic) NSString *parsedString;
+@property (copy, nonatomic) NSString *string;
+
 @property (strong, nonatomic) NSError *error;
+
+@property (copy, nonatomic) HTMLSelectorPredicate predicate;
 
 @end
 
@@ -834,21 +794,28 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 
 - (id)initWithString:(NSString *)selectorString
 {
-    if (!(self = [self init])) return nil;
-	NSError *error = nil;
-	NSString *parsedString = @"";
-	self.predicate = SelectorFunctionForString(selectorString, &parsedString, &error);
+    self = [self init];
+    if (!self) return nil;
+    
+    self.string = selectorString;
+	NSError *error;
+	self.predicate = SelectorFunctionForString(selectorString, &error);
 	self.error = error;
-	self.parsedString = parsedString;
+    
     return self;
+}
+
+- (BOOL)matchesElement:(HTMLElement *)element
+{
+    return self.predicate(element);
 }
 
 - (NSString *)description
 {
-    if (self.predicate) {
-        return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.parsedString];
-    } else {
+    if (self.error) {
         return [NSString stringWithFormat:@"<%@: %p ERROR: '%@'>", self.class, self, self.error];
+    } else {
+        return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.string];
 	}
 }
 
@@ -874,11 +841,11 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 
 - (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector
 {
-	NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
+	NSAssert(!selector.error, @"Attempted to use selector with error: %@", selector.error);
     
 	NSMutableArray *ret = [NSMutableArray new];
 	for (HTMLElement *node in self.treeEnumerator) {
-		if ([node isKindOfClass:[HTMLElement class]] && selector.predicate(node)) {
+		if ([node isKindOfClass:[HTMLElement class]] && [selector matchesElement:node]) {
 			[ret addObject:node];
 		}
 	}
@@ -887,10 +854,10 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 
 - (HTMLElement *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector
 {
-    NSAssert(selector.predicate, @"Attempted to use selector with error: %@", selector.error);
+    NSAssert(!selector.error, @"Attempted to use selector with error: %@", selector.error);
     
     for (HTMLElement *node in self.treeEnumerator) {
-        if ([node isKindOfClass:[HTMLElement class]] && selector.predicate(node)) {
+        if ([node isKindOfClass:[HTMLElement class]] && [selector matchesElement:node]) {
             return node;
         }
     }
@@ -907,6 +874,45 @@ HTMLNthExpression HTMLNthExpressionMake(NSInteger n, NSInteger c)
 BOOL HTMLNthExpressionEqualToNthExpression(HTMLNthExpression a, HTMLNthExpression b)
 {
     return a.n == b.n && a.c == b.c;
+}
+
+HTMLNthExpression HTMLNthExpressionFromString(NSString *string)
+{
+	string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([string compare:@"odd" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+		return HTMLNthExpressionOdd;
+	} else if ([string compare:@"even" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+		return HTMLNthExpressionEven;
+	} else {
+        NSCharacterSet *nthCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789 nN+-"] invertedSet];
+        if ([string rangeOfCharacterFromSet:nthCharacters].location != NSNotFound) {
+            return HTMLNthExpressionInvalid;
+        }
+	}
+	
+	NSArray *valueSplit = [string componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"nN"]];
+	
+	if (valueSplit.count == 0 || valueSplit.count > 2) {
+		//No Ns or multiple Ns, fail
+		return HTMLNthExpressionInvalid;
+	} else if (valueSplit.count == 2) {
+		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
+		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
+		
+		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo) {
+			//"n" was defined, and only "-" was given as a multiplier
+			return HTMLNthExpressionMake(-1, numberTwo.integerValue);
+		} else if (numberOne && numberTwo) {
+			return HTMLNthExpressionMake(numberOne.integerValue, numberTwo.integerValue);
+		} else {
+			return HTMLNthExpressionInvalid;
+		}
+	} else {
+		NSNumber *number = parseNumber(valueSplit[0], 1);
+		
+		//"n" not found, use whole string as b
+		return HTMLNthExpressionMake(0, number.integerValue);
+	}
 }
 
 const HTMLNthExpression HTMLNthExpressionOdd = (HTMLNthExpression){ .n = 2, .c = 1 };

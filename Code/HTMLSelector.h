@@ -18,29 +18,33 @@
 @interface HTMLSelector : NSObject
 
 /**
- * Initializes a new selector by parsing its string representation.
- *
- * This is the designated initializer.
- *
- * @param selectorString The string representation of a selector.
- *
- * @return An initialized selector that matches the described nodes.
- */
-- (id)initWithString:(NSString *)selectorString;
-
-/**
  * Creates and initializes a new selector.
  */
 + (instancetype)selectorForString:(NSString *)selectorString;
 
 /**
- * `nil` if the selector string parsed succesfully, or an NSError instance on failure. Errors are in the HTMLSelectorErrorDomain.
+ * This is the designated initializer.
+ *
+ * @param selectorString A string representation of a selector.
+ */
+- (id)initWithString:(NSString *)selectorString;
+
+/**
+ * A string representation of the selector.
+ */
+@property (readonly, copy, nonatomic) NSString *string;
+
+/**
+ * Whether or not an element is matched by the selector.
+ */
+- (BOOL)matchesElement:(HTMLElement *)element;
+
+/**
+ * The error encountered when parsing the selector string, or nil if there was no error. Errors are in the HTMLSelectorErrorDomain.
  */
 @property (readonly, strong, nonatomic) NSError *error;
 
 @end
-
-#pragma mark HTMLSelectorErrorDomain
 
 /**
  * Error domain for all selector parse errors. Errors in this domain describe in localizedFailureReason where in the input the error occurred.
@@ -84,8 +88,6 @@ extern NSString * const HTMLSelectorLocationErrorKey;
 
 @end
 
-#pragma mark nth Expressions
-
 /**
  * HTMLNthExpression represents the expression in an :nth-child (or similar) pseudo-class.
  */
@@ -114,6 +116,11 @@ extern HTMLNthExpression HTMLNthExpressionMake(NSInteger n, NSInteger c);
  * Returns YES if the two expressions are equal, or NO otherwise.
  */
 extern BOOL HTMLNthExpressionEqualToNthExpression(HTMLNthExpression a, HTMLNthExpression b);
+
+/**
+ * Translates a string resembling one of the forms `nx + c`, `odd`, or `even` into an HTMLNthExpression `{n, c}`.
+ */
+extern HTMLNthExpression HTMLNthExpressionFromString(NSString *string);
 
 /**
  * An HTMLNthExpression equivalent to the expression "odd".
