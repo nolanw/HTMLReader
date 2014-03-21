@@ -80,6 +80,11 @@
     return _children.count;
 }
 
+- (HTMLNode *)objectInChildrenAtIndex:(NSUInteger)index
+{
+    return [self objectInHTMLMutableChildrenAtIndex:index];
+}
+
 - (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
 {
     [self insertObject:node inHTMLMutableChildrenAtIndex:index];

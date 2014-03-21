@@ -39,11 +39,11 @@
         return currentNode;
     }
     for (NSUInteger i = 0; i < _nextNodePathCount - 1; i++) {
-		NSInteger index = _isReversed ? currentNode.children.count - _nextNodePath[i] - 1 : _nextNodePath[i];
-        currentNode = currentNode.children[index];
+        NSInteger index = _isReversed ? currentNode.countOfChildren - _nextNodePath[i] - 1 : _nextNodePath[i];
+        currentNode = [currentNode objectInChildrenAtIndex:index];
     }
     NSUInteger lastIndex = _nextNodePath[_nextNodePathCount - 1];
-    if (lastIndex >= currentNode.children.count) {
+    if (lastIndex >= currentNode.countOfChildren) {
         _nextNodePathCount--;
         if (_nextNodePathCount == 0) return nil;
         _nextNodePath[_nextNodePathCount - 1]++;
@@ -54,8 +54,8 @@
         _nextNodePath = reallocf(_nextNodePath, _nextNodePathCapacity * sizeof(_nextNodePath[0]));
     }
     _nextNodePath[_nextNodePathCount++] = 0;
-	NSInteger index = _isReversed ? currentNode.children.count - lastIndex - 1 : lastIndex;
-    return currentNode.children[index];
+    NSInteger index = _isReversed ? currentNode.countOfChildren - lastIndex - 1 : lastIndex;
+    return [currentNode objectInChildrenAtIndex:index];
 }
 
 @end

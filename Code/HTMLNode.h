@@ -46,6 +46,13 @@
 - (NSUInteger)countOfChildren;
 
 /**
+ * The child at some index.
+ *
+ * This method is faster than `[aNode.children indexOfObject:]` because no copying is involved.
+ */
+- (HTMLNode *)objectInChildrenAtIndex:(NSUInteger)index;
+
+/**
  * Subclasses may override to customize behavior when child nodes are added. They must call super.
  */
 - (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index;
