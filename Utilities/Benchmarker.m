@@ -5,37 +5,54 @@
 #import "HTMLReader.h"
 #import <mach/mach_time.h>
 
-static NSTimeInterval Time(NSInteger count, void (^block)(void))
+static NSTimeInterval Time(void (^block)(void))
 {
     static mach_timebase_info_data_t timebaseInfo;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         mach_timebase_info(&timebaseInfo);
     });
-    uint64_t elapsed = 0;
+
+    uint64_t start = mach_absolute_time();
+    block();
+    uint64_t end = mach_absolute_time();
     
-    for (NSInteger i = 0; i < count; i++) {
-        uint64_t start = mach_absolute_time();
-        block();
-        uint64_t end = mach_absolute_time();
-        elapsed += (end - start);
-    }
-    
-    return (NSTimeInterval)elapsed * timebaseInfo.numer / timebaseInfo.denom / 1e9;
+    return (NSTimeInterval)(end - start) * timebaseInfo.numer / timebaseInfo.denom / 1e9;
 }
 
-static NSString * LargeHTMLDocument(void)
+static NSString * PathForFixture(NSString *fixture)
 {
-    NSString *fixture = [[@(__FILE__) stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Fixtures/html5.html"];
-    return [NSString stringWithContentsOfFile:fixture usedEncoding:nil error:nil];
+    return [[[@(__FILE__) stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Fixtures"] stringByAppendingPathComponent:fixture];
 }
 
 int main(void) { @autoreleasepool {
-    NSString *string = LargeHTMLDocument();
-    NSInteger count = 1;
-    NSTimeInterval overallTime = Time(count, ^{
-        [HTMLDocument documentWithString:string];
-    });
-    NSLog(@"Time for parsing fixture: %gs", overallTime / count);
+    NSArray *arguments = [[NSProcessInfo processInfo] arguments];
+    arguments = [arguments subarrayWithRange:NSMakeRange(1, arguments.count - 1)];
+    if (arguments.count == 0) arguments = @[ @"large", @"selector" ];
+    
+    if ([arguments containsObject:@"large"]) {
+        NSString *large = [NSString stringWithContentsOfFile:PathForFixture(@"html5.html") usedEncoding:nil error:nil];
+        NSTimeInterval largeParseTime = Time(^{
+            [HTMLDocument documentWithString:large];
+        });
+        NSLog(@"Time for parsing fixture: %gs", largeParseTime);
+    }
+    
+    if ([arguments containsObject:@"selector"]) {
+        HTMLDocument *selectorsDocument = [HTMLDocument documentWithString:[NSString stringWithContentsOfFile:PathForFixture(@"query-selector.html") usedEncoding:nil error:nil]];
+        NSArray *selectorSuites = [NSArray arrayWithContentsOfFile:PathForFixture(@"query-selector.plist")];
+        NSTimeInterval selectorTime = Time(^{
+            for (NSDictionary *suite in selectorSuites) {
+                NSInteger count = [suite[@"fraction"] integerValue];
+                for (NSInteger i = 0; i < count; i++) {
+                    NSArray *selectors = suite[@"selectors"];
+                    for (NSString *selector in selectors) {
+                        [selectorsDocument nodesMatchingSelector:selector];
+                    }
+                }
+            }
+        });
+        NSLog(@"Time for selecting nodes: %gs", selectorTime);
+    }
     return 0;
 }}

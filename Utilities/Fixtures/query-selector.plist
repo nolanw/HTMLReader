@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>fraction</key>
+		<integer>15</integer>
+		<key>selectors</key>
+		<array>
+			<string>html body div&gt;#complex-multi-rules1 .some-class li[data-bar].some-class</string>
+			<string>#complex-multi-rules2 acronym</string>
+			<string>[id=&apos;complex-multi-rules2&apos;] a</string>
+			<string>#complex-multi-rules4 #complex-multi-rules4-sub1 #complex-multi-rules4-sub2 #complex-multi-rules4-sub3</string>
+			<string>#complex-multi-rules4 [id=&apos;complex-multi-rules4-sub1&apos;] #complex-multi-rules4-sub2 [id=&apos;complex-multi-rules4-sub3&apos;]</string>
+			<string>[id=&apos;complex-multi-rules4&apos;] [id=&apos;complex-multi-rules4-sub1&apos;] [id=&apos;complex-multi-rules4-sub2&apos;] [id=&apos;complex-multi-rules4-sub3&apos;]</string>
+			<string>#complex-multi-rules5 div #complex-multi-rules5-left ul li.other-class #complex-multi-rules5-right table tr&gt;td</string>
+			<string>div#complex-multi-rules5&gt;div div#complex-multi-rules5-left ul .other-class p img#complex-multi-rules5-image</string>
+			<string>input[name=&apos;complex-multi-rules6-file-input&apos;]</string>
+			<string>form input[name=&apos;complex-multi-rules6-file-input&apos;]</string>
+			<string>form[name=&apos;complex-multi-rules6-form&apos;] input[name=&apos;complex-multi-rules6-file-input&apos;]</string>
+			<string>form[name=&apos;complex-multi-rules6-form&apos;] div input[name=&apos;complex-multi-rules6-file-input&apos;]</string>
+			<string>form[name=&apos;complex-multi-rules6-form&apos;] div div input[name=&apos;complex-multi-rules6-file-input&apos;]</string>
+			<string>form[name=&apos;complex-multi-rules6-form&apos;]&gt;div&gt;div&gt;input[name=&apos;complex-multi-rules6-file-input&apos;]</string>
+			<string>div div a div div p.result-class</string>
+			<string>div div.some-class a.other-class div.another-class div p.result-class</string>
+			<string>div&gt;div&gt;a div div p.result-class</string>
+			<string>div&gt;div.some-class&gt;a.other-class&gt;div.another-class&gt;div&gt;p.result-class</string>
+			<string>div div a div div p.result-class</string>
+            <string>div div.some-class a div div p.result-class</string>
+            <string>div div.some-class a.other-class div div p.result-class</string>
+            <string>div div.some-class a.other-class div.another-class div p.result-class</string>
+		</array>
+	</dict>
+	<dict>
+		<key>fraction</key>
+		<integer>10</integer>
+		<key>selectors</key>
+		<array>
+			<string>details.details-class</string>
+			<string>summary.summary-class</string>
+			<string>article.article-class</string>
+		</array>
+	</dict>
+	<dict>
+		<key>fraction</key>
+		<integer>75</integer>
+		<key>selectors</key>
+		<array>
+			<string>details</string>
+			<string>summary</string>
+			<string>article</string>
+			<string>head</string>
+			<string>body</string>
+			<string>form</string>
+			<string>input</string>
+			<string>[data-foo]</string>
+			<string>[data-bar]</string>
+			<string>[title]</string>
+			<string>[href]</string>
+			<string>[data-foo=bar]</string>
+			<string>[data-bar=baz]</string>
+			<string>[title=&apos;WebKit Template Framework&apos;]</string>
+			<string>[href=&apos;http://www.webkit.org/&apos;]</string>
+			<string>#complex-multi-rules1</string>
+			<string>#complex-multi-rules2</string>
+			<string>#complex-multi-rules3</string>
+			<string>#complex-multi-rules4</string>
+			<string>#complex-multi-rules5</string>
+			<string>#complex-multi-rules6</string>
+			<string>#complex-multi-rules7</string>
+			<string>#complex-multi-rules8</string>
+			<string>#duplicate-id</string>
+			<string>.details-class</string>
+			<string>.summary-class</string>
+			<string>.article-class</string>
+			<string>.result-class</string>
+		</array>
+	</dict>
+</array>
+</plist>

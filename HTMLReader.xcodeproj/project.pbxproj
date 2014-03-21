@@ -154,6 +154,7 @@
 		1CD5250418DC7E60003F46A3 /* HTMLTokenizerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerState.h; sourceTree = "<group>"; };
 		1CD5250918DC83E6003F46A3 /* Benchmarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Benchmarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD5251718DC8438003F46A3 /* Benchmarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Benchmarker.m; sourceTree = "<group>"; };
+		1CD5251D18DCAD47003F46A3 /* query-selector.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "query-selector.plist"; sourceTree = "<group>"; };
 		1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializerTests.m; sourceTree = "<group>"; };
 		83C4518717BAFE3500C144DF /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSelector.h; sourceTree = "<group>"; };
 		83C4518817BAFE3500C144DF /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
@@ -215,6 +216,7 @@
 			children = (
 				1CD5251718DC8438003F46A3 /* Benchmarker.m */,
 				1C9A2A161836FEED0059FE17 /* EntityFetcher.m */,
+				1CD5251B18DCAC99003F46A3 /* Fixtures */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -305,6 +307,14 @@
 				1C8829781836A0A80051653C /* Tests.xcconfig */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		1CD5251B18DCAC99003F46A3 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				1CD5251D18DCAD47003F46A3 /* query-selector.plist */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
