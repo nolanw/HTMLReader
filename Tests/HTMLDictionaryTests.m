@@ -163,7 +163,7 @@ static NSArray *fixtureKeys;
 
 - (void)testIndexOfKey
 {
-    XCTAssertEqual([_dictionary indexOfKey:@"yo"], NSNotFound);
+    XCTAssertTrue([_dictionary indexOfKey:@"yo"] == NSNotFound);
     [self populateDictionary];
     XCTAssertEqual([_dictionary indexOfKey:@"yo"], [fixtureKeys indexOfObject:@"yo"]);
 }
