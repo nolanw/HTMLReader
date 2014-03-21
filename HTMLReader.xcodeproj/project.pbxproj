@@ -201,17 +201,9 @@
 		1C9A2A021836FE800059FE17 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1C9A2A151836FEED0059FE17 /* Entity Fetcher */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
-		1C9A2A151836FEED0059FE17 /* Entity Fetcher */ = {
-			isa = PBXGroup;
-			children = (
 				1C9A2A161836FEED0059FE17 /* EntityFetcher.m */,
 			);
-			path = "Entity Fetcher";
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		1C9C3EB0176BC53800E982C9 = {
