@@ -149,6 +149,7 @@
 		1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTests.m; sourceTree = "<group>"; };
 		1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLQuirksMode.h; sourceTree = "<group>"; };
 		1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNamespace.h; sourceTree = "<group>"; };
+		1CD5250418DC7E60003F46A3 /* HTMLTokenizerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerState.h; sourceTree = "<group>"; };
 		1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializerTests.m; sourceTree = "<group>"; };
 		83C4518717BAFE3500C144DF /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSelector.h; sourceTree = "<group>"; };
 		83C4518817BAFE3500C144DF /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
@@ -274,6 +275,7 @@
 				1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */,
 				1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */,
 				1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */,
+				1CD5250418DC7E60003F46A3 /* HTMLTokenizerState.h */,
 				1CD524F318D74C1F003F46A3 /* HTMLTreeEnumerator.h */,
 				1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */,
 			);

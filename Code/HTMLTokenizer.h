@@ -5,84 +5,9 @@
 #import <Foundation/Foundation.h>
 #import "HTMLOrderedDictionary.h"
 #import "HTMLParser.h"
+#import "HTMLTokenizerState.h"
 
 /**
- * The various states that an HTMLTokenizer moves through as it works. Exposed here for testing purposes.
- */
-typedef NS_ENUM(NSInteger, HTMLTokenizerState)
-{
-    HTMLDataTokenizerState,
-    HTMLCharacterReferenceInDataTokenizerState,
-    HTMLRCDATATokenizerState,
-    HTMLCharacterReferenceInRCDATATokenizerState,
-    HTMLRAWTEXTTokenizerState,
-    HTMLScriptDataTokenizerState,
-    HTMLPLAINTEXTTokenizerState,
-    HTMLTagOpenTokenizerState,
-    HTMLEndTagOpenTokenizerState,
-    HTMLTagNameTokenizerState,
-    HTMLRCDATALessThanSignTokenizerState,
-    HTMLRCDATAEndTagOpenTokenizerState,
-    HTMLRCDATAEndTagNameTokenizerState,
-    HTMLRAWTEXTLessThanSignTokenizerState,
-    HTMLRAWTEXTEndTagOpenTokenizerState,
-    HTMLRAWTEXTEndTagNameTokenizerState,
-    HTMLScriptDataLessThanSignTokenizerState,
-    HTMLScriptDataEndTagOpenTokenizerState,
-    HTMLScriptDataEndTagNameTokenizerState,
-    HTMLScriptDataEscapeStartTokenizerState,
-    HTMLScriptDataEscapeStartDashTokenizerState,
-    HTMLScriptDataEscapedTokenizerState,
-    HTMLScriptDataEscapedDashTokenizerState,
-    HTMLScriptDataEscapedDashDashTokenizerState,
-    HTMLScriptDataEscapedLessThanSignTokenizerState,
-    HTMLScriptDataEscapedEndTagOpenTokenizerState,
-    HTMLScriptDataEscapedEndTagNameTokenizerState,
-    HTMLScriptDataDoubleEscapeStartTokenizerState,
-    HTMLScriptDataDoubleEscapedTokenizerState,
-    HTMLScriptDataDoubleEscapedDashTokenizerState,
-    HTMLScriptDataDoubleEscapedDashDashTokenizerState,
-    HTMLScriptDataDoubleEscapedLessThanSignTokenizerState,
-    HTMLScriptDataDoubleEscapeEndTokenizerState,
-    HTMLBeforeAttributeNameTokenizerState,
-    HTMLAttributeNameTokenizerState,
-    HTMLAfterAttributeNameTokenizerState,
-    HTMLBeforeAttributeValueTokenizerState,
-    HTMLAttributeValueDoubleQuotedTokenizerState,
-    HTMLAttributeValueSingleQuotedTokenizerState,
-    HTMLAttributeValueUnquotedTokenizerState,
-    HTMLCharacterReferenceInAttributeValueTokenizerState,
-    HTMLAfterAttributeValueQuotedTokenizerState,
-    HTMLSelfClosingStartTagTokenizerState,
-    HTMLBogusCommentTokenizerState,
-    HTMLMarkupDeclarationOpenTokenizerState,
-    HTMLCommentStartTokenizerState,
-    HTMLCommentStartDashTokenizerState,
-    HTMLCommentTokenizerState,
-    HTMLCommentEndDashTokenizerState,
-    HTMLCommentEndTokenizerState,
-    HTMLCommentEndBangTokenizerState,
-    HTMLDOCTYPETokenizerState,
-    HTMLBeforeDOCTYPENameTokenizerState,
-    HTMLDOCTYPENameTokenizerState,
-    HTMLAfterDOCTYPENameTokenizerState,
-    HTMLAfterDOCTYPEPublicKeywordTokenizerState,
-    HTMLBeforeDOCTYPEPublicIdentifierTokenizerState,
-    HTMLDOCTYPEPublicIdentifierDoubleQuotedTokenizerState,
-    HTMLDOCTYPEPublicIdentifierSingleQuotedTokenizerState,
-    HTMLAfterDOCTYPEPublicIdentifierTokenizerState,
-    HTMLBetweenDOCTYPEPublicAndSystemIdentifiersTokenizerState,
-    HTMLAfterDOCTYPESystemKeywordTokenizerState,
-    HTMLBeforeDOCTYPESystemIdentifierTokenizerState,
-    HTMLDOCTYPESystemIdentifierDoubleQuotedTokenizerState,
-    HTMLDOCTYPESystemIdentifierSingleQuotedTokenizerState,
-    HTMLAfterDOCTYPESystemIdentifierTokenizerState,
-    HTMLBogusDOCTYPETokenizerState,
-    HTMLCDATASectionTokenizerState,
-};
-
-/**
- * An HTMLTokenizer emits tokens from a string of HTML.
  */
 @interface HTMLTokenizer : NSEnumerator
 
