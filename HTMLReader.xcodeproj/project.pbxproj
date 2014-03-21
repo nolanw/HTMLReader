@@ -62,6 +62,8 @@
 		1CD524FC18D74CFF003F46A3 /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */; };
 		1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */; };
 		1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */; };
+		1CD5251818DC8438003F46A3 /* Benchmarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD5251718DC8438003F46A3 /* Benchmarker.m */; };
+		1CD5251A18DC8845003F46A3 /* HTMLReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C88293B18369DD70051653C /* HTMLReader.framework */; };
 		1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */; };
 		83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518817BAFE3500C144DF /* HTMLSelector.m */; };
 		83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */; };
@@ -150,6 +152,8 @@
 		1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLQuirksMode.h; sourceTree = "<group>"; };
 		1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNamespace.h; sourceTree = "<group>"; };
 		1CD5250418DC7E60003F46A3 /* HTMLTokenizerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerState.h; sourceTree = "<group>"; };
+		1CD5250918DC83E6003F46A3 /* Benchmarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Benchmarker; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CD5251718DC8438003F46A3 /* Benchmarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Benchmarker.m; sourceTree = "<group>"; };
 		1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializerTests.m; sourceTree = "<group>"; };
 		83C4518717BAFE3500C144DF /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSelector.h; sourceTree = "<group>"; };
 		83C4518817BAFE3500C144DF /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
@@ -187,6 +191,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1CD5251918DC8841003F46A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CD5251A18DC8845003F46A3 /* HTMLReader.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -201,6 +213,7 @@
 		1C9A2A021836FE800059FE17 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1CD5251718DC8438003F46A3 /* Benchmarker.m */,
 				1C9A2A161836FEED0059FE17 /* EntityFetcher.m */,
 			);
 			path = Utilities;
@@ -230,6 +243,7 @@
 				1C88293B18369DD70051653C /* HTMLReader.framework */,
 				1C88295018369DD70051653C /* Tests on OS X.xctest */,
 				1C9A2A071836FEAE0059FE17 /* Entity Fetcher */,
+				1CD5250918DC83E6003F46A3 /* Benchmarker */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -404,6 +418,22 @@
 			productReference = 1C9C3ECA176BC53900E982C9 /* Tests on iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		1CD5250818DC83E6003F46A3 /* Benchmarker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1CD5251618DC83E6003F46A3 /* Build configuration list for PBXNativeTarget "Benchmarker" */;
+			buildPhases = (
+				1CD5250518DC83E6003F46A3 /* Sources */,
+				1CD5251918DC8841003F46A3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Benchmarker;
+			productName = Benchmarker;
+			productReference = 1CD5250918DC83E6003F46A3 /* Benchmarker */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -438,6 +468,7 @@
 				1C9C3EC9176BC53900E982C9 /* Tests on iOS */,
 				1C88293A18369DD70051653C /* HTMLReader OS X */,
 				1C88294F18369DD70051653C /* Tests on OS X */,
+				1CD5250818DC83E6003F46A3 /* Benchmarker */,
 				1C9A2A061836FEAE0059FE17 /* Entity Fetcher */,
 			);
 		};
@@ -561,6 +592,14 @@
 				1CC666AB17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m in Sources */,
 				83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */,
 				1CC666B117B14E1800E457E7 /* HTMLTestUtilities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1CD5250518DC83E6003F46A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CD5251818DC8438003F46A3 /* Benchmarker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,6 +902,46 @@
 			};
 			name = Release;
 		};
+		1CD5251418DC83E6003F46A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1CD5251518DC83E6003F46A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -916,6 +995,15 @@
 			buildConfigurations = (
 				1C9C3EE2176BC53900E982C9 /* Debug */,
 				1C9C3EE3176BC53900E982C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1CD5251618DC83E6003F46A3 /* Build configuration list for PBXNativeTarget "Benchmarker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CD5251418DC83E6003F46A3 /* Debug */,
+				1CD5251518DC83E6003F46A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
