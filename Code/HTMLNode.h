@@ -41,7 +41,7 @@
 /**
  * The number of children.
  *
- * This method is publicly exposed for performance reasons.
+ * This method is faster than `aNode.children.count` because no copying is involved.
  */
 - (NSUInteger)countOfChildren;
 

@@ -58,9 +58,21 @@
     return [_children copy];
 }
 
+// In order to quickly mutate the children set, we need to pull some shenanigans. From the Key-Value Coding Programming Guide:
+//
+// > When the default implementation of valueForKey: is invoked on a receiver, the following search pattern is used:
+// >
+// > 1. Searches the class of the receiver for an accessor method whose name matches the pattern get<Key>, <key>, or is<Key>, in that order. If such a method is found it is invoked.…
+// > 2. Otherwise (no simple accessor method is found), searches the class of the receiver for methods whose names match the patterns countOf<Key> and objectIn<Key>AtIndex: … and <key>AtIndexes:….
+// > If the countOf<Key> method and at least one of the other two possible methods are found, a collection proxy object that responds to all NSArray [sic] methods is returned. Each NSArray [sic] message sent to the collection proxy object will result in some combination of countOf<Key>, objectIn<Key>AtIndex:, and <key>AtIndexes: messages being sent to the original receiver of valueForKey:.
+//
+// From this, we can see that implementing -children stops us at step 1, and our implementation involves copying the set so it is slow. To work around this, we become KVC-compliant for the key "HTMLMutableChildren" and implement the accessors for that key. Since we don't implement -HTMLMutableChildren (step 1), our accessors are used instead (step 2), and all is well.
+//
+// Note that -mutableOrderedSetValueForKey: will still work for the key "children", it'll just be slow.
+
 - (NSMutableOrderedSet *)mutableChildren
 {
-    return [self mutableOrderedSetValueForKey:@"children"];
+    return [self mutableOrderedSetValueForKey:@"HTMLMutableChildren"];
 }
 
 - (NSUInteger)countOfChildren
@@ -70,10 +82,30 @@
 
 - (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
 {
-    [_children insertObject:node atIndex:index];
+    [self insertObject:node inHTMLMutableChildrenAtIndex:index];
 }
 
 - (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
+{
+    [self removeObjectFromHTMLMutableChildrenAtIndex:index];
+}
+
+- (NSUInteger)countOfHTMLMutableChildren
+{
+    return _children.count;
+}
+
+- (HTMLNode *)objectInHTMLMutableChildrenAtIndex:(NSUInteger)index
+{
+    return _children[index];
+}
+
+- (void)insertObject:(HTMLNode *)node inHTMLMutableChildrenAtIndex:(NSUInteger)index
+{
+    [_children insertObject:node atIndex:index];
+}
+
+- (void)removeObjectFromHTMLMutableChildrenAtIndex:(NSUInteger)index
 {
     [_children removeObjectAtIndex:index];
 }
