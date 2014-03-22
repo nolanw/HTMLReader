@@ -101,4 +101,29 @@ static NSArray *nodeChildClasses;
     XCTAssertNil(comment.document);
 }
 
+- (void)testTextContent
+{
+    HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"body" attributes:nil];
+    XCTAssertEqualObjects(root.textContent, @"");
+    
+    HTMLComment *comment = [[HTMLComment alloc] initWithData:@"shhh"];
+    comment.parentElement = root;
+    XCTAssertEqualObjects(root.textContent, @"");
+    XCTAssertEqualObjects(comment.textContent, @"shhh");
+    
+    [[root mutableChildren] addObject:[[HTMLTextNode alloc] initWithData:@"  "]];
+    HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p" attributes:nil];
+    [[root mutableChildren] addObject:p];
+    [[p mutableChildren] addObject:[[HTMLTextNode alloc] initWithData:@"hello"]];
+    [[root mutableChildren] addObject:[[HTMLTextNode alloc] initWithData:@" sup sup sup"]];
+    XCTAssertEqualObjects(root.textContent, @"  hello sup sup sup");
+    XCTAssertEqualObjects(p.textContent, @"hello");
+    
+    root.textContent = @"now what";
+    XCTAssertEqualObjects(root.textContent, @"now what");
+    XCTAssertEqualObjects([root.children.array valueForKey:@"class"], (@[ [HTMLTextNode class] ]));
+    XCTAssertNil(p.parentElement);
+    XCTAssertNil(comment.parentNode);
+}
+
 @end

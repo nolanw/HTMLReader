@@ -19,6 +19,6 @@
 /**
  * The comment itself.
  */
-@property (readonly, copy, nonatomic) NSString *data;
+@property (copy, nonatomic) NSString *data;
 
 @end

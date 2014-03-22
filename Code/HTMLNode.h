@@ -71,6 +71,13 @@
 - (NSEnumerator *)reversedTreeEnumerator;
 
 /**
+ * The combined text content of the node and its descendants. The setter replaces the node's text, removing all descendants.
+ *
+ * For more information, see http://dom.spec.whatwg.org/#dom-node-textcontent
+ */
+@property (copy, nonatomic) NSString *textContent;
+
+/**
  * Convenience method for either adding a string to an existing text node or creating a new text node.
  *
  * @param string         The text to insert.

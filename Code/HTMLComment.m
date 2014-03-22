@@ -16,6 +16,16 @@
     return self;
 }
 
+- (NSString *)textContent
+{
+    return self.data;
+}
+
+- (void)setTextContent:(NSString *)textContent
+{
+    self.data = textContent;
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

@@ -186,6 +186,26 @@
 	return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:YES];
 }
 
+- (NSString *)textContent
+{
+    NSMutableArray *parts = [NSMutableArray new];
+    for (HTMLTextNode *node in self.treeEnumerator) {
+        if ([node isKindOfClass:[HTMLTextNode class]]) {
+            [parts addObject:node.data];
+        }
+    }
+    return [parts componentsJoinedByString:@""];
+}
+
+- (void)setTextContent:(NSString *)textContent
+{
+    [[self mutableChildren] removeAllObjects];
+    if (textContent.length > 0) {
+        HTMLTextNode *textNode = [[HTMLTextNode alloc] initWithData:textContent];
+        [[self mutableChildren] addObject:textNode];
+    }
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
