@@ -5,7 +5,7 @@
 #import "HTMLReader.h"
 #import <mach/mach_time.h>
 
-static NSTimeInterval Time(void (^block)(void))
+static NSTimeInterval Time(NSUInteger reps, void (^block)(void))
 {
     static mach_timebase_info_data_t timebaseInfo;
     static dispatch_once_t onceToken;
@@ -13,11 +13,15 @@ static NSTimeInterval Time(void (^block)(void))
         mach_timebase_info(&timebaseInfo);
     });
 
-    uint64_t start = mach_absolute_time();
-    block();
-    uint64_t end = mach_absolute_time();
+    uint64_t elapsed = 0;
+    for (NSUInteger i = 0; i < reps; i++) {
+        uint64_t start = mach_absolute_time();
+        block();
+        uint64_t end = mach_absolute_time();
+        elapsed += (end - start);
+    }
     
-    return (NSTimeInterval)(end - start) * timebaseInfo.numer / timebaseInfo.denom / 1e9;
+    return (NSTimeInterval)elapsed * timebaseInfo.numer / timebaseInfo.denom / 1e9;
 }
 
 static NSString * PathForFixture(NSString *fixture)
@@ -32,7 +36,7 @@ int main(void) { @autoreleasepool {
     
     if ([arguments containsObject:@"large"]) {
         NSString *large = [NSString stringWithContentsOfFile:PathForFixture(@"html5.html") usedEncoding:nil error:nil];
-        NSTimeInterval largeParseTime = Time(^{
+        NSTimeInterval largeParseTime = Time(1, ^{
             [HTMLDocument documentWithString:large];
         });
         NSLog(@"Time for parsing fixture: %gs", largeParseTime);
@@ -41,7 +45,8 @@ int main(void) { @autoreleasepool {
     if ([arguments containsObject:@"selector"]) {
         HTMLDocument *selectorsDocument = [HTMLDocument documentWithString:[NSString stringWithContentsOfFile:PathForFixture(@"query-selector.html") usedEncoding:nil error:nil]];
         NSArray *selectorSuites = [NSArray arrayWithContentsOfFile:PathForFixture(@"query-selector.plist")];
-        NSTimeInterval selectorTime = Time(^{
+        NSUInteger reps = 5;
+        NSTimeInterval selectorTime = Time(reps, ^{
             for (NSDictionary *suite in selectorSuites) {
                 NSInteger count = [suite[@"fraction"] integerValue];
                 for (NSInteger i = 0; i < count; i++) {
@@ -52,7 +57,7 @@ int main(void) { @autoreleasepool {
                 }
             }
         });
-        NSLog(@"Time for selecting nodes: %gs", selectorTime);
+        NSLog(@"Time for selecting nodes: %gs (mean)", selectorTime / reps);
     }
     return 0;
 }}
