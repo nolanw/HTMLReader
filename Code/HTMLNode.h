@@ -59,14 +59,14 @@
 @property (readonly, copy, nonatomic) NSArray *childElementNodes;
 
 /**
- * Returns an enumerator that emits the subtree rooted at the node in tree order.
+ * Emits in tree order the nodes in the subtree rooted at the node.
  *
- * http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order
+ * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order
  */
 - (NSEnumerator *)treeEnumerator;
 
 /**
- * Returns an enumerator that emits the subtree rooted at the node in a reversed tree order (preorder, depth-first, but starting with the last child instead of the first).
+ * Emits in tree order the node in the subree rooted at the node, except children are enumerated back to front.
  */
 - (NSEnumerator *)reversedTreeEnumerator;
 

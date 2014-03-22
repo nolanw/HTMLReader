@@ -29,16 +29,14 @@
 {
     HTMLNode *parent = [self rootNodeWithString:@"<parent><child1></child1><child2>"];
     NSArray *nodes = [parent.reversedTreeEnumerator allObjects];
-    NSArray *expectedOrder = @[ @"parent", @"child2", @"child1" ];
-    XCTAssertEqualObjects([nodes valueForKey:@"tagName"], expectedOrder);
+    XCTAssertEqualObjects([nodes valueForKey:@"tagName"], (@[ @"parent", @"child2", @"child1" ]));
 }
 
 - (void)testChristmasTree
 {
     HTMLNode *root = [self rootNodeWithString:@"<a><b><c></c></b><b><c><d></d></c><c></c></b>"];
     NSArray *nodes = [root.treeEnumerator allObjects];
-    NSArray *expectedOrder = @[ @"a", @"b", @"c", @"b", @"c", @"d", @"c" ];
-    XCTAssertEqualObjects([nodes valueForKey:@"tagName"], expectedOrder);
+    XCTAssertEqualObjects([nodes valueForKey:@"tagName"], (@[ @"a", @"b", @"c", @"b", @"c", @"d", @"c" ]));
 }
 
 - (HTMLNode *)rootNodeWithString:(NSString *)string
