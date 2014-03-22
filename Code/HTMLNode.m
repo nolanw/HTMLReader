@@ -98,6 +98,11 @@
     return _children[index];
 }
 
+- (NSUInteger)indexOfChild:(HTMLNode *)child
+{
+    return [_children indexOfObject:child];
+}
+
 - (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
 {
     [_children insertObject:node atIndex:index];

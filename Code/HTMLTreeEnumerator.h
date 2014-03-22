@@ -15,9 +15,4 @@
  */
 - (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed;
 
-/**
- * The node at the root of the enumerated tree.
- */
-@property (readonly, strong, nonatomic) HTMLNode *node;
-
 @end

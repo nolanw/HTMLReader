@@ -54,6 +54,13 @@
 - (HTMLNode *)childAtIndex:(NSUInteger)index;
 
 /**
+ * Returns the location of a child, or NSNotFound if the node is not the child's parent.
+ *
+ * This method is faster than calling `[aNode.children indexOfObject:]`.
+ */
+- (NSUInteger)indexOfChild:(HTMLNode *)child;
+
+/**
  * The node's children which are instances of HTMLElement.
  */
 @property (readonly, copy, nonatomic) NSArray *childElementNodes;
