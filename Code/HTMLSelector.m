@@ -136,11 +136,13 @@ HTMLSelectorPredicateGen isEmptyPredicate(void)
             if ([child isKindOfClass:[HTMLElement class]]) {
                 return NO;
             } else if ([child isKindOfClass:[HTMLTextNode class]]) {
-                HTMLTextNode *textChild = (HTMLTextNode *)child;
-                return textChild.data.length == 0;
+                HTMLTextNode *textNode = (HTMLTextNode *)child;
+                if (textNode.data.length > 0) {
+                    return NO;
+                }
             }
         }
-		return YES;
+        return YES;
 	};
 }
 
