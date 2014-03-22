@@ -2794,7 +2794,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 {
     NSUInteger index;
     if (node) {
-        index = node.countOfChildren;
+        index = node.numberOfChildren;
     } else {
         node = [self appropriatePlaceForInsertingANodeIndex:&index];
     }
@@ -2821,7 +2821,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
         }
         if (!lastTable) {
             HTMLElement *html = _stackOfOpenElements[0];
-            *index = html.countOfChildren;
+            *index = html.numberOfChildren;
             return html;
         }
         if (lastTable.parentElement) {
@@ -2830,10 +2830,10 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
         }
         NSUInteger indexOfLastTable = [_stackOfOpenElements indexOfObject:lastTable];
         HTMLElement *previousNode = _stackOfOpenElements[indexOfLastTable - 1];
-        *index = previousNode.countOfChildren;
+        *index = previousNode.numberOfChildren;
         return previousNode;
     } else {
-        *index = target.countOfChildren;
+        *index = target.numberOfChildren;
         return target;
     }
 }

@@ -7,10 +7,18 @@
 #import "HTMLTextNode.h"
 #import "HTMLTreeEnumerator.h"
 
+@interface HTMLChildrenRelationshipProxy : NSMutableOrderedSet
+
+- (id)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children;
+
+@property (readonly, strong, nonatomic) HTMLNode *node;
+
+@property (readonly, strong, nonatomic) NSMutableOrderedSet *children;
+
+@end
+
 @implementation HTMLNode
 {
-    HTMLDocument *_document;
-    HTMLElement *_parentElement;
     NSMutableOrderedSet *_children;
 }
 
@@ -26,31 +34,36 @@
 
 - (HTMLDocument *)document
 {
-    return _document ?: self.parentElement.document;
+    HTMLNode *currentNode = self.parentNode;
+    while (currentNode && ![currentNode isKindOfClass:[HTMLDocument class]]) {
+        currentNode = currentNode.parentNode;
+    }
+    return (HTMLDocument *)currentNode;
 }
 
-- (void)setDocument:(HTMLDocument *)document
+- (void)setParentNode:(HTMLNode *)parentNode
 {
-    if (document == self.document) return;
-    [[_parentElement mutableChildren] removeObject:self];
-    [[_document mutableChildren] removeObject:self];
-    
-    _document = document;
-    _parentElement = nil;
-    
-    [[document mutableChildren] addObject:self];
+    [self setParentNode:parentNode updateChildren:YES];
+}
+
+- (void)setParentNode:(HTMLNode *)parentNode updateChildren:(BOOL)updateChildren
+{
+    [_parentNode removeChild:self updateParentNode:NO];
+    _parentNode = parentNode;
+    if (updateChildren) {
+        [parentNode addChild:self updateParentNode:NO];
+    }
+}
+
+- (HTMLElement *)parentElement
+{
+    HTMLNode *parent = self.parentNode;
+    return [parent isKindOfClass:[HTMLElement class]] ? (HTMLElement *)parent : nil;
 }
 
 - (void)setParentElement:(HTMLElement *)parentElement
 {
-    if (parentElement == _parentElement) return;
-    [[_parentElement mutableChildren] removeObject:self];
-    [[_document mutableChildren] removeObject:self];
-    
-    _parentElement = parentElement;
-    _document = nil;
-    
-    [[parentElement mutableChildren] addObject:self];
+    self.parentNode = parentElement;
 }
 
 - (NSOrderedSet *)children
@@ -66,53 +79,77 @@
 // > 2. Otherwise (no simple accessor method is found), searches the class of the receiver for methods whose names match the patterns countOf<Key> and objectIn<Key>AtIndex: … and <key>AtIndexes:….
 // > If the countOf<Key> method and at least one of the other two possible methods are found, a collection proxy object that responds to all NSArray [sic] methods is returned. Each NSArray [sic] message sent to the collection proxy object will result in some combination of countOf<Key>, objectIn<Key>AtIndex:, and <key>AtIndexes: messages being sent to the original receiver of valueForKey:.
 //
-// From this, we can see that implementing -children stops us at step 1, and our implementation involves copying the set so it is slow. To work around this, we become KVC-compliant for the key "HTMLMutableChildren" and implement the accessors for that key. Since we don't implement -HTMLMutableChildren (step 1), our accessors are used instead (step 2), and all is well.
+// From this, we can see that implementing -children stops us at step 1, and our implementation involves copying the set so it is slow. To work around this, we become KVC-compliant for the key "HTMLMutableChildren" and implement the accessors for that key. Since we don't implement -HTMLMutableChildren et al (step 1), our accessors are used instead (step 2), and all is well.
 //
 // Note that -mutableOrderedSetValueForKey: will still work for the key "children", it'll just be slow.
 
 - (NSMutableOrderedSet *)mutableChildren
 {
-    return [self mutableOrderedSetValueForKey:@"HTMLMutableChildren"];
+    return [[HTMLChildrenRelationshipProxy alloc] initWithNode:self children:_children];
 }
 
-- (NSUInteger)countOfChildren
+- (NSUInteger)numberOfChildren
 {
     return _children.count;
 }
 
-- (HTMLNode *)objectInChildrenAtIndex:(NSUInteger)index
-{
-    return [self objectInHTMLMutableChildrenAtIndex:index];
-}
-
-- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
-{
-    [self insertObject:node inHTMLMutableChildrenAtIndex:index];
-}
-
-- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
-{
-    [self removeObjectFromHTMLMutableChildrenAtIndex:index];
-}
-
-- (NSUInteger)countOfHTMLMutableChildren
-{
-    return _children.count;
-}
-
-- (HTMLNode *)objectInHTMLMutableChildrenAtIndex:(NSUInteger)index
+- (HTMLNode *)childAtIndex:(NSUInteger)index
 {
     return _children[index];
 }
 
-- (void)insertObject:(HTMLNode *)node inHTMLMutableChildrenAtIndex:(NSUInteger)index
+- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
 {
     [_children insertObject:node atIndex:index];
+    [node setParentNode:self updateChildren:NO];
 }
 
-- (void)removeObjectFromHTMLMutableChildrenAtIndex:(NSUInteger)index
+- (void)insertChildren:(NSArray *)array atIndexes:(NSIndexSet *)indexes
 {
+    [_children insertObjects:array atIndexes:indexes];
+    for (HTMLNode *node in array) {
+        [node setParentNode:self updateChildren:NO];
+    }
+}
+
+- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
+{
+    HTMLNode *node = _children[index];
     [_children removeObjectAtIndex:index];
+    [node setParentNode:nil updateChildren:NO];
+}
+
+- (void)removeChildrenAtIndexes:(NSIndexSet *)indexes
+{
+    NSArray *nodes = [_children objectsAtIndexes:indexes];
+    [_children removeObjectsAtIndexes:indexes];
+    for (HTMLNode *node in nodes) {
+        [node setParentNode:nil updateChildren:NO];
+    }
+}
+
+- (void)replaceObjectInChildrenAtIndex:(NSUInteger)index withObject:(HTMLNode *)node
+{
+    HTMLNode *old = _children[index];
+    [_children replaceObjectAtIndex:index withObject:node];
+    [old setParentNode:nil updateChildren:NO];
+    [node setParentNode:self updateChildren:NO];
+}
+
+- (void)addChild:(HTMLNode *)node updateParentNode:(BOOL)updateParentNode
+{
+    [_children addObject:node];
+    if (updateParentNode) {
+        [node setParentNode:self updateChildren:NO];
+    }
+}
+
+- (void)removeChild:(HTMLNode *)node updateParentNode:(BOOL)updateParentNode
+{
+    [_children removeObject:node];
+    if (updateParentNode) {
+        [node setParentNode:nil updateChildren:NO];
+    }
 }
 
 - (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)index
@@ -130,7 +167,7 @@
 
 - (NSArray *)childElementNodes
 {
-	NSMutableArray *childElements = [NSMutableArray arrayWithCapacity:_children.count];
+	NSMutableArray *childElements = [NSMutableArray arrayWithCapacity:self.numberOfChildren];
 	for (id node in _children) {
 		if ([node isKindOfClass:[HTMLElement class]]) {
 			[childElements addObject:node];
@@ -154,6 +191,64 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     return [[self.class allocWithZone:zone] init];
+}
+
+@end
+
+/**
+ * The proxy returned by -mutableOrderedSetValueForKey: is quite useless, crashing in -removeObject: and -indexOfObject:. Here's an alternate.
+ */
+@implementation HTMLChildrenRelationshipProxy : NSMutableOrderedSet
+
+- (id)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children
+{
+    self = [super init];
+    if (!self) return nil;
+    
+    _node = node;
+    _children = children;
+    
+    return self;
+}
+
+- (NSUInteger)count
+{
+    return _children.count;
+}
+
+- (id)objectAtIndex:(NSUInteger)index
+{
+    return [_children objectAtIndex:index];
+}
+
+- (NSUInteger)indexOfObject:(id)object
+{
+    return [_children indexOfObject:object];
+}
+
+- (void)insertObject:(id)object atIndex:(NSUInteger)index
+{
+    [_node insertObject:object inChildrenAtIndex:index];
+}
+
+- (void)insertObjects:(NSArray *)objects atIndexes:(NSIndexSet *)indexes
+{
+    [_node insertChildren:objects atIndexes:indexes];
+}
+
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object
+{
+    [_node replaceObjectInChildrenAtIndex:index withObject:object];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)index
+{
+    [_node removeObjectFromChildrenAtIndex:index];
+}
+
+- (void)removeObjectsAtIndexes:(NSIndexSet *)indexes
+{
+    [_node removeChildrenAtIndexes:indexes];
 }
 
 @end

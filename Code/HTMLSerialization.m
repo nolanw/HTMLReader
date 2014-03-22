@@ -111,8 +111,8 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
         [description appendFormat:@" %@=\"%@\"", name, value];
     }];
     
-    [description appendFormat:@"> %@ child", @(self.countOfChildren)];
-    if (self.countOfChildren != 1) {
+    [description appendFormat:@"> %@ child", @(self.numberOfChildren)];
+    if (self.numberOfChildren != 1) {
         [description appendString:@"ren"];
     }
     

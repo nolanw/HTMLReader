@@ -21,7 +21,9 @@
 + (instancetype)documentWithString:(NSString *)string;
 
 /**
- * The document type node. Setting a new documentType immediately removes the current documentType from the document.
+ * The document type node.
+ *
+ * The setter replaces the existing documentType, if there is one; otherwise, the new documentType will be placed immediately before the rootElement, if there is one; otherwise the new documentType is added as the last child.
  */
 @property (strong, nonatomic) HTMLDocumentType *documentType;
 
@@ -32,6 +34,8 @@
 
 /**
  * The first element in tree order. Typically the `<html>` element.
+ *
+ * The setter replaces the existing rootElement, if there is one; otherwise, the new rootElement is added as the last child.
  */
 @property (strong, nonatomic) HTMLElement *rootElement;
 

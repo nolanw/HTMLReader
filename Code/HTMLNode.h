@@ -15,55 +15,46 @@
 @interface HTMLNode : NSObject <NSCopying>
 
 /**
- * The document in which this node appears. May be nil, in which case either the node is not part of any document or is itself an HTMLDocument.
+ * The document in which this node appears, or nil if the node is not in a tree with a document at its root.
  */
-@property (strong, nonatomic) HTMLDocument *document;
+@property (readonly, strong, nonatomic) HTMLDocument *document;
 
 /**
- * The node's parent, if it is an element. If the node's parent is an HTMLDocument, parentElement will be nil.
- *
- * @see -document
+ * The node's parent, or nil if the node is a root node.
+ */
+@property (strong, nonatomic) HTMLNode *parentNode;
+
+/**
+ * The node's parent if it is an instance of HTMLElement, otherwise nil. Setter is equivalent to calling -setParentNode:.
  */
 @property (strong, nonatomic) HTMLElement *parentElement;
 
 /**
- * The node's children, all instances of HTMLNode.
- *
- * children is a mutable Key-Value Coding compliant to-many relationship.
+ * The node's children. Each is an instance of HTMLNode. Key-Value Coding compliant for accessing and mutation.
  */
 @property (readonly, copy, nonatomic) NSOrderedSet *children;
 
 /**
- * Returns a mutable set suitable for adding, moving, or removing child nodes.
+ * Convenience method that returns a mutable proxy for children. The proxy returned by -mutableChildren is much faster than the one obtained by calling -mutableOrderedSetValueForKey: yourself.
  */
 - (NSMutableOrderedSet *)mutableChildren;
 
 /**
- * The number of children.
+ * The number of nodes that have the node as their parent.
  *
- * This method is faster than `aNode.children.count` because no copying is involved.
+ * This method is faster than calling `aNode.children.count`.
  */
-- (NSUInteger)countOfChildren;
+- (NSUInteger)numberOfChildren;
 
 /**
- * The child at some index.
+ * Returns a child of the node. Throws an NSRangeException if index is out of bounds.
  *
- * This method is faster than `[aNode.children indexOfObject:]` because no copying is involved.
+ * This method is faster than calling `[aNode.children objectAtIndex:]`.
  */
-- (HTMLNode *)objectInChildrenAtIndex:(NSUInteger)index;
+- (HTMLNode *)childAtIndex:(NSUInteger)index;
 
 /**
- * Subclasses may override to customize behavior when child nodes are added. They must call super.
- */
-- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index;
-
-/**
- * Subclasses may override to customize behavior when childnodes are removed. They must call super.
- */
-- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index;
-
-/**
- * The children which are instances of HTMLElement.
+ * The node's children which are instances of HTMLElement.
  */
 @property (readonly, copy, nonatomic) NSArray *childElementNodes;
 

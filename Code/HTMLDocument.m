@@ -15,67 +15,54 @@
 
 - (HTMLDocumentType *)documentType
 {
-    for (id node in self.children) {
-        if ([node isKindOfClass:[HTMLDocumentType class]]) {
-            return node;
-        }
-    }
-    return nil;
+    return FirstNodeOfType(self.children, [HTMLDocumentType class]);
 }
 
 - (void)setDocumentType:(HTMLDocumentType *)documentType
 {
     HTMLDocumentType *oldDocumentType = self.documentType;
-    if (oldDocumentType == documentType) return;
-    
     NSMutableOrderedSet *children = [self mutableChildren];
-    NSUInteger i = children.count;
-    if (oldDocumentType) {
-        i = [children indexOfObject:oldDocumentType];
-        [children removeObjectAtIndex:i];
-    }
-    if (documentType) {
-        [children insertObject:documentType atIndex:i];
+    if (oldDocumentType && documentType) {
+        NSUInteger i = [children indexOfObject:oldDocumentType];
+        [children replaceObjectAtIndex:i withObject:documentType];
+    } else if (documentType) {
+        HTMLElement *rootElement = self.rootElement;
+        if (rootElement) {
+            [children insertObject:documentType atIndex:[children indexOfObject:rootElement]];
+        } else {
+            [children addObject:documentType];
+        }
+    } else if (oldDocumentType) {
+        [children removeObject:oldDocumentType];
     }
 }
 
 - (HTMLElement *)rootElement
 {
-    for (id node in self.children) {
-        if ([node isKindOfClass:[HTMLElement class]]) {
-            return node;
-        }
-    }
-    return nil;
+    return FirstNodeOfType(self.children, [HTMLElement class]);
 }
 
 - (void)setRootElement:(HTMLElement *)rootElement
 {
     HTMLElement *oldRootElement = self.rootElement;
-    if (oldRootElement == rootElement) return;
-    
     NSMutableOrderedSet *children = [self mutableChildren];
-    NSUInteger i = children.count;
-    if (oldRootElement) {
-        i = [children indexOfObject:oldRootElement];
-        [children removeObjectAtIndex:i];
-    }
-    if (rootElement) {
-        [children insertObject:rootElement atIndex:i];
+    if (oldRootElement && rootElement) {
+        [children replaceObjectAtIndex:[children indexOfObject:oldRootElement] withObject:rootElement];
+    } else if (rootElement) {
+        [children addObject:rootElement];
+    } else if (oldRootElement) {
+        [children removeObject:oldRootElement];
     }
 }
 
-- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
+static id FirstNodeOfType(id <NSFastEnumeration> collection, Class type)
 {
-    [super insertObject:node inChildrenAtIndex:index];
-    node.document = self;
-}
-
-- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
-{
-    HTMLNode *node = self.children[index];
-    [super removeObjectFromChildrenAtIndex:index];
-    node.document = nil;
+    for (id node in collection) {
+        if ([node isKindOfClass:type]) {
+            return node;
+        }
+    }
+    return nil;
 }
 
 @end

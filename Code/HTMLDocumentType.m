@@ -24,15 +24,6 @@
     return [self initWithName:nil publicIdentifier:nil systemIdentifier:nil];
 }
 
-- (void)setDocument:(HTMLDocument *)document
-{
-    [super setDocument:document];
-    HTMLDocumentType *oldDocumentType = document.documentType;
-    if (oldDocumentType != self) {
-        [[document mutableChildren] removeObject:oldDocumentType];
-    }
-}
-
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

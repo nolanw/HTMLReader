@@ -47,19 +47,6 @@
     [_attributes removeObjectForKey:attributeName];
 }
 
-- (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
-{
-    [super insertObject:node inChildrenAtIndex:index];
-    node.parentElement = self;
-}
-
-- (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
-{
-    HTMLNode *node = self.children[index];
-    [super removeObjectFromChildrenAtIndex:index];
-    node.parentElement = nil;
-}
-
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
