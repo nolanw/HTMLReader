@@ -63,6 +63,20 @@ HTMLReader is used by at least [one shipping app][Awful].
 [Awful]: https://github.com/Awful/Awful.app
 [html5lib-tests]: https://github.com/html5lib/html5lib-tests
 
+## How fast is it?
+
+I'm not sure.
+
+Included in the project is a utility called [Benchmarker][]. It knows how to run two tests:
+
+* Parsing a large HTML file. In this case, the 7MB single-page HTML specification.
+* Running a bunch of CSS selectors. Basically copied from [a WebKit performance test][WebKit QuerySelector.html].De
+
+Changes to HTMLReader should not cause these benchmarks to run slower. Ideally changes make them run faster!
+
+[Benchmarker]: Utilities/Benchmarker.m
+[WebKit QuerySelector.html]: https://trac.webkit.org/browser/trunk/PerformanceTests/CSS/QuerySelector.html
+
 ## License
 
 HTMLReader is in the public domain.
