@@ -6,7 +6,7 @@
 
 @implementation HTMLOrderedDictionary
 {
-    NSMapTable *_map;
+    CFMutableDictionaryRef _map;
     NSMutableArray *_keys;
 }
 
@@ -15,13 +15,17 @@
     self = [super init];
     if (!self) return nil;
     
-    _map = [NSMapTable strongToStrongObjectsMapTable];
+    _map = CFDictionaryCreateMutable(nil, numItems, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     _keys = [NSMutableArray arrayWithCapacity:numItems];
     
     return self;
 }
 
+// Diagnostic needs ignoring on iOS 5.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmismatched-parameter-types"
 - (id)initWithObjects:(const id [])objects forKeys:(const id <NSCopying> [])keys count:(NSUInteger)count
+#pragma clang diagnostic pop
 {
     self = [self initWithCapacity:count];
     if (!self) return nil;
@@ -46,11 +50,11 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    NSMapTable *map = [coder decodeObjectForKey:@"map"];
+    NSDictionary *map = [coder decodeObjectForKey:@"map"];
     NSArray *keys = [coder decodeObjectForKey:@"keys"];
     HTMLOrderedDictionary *dictionary = [self initWithCapacity:keys.count];
     for (id key in keys) {
-        dictionary[key] = [map objectForKey:key];
+        dictionary[key] = map[key];
     }
     return dictionary;
 }
@@ -62,7 +66,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:_map forKey:@"map"];
+    [coder encodeObject:(__bridge NSDictionary *)_map forKey:@"map"];
     [coder encodeObject:_keys forKey:@"keys"];
 }
 
@@ -85,12 +89,12 @@
 
 - (id)objectForKey:(id)key
 {
-    return [_map objectForKey:key];
+    return (__bridge id)CFDictionaryGetValue(_map, (__bridge const void *)key);
 }
 
 - (NSUInteger)indexOfKey:(id)key
 {
-    if ([_map objectForKey:key]) {
+    if ([self objectForKey:key]) {
         return [_keys indexOfObject:key];
     } else {
         return NSNotFound;
@@ -119,8 +123,8 @@
 {
     if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key cannot be nil", NSStringFromSelector(_cmd)];
     
-    if ([_map objectForKey:key]) {
-        [_map removeObjectForKey:key];
+    if ([self objectForKey:key]) {
+        CFDictionaryRemoveValue(_map, (__bridge const void *)key);
         [_keys removeObject:key];
     }
 }
@@ -131,11 +135,11 @@
     if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key cannot be nil", NSStringFromSelector(_cmd)];
     if (index > self.count) [NSException raise:NSRangeException format:@"%@ index %@ beyond count %@ of array", NSStringFromSelector(_cmd), @(index), @(self.count)];
     
-    if (![_map objectForKey:key]) {
+    if (![self objectForKey:key]) {
         key = [key copy];
         [_keys insertObject:key atIndex:index];
     }
-    [_map setObject:object forKey:key];
+    CFDictionarySetValue(_map, (__bridge const void *)key, (__bridge const void *)object);
 }
 
 - (NSEnumerator *)keyEnumerator

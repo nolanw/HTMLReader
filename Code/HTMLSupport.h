@@ -34,4 +34,11 @@
 - (void)setObject:(id)object forKeyedSubscript:(id <NSCopying>)key;
 
 @end
+
+@interface NSOrderedSet (HTMLSubscriptingSupport)
+
+- (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index;
+
+@end
 #endif

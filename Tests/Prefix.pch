@@ -1,4 +1,4 @@
 #ifdef __OBJC__
-    #import <Foundation/Foundation.h>
+    #import "HTMLSupport.h"
     #import <XCTest/XCTest.h>
 #endif
