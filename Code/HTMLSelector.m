@@ -163,7 +163,7 @@ HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NS
 	};
 }
 
-static NSCharacterSet * SelectorsWhitespaceSet(void)
+NSCharacterSet * HTMLSelectorWhitespaceCharacterSet(void)
 {
     // http://www.w3.org/TR/css3-selectors/#whitespace
     return [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
@@ -171,7 +171,7 @@ static NSCharacterSet * SelectorsWhitespaceSet(void)
 
 HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate(NSString *attributeName, NSString *attributeValue)
 {
-    NSCharacterSet *whitespace = SelectorsWhitespaceSet();
+    NSCharacterSet *whitespace = HTMLSelectorWhitespaceCharacterSet();
     return ^(HTMLElement *node) {
         NSArray *items = [node[attributeName] componentsSeparatedByCharactersInSet:whitespace];
         return [items containsObject:attributeValue];
@@ -578,7 +578,7 @@ static NSCharacterSet *combinatorCharacters()
     dispatch_once(&onceToken, ^{
         // Combinators are: whitespace, "greater-than sign" (U+003E, >), "plus sign" (U+002B, +) and "tilde" (U+007E, ~)
         NSMutableCharacterSet *set = [NSMutableCharacterSet characterSetWithCharactersInString:@">+~"];
-        [set formUnionWithCharacterSet:SelectorsWhitespaceSet()];
+        [set formUnionWithCharacterSet:HTMLSelectorWhitespaceCharacterSet()];
         frozenSet = [set copy];
     });
 	return frozenSet;

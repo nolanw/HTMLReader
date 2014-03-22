@@ -126,4 +126,14 @@ static NSArray *nodeChildClasses;
     XCTAssertNil(comment.parentNode);
 }
 
+- (void)testClassAttribute
+{
+    HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p" attributes:@{ @"class": @"unboring" }];
+    XCTAssertFalse([p hasClass:@"boring"]);
+    [p toggleClass:@"boring"];
+    XCTAssertTrue([p hasClass:@"boring"]);
+    [p toggleClass:@"unboring"];
+    XCTAssertTrue([p hasClass:@"boring"]);
+}
+
 @end

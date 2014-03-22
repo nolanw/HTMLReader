@@ -4,6 +4,7 @@
 
 #import "HTMLElement.h"
 #import "HTMLOrderedDictionary.h"
+#import "HTMLSelector.h"
 
 @implementation HTMLElement
 {
@@ -45,6 +46,24 @@
 - (void)removeAttributeWithName:(NSString *)attributeName
 {
     [_attributes removeObjectForKey:attributeName];
+}
+
+- (BOOL)hasClass:(NSString *)className
+{
+    NSArray *classes = [self[@"class"] componentsSeparatedByCharactersInSet:HTMLSelectorWhitespaceCharacterSet()];
+    return [classes containsObject:className];
+}
+
+- (void)toggleClass:(NSString *)className
+{
+    NSMutableArray *classes = [[self[@"class"] componentsSeparatedByCharactersInSet:HTMLSelectorWhitespaceCharacterSet()] mutableCopy];
+    NSUInteger i = [classes indexOfObject:className];
+    if (i == NSNotFound) {
+        [classes addObject:className];
+    } else {
+        [classes removeObjectAtIndex:i];
+    }
+    self[@"class"] = [classes componentsJoinedByString:@" "];
 }
 
 #pragma mark NSCopying

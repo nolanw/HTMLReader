@@ -45,6 +45,11 @@
 @end
 
 /**
+ * Returns a character set containing all CSS whitespace characters. This is not necessarily identical to `+[NSCharacterSet whitespaceCharacterSet]` or `+[NSCharacterSet whitespaceAndNewlineCharacterSet]`.
+ */
+extern NSCharacterSet * HTMLSelectorWhitespaceCharacterSet(void);
+
+/**
  * Error domain for all selector parse errors. Errors in this domain describe in localizedFailureReason where in the input the error occurred.
  */
 extern NSString * const HTMLSelectorErrorDomain;

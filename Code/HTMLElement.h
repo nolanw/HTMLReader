@@ -51,6 +51,16 @@
 - (void)removeAttributeWithName:(NSString *)attributeName;
 
 /**
+ * Whether or not a name appears in the element's class attribute.
+ */
+- (BOOL)hasClass:(NSString *)className;
+
+/**
+ * If the name appears in the element's class attribute, remove it; otherwise, add it.
+ */
+- (void)toggleClass:(NSString *)className;
+
+/**
  * This element's namespace.
  */
 @property (assign, nonatomic) HTMLNamespace namespace;
