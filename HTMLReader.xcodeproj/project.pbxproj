@@ -111,7 +111,6 @@
 		1C88297718369FA70051653C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		1C8829781836A0A80051653C /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
 		1C9928B117B18E9300D6AD9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		1C9928B217B18E9300D6AD9A /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.md; sourceTree = "<group>"; };
 		1C9A2A071836FEAE0059FE17 /* Entity Fetcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Entity Fetcher"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9A2A161836FEED0059FE17 /* EntityFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityFetcher.m; sourceTree = "<group>"; };
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -228,7 +227,6 @@
 				1CB61D2817BB7A2700EE9653 /* HTMLReader.podspec */,
 				1C9C3EC0176BC53900E982C9 /* Prefix.pch */,
 				1C9928B117B18E9300D6AD9A /* README.md */,
-				1C9928B217B18E9300D6AD9A /* TODO.md */,
 				1C9C3EBE176BC53900E982C9 /* Code */,
 				1C9C3ED3176BC53900E982C9 /* Tests */,
 				1C9A2A021836FE800059FE17 /* Utilities */,
