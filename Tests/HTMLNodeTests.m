@@ -134,6 +134,10 @@ static NSArray *nodeChildClasses;
     XCTAssertTrue([p hasClass:@"boring"]);
     [p toggleClass:@"unboring"];
     XCTAssertTrue([p hasClass:@"boring"]);
+    
+    HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div" attributes:nil];
+    [div toggleClass:@"hello"];
+    XCTAssertTrue([div hasClass:@"hello"]);
 }
 
 @end
