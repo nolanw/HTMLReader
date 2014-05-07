@@ -27,6 +27,9 @@
 		1C88297418369F320051653C /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
 		1C88297518369F320051653C /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
 		1C88297618369F320051653C /* HTMLTreeEnumeratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m */; };
+		1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10581919F2570010007B /* HTMLEntities.h */; };
+		1C8E105B1919F2570010007B /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
+		1C8E105C1919F2570010007B /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
 		1C9A2A171836FEED0059FE17 /* EntityFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A2A161836FEED0059FE17 /* EntityFetcher.m */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
 		1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; };
@@ -110,6 +113,8 @@
 		1C88295018369DD70051653C /* Tests on OS X.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on OS X.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C88297718369FA70051653C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		1C8829781836A0A80051653C /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
+		1C8E10581919F2570010007B /* HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEntities.h; sourceTree = "<group>"; };
+		1C8E10591919F2570010007B /* HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEntities.m; sourceTree = "<group>"; };
 		1C9928B117B18E9300D6AD9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		1C9A2A071836FEAE0059FE17 /* Entity Fetcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Entity Fetcher"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9A2A161836FEED0059FE17 /* EntityFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityFetcher.m; sourceTree = "<group>"; };
@@ -259,6 +264,8 @@
 				1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */,
 				1CA5C20F18D7457400147FE7 /* HTMLElement.h */,
 				1CA5C21018D7457400147FE7 /* HTMLElement.m */,
+				1C8E10581919F2570010007B /* HTMLEntities.h */,
+				1C8E10591919F2570010007B /* HTMLEntities.m */,
 				1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */,
 				1CACE9E21783A92F00754A8F /* HTMLNode.h */,
 				1CACE9E31783A92F00754A8F /* HTMLNode.m */,
@@ -328,6 +335,7 @@
 				1CA5C21618D746D600147FE7 /* HTMLComment.h in Headers */,
 				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,
 				1C88296C18369E090051653C /* HTMLDocument.h in Headers */,
+				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
 				1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */,
 				1C88296F18369E090051653C /* HTMLSelector.h in Headers */,
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
@@ -530,6 +538,7 @@
 				1CB0B961183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
 				1C88296718369DF70051653C /* HTMLNode.m in Sources */,
 				1C88296918369DF70051653C /* HTMLSelector.m in Sources */,
+				1C8E105C1919F2570010007B /* HTMLEntities.m in Sources */,
 				1C88296B18369DF70051653C /* HTMLTokenizer.m in Sources */,
 				1CA5C21818D746D600147FE7 /* HTMLComment.m in Sources */,
 				1CD524F718D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */,
@@ -574,6 +583,7 @@
 				1CB0B960183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
 				1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */,
 				83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */,
+				1C8E105B1919F2570010007B /* HTMLEntities.m in Sources */,
 				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,
 				1CA5C21718D746D600147FE7 /* HTMLComment.m in Sources */,
 				1CD524F618D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */,
