@@ -5,3 +5,4 @@
 #import "HTMLDocument.h"
 #import "HTMLSelector.h"
 #import "HTMLSerialization.h"
+#import "NSString+HTMLEntities.h"

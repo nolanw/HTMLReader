@@ -59,5 +59,19 @@ int main(void) { @autoreleasepool {
         });
         NSLog(@"Time for selecting nodes: %gs (mean)", selectorTime / reps);
     }
+    
+    if ([arguments containsObject:@"escape"]) {
+        NSString *large = [NSString stringWithContentsOfFile:PathForFixture(@"html5.html") usedEncoding:nil error:nil];
+        NSTimeInterval escapeTime = Time(1, ^{
+            [large html_stringByEscapingForHTML];
+        });
+        NSLog(@"Time for escaping fixture: %gs", escapeTime);
+        
+        NSTimeInterval unescapeTime = Time(1, ^{
+            [large html_stringByUnescapingHTML];
+        });
+        NSLog(@"Time for unescaping fixture: %gs", unescapeTime);
+    }
+    
     return 0;
 }}

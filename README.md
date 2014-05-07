@@ -43,9 +43,15 @@ There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle d
 
 [WebKit][] ships with iOS, but its HTML parsing abilities are considered private API. I consider a round-trip through UIWebView inappropriate for parsing HTML. And I didn't make it very far into building my own copy of WebCore.
 
+[Google Toolbox for Mac][GTMNSString+HTML] will escape and unescape strings for HTML (e.g. `&amp;` ⇔ `&`) but, again, not like a modern browser. For example, GTM will not unescape `&#65` (note the missing semicolon).
+
+[CFStringTransform][kCFStringTransformToXMLHex] does numeric entities via (the reversible) `kCFStringTransformToXMLHex`, but that rules out named entities.
+
+[GTMNSString+HTML]: https://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/Foundation/GTMNSString%2BHTML.h
 [Gumbo]: https://github.com/google/gumbo-parser
 [hpple]: https://github.com/topfunky/hpple
 [Hubbub]: http://www.netsurf-browser.org/projects/hubbub/
+[kCFStringTransformToXMLHex]: https://developer.apple.com/library/mac/documentation/corefoundation/Reference/CFMutableStringRef/Reference/reference.html#//apple_ref/doc/uid/20001504-CH2g-DontLinkElementID_46
 [libxml2]: http://www.xmlsoft.org/
 [Ono]: https://github.com/mattt/Ono
 [WebKit]: https://www.webkit.org/building/checkout.html
