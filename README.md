@@ -1,6 +1,6 @@
 # HTMLReader
 
-A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-level-3] in Objective-C and Foundation.
+A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-level-3] in Objective-C and Foundation. It parses HTML just like a browser.
 
 [selectors-level-3]: http://www.w3.org/TR/css3-selectors/
 [whatwg-spec]: http://whatwg.org/html
@@ -29,7 +29,7 @@ HTMLReader has no dependencies other than Foundation.
 
 [CocoaPods]: http://docs.cocoapods.org/podfile.html#pod
 
-## Why
+## Why HTMLReader?
 
 I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.
 
@@ -76,6 +76,12 @@ Changes to HTMLReader should not cause these benchmarks to run slower. Ideally c
 
 [Benchmarker]: Utilities/Benchmarker.m
 [WebKit QuerySelector.html]: https://trac.webkit.org/browser/trunk/PerformanceTests/CSS/QuerySelector.html
+
+## Bugs and Feature Requests
+
+Bugs can be reported, and features can be requested, using the [issue tracker][Issues]. Or get in touch directly if you'd prefer.
+
+[Issues]: https://github.com/nolanw/HTMLReader/issues
 
 ## License
 
