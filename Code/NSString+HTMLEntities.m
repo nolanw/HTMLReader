@@ -69,7 +69,7 @@
                 NSString *entityString;
                 if ([scanner scanCharactersFromSet:decimalDigitCharacterSet intoString:&entityString]) {
                     NSInteger decimal = entityString.integerValue;
-                    if (decimal > UINT32_MAX) {
+                    if (decimal > 0x10FFFF) {
                         entity = UINT32_MAX;
                     } else {
                         entity = (UInt32)decimal;
