@@ -12,7 +12,7 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 
 NSString *html = @"<p><b>Ahoy there sailor!</b></p>";
 HTMLDocument *document = [HTMLDocument documentWithString:html];
-NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].innerHTML); // => Ahoy there sailor!
+NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].textContent); // => Ahoy there sailor!
 ```
 
 ## Installation
@@ -73,10 +73,11 @@ HTMLReader is used by at least [one shipping app][Awful].
 
 I'm not sure.
 
-Included in the project is a utility called [Benchmarker][]. It knows how to run two tests:
+Included in the project is a utility called [Benchmarker][]. It knows how to run three tests:
 
 * Parsing a large HTML file. In this case, the 7MB single-page HTML specification.
-* Running a bunch of CSS selectors. Basically copied from [a WebKit performance test][WebKit QuerySelector.html].De
+* Escaping and unescaping entities in the large HTML file.
+* Running a bunch of CSS selectors. Basically copied from [a WebKit performance test][WebKit QuerySelector.html].
 
 Changes to HTMLReader should not cause these benchmarks to run slower. Ideally changes make them run faster!
 
