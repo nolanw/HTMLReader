@@ -10,9 +10,10 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 ```objc
 #import <HTMLReader/HTMLReader.h>
 
-NSString *html = @"<p><b>Ahoy there sailor!</b></p>";
-HTMLDocument *document = [HTMLDocument documentWithString:html];
-NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].textContent); // => Ahoy there sailor!
+NSString *markup = @"<p><b>Ahoy there sailor!</b></p>";
+HTMLDocument *document = [HTMLDocument documentWithString:markup];
+NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].textContent);
+// => Ahoy there sailor!
 ```
 
 ## Installation
