@@ -59,6 +59,11 @@
     return dictionary;
 }
 
+- (void)dealloc
+{
+    CFRelease(_map);
+}
+
 - (Class)classForKeyedArchiver
 {
     return [self class];
