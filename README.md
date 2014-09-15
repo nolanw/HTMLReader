@@ -10,10 +10,22 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 ```objc
 #import <HTMLReader/HTMLReader.h>
 
+// Parse a string and find an element.
 NSString *markup = @"<p><b>Ahoy there sailor!</b></p>";
 HTMLDocument *document = [HTMLDocument documentWithString:markup];
 NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].textContent);
 // => Ahoy there sailor!
+
+// Wrap one element in another.
+HTMLElement *b = [document firstNodeMatchingSelector:@"b"];
+NSMutableOrderedSet *children = [b.parentNode mutableChildren];
+HTMLElement *wrapper = [[HTMLElement alloc] initWithTagName:@"div"
+                                                 attributes:@{@"class": @"special"}];
+[children insertObject:wrapper atIndex:[children indexOfObject:b]];
+b.parentNode = wrapper;
+NSLog(@"%@", [document.rootElement serializedFragment]);
+// => <html><head></head><body><p><div class="special"> \
+      <b>Ahoy there sailor!</b></div></p></body></html>
 ```
 
 ## Installation
