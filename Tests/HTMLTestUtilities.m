@@ -14,6 +14,10 @@ NSString * html5libTestPath(void)
 BOOL ShouldRunTestsForParameterizedTestClass(Class class)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
     NSString *scope = [defaults stringForKey:XCTestScopeKey];
     if ([scope isEqualToString:XCTestScopeAll] || [scope isEqualToString:XCTestScopeSelf]) {
         return YES;
@@ -24,4 +28,6 @@ BOOL ShouldRunTestsForParameterizedTestClass(Class class)
         BOOL invertScope = [defaults boolForKey:@"XCTestInvertScope"];
         return [tests containsObject:NSStringFromClass(class)] != invertScope;
     }
+    
+    #pragma clang diagnostic pop
 }
