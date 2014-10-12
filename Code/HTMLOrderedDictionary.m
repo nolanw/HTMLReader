@@ -43,6 +43,10 @@
     return self;
 }
 
+// iOS 8 adds the NS_DESIGNATED_INITIALIZER attribute. Someday we should support that, but for now let's conveniently ignore it.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
 - (id)init
 {
     return [self initWithCapacity:0];
@@ -58,6 +62,8 @@
     }
     return dictionary;
 }
+
+#pragma clang diagnostic pop
 
 - (void)dealloc
 {
