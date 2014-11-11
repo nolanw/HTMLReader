@@ -66,6 +66,11 @@
     self.parentNode = parentElement;
 }
 
+- (void)removeFromParentNode
+{
+    [self.parentNode.mutableChildren removeObject:self];
+}
+
 - (NSOrderedSet *)children
 {
     return [_children copy];

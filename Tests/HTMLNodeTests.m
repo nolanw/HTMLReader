@@ -101,6 +101,18 @@ static NSArray *nodeChildClasses;
     XCTAssertNil(comment.document);
 }
 
+- (void)testRemoveFromParentNode
+{
+    HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p" attributes:nil];
+    HTMLElement *h1 = [[HTMLElement alloc] initWithTagName:@"h1" attributes:nil];
+    [[p mutableChildren] addObject:h1];
+    XCTAssertTrue(p.children.count == 1);
+    XCTAssertNotNil(h1.parentNode);
+    [h1 removeFromParentNode];
+    XCTAssertTrue(p.children.count == 0);
+    XCTAssertNil(h1.parentNode);
+}
+
 - (void)testTextContent
 {
     HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"body" attributes:nil];

@@ -30,6 +30,11 @@
 @property (weak, nonatomic) HTMLElement *parentElement;
 
 /**
+ * Removes the node from its parent, effectively detaching it from the tree.
+ */
+- (void)removeFromParentNode;
+
+/**
  * The node's children. Each is an instance of HTMLNode. Key-Value Coding compliant for accessing and mutation.
  */
 @property (readonly, copy, nonatomic) NSOrderedSet *children;
