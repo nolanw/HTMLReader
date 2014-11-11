@@ -140,4 +140,18 @@ static NSArray *nodeChildClasses;
     XCTAssertTrue([div hasClass:@"hello"]);
 }
 
+- (void)testTreeDeallocates
+{
+    __weak HTMLElement *weakP;
+    @autoreleasepool {
+        HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p" attributes:nil];
+        weakP = p;
+        [p.mutableChildren addObject:[[HTMLElement alloc] initWithTagName:@"br" attributes:nil]];
+        
+        XCTAssertNotNil(weakP);
+    }
+    
+    XCTAssertNil(weakP);
+}
+
 @end

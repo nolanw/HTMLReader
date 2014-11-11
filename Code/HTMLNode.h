@@ -22,12 +22,12 @@
 /**
  * The node's parent, or nil if the node is a root node.
  */
-@property (strong, nonatomic) HTMLNode *parentNode;
+@property (weak, nonatomic) HTMLNode *parentNode;
 
 /**
  * The node's parent if it is an instance of HTMLElement, otherwise nil. Setter is equivalent to calling -setParentNode:.
  */
-@property (strong, nonatomic) HTMLElement *parentElement;
+@property (weak, nonatomic) HTMLElement *parentElement;
 
 /**
  * The node's children. Each is an instance of HTMLNode. Key-Value Coding compliant for accessing and mutation.
