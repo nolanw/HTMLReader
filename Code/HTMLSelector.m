@@ -446,7 +446,7 @@ static NSString * scanFunctionInterior(NSScanner *scanner, NSError **error)
     
     ok = [scanner scanString:@"(" intoString:nil];
 	if (!ok) {
-		*error = ParseError(@"Expected ( to start function", scanner.string, scanner.scanLocation);
+		if (error) *error = ParseError(@"Expected ( to start function", scanner.string, scanner.scanLocation);
 		return nil;
 	}
 	
@@ -757,7 +757,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
     
     // An empty selector is an invalid selector.
     if (selectorString.length == 0) {
-        *error = ParseError(@"Empty selector", selectorString, 0);
+        if (error) *error = ParseError(@"Empty selector", selectorString, 0);
         return nil;
     }
 	
