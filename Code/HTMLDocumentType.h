@@ -20,7 +20,7 @@
  *                   |____|       |_________________________| |_____________________________________|
  * We have:           name             publicIdentifier                  systemIdentifier
  */
-- (id)initWithName:(NSString *)name publicIdentifier:(NSString *)publicIdentifier systemIdentifier:(NSString *)systemIdentifier;
+- (instancetype)initWithName:(NSString *)name publicIdentifier:(NSString *)publicIdentifier systemIdentifier:(NSString *)systemIdentifier NS_DESIGNATED_INITIALIZER;
 
 /**
  * That first part of the DOCTYPE.

@@ -7,6 +7,7 @@
 #import "HTMLElement.h"
 #import "HTMLNode.h"
 #import "HTMLQuirksMode.h"
+#import "HTMLSupport.h"
 
 /**
  * An HTMLDocument is the root of a tree of nodes representing parsed HTML.
@@ -19,6 +20,11 @@
  * Parses an HTML string into a document.
  */
 + (instancetype)documentWithString:(NSString *)string;
+
+/**
+ * Initializes a document with a string of HTML.
+ */
+- (instancetype)initWithString:(NSString *)string;
 
 /**
  * The document type node.

@@ -11,19 +11,17 @@
     HTMLOrderedDictionary *_attributes;
 }
 
-- (id)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _tagName = [tagName copy];
-    _attributes = [HTMLOrderedDictionary new];
-    [_attributes addEntriesFromDictionary:attributes];
-    
+    if ((self = [super init])) {
+        _tagName = [tagName copy];
+        _attributes = [HTMLOrderedDictionary new];
+        [_attributes addEntriesFromDictionary:attributes];
+    }
     return self;
 }
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithTagName:nil attributes:nil];
 }

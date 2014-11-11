@@ -67,36 +67,39 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     BOOL _fragmentParsingAlgorithm;
 }
 
-- (id)initWithString:(NSString *)string context:(HTMLElement *)context
+- (instancetype)initWithString:(NSString *)string context:(HTMLElement *)context
 {
-    self = [self init];
-    if (!self) return nil;
-    
-    _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
-    _tokenizer.parser = self;
-    _context = context;
-    _insertionMode = HTMLInitialInsertionMode;
-    _stackOfOpenElements = [NSMutableArray new];
-    _errors = [NSMutableArray new];
-    _framesetOkFlag = YES;
-    _activeFormattingElements = [NSMutableArray new];
-    _fragmentParsingAlgorithm = !!context;
-    
-    if (context) {
-        if (StringIsEqualToAnyOf(context.tagName, @"title", @"textarea")) {
-            _tokenizer.state = HTMLRCDATATokenizerState;
-        } else if (StringIsEqualToAnyOf(context.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
-            _tokenizer.state = HTMLRAWTEXTTokenizerState;
-        } else if ([context.tagName isEqualToString:@"script"]) {
-            _tokenizer.state = HTMLScriptDataTokenizerState;
-        } else if ([context.tagName isEqualToString:@"noscript"]) {
-            _tokenizer.state = HTMLRAWTEXTTokenizerState;
-        } else if ([context.tagName isEqualToString:@"plaintext"]) {
-            _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+    if ((self = [super init])) {
+        _tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+        _tokenizer.parser = self;
+        _context = context;
+        _insertionMode = HTMLInitialInsertionMode;
+        _stackOfOpenElements = [NSMutableArray new];
+        _errors = [NSMutableArray new];
+        _framesetOkFlag = YES;
+        _activeFormattingElements = [NSMutableArray new];
+        _fragmentParsingAlgorithm = !!context;
+        
+        if (context) {
+            if (StringIsEqualToAnyOf(context.tagName, @"title", @"textarea")) {
+                _tokenizer.state = HTMLRCDATATokenizerState;
+            } else if (StringIsEqualToAnyOf(context.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
+                _tokenizer.state = HTMLRAWTEXTTokenizerState;
+            } else if ([context.tagName isEqualToString:@"script"]) {
+                _tokenizer.state = HTMLScriptDataTokenizerState;
+            } else if ([context.tagName isEqualToString:@"noscript"]) {
+                _tokenizer.state = HTMLRAWTEXTTokenizerState;
+            } else if ([context.tagName isEqualToString:@"plaintext"]) {
+                _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+            }
         }
     }
-    
     return self;
+}
+
+- (NSString *)string
+{
+    return _tokenizer.string;
 }
 
 - (HTMLDocument *)document

@@ -10,42 +10,34 @@
     NSMutableArray *_keys;
 }
 
-- (id)initWithCapacity:(NSUInteger)numItems
+- (instancetype)initWithCapacity:(NSUInteger)numItems
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _map = CFDictionaryCreateMutable(nil, numItems, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    _keys = [NSMutableArray arrayWithCapacity:numItems];
-    
+    if ((self = [super init])) {
+        _map = CFDictionaryCreateMutable(nil, numItems, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        _keys = [NSMutableArray arrayWithCapacity:numItems];
+    }
     return self;
 }
 
 // Diagnostic needs ignoring on iOS 5.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmismatched-parameter-types"
-- (id)initWithObjects:(const id [])objects forKeys:(const id <NSCopying> [])keys count:(NSUInteger)count
+- (instancetype)initWithObjects:(const id [])objects forKeys:(const id <NSCopying> [])keys count:(NSUInteger)count
 #pragma clang diagnostic pop
 {
-    self = [self initWithCapacity:count];
-    if (!self) return nil;
-    
-    for (NSUInteger i = 0; i < count; i++) {
-        id object = objects[i];
-        id key = keys[i];
-        
-        if (!object) [NSException raise:NSInvalidArgumentException format:@"%@ object at %@ cannot be nil", NSStringFromSelector(_cmd), @(i)];
-        if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key at %@ cannot be nil", NSStringFromSelector(_cmd), @(i)];
-        
-        self[keys[i]] = objects[i];
+    if ((self = [self initWithCapacity:count])) {
+        for (NSUInteger i = 0; i < count; i++) {
+            id object = objects[i];
+            id key = keys[i];
+            
+            if (!object) [NSException raise:NSInvalidArgumentException format:@"%@ object at %@ cannot be nil", NSStringFromSelector(_cmd), @(i)];
+            if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key at %@ cannot be nil", NSStringFromSelector(_cmd), @(i)];
+            
+            self[keys[i]] = objects[i];
+        }
     }
-    
     return self;
 }
-
-// iOS 8 adds the NS_DESIGNATED_INITIALIZER attribute. Someday we should support that, but for now let's conveniently ignore it.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 
 - (id)init
 {
@@ -62,8 +54,6 @@
     }
     return dictionary;
 }
-
-#pragma clang diagnostic pop
 
 - (void)dealloc
 {

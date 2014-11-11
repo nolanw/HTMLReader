@@ -13,6 +13,11 @@
     return parser.document;
 }
 
+- (instancetype)initWithString:(NSString *)string
+{
+    return [self.class documentWithString:string];
+}
+
 - (HTMLDocumentType *)documentType
 {
     return FirstNodeOfType(self.children, [HTMLDocumentType class]);

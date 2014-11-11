@@ -13,12 +13,12 @@
     UTF32Char _currentInputCharacter;
 }
 
-- (id)initWithString:(NSString *)string
+- (instancetype)initWithString:(NSString *)string
 {
-    self = [super init];
-    if (!self) return nil;
-    _string = [string copy];
-    CFStringInitInlineBuffer((__bridge CFStringRef)_string, &_buffer, CFRangeMake(0, _string.length));
+    if ((self = [super init])) {
+        _string = [string copy];
+        CFStringInitInlineBuffer((__bridge CFStringRef)_string, &_buffer, CFRangeMake(0, _string.length));
+    }
     return self;
 }
 

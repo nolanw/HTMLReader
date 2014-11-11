@@ -22,10 +22,7 @@
  */
 + (instancetype)selectorForString:(NSString *)selectorString;
 
-/**
- * This is the designated initializer.
- */
-- (id)initWithString:(NSString *)selectorString;
+- (instancetype)initWithString:(NSString *)selectorString NS_DESIGNATED_INITIALIZER;
 
 /**
  * A string representation of the selector.

@@ -9,22 +9,17 @@
     NSMutableString *_data;
 }
 
-- (id)init
+- (instancetype)initWithData:(NSString *)data
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _data = [NSMutableString new];
-    
+    if ((self = [super init])) {
+        _data = [NSMutableString stringWithString:data];
+    }
     return self;
 }
 
-- (id)initWithData:(NSString *)data
+- (instancetype)init
 {
-    self = [self init];
-    if (!self) return nil;
-    [_data setString:data];
-    return self;
+    return [self initWithData:@""];
 }
 
 - (void)appendString:(NSString *)string

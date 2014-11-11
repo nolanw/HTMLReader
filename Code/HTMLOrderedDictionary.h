@@ -3,11 +3,14 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
+#import "HTMLSupport.h"
 
 /**
  * An HTMLOrderedDictionary is a mutable dictionary type that maintains its keys' insertion order.
  */
 @interface HTMLOrderedDictionary : NSMutableDictionary
+
+- (instancetype)initWithCapacity:(NSUInteger)numItems NS_DESIGNATED_INITIALIZER;
 
 /**
  * Returns the location of a key in the dictionary, or NSNotFound if the key is not present.
@@ -27,11 +30,11 @@
 /**
  * Returns the key at index 0 in the dictionary, or nil if the dictionary is empty.
  */
-- (id)firstKey;
+@property (readonly, nonatomic) id firstKey;
 
 /**
  * Returns the key at index (count - 1) in the dictionary, or nil if the dictionary is empty.
  */
-- (id)lastKey;
+@property (readonly, nonatomic) id lastKey;
 
 @end

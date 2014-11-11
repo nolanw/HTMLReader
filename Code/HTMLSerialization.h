@@ -9,20 +9,20 @@
 /**
  * Describes the entire subtree rooted at the node.
  */
-- (NSString *)recursiveDescription;
+@property (readonly, copy, nonatomic) NSString *recursiveDescription;
 
 /**
  * Returns the serialized HTML fragment of this node's children.
  *
  * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#serializing-html-fragments
  */
-- (NSString *)innerHTML;
+@property (readonly, copy, nonatomic) NSString *innerHTML;
 
 /**
  * Returns the serialized HTML fragment of this node.
  *
  * This is effectively outerHTML. (See http://www.w3.org/TR/DOM-Parsing/#widl-Element-outerHTML, though no exception will be thrown by -serializedFragment.)
  */
-- (NSString *)serializedFragment;
+@property (readonly, copy, nonatomic) NSString *serializedFragment;
 
 @end

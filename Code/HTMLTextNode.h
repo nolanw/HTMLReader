@@ -11,10 +11,7 @@
  */
 @interface HTMLTextNode : HTMLNode
 
-/**
- * This is the designated initializer.
- */
-- (id)initWithData:(NSString *)data;
+- (instancetype)initWithData:(NSString *)data NS_DESIGNATED_INITIALIZER;
 
 /**
  * The text.

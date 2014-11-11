@@ -794,16 +794,14 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	return [[self alloc] initWithString:selectorString];
 }
 
-- (id)initWithString:(NSString *)selectorString
+- (instancetype)initWithString:(NSString *)selectorString
 {
-    self = [self init];
-    if (!self) return nil;
-    
-    self.string = selectorString;
-	NSError *error;
-	self.predicate = SelectorFunctionForString(selectorString, &error);
-	self.error = error;
-    
+    if ((self = [super init])) {
+        _string = [selectorString copy];
+        NSError *error;
+        _predicate = SelectorFunctionForString(selectorString, &error);
+        _error = error;
+    }
     return self;
 }
 

@@ -3,6 +3,7 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
+#import "HTMLSupport.h"
 
 /**
  * An HTMLPreprocessedInputStream handles carriage returns, disallowed characters, and surrogate pairs.
@@ -11,10 +12,7 @@
  */
 @interface HTMLPreprocessedInputStream : NSObject
 
-/**
- * This is the designated initializer.
- */
-- (id)initWithString:(NSString *)string;
+- (instancetype)initWithString:(NSString *)string NS_DESIGNATED_INITIALIZER;
 
 /**
  * The string backing an input stream.

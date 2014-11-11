@@ -12,12 +12,10 @@
 @interface HTMLElement : HTMLNode
 
 /**
- * This is the designated initializer.
- *
  * @param tagName    What kind of element to make.
  * @param attributes A dictionary of attributes to start the element off. May be nil.
  */
-- (id)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes NS_DESIGNATED_INITIALIZER;
 
 /**
  * The element's kind.

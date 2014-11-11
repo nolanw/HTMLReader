@@ -6,6 +6,7 @@
 @class HTMLDocument;
 @class HTMLElement;
 #import "HTMLNamespace.h"
+#import "HTMLSupport.h"
 
 /**
  * HTMLNode is an abstract class representing a node in a parsed HTML tree.
@@ -13,6 +14,8 @@
  * @note Copying an HTMLNode does not copy its document, parentElement, or children.
  */
 @interface HTMLNode : NSObject <NSCopying>
+
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 /**
  * The document in which this node appears, or nil if the node is not in a tree with a document at its root.
@@ -42,14 +45,14 @@
 /**
  * Convenience method that returns a mutable proxy for children. The proxy returned by -mutableChildren is much faster than the one obtained by calling -mutableOrderedSetValueForKey: yourself.
  */
-- (NSMutableOrderedSet *)mutableChildren;
+@property (readonly, nonatomic) NSMutableOrderedSet *mutableChildren;
 
 /**
  * The number of nodes that have the node as their parent.
  *
  * This method is faster than calling `aNode.children.count`.
  */
-- (NSUInteger)numberOfChildren;
+@property (readonly, assign, nonatomic) NSUInteger numberOfChildren;
 
 /**
  * Returns a child of the node. Throws an NSRangeException if index is out of bounds.

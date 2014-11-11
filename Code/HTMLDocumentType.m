@@ -7,19 +7,17 @@
 
 @implementation HTMLDocumentType
 
-- (id)initWithName:(NSString *)name publicIdentifier:(NSString *)publicIdentifier systemIdentifier:(NSString *)systemIdentifier
+- (instancetype)initWithName:(NSString *)name publicIdentifier:(NSString *)publicIdentifier systemIdentifier:(NSString *)systemIdentifier
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _name = [name copy];
-    _publicIdentifier = [publicIdentifier copy] ?: @"";
-    _systemIdentifier = [systemIdentifier copy] ?: @"";
-    
+    if ((self = [super init])) {
+        _name = [name copy];
+        _publicIdentifier = [publicIdentifier copy] ?: @"";
+        _systemIdentifier = [systemIdentifier copy] ?: @"";
+    }
     return self;
 }
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithName:nil publicIdentifier:nil systemIdentifier:nil];
 }

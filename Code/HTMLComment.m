@@ -6,14 +6,17 @@
 
 @implementation HTMLComment
 
-- (id)initWithData:(NSString *)data
+- (instancetype)initWithData:(NSString *)data
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _data = [data copy];
-    
+    if ((self = [super init])) {
+        _data = [data copy];
+    }
     return self;
+}
+
+- (instancetype)init
+{
+    return [self initWithData:nil];
 }
 
 - (NSString *)textContent

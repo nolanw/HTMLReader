@@ -2430,25 +2430,18 @@ static inline BOOL is_lower(NSInteger c)
     BOOL _selfClosingFlag;
 }
 
-- (id)init
+- (instancetype)initWithTagName:(NSString *)tagName
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _tagName = [NSMutableString new];
-    _attributes = [HTMLOrderedDictionary new];
-    
+    if ((self = [super init])) {
+        _tagName = [NSMutableString stringWithString:tagName];
+        _attributes = [HTMLOrderedDictionary new];
+    }
     return self;
 }
 
-- (id)initWithTagName:(NSString *)tagName
+- (instancetype)init
 {
-    self = [self init];
-    if (!self) return nil;
-    
-    [_tagName setString:tagName];
-    
-    return self;
+    return [self initWithTagName:@""];
 }
 
 - (NSString *)tagName
@@ -2495,7 +2488,7 @@ static inline BOOL is_lower(NSInteger c)
 
 @implementation HTMLStartTagToken
 
-- (id)copyWithTagName:(NSString *)tagName
+- (instancetype)copyWithTagName:(NSString *)tagName
 {
     HTMLStartTagToken *copy = [[self.class alloc] initWithTagName:tagName];
     copy.attributes = self.attributes;
@@ -2543,17 +2536,15 @@ static inline BOOL is_lower(NSInteger c)
     NSMutableString *_data;
 }
 
-- (id)initWithData:(NSString *)data
+- (instancetype)initWithData:(NSString *)data
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _data = [NSMutableString stringWithString:(data ?: @"")];
-    
+    if ((self = [super init])) {
+        _data = [NSMutableString stringWithString:(data ?: @"")];
+    }
     return self;
 }
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithData:nil];
 }
@@ -2604,13 +2595,11 @@ static inline BOOL is_lower(NSInteger c)
 
 @implementation HTMLCharacterToken
 
-- (id)initWithString:(NSString *)string
+- (instancetype)initWithString:(NSString *)string
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _string = [string copy];
-    
+    if ((self = [super init])) {
+        _string = [string copy];
+    }
     return self;
 }
 
@@ -2667,17 +2656,15 @@ static inline BOOL is_lower(NSInteger c)
 
 @implementation HTMLParseErrorToken
 
-- (id)initWithError:(NSString *)error
+- (instancetype)initWithError:(NSString *)error
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _error = [error copy];
-    
+    if ((self = [super init])) {
+        _error = [error copy];
+    }
     return self;
 }
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithError:nil];
 }

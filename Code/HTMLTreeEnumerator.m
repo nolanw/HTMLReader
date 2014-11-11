@@ -29,14 +29,12 @@ typedef struct {
     free(_indexPath.path);
 }
 
-- (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed
+- (instancetype)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _nextNode = node;
-	_reversed = reversed;
-    
+    if ((self = [super init])) {
+        _nextNode = node;
+        _reversed = reversed;
+    }
     return self;
 }
 

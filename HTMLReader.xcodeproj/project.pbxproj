@@ -72,6 +72,7 @@
 		1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */; };
 		1CD5251818DC8438003F46A3 /* Benchmarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD5251718DC8438003F46A3 /* Benchmarker.m */; };
 		1CD5251A18DC8845003F46A3 /* HTMLReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C88293B18369DD70051653C /* HTMLReader.framework */; };
+		1CE12D091A12120E00FFA8C0 /* HTMLSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6691818D604BC00BDF7B8 /* HTMLSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */; };
 		83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518817BAFE3500C144DF /* HTMLSelector.m */; };
 		83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */; };
@@ -347,6 +348,7 @@
 				1C88296F18369E090051653C /* HTMLSelector.h in Headers */,
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
 				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
+				1CE12D091A12120E00FFA8C0 /* HTMLSupport.h in Headers */,
 				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
 				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
 				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,

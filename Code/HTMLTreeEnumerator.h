@@ -4,15 +4,13 @@
 
 #import <Foundation/Foundation.h>
 @class HTMLNode;
+#import "HTMLSupport.h"
 
 /**
  * An HTMLTreeEnumerator emits HTMLNode instances in tree order (preorder, depth-first) or reverse tree order (preorder, depth-first starting with the last child).
  */
 @interface HTMLTreeEnumerator : NSEnumerator
 
-/**
- * This is the designated initializer.
- */
-- (id)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed;
+- (instancetype)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed NS_DESIGNATED_INITIALIZER;
 
 @end

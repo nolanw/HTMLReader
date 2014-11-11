@@ -16,14 +16,17 @@
 @interface HTMLParser : NSObject
 
 /**
- * This is a designated initializer.
- *
  * @param string  A string of HTML.
  * @param context A context element used for parsing a fragment of HTML, or nil if the fragment parsing algorithm is not to be used.
  *
  * For more information on the context parameter, see http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#parsing-html-fragments
  */
-- (id)initWithString:(NSString *)string context:(HTMLElement *)context;
+- (instancetype)initWithString:(NSString *)string context:(HTMLElement *)context NS_DESIGNATED_INITIALIZER;
+
+/**
+ * The HTML being parsed.
+ */
+@property (readonly, copy, nonatomic) NSString *string;
 
 /**
  * Instances of NSString representing the errors encountered while parsing the document.

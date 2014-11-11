@@ -9,7 +9,7 @@
 
 @interface HTMLChildrenRelationshipProxy : NSMutableOrderedSet
 
-- (id)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children;
+- (instancetype)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children;
 
 @property (readonly, strong, nonatomic) HTMLNode *node;
 
@@ -22,13 +22,11 @@
     NSMutableOrderedSet *_children;
 }
 
-- (id)init
+- (instancetype)init
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _children = [NSMutableOrderedSet new];
-    
+    if ((self = [super init])) {
+        _children = [NSMutableOrderedSet new];
+    }
     return self;
 }
 
@@ -230,14 +228,12 @@
  */
 @implementation HTMLChildrenRelationshipProxy : NSMutableOrderedSet
 
-- (id)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children
+- (instancetype)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    _node = node;
-    _children = children;
-    
+    if ((self = [super init])) {
+        _node = node;
+        _children = children;
+    }
     return self;
 }
 

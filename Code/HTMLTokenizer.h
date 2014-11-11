@@ -14,10 +14,7 @@
  */
 @interface HTMLTokenizer : NSEnumerator
 
-/**
- * This is the designated initializer.
- */
-- (id)initWithString:(NSString *)string;
+- (instancetype)initWithString:(NSString *)string NS_DESIGNATED_INITIALIZER;
 
 /**
  * The string where tokens come from.
@@ -69,14 +66,9 @@
 @interface HTMLTagToken : NSObject
 
 /**
- * This is the designated initializer.
- */
-- (id)init;
-
-/**
  * Initializes a token with a tag name.
  */
-- (id)initWithTagName:(NSString *)tagName;
+- (instancetype)initWithTagName:(NSString *)tagName NS_DESIGNATED_INITIALIZER;
 
 /**
  * The name of this tag.
@@ -91,7 +83,7 @@
 /**
  * YES if this tag is a self-closing tag (<br/>), or NO otherwise (<br> or </br>).
  */
-@property (nonatomic) BOOL selfClosingFlag;
+@property (assign, nonatomic) BOOL selfClosingFlag;
 
 @end
 
@@ -105,7 +97,7 @@
  *
  * @param tagName The tag name of the copied token.
  */
-- (id)copyWithTagName:(NSString *)tagName;
+- (instancetype)copyWithTagName:(NSString *)tagName;
 
 @end
 
@@ -122,11 +114,9 @@
 @interface HTMLCommentToken : NSObject
 
 /**
- * This is the designated initializer.
- *
  * @param data The comment's data.
  */
-- (id)initWithData:(NSString *)data;
+- (instancetype)initWithData:(NSString *)data NS_DESIGNATED_INITIALIZER;
 
 /**
  * The comment's data.
@@ -140,10 +130,7 @@
  */
 @interface HTMLCharacterToken : NSObject
 
-/**
- * This is the designated initializer.
- */
-- (id)initWithString:(NSString *)string;
+- (instancetype)initWithString:(NSString *)string NS_DESIGNATED_INITIALIZER;
 
 /**
  * The code points represented by this token.
@@ -170,11 +157,9 @@
 @interface HTMLParseErrorToken : NSObject
 
 /**
- * This is the designated initializer.
- *
  * @param error The reason for the parse error.
  */
-- (id)initWithError:(NSString *)error;
+- (instancetype)initWithError:(NSString *)error NS_DESIGNATED_INITIALIZER;
 
 /**
  * The reason for the parse error.
