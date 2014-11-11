@@ -4,6 +4,7 @@
 
 #import "HTMLSerialization.h"
 #import "HTMLComment.h"
+#import "HTMLDocument.h"
 #import "HTMLDocumentType.h"
 #import "HTMLElement.h"
 #import "HTMLString.h"
@@ -59,6 +60,15 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
 - (NSString *)serializedFragment
 {
     return [NSString stringWithFormat:@"<!--%@-->", self.data];
+}
+
+@end
+
+@implementation HTMLDocument (Serialization)
+
+- (NSString *)serializedFragment
+{
+    return self.innerHTML;
 }
 
 @end

@@ -20,6 +20,8 @@
 
 /**
  * Returns the serialized HTML fragment of this node.
+ *
+ * This is effectively outerHTML. (See http://www.w3.org/TR/DOM-Parsing/#widl-Element-outerHTML, though no exception will be thrown by -serializedFragment.)
  */
 - (NSString *)serializedFragment;
 
