@@ -139,6 +139,9 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
         if ([name isEqualToString:@"xmlns:xmlns"]) {
             name = @"xmlns";
         }
+        if (![value isKindOfClass:[NSString class]]) {
+            value = value.description;
+        }
         NSMutableString *escapedValue = [value mutableCopy];
         void (^replace)(id, id) = ^(NSString *search, NSString *replace) {
             NSRange range = NSMakeRange(0, escapedValue.length);
