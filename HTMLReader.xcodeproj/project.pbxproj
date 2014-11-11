@@ -236,8 +236,8 @@
 		1C9C3EB0176BC53800E982C9 = {
 			isa = PBXGroup;
 			children = (
-				1CB61D2717BB68F100EE9653 /* LICENSE */,
 				1CB61D2817BB7A2700EE9653 /* HTMLReader.podspec */,
+				1CB61D2717BB68F100EE9653 /* LICENSE */,
 				1C9C3EC0176BC53900E982C9 /* Prefix.pch */,
 				1C9928B117B18E9300D6AD9A /* README.md */,
 				1C9C3EBE176BC53900E982C9 /* Code */,
@@ -340,19 +340,19 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C88296E18369E090051653C /* HTMLReader.h in Headers */,
-				1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */,
-				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
-				1CA5C21618D746D600147FE7 /* HTMLComment.h in Headers */,
-				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,
 				1C88296C18369E090051653C /* HTMLDocument.h in Headers */,
-				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
-				1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */,
+				1C88296D18369E090051653C /* HTMLNode.h in Headers */,
+				1C88296E18369E090051653C /* HTMLReader.h in Headers */,
+				1CA5C21618D746D600147FE7 /* HTMLComment.h in Headers */,
 				1C88296F18369E090051653C /* HTMLSelector.h in Headers */,
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
 				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
+				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
+				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
+				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,
+				1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */,
 				1C8E10551919F1560010007B /* NSString+HTMLEntities.h in Headers */,
-				1C88296D18369E090051653C /* HTMLNode.h in Headers */,
+				1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,22 +547,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CB0B961183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
-				1C88296718369DF70051653C /* HTMLNode.m in Sources */,
-				1C88296918369DF70051653C /* HTMLSelector.m in Sources */,
-				1C8E105C1919F2570010007B /* HTMLEntities.m in Sources */,
-				1C88296B18369DF70051653C /* HTMLTokenizer.m in Sources */,
 				1CA5C21818D746D600147FE7 /* HTMLComment.m in Sources */,
-				1CD524F718D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */,
-				1CC6693818D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */,
-				1CA5C21D18D7479C00147FE7 /* HTMLDocumentType.m in Sources */,
-				1CD524F218D74B71003F46A3 /* HTMLTextNode.m in Sources */,
-				1C88296A18369DF70051653C /* HTMLString.m in Sources */,
-				1C8E10571919F1560010007B /* NSString+HTMLEntities.m in Sources */,
-				1CA5C21318D7457400147FE7 /* HTMLElement.m in Sources */,
 				1C88296618369DF70051653C /* HTMLDocument.m in Sources */,
+				1CA5C21D18D7479C00147FE7 /* HTMLDocumentType.m in Sources */,
+				1CA5C21318D7457400147FE7 /* HTMLElement.m in Sources */,
+				1C8E105C1919F2570010007B /* HTMLEntities.m in Sources */,
+				1C88296718369DF70051653C /* HTMLNode.m in Sources */,
+				1CC6693818D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */,
 				1C88296818369DF70051653C /* HTMLParser.m in Sources */,
+				1CB0B961183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
+				1C88296918369DF70051653C /* HTMLSelector.m in Sources */,
 				1CD524FC18D74CFF003F46A3 /* HTMLSerialization.m in Sources */,
+				1C88296A18369DF70051653C /* HTMLString.m in Sources */,
+				1CD524F218D74B71003F46A3 /* HTMLTextNode.m in Sources */,
+				1C88296B18369DF70051653C /* HTMLTokenizer.m in Sources */,
+				1CD524F718D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */,
+				1C8E10571919F1560010007B /* NSString+HTMLEntities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,22 +594,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CB0B960183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
-				1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */,
-				83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */,
-				1C8E105B1919F2570010007B /* HTMLEntities.m in Sources */,
-				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,
 				1CA5C21718D746D600147FE7 /* HTMLComment.m in Sources */,
-				1CD524F618D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */,
+				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,
+				1CA5C21C18D7479C00147FE7 /* HTMLDocumentType.m in Sources */,
+				1CA5C21218D7457400147FE7 /* HTMLElement.m in Sources */,
+				1C8E105B1919F2570010007B /* HTMLEntities.m in Sources */,
+				1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */,
 				1CC6693718D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */,
 				1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */,
-				1CA5C21C18D7479C00147FE7 /* HTMLDocumentType.m in Sources */,
-				1CD524F118D74B71003F46A3 /* HTMLTextNode.m in Sources */,
-				1C8E10561919F1560010007B /* NSString+HTMLEntities.m in Sources */,
-				1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */,
-				1CA5C21218D7457400147FE7 /* HTMLElement.m in Sources */,
-				1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */,
+				1CB0B960183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */,
+				83C4518917BAFE3500C144DF /* HTMLSelector.m in Sources */,
 				1CD524FB18D74CFF003F46A3 /* HTMLSerialization.m in Sources */,
+				1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */,
+				1CD524F118D74B71003F46A3 /* HTMLTextNode.m in Sources */,
+				1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */,
+				1CD524F618D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */,
+				1C8E10561919F1560010007B /* NSString+HTMLEntities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
