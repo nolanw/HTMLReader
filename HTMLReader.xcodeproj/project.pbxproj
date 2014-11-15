@@ -10,6 +10,24 @@
 		1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
 		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
 		1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
+		1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21418D746D600147FE7 /* HTMLComment.h */; };
+		1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C25D3A6177BB78600F7C10D /* HTMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F681A179D8B00236076 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F691A179D9400236076 /* HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10581919F2570010007B /* HTMLEntities.h */; };
+		1C6C1F6A1A179D9900236076 /* HTMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CACE9E21783A92F00754A8F /* HTMLNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F6B1A179DA400236076 /* HTMLOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6693418D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h */; };
+		1C6C1F6C1A179DB600236076 /* HTMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CB61D2417BB671A00EE9653 /* HTMLReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C4518717BAFE3500C144DF /* HTMLSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6691818D604BC00BDF7B8 /* HTMLSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1F711A179DD400236076 /* HTMLTreeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F318D74C1F003F46A3 /* HTMLTreeEnumerator.h */; };
+		1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10531919F1560010007B /* NSString+HTMLEntities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1FE21A17A07200236076 /* HTMLQuirksMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C6C1FE31A17A07300236076 /* HTMLQuirksMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C88295618369DD70051653C /* HTMLReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C88293B18369DD70051653C /* HTMLReader.framework */; };
 		1C88296618369DF70051653C /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
 		1C88296718369DF70051653C /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
@@ -37,19 +55,35 @@
 		1C8E105F1919F27A0010007B /* HTMLEscapingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */; };
 		1C9A2A171836FEED0059FE17 /* EntityFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A2A161836FEED0059FE17 /* EntityFetcher.m */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
-		1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; };
+		1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CA5C21218D7457400147FE7 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21018D7457400147FE7 /* HTMLElement.m */; };
 		1CA5C21318D7457400147FE7 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21018D7457400147FE7 /* HTMLElement.m */; };
 		1CA5C21618D746D600147FE7 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21418D746D600147FE7 /* HTMLComment.h */; };
 		1CA5C21718D746D600147FE7 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21518D746D600147FE7 /* HTMLComment.m */; };
 		1CA5C21818D746D600147FE7 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21518D746D600147FE7 /* HTMLComment.m */; };
-		1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */; };
+		1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CA5C21C18D7479C00147FE7 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */; };
 		1CA5C21D18D7479C00147FE7 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */; };
 		1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
 		1CACE9EA1783AA6600754A8F /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
 		1CB0B960183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */; };
 		1CB0B961183F2C7100021DBE /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */; };
+		1CBACD8F1A17A5A90016908D /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21518D746D600147FE7 /* HTMLComment.m */; };
+		1CBACD901A17A5A90016908D /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
+		1CBACD911A17A5A90016908D /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */; };
+		1CBACD921A17A5A90016908D /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21018D7457400147FE7 /* HTMLElement.m */; };
+		1CBACD931A17A5A90016908D /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
+		1CBACD941A17A5A90016908D /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
+		1CBACD951A17A5A90016908D /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */; };
+		1CBACD961A17A5A90016908D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
+		1CBACD971A17A5A90016908D /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */; };
+		1CBACD981A17A5A90016908D /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518817BAFE3500C144DF /* HTMLSelector.m */; };
+		1CBACD991A17A5A90016908D /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */; };
+		1CBACD9A1A17A5A90016908D /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
+		1CBACD9B1A17A5A90016908D /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
+		1CBACD9C1A17A5A90016908D /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
+		1CBACD9D1A17A5A90016908D /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */; };
+		1CBACD9E1A17A5A90016908D /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10541919F1560010007B /* NSString+HTMLEntities.m */; };
 		1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
 		1CC666AB17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m */; };
 		1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
@@ -59,7 +93,7 @@
 		1CC6693818D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */; };
 		1CC6693F18D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */; };
 		1CC6694018D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */; };
-		1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; };
+		1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CD524F118D74B71003F46A3 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
 		1CD524F218D74B71003F46A3 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
 		1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F318D74C1F003F46A3 /* HTMLTreeEnumerator.h */; };
@@ -114,6 +148,7 @@
 		1C25D40917837A8A00F7C10D /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
+		1C6C1F4C1A179BF600236076 /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C88293B18369DD70051653C /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C88294418369DD70051653C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C88295018369DD70051653C /* Tests on OS X.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on OS X.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +210,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1C6C1F481A179BF600236076 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C88293718369DD70051653C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -258,6 +300,7 @@
 				1C88295018369DD70051653C /* Tests on OS X.xctest */,
 				1C9A2A071836FEAE0059FE17 /* Entity Fetcher */,
 				1CD5250918DC83E6003F46A3 /* Benchmarker */,
+				1C6C1F4C1A179BF600236076 /* HTMLReader.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -337,6 +380,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1C6C1F491A179BF600236076 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */,
+				1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */,
+				1C6C1F6A1A179D9900236076 /* HTMLNode.h in Headers */,
+				1C6C1F6C1A179DB600236076 /* HTMLReader.h in Headers */,
+				1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */,
+				1C6C1F6B1A179DA400236076 /* HTMLOrderedDictionary.h in Headers */,
+				1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */,
+				1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */,
+				1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */,
+				1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */,
+				1C6C1F711A179DD400236076 /* HTMLTreeEnumerator.h in Headers */,
+				1C6C1F681A179D8B00236076 /* HTMLElement.h in Headers */,
+				1C6C1F691A179D9400236076 /* HTMLEntities.h in Headers */,
+				1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */,
+				1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */,
+				1C6C1FE21A17A07200236076 /* HTMLQuirksMode.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C88293818369DD70051653C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,18 +415,38 @@
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
 				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
 				1CE12D091A12120E00FFA8C0 /* HTMLSupport.h in Headers */,
+				1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */,
 				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
 				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
 				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,
 				1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */,
 				1C8E10551919F1560010007B /* NSString+HTMLEntities.h in Headers */,
 				1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */,
+				1C6C1FE31A17A07300236076 /* HTMLQuirksMode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1C6C1F4B1A179BF600236076 /* HTMLReader iOS Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS Framework" */;
+			buildPhases = (
+				1C6C1F471A179BF600236076 /* Sources */,
+				1C6C1F481A179BF600236076 /* Frameworks */,
+				1C6C1F491A179BF600236076 /* Headers */,
+				1C6C1F4A1A179BF600236076 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "HTMLReader iOS Framework";
+			productName = "HTMLReader iOS Framework";
+			productReference = 1C6C1F4C1A179BF600236076 /* HTMLReader.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		1C88293A18369DD70051653C /* HTMLReader OS X */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C88295F18369DD70051653C /* Build configuration list for PBXNativeTarget "HTMLReader OS X" */;
@@ -436,7 +522,7 @@
 				1C9C3EC5176BC53900E982C9 /* Sources */,
 				1C9C3EC6176BC53900E982C9 /* Frameworks */,
 				1C9C3EC7176BC53900E982C9 /* Resources */,
-				1C9C3EC8176BC53900E982C9 /* ShellScript */,
+				1C9C3EC8176BC53900E982C9 /* Run Tests */,
 			);
 			buildRules = (
 			);
@@ -474,6 +560,9 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Nolan Waite";
 				TargetAttributes = {
+					1C6C1F4B1A179BF600236076 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 					1C88294F18369DD70051653C = {
 						TestTargetID = 1C88293A18369DD70051653C;
 					};
@@ -495,6 +584,7 @@
 			projectRoot = "";
 			targets = (
 				1C9C3EB8176BC53800E982C9 /* HTMLReader iOS */,
+				1C6C1F4B1A179BF600236076 /* HTMLReader iOS Framework */,
 				1C9C3EC9176BC53900E982C9 /* Tests on iOS */,
 				1C88293A18369DD70051653C /* HTMLReader OS X */,
 				1C88294F18369DD70051653C /* Tests on OS X */,
@@ -505,6 +595,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1C6C1F4A1A179BF600236076 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C88293918369DD70051653C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,13 +626,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C9C3EC8176BC53900E982C9 /* ShellScript */ = {
+		1C9C3EC8176BC53900E982C9 /* Run Tests */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Tests";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,6 +643,29 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1C6C1F471A179BF600236076 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CBACD9C1A17A5A90016908D /* HTMLTokenizer.m in Sources */,
+				1CBACD8F1A17A5A90016908D /* HTMLComment.m in Sources */,
+				1CBACD961A17A5A90016908D /* HTMLParser.m in Sources */,
+				1CBACD911A17A5A90016908D /* HTMLDocumentType.m in Sources */,
+				1CBACD9A1A17A5A90016908D /* HTMLString.m in Sources */,
+				1CBACD941A17A5A90016908D /* HTMLNode.m in Sources */,
+				1CBACD971A17A5A90016908D /* HTMLPreprocessedInputStream.m in Sources */,
+				1CBACD901A17A5A90016908D /* HTMLDocument.m in Sources */,
+				1CBACD991A17A5A90016908D /* HTMLSerialization.m in Sources */,
+				1CBACD9B1A17A5A90016908D /* HTMLTextNode.m in Sources */,
+				1CBACD931A17A5A90016908D /* HTMLEntities.m in Sources */,
+				1CBACD981A17A5A90016908D /* HTMLSelector.m in Sources */,
+				1CBACD9D1A17A5A90016908D /* HTMLTreeEnumerator.m in Sources */,
+				1CBACD921A17A5A90016908D /* HTMLElement.m in Sources */,
+				1CBACD951A17A5A90016908D /* HTMLOrderedDictionary.m in Sources */,
+				1CBACD9E1A17A5A90016908D /* NSString+HTMLEntities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C88293618369DD70051653C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -655,9 +776,71 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1C6C1F5F1A179BF600236076 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1C6C1F601A179BF600236076 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		1C88296018369DD70051653C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -685,6 +868,7 @@
 		1C88296118369DD70051653C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -981,6 +1165,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C6C1F5F1A179BF600236076 /* Debug */,
+				1C6C1F601A179BF600236076 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1C88295F18369DD70051653C /* Build configuration list for PBXNativeTarget "HTMLReader OS X" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
