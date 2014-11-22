@@ -73,7 +73,7 @@ There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle d
 
 HTMLReader continually runs [html5lib][html5lib-tests]'s tokenization and tree construction tests, ignoring the tests for `<template>` (which HTMLReader does not implement).
 
-HTMLReader is continually tested on iOS versions 7.0, 7.1, and 8.0, as well as OS X 10.9. It should work on down to iOS 5 and OS X 10.7 but no automated testing is done.
+HTMLReader is continually tested on iOS versions 7.0, 7.1, and 8.1, as well as OS X versions 10.9 and 10.10. It should work on down to iOS 5 and OS X 10.7 but no automated testing is done.
 
 Given all that:  [![Build Status](https://travis-ci.org/nolanw/HTMLReader.png?branch=master)](https://travis-ci.org/nolanw/HTMLReader)
 
