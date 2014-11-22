@@ -152,7 +152,6 @@
 		1C88293B18369DD70051653C /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C88294418369DD70051653C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C88295018369DD70051653C /* Tests on OS X.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on OS X.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C88297718369FA70051653C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		1C8829781836A0A80051653C /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tests.xcconfig; sourceTree = "<group>"; };
 		1C8E10531919F1560010007B /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; };
 		1C8E10541919F1560010007B /* NSString+HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLEntities.m"; sourceTree = "<group>"; };
@@ -363,7 +362,6 @@
 				1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */,
 				1CC666AA17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m */,
 				1C9C3ED5176BC53900E982C9 /* Info.plist */,
-				1C88297718369FA70051653C /* Prefix.pch */,
 				1C8829781836A0A80051653C /* Tests.xcconfig */,
 			);
 			path = Tests;
@@ -384,22 +382,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */,
-				1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */,
-				1C6C1F6A1A179D9900236076 /* HTMLNode.h in Headers */,
-				1C6C1F6C1A179DB600236076 /* HTMLReader.h in Headers */,
-				1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */,
-				1C6C1F6B1A179DA400236076 /* HTMLOrderedDictionary.h in Headers */,
-				1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */,
 				1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */,
-				1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */,
-				1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */,
-				1C6C1F711A179DD400236076 /* HTMLTreeEnumerator.h in Headers */,
+				1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */,
 				1C6C1F681A179D8B00236076 /* HTMLElement.h in Headers */,
-				1C6C1F691A179D9400236076 /* HTMLEntities.h in Headers */,
-				1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */,
-				1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */,
+				1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */,
+				1C6C1F6A1A179D9900236076 /* HTMLNode.h in Headers */,
 				1C6C1FE21A17A07200236076 /* HTMLQuirksMode.h in Headers */,
+				1C6C1F6C1A179DB600236076 /* HTMLReader.h in Headers */,
+				1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */,
+				1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */,
+				1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */,
+				1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */,
+				1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */,
+				1C6C1F691A179D9400236076 /* HTMLEntities.h in Headers */,
+				1C6C1F6B1A179DA400236076 /* HTMLOrderedDictionary.h in Headers */,
+				1C6C1F711A179DD400236076 /* HTMLTreeEnumerator.h in Headers */,
+				1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,30 +406,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C88296C18369E090051653C /* HTMLDocument.h in Headers */,
+				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
+				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
+				1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */,
 				1C88296D18369E090051653C /* HTMLNode.h in Headers */,
+				1C6C1FE31A17A07300236076 /* HTMLQuirksMode.h in Headers */,
 				1C88296E18369E090051653C /* HTMLReader.h in Headers */,
 				1CA5C21618D746D600147FE7 /* HTMLComment.h in Headers */,
 				1C88296F18369E090051653C /* HTMLSelector.h in Headers */,
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
-				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
 				1CE12D091A12120E00FFA8C0 /* HTMLSupport.h in Headers */,
-				1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */,
-				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
 				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
 				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,
 				1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */,
 				1C8E10551919F1560010007B /* NSString+HTMLEntities.h in Headers */,
 				1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */,
-				1C6C1FE31A17A07300236076 /* HTMLQuirksMode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1C6C1F4B1A179BF600236076 /* HTMLReader iOS Framework */ = {
+		1C6C1F4B1A179BF600236076 /* HTMLReader iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS Framework" */;
+			buildConfigurationList = 1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */;
 			buildPhases = (
 				1C6C1F471A179BF600236076 /* Sources */,
 				1C6C1F481A179BF600236076 /* Frameworks */,
@@ -442,7 +440,7 @@
 			);
 			dependencies = (
 			);
-			name = "HTMLReader iOS Framework";
+			name = "HTMLReader iOS";
 			productName = "HTMLReader iOS Framework";
 			productReference = 1C6C1F4C1A179BF600236076 /* HTMLReader.framework */;
 			productType = "com.apple.product-type.framework";
@@ -498,9 +496,9 @@
 			productReference = 1C9A2A071836FEAE0059FE17 /* Entity Fetcher */;
 			productType = "com.apple.product-type.tool";
 		};
-		1C9C3EB8176BC53800E982C9 /* HTMLReader iOS */ = {
+		1C9C3EB8176BC53800E982C9 /* HTMLReader iOS Static Library */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C9C3EDE176BC53900E982C9 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */;
+			buildConfigurationList = 1C9C3EDE176BC53900E982C9 /* Build configuration list for PBXNativeTarget "HTMLReader iOS Static Library" */;
 			buildPhases = (
 				1C9C3EB5176BC53800E982C9 /* Sources */,
 				1C9C3EB6176BC53800E982C9 /* Frameworks */,
@@ -510,7 +508,7 @@
 			);
 			dependencies = (
 			);
-			name = "HTMLReader iOS";
+			name = "HTMLReader iOS Static Library";
 			productName = HTMLReader;
 			productReference = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */;
 			productType = "com.apple.product-type.library.static";
@@ -583,13 +581,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1C9C3EB8176BC53800E982C9 /* HTMLReader iOS */,
-				1C6C1F4B1A179BF600236076 /* HTMLReader iOS Framework */,
+				1C6C1F4B1A179BF600236076 /* HTMLReader iOS */,
 				1C9C3EC9176BC53900E982C9 /* Tests on iOS */,
 				1C88293A18369DD70051653C /* HTMLReader OS X */,
 				1C88294F18369DD70051653C /* Tests on OS X */,
 				1CD5250818DC83E6003F46A3 /* Benchmarker */,
 				1C9A2A061836FEAE0059FE17 /* Entity Fetcher */,
+				1C9C3EB8176BC53800E982C9 /* HTMLReader iOS Static Library */,
 			);
 		};
 /* End PBXProject section */
@@ -647,21 +645,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CBACD9C1A17A5A90016908D /* HTMLTokenizer.m in Sources */,
 				1CBACD8F1A17A5A90016908D /* HTMLComment.m in Sources */,
-				1CBACD961A17A5A90016908D /* HTMLParser.m in Sources */,
-				1CBACD911A17A5A90016908D /* HTMLDocumentType.m in Sources */,
-				1CBACD9A1A17A5A90016908D /* HTMLString.m in Sources */,
-				1CBACD941A17A5A90016908D /* HTMLNode.m in Sources */,
-				1CBACD971A17A5A90016908D /* HTMLPreprocessedInputStream.m in Sources */,
 				1CBACD901A17A5A90016908D /* HTMLDocument.m in Sources */,
-				1CBACD991A17A5A90016908D /* HTMLSerialization.m in Sources */,
-				1CBACD9B1A17A5A90016908D /* HTMLTextNode.m in Sources */,
-				1CBACD931A17A5A90016908D /* HTMLEntities.m in Sources */,
-				1CBACD981A17A5A90016908D /* HTMLSelector.m in Sources */,
-				1CBACD9D1A17A5A90016908D /* HTMLTreeEnumerator.m in Sources */,
+				1CBACD911A17A5A90016908D /* HTMLDocumentType.m in Sources */,
 				1CBACD921A17A5A90016908D /* HTMLElement.m in Sources */,
+				1CBACD931A17A5A90016908D /* HTMLEntities.m in Sources */,
+				1CBACD941A17A5A90016908D /* HTMLNode.m in Sources */,
 				1CBACD951A17A5A90016908D /* HTMLOrderedDictionary.m in Sources */,
+				1CBACD961A17A5A90016908D /* HTMLParser.m in Sources */,
+				1CBACD971A17A5A90016908D /* HTMLPreprocessedInputStream.m in Sources */,
+				1CBACD981A17A5A90016908D /* HTMLSelector.m in Sources */,
+				1CBACD991A17A5A90016908D /* HTMLSerialization.m in Sources */,
+				1CBACD9A1A17A5A90016908D /* HTMLString.m in Sources */,
+				1CBACD9B1A17A5A90016908D /* HTMLTextNode.m in Sources */,
+				1CBACD9C1A17A5A90016908D /* HTMLTokenizer.m in Sources */,
+				1CBACD9D1A17A5A90016908D /* HTMLTreeEnumerator.m in Sources */,
 				1CBACD9E1A17A5A90016908D /* NSString+HTMLEntities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,15 +691,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
-				1C88297218369F320051653C /* HTMLSerializerTests.m in Sources */,
-				1C8E105F1919F27A0010007B /* HTMLEscapingTest.m in Sources */,
-				1C88297618369F320051653C /* HTMLTreeEnumeratorTests.m in Sources */,
 				1CC6694018D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */,
+				1C8E105F1919F27A0010007B /* HTMLEscapingTest.m in Sources */,
+				1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				1C88297118369F320051653C /* HTMLSelectorTests.m in Sources */,
-				1C88297518369F320051653C /* HTMLTreeConstructionTests.m in Sources */,
-				1C88297418369F320051653C /* HTMLTokenizerTests.m in Sources */,
+				1C88297218369F320051653C /* HTMLSerializerTests.m in Sources */,
 				1C88297318369F320051653C /* HTMLTestUtilities.m in Sources */,
+				1C88297418369F320051653C /* HTMLTokenizerTests.m in Sources */,
+				1C88297518369F320051653C /* HTMLTreeConstructionTests.m in Sources */,
+				1C88297618369F320051653C /* HTMLTreeEnumeratorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,15 +738,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
-				1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */,
-				1C8E105E1919F27A0010007B /* HTMLEscapingTest.m in Sources */,
 				1CC6693F18D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */,
-				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,
-				1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */,
-				1CC666AB17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m in Sources */,
+				1C8E105E1919F27A0010007B /* HTMLEscapingTest.m in Sources */,
+				1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */,
+				1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */,
 				1CC666B117B14E1800E457E7 /* HTMLTestUtilities.m in Sources */,
+				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,
+				1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */,
+				1CC666AB17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,7 +768,7 @@
 		};
 		1C9C3ED1176BC53900E982C9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1C9C3EB8176BC53800E982C9 /* HTMLReader iOS */;
+			target = 1C9C3EB8176BC53800E982C9 /* HTMLReader iOS Static Library */;
 			targetProxy = 1C9C3ED0176BC53900E982C9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -910,8 +908,6 @@
 					"$(inherited)",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Tests/Prefix.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -941,8 +937,6 @@
 					"$(inherited)",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Tests/Prefix.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1067,9 +1061,11 @@
 		1C9C3EDF176BC53900E982C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				DSTROOT = /tmp/HTMLReader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
+				PUBLIC_HEADERS_FOLDER_PATH = HTMLReader;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1077,9 +1073,11 @@
 		1C9C3EE0176BC53900E982C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				DSTROOT = /tmp/HTMLReader.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
+				PUBLIC_HEADERS_FOLDER_PATH = HTMLReader;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1088,9 +1086,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Tests/Prefix.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1107,9 +1104,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Tests/Prefix.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1165,7 +1161,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS Framework" */ = {
+		1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C6C1F5F1A179BF600236076 /* Debug */,
@@ -1210,7 +1206,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1C9C3EDE176BC53900E982C9 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */ = {
+		1C9C3EDE176BC53900E982C9 /* Build configuration list for PBXNativeTarget "HTMLReader iOS Static Library" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C9C3EDF176BC53900E982C9 /* Debug */,

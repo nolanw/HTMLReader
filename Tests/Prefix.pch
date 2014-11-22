@@ -1,4 +1,0 @@
-#ifdef __OBJC__
-    #import "HTMLSupport.h"
-    #import <XCTest/XCTest.h>
-#endif

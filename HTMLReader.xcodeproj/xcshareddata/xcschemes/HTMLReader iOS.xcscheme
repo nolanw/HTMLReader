@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0610"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1C9C3EB8176BC53800E982C9"
-               BuildableName = "libHTMLReader.a"
+               BlueprintIdentifier = "1C6C1F4B1A179BF600236076"
+               BuildableName = "HTMLReader.framework"
                BlueprintName = "HTMLReader iOS"
                ReferencedContainer = "container:HTMLReader.xcodeproj">
             </BuildableReference>
@@ -39,6 +39,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C6C1F4B1A179BF600236076"
+            BuildableName = "HTMLReader.framework"
+            BlueprintName = "HTMLReader iOS"
+            ReferencedContainer = "container:HTMLReader.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -52,8 +61,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1C9C3EB8176BC53800E982C9"
-            BuildableName = "libHTMLReader.a"
+            BlueprintIdentifier = "1C6C1F4B1A179BF600236076"
+            BuildableName = "HTMLReader.framework"
             BlueprintName = "HTMLReader iOS"
             ReferencedContainer = "container:HTMLReader.xcodeproj">
          </BuildableReference>
@@ -67,6 +76,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "1C6C1F4B1A179BF600236076"
+            BuildableName = "HTMLReader.framework"
+            BlueprintName = "HTMLReader iOS"
+            ReferencedContainer = "container:HTMLReader.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
