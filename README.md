@@ -33,6 +33,9 @@ NSLog(@"%@", [document.rootElement serializedFragment]);
 You have choices:
 
 * Copy the files in the [Code](Code) folder into your project.
+* Add the following line to your [Cartfile][Carthage]:
+  
+  `github "nolanw/HTMLReader"`
 * Add the following line to your [Podfile][CocoaPods]:
    
    `pod "HTMLReader"`
@@ -40,6 +43,7 @@ You have choices:
 
 HTMLReader has no dependencies other than Foundation.
 
+[Carthage]: https://github.com/Carthage/Carthage#readme
 [CocoaPods]: http://docs.cocoapods.org/podfile.html#pod
 
 ## Why HTMLReader?
