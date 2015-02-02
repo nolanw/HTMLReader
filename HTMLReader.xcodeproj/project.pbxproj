@@ -53,6 +53,8 @@
 		1C8E105C1919F2570010007B /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
 		1C8E105E1919F27A0010007B /* HTMLEscapingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */; };
 		1C8E105F1919F27A0010007B /* HTMLEscapingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */; };
+		1C9513C31A8029CC00BB2CC9 /* HTMLEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9513C21A8029CC00BB2CC9 /* HTMLEncodingTests.m */; };
+		1C9513C41A8029CC00BB2CC9 /* HTMLEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9513C21A8029CC00BB2CC9 /* HTMLEncodingTests.m */; };
 		1C9A2A171836FEED0059FE17 /* EntityFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A2A161836FEED0059FE17 /* EntityFetcher.m */; };
 		1C9C3ED2176BC53900E982C9 /* libHTMLReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */; };
 		1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -158,6 +160,7 @@
 		1C8E10581919F2570010007B /* HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEntities.h; sourceTree = "<group>"; };
 		1C8E10591919F2570010007B /* HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEntities.m; sourceTree = "<group>"; };
 		1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEscapingTest.m; sourceTree = "<group>"; };
+		1C9513C21A8029CC00BB2CC9 /* HTMLEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEncodingTests.m; sourceTree = "<group>"; };
 		1C9928B117B18E9300D6AD9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		1C9A2A071836FEAE0059FE17 /* Entity Fetcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Entity Fetcher"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9A2A161836FEED0059FE17 /* EntityFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityFetcher.m; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */,
+				1C9513C21A8029CC00BB2CC9 /* HTMLEncodingTests.m */,
 				1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */,
 				1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */,
 				83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */,
@@ -696,6 +700,7 @@
 				1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				1C88297118369F320051653C /* HTMLSelectorTests.m in Sources */,
 				1C88297218369F320051653C /* HTMLSerializerTests.m in Sources */,
+				1C9513C41A8029CC00BB2CC9 /* HTMLEncodingTests.m in Sources */,
 				1C88297318369F320051653C /* HTMLTestUtilities.m in Sources */,
 				1C88297418369F320051653C /* HTMLTokenizerTests.m in Sources */,
 				1C88297518369F320051653C /* HTMLTreeConstructionTests.m in Sources */,
@@ -743,6 +748,7 @@
 				1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */,
 				1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */,
+				1C9513C31A8029CC00BB2CC9 /* HTMLEncodingTests.m in Sources */,
 				1CC666B117B14E1800E457E7 /* HTMLTestUtilities.m in Sources */,
 				1CC666A917B0C71100E457E7 /* HTMLTokenizerTests.m in Sources */,
 				1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */,
