@@ -90,13 +90,13 @@ int main(void) { @autoreleasepool
     [entities sortUsingComparator:comparator];
     [semicolonlessEntities sortUsingComparator:comparator];
     
-    printf("static const NamedReferenceTable NamedReferences[] = {\n");
+    printf("static const NamedReferenceMap NamedReferences[] = {\n");
     for (Entity *entity in entities) {
         printf("    %s\n", entity.description.UTF8String);
     }
     printf("};\n\n");
     
-    printf("static const NamedReferenceTable NamedSemicolonlessReferences[] = {\n");
+    printf("static const NamedReferenceMap NamedSemicolonlessReferences[] = {\n");
     for (Entity *entity in semicolonlessEntities) {
         printf("    %s\n", entity.description.UTF8String);
     }
