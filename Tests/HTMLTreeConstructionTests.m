@@ -213,6 +213,7 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
             HTMLTreeConstructionTest *test = [self testWithSingleTestString:singleTestString];
             if (!test) continue;
             HTMLParser *parser;
+            HTMLStringEncoding defaultEncoding = (HTMLStringEncoding){ .encoding = NSUTF8StringEncoding, .confidence = Certain };
             if (test.documentFragment) {
                 HTMLElement *context;
                 NSScanner *scanner = [NSScanner scannerWithString:test.documentFragment];
@@ -229,9 +230,9 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
                 } else {
                     context = [[HTMLElement alloc] initWithTagName:scanner.string attributes:nil];
                 }
-                parser = [[HTMLParser alloc] initWithString:test.data context:context];
+                parser = [[HTMLParser alloc] initWithString:test.data encoding:defaultEncoding context:context];
             } else {
-                parser = [[HTMLParser alloc] initWithString:test.data context:nil];
+                parser = [[HTMLParser alloc] initWithString:test.data encoding:defaultEncoding context:nil];
             }
             NSString *description = [NSString stringWithFormat:@"%@ test%tu parsed: %@\nfixture:\n%@",
                                      testName,

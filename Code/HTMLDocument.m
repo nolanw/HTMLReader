@@ -7,9 +7,24 @@
 
 @implementation HTMLDocument
 
++ (instancetype)documentWithData:(NSData *)data contentTypeHeader:(NSString *)contentType
+{
+    HTMLParser *parser = ParserWithDataAndContentType(data, contentType);
+    return parser.document;
+}
+
+- (instancetype)initWithData:(NSData *)data contentTypeHeader:(NSString *)contentType
+{
+    return [self.class documentWithData:data contentTypeHeader:contentType];
+}
+
 + (instancetype)documentWithString:(NSString *)string
 {
-    HTMLParser *parser = [[HTMLParser alloc] initWithString:string context:nil];
+    HTMLStringEncoding defaultEncoding = (HTMLStringEncoding){
+        .encoding = NSUTF8StringEncoding,
+        .confidence = Tentative
+    };
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:string encoding:defaultEncoding context:nil];
     return parser.document;
 }
 

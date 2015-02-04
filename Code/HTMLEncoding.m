@@ -4,6 +4,77 @@
 
 #import "HTMLEncoding.h"
 
+/**
+ * Returns the name of an encoding given by a label, as specified in the WHATWG Encoding standard, or nil if the label has no associated name.
+ *
+ * For more information, see https://encoding.spec.whatwg.org/#names-and-labels
+ */
+static NSString * NamedEncodingForLabel(NSString *label);
+
+/**
+ * Returns the string encoding given by a name from the WHATWG Encoding Standard, or the result of InvalidStringEncoding() if there is no known encoding given by name.
+ */
+static NSStringEncoding StringEncodingForName(NSString *name);
+
+HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *contentType)
+{
+    unsigned char buffer[3] = {0};
+    [data getBytes:buffer length:MIN(data.length, 3U)];
+    if (buffer[0] == 0xFE && buffer[1] == 0xFF) {
+        return (HTMLStringEncoding){
+            .encoding = NSUTF16BigEndianStringEncoding,
+            .confidence = Certain
+        };
+    } else if (buffer[0] == 0xFF && buffer[1] == 0xFE) {
+        return (HTMLStringEncoding){
+            .encoding = NSUTF16LittleEndianStringEncoding,
+            .confidence = Certain
+        };
+    } else if (buffer[0] == 0xEF && buffer[1] == 0xBB && buffer[2] == 0xBF) {
+        return (HTMLStringEncoding){
+            .encoding = NSUTF8StringEncoding,
+            .confidence = Certain
+        };
+    }
+    
+    if (contentType) {
+        // http://tools.ietf.org/html/rfc7231#section-3.1.1.1
+        NSScanner *scanner = [NSScanner scannerWithString:contentType];
+        [scanner scanUpToString:@"charset=" intoString:nil];
+        if ([scanner scanString:@"charset=" intoString:nil]) {
+            [scanner scanString:@"\"" intoString:nil];
+            NSString *encodingLabel;
+            if ([scanner scanUpToString:@"\"" intoString:&encodingLabel]) {
+                NSStringEncoding encoding = StringEncodingForLabel(encodingLabel);
+                if (encoding != InvalidStringEncoding()) {
+                    return (HTMLStringEncoding){
+                        .encoding = encoding,
+                        .confidence = Certain
+                    };
+                }
+            }
+        }
+    }
+    
+    // TODO Prescan?
+    
+    // TODO There's a table down in step 9 of https://html.spec.whatwg.org/multipage/syntax.html#documentEncoding that describes default encodings based on the current locale. Maybe implement that.
+    
+    // win1252 actually has some invalid characters in it, so it's not a guarantee that it'll work, so try it first.
+    if ([[NSString alloc] initWithData:data encoding:NSWindowsCP1252StringEncoding]) {
+        return (HTMLStringEncoding){
+            .encoding = NSWindowsCP1252StringEncoding,
+            .confidence = Tentative
+        };
+    } else {
+        // iso8869-1 is the closest sensible default to win1252 that always decodes.
+        return (HTMLStringEncoding){
+            .encoding = NSISOLatin1StringEncoding,
+            .confidence = Tentative
+        };
+    }
+}
+
 typedef struct {
     __unsafe_unretained NSString *label;
     __unsafe_unretained NSString *name;
@@ -235,7 +306,7 @@ static int (^EncodingLabelComparator)() = ^int(const void *voidKey, const void *
     return [key caseInsensitiveCompare:item->label];
 };
 
-NSString * NamedEncodingForLabel(NSString *label)
+static NSString * NamedEncodingForLabel(NSString *label)
 {
     EncodingLabelMap *match = bsearch_b((__bridge const void *)label, EncodingLabels, sizeof(EncodingLabels) / sizeof(EncodingLabels[0]), sizeof(EncodingLabels[0]), EncodingLabelComparator);
     if (match) {
@@ -291,7 +362,8 @@ static const NameCFEncodingMap StringEncodings[] = {
     { @"windows-1258", kCFStringEncodingWindowsVietnamese },
     { @"windows-874", kCFStringEncodingDOSThai },
     { @"x-mac-cyrillic", kCFStringEncodingMacCyrillic },
-    { @"x-user-defined", kCFStringEncodingInvalidId },
+    // SPEC: The HTML standard unilaterally changes x-user-defined to windows-1252, so let's just define it so.
+    { @"x-user-defined", kCFStringEncodingWindowsLatin1 },
 };
 
 static int (^NameCFEncodingComparator)() = ^int(const void *voidKey, const void *voidItem) {
@@ -300,12 +372,56 @@ static int (^NameCFEncodingComparator)() = ^int(const void *voidKey, const void 
     return [key caseInsensitiveCompare:item->name];
 };
 
-NSStringEncoding StringEncodingForName(NSString *name)
+static NSStringEncoding StringEncodingForName(NSString *name)
 {
     NameCFEncodingMap *match = bsearch_b((__bridge const void *)name, StringEncodings, sizeof(StringEncodings) / sizeof(StringEncodings[0]), sizeof(StringEncodings[0]), NameCFEncodingComparator);
     if (match) {
         return CFStringConvertEncodingToNSStringEncoding(match->encoding);
     } else {
-        return CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingInvalidId);
+        return InvalidStringEncoding();
+    }
+}
+
+NSStringEncoding InvalidStringEncoding(void)
+{
+    return CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingInvalidId);
+}
+
+NSStringEncoding StringEncodingForLabel(NSString *untrimmedLabel)
+{
+    NSString *label = [untrimmedLabel stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *name = NamedEncodingForLabel(label);
+    if (name) {
+        return StringEncodingForName(name);
+    } else {
+        return InvalidStringEncoding();
+    }
+}
+
+BOOL IsASCIICompatibleEncoding(NSStringEncoding nsencoding)
+{
+    CFStringEncoding encoding = CFStringConvertNSStringEncodingToEncoding(nsencoding);
+    switch (encoding) {
+        // TODO This is a bespoke list, as I couldn't find a handy list from WHATWG or elsewhere. I guess we could code up their definition of "ASCII-compatible" and run through the list of known string encodings?
+        case kCFStringEncodingUTF7:
+        case kCFStringEncodingUTF16:
+        case kCFStringEncodingUTF16BE:
+        case kCFStringEncodingUTF16LE:
+        case kCFStringEncodingHZ_GB_2312:
+        case kCFStringEncodingUTF7_IMAP:
+            return NO;
+        default:
+            return YES;
+    }
+}
+
+BOOL IsUTF16Encoding(NSStringEncoding encoding)
+{
+    switch (encoding) {
+        case NSUTF16BigEndianStringEncoding:
+        case NSUTF16LittleEndianStringEncoding:
+            return YES;
+        default:
+            return NO;
     }
 }

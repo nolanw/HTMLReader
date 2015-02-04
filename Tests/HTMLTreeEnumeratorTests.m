@@ -41,7 +41,8 @@
 
 - (HTMLNode *)rootNodeWithString:(NSString *)string
 {
-    HTMLDocument *document = [[HTMLParser alloc] initWithString:string context:nil].document;
+    HTMLStringEncoding encoding = (HTMLStringEncoding){ .encoding = NSUTF8StringEncoding, .confidence = Certain };
+    HTMLDocument *document = [[HTMLParser alloc] initWithString:string encoding:encoding context:nil].document;
     HTMLElement *body = document.rootElement.children.lastObject;
     return body.children[0];
 }

@@ -17,6 +17,20 @@
 @interface HTMLDocument : HTMLNode
 
 /**
+ * Parses data of an unknown string encoding into an HTML document.
+ *
+ * @param contentType The value of the HTTP Content-Type header, if present.
+ */
++ (instancetype)documentWithData:(NSData *)data contentTypeHeader:(NSString *)contentType;
+
+/**
+ * Initializes a document with data of an unknown string encoding.
+ *
+ * @param contentType The value of the HTTP Content-Type header, if present.
+ */
+- (instancetype)initWithData:(NSData *)data contentTypeHeader:(NSString *)contentType;
+
+/**
  * Parses an HTML string into a document.
  */
 + (instancetype)documentWithString:(NSString *)string;
