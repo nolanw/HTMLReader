@@ -74,18 +74,28 @@
     test.data = data;
     
     [scanner scanString:@"#errors\n" intoString:nil];
-    NSString *errorLines;
-    if ([scanner scanUpToString:@"#document" intoString:&errorLines]) {
-        NSArray *errors = [errorLines componentsSeparatedByString:@"\n"];
-        errors = [errors subarrayWithRange:NSMakeRange(0, errors.count - 1)];
-        test.expectedErrors = errors;
+    NSMutableArray *errors = [NSMutableArray new];
+    while (![scanner scanString:@"#" intoString:nil]) {
+        NSString *errorLine;
+        if ([scanner scanUpToString:@"\n" intoString:&errorLine]) {
+            [errors addObject:errorLine];
+        }
+        [scanner scanString:@"\n" intoString:nil];
     }
+    --scanner.scanLocation;
+    test.expectedErrors = errors;
     
     NSString *fragment;
     if ([scanner scanString:@"#document-fragment\n" intoString:nil]) {
         [scanner scanUpToString:@"\n" intoString:&fragment];
         test.documentFragment = fragment;
         [scanner scanString:@"\n" intoString:nil];
+    }
+    
+    if ([scanner scanString:@"#script-off\n" intoString:nil]) {
+        return nil;
+    } else {
+        [scanner scanString:@"#script-on\n" intoString:nil];
     }
     
     [scanner scanString:@"#document\n" intoString:nil];
@@ -111,6 +121,10 @@
             [roots addObject:nodeOrAttribute];
         }
         if ([nodeOrAttribute isKindOfClass:[HTMLElement class]]) {
+            // Skipping all <ruby> tests as the spec isn't settled. https://www.w3.org/Bugs/Public/show_bug.cgi?id=26189C
+            if ([[nodeOrAttribute tagName] isEqualToString:@"ruby"]) {
+                return nil;
+            }
             [stack addObject:nodeOrAttribute];
         }
         [scanner scanString:@"\n" intoString:nil];
@@ -196,9 +210,24 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
         for (NSString *singleTestString in testStrings) {
             i++;
             HTMLTreeConstructionTest *test = [self testWithSingleTestString:singleTestString];
+            if (!test) continue;
             HTMLParser *parser;
             if (test.documentFragment) {
-                HTMLElement *context = [[HTMLElement alloc] initWithTagName:test.documentFragment attributes:nil];
+                HTMLElement *context;
+                NSScanner *scanner = [NSScanner scannerWithString:test.documentFragment];
+                scanner.charactersToBeSkipped = nil;
+                scanner.caseSensitive = YES;
+                if ([scanner scanString:@"math " intoString:nil]) {
+                    NSString *tagName = [scanner.string substringFromIndex:scanner.scanLocation];
+                    context = [[HTMLElement alloc] initWithTagName:tagName attributes:nil];
+                    context.namespace = HTMLNamespaceMathML;
+                } else if ([scanner scanString:@"svg " intoString:nil]) {
+                    NSString *tagName = [scanner.string substringFromIndex:scanner.scanLocation];
+                    context = [[HTMLElement alloc] initWithTagName:tagName attributes:nil];
+                    context.namespace = HTMLNamespaceSVG;
+                } else {
+                    context = [[HTMLElement alloc] initWithTagName:scanner.string attributes:nil];
+                }
                 parser = [[HTMLParser alloc] initWithString:test.data context:context];
             } else {
                 parser = [[HTMLParser alloc] initWithString:test.data context:nil];

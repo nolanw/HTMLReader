@@ -81,16 +81,18 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         _fragmentParsingAlgorithm = !!context;
         
         if (context) {
-            if (StringIsEqualToAnyOf(context.tagName, @"title", @"textarea")) {
-                _tokenizer.state = HTMLRCDATATokenizerState;
-            } else if (StringIsEqualToAnyOf(context.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
-                _tokenizer.state = HTMLRAWTEXTTokenizerState;
-            } else if ([context.tagName isEqualToString:@"script"]) {
-                _tokenizer.state = HTMLScriptDataTokenizerState;
-            } else if ([context.tagName isEqualToString:@"noscript"]) {
-                _tokenizer.state = HTMLRAWTEXTTokenizerState;
-            } else if ([context.tagName isEqualToString:@"plaintext"]) {
-                _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+            if (context.namespace == HTMLNamespaceHTML) {
+                if (StringIsEqualToAnyOf(context.tagName, @"title", @"textarea")) {
+                    _tokenizer.state = HTMLRCDATATokenizerState;
+                } else if (StringIsEqualToAnyOf(context.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
+                    _tokenizer.state = HTMLRAWTEXTTokenizerState;
+                } else if ([context.tagName isEqualToString:@"script"]) {
+                    _tokenizer.state = HTMLScriptDataTokenizerState;
+                } else if ([context.tagName isEqualToString:@"noscript"]) {
+                    _tokenizer.state = HTMLRAWTEXTTokenizerState;
+                } else if ([context.tagName isEqualToString:@"plaintext"]) {
+                    _tokenizer.state = HTMLPLAINTEXTTokenizerState;
+                }
             }
         }
     }
@@ -1851,14 +1853,13 @@ static BOOL IsSpecialElement(HTMLElement *element)
 
 - (void)inFramesetInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
-    if (leadingWhitespace) {
-        [self insertString:leadingWhitespace.string];
-    }
-    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
-    if (afterLeadingWhitespace) {
-        [self inFramesetInsertionModeHandleAnythingElse:afterLeadingWhitespace];
-    }
+    EnumerateLongCharacters(token.string, ^(UTF32Char character) {
+        if (is_whitespace(character)) {
+            [self insertString:StringWithLongCharacter(character)];
+        } else {
+            [self addParseError:@"Unexpected token in <frameset>"];
+        }
+    });
 }
 
 - (void)inFramesetInsertionModeHandleCommentToken:(HTMLCommentToken *)token
@@ -1924,14 +1925,13 @@ static BOOL IsSpecialElement(HTMLElement *element)
 
 - (void)afterFramesetInsertionModeHandleCharacterToken:(HTMLCharacterToken *)token
 {
-    HTMLCharacterToken *leadingWhitespace = [token leadingWhitespaceToken];
-    if (leadingWhitespace) {
-        [self insertString:leadingWhitespace.string];
-    }
-    HTMLCharacterToken *afterLeadingWhitespace = [token afterLeadingWhitespaceToken];
-    if (afterLeadingWhitespace) {
-        [self afterFramesetInsertionModeHandleAnythingElse:afterLeadingWhitespace];
-    }
+    EnumerateLongCharacters(token.string, ^(UTF32Char character) {
+        if (is_whitespace(character)) {
+            [self insertString:StringWithLongCharacter(character)];
+        } else {
+            [self addParseError:@"Unexpected token after <frameset>"];
+        }
+    });
 }
 
 - (void)afterFramesetInsertionModeHandleCommentToken:(HTMLCommentToken *)token
@@ -2193,12 +2193,8 @@ static void AdjustSVGAttributesForToken(HTMLStartTagToken *token)
         @"baseprofile": @"baseProfile",
         @"calcmode": @"calcMode",
         @"clippathunits": @"clipPathUnits",
-        @"contentscripttype": @"contentScriptType",
-        @"contentstyletype": @"contentStyleType",
         @"diffuseconstant": @"diffuseConstant",
         @"edgemode": @"edgeMode",
-        @"externalresourcesrequired": @"externalResourcesRequired",
-        @"filterres": @"filterRes",
         @"filterunits": @"filterUnits",
         @"glyphref": @"glyphRef",
         @"gradienttransform": @"gradientTransform",
