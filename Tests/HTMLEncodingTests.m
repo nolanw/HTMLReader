@@ -139,7 +139,7 @@
             
             CFStringEncoding cfcorrectEncoding = CFStringConvertNSStringEncodingToEncoding(test.correctEncoding);
             CFStringEncoding cfparserEncoding = CFStringConvertNSStringEncodingToEncoding(parser.encoding.encoding);
-            NSString *description = [NSString stringWithFormat:@"%@ test%tu expected %@ (CFStringEncoding 0x%X) but got CFStringEncoding 0x%X; fixture:\n%@", testName, i, test.correctEncodingLabel, cfcorrectEncoding, cfparserEncoding, test.testString];
+            NSString *description = [NSString stringWithFormat:@"%@ test%tu expected %@ (CFStringEncoding 0x%X) but got CFStringEncoding 0x%X; fixture:\n%@", testName, i, test.correctEncodingLabel, (unsigned int)cfcorrectEncoding, (unsigned int)cfparserEncoding, test.testString];
             XCTAssertEqual(parser.encoding.encoding, test.correctEncoding, @"%@", description);
         }];
     }

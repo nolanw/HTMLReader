@@ -13,6 +13,7 @@
 		1C3C5BC21A809C8A0091E7E6 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding.h */; };
 		1C3C5BC31A809C8A0091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
 		1C3C5BC41A809C8A0091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
+		1C3C5BC51A8201640091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
 		1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
 		1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21418D746D600147FE7 /* HTMLComment.h */; };
 		1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C25D3A6177BB78600F7C10D /* HTMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -767,6 +768,7 @@
 				1CA5C21718D746D600147FE7 /* HTMLComment.m in Sources */,
 				1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */,
 				1CA5C21C18D7479C00147FE7 /* HTMLDocumentType.m in Sources */,
+				1C3C5BC51A8201640091E7E6 /* HTMLEncoding.m in Sources */,
 				1CA5C21218D7457400147FE7 /* HTMLElement.m in Sources */,
 				1C8E105B1919F2570010007B /* HTMLEntities.m in Sources */,
 				1CACE9E41783A92F00754A8F /* HTMLNode.m in Sources */,
