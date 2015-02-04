@@ -36,6 +36,7 @@
                                                         includingPropertiesForKeys:nil
                                                                            options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                              error:nil];
+    // Ignoring template tests because HTMLReader doesn't implement <template>.
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pathExtension = 'dat' AND lastPathComponent != 'template.dat'"];
     return [candidates filteredArrayUsingPredicate:predicate];
 }
