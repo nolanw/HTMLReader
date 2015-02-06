@@ -22,7 +22,6 @@
 		1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C4518717BAFE3500C144DF /* HTMLSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6691818D604BC00BDF7B8 /* HTMLSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10531919F1560010007B /* NSString+HTMLEntities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -94,7 +93,6 @@
 		1CC6693818D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */; };
 		1CC6693F18D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */; };
 		1CC6694018D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */; };
-		1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CD524F118D74B71003F46A3 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
 		1CD524F218D74B71003F46A3 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
 		1CD524F618D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */; };
@@ -400,7 +398,6 @@
 				1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */,
 				1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */,
 				1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */,
-				1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */,
 				1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */,
 				1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */,
 			);
@@ -421,7 +418,6 @@
 				1C88296F18369E090051653C /* HTMLSelector.h in Headers */,
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
 				1CE12D091A12120E00FFA8C0 /* HTMLSupport.h in Headers */,
-				1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */,
 				1C8E10551919F1560010007B /* NSString+HTMLEntities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
