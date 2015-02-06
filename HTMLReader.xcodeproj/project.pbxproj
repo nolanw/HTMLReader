@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
 		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
-		1C3C5BC11A809C8A0091E7E6 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding.h */; };
-		1C3C5BC21A809C8A0091E7E6 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding.h */; };
 		1C3C5BC31A809C8A0091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
 		1C3C5BC41A809C8A0091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
 		1C3C5BC51A8201640091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
@@ -19,15 +17,12 @@
 		1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C25D3A6177BB78600F7C10D /* HTMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F681A179D8B00236076 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1C6C1F691A179D9400236076 /* HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10581919F2570010007B /* HTMLEntities.h */; };
 		1C6C1F6A1A179D9900236076 /* HTMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CACE9E21783A92F00754A8F /* HTMLNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1C6C1F6B1A179DA400236076 /* HTMLOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6693418D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h */; };
 		1C6C1F6C1A179DB600236076 /* HTMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CB61D2417BB671A00EE9653 /* HTMLReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F6D1A179DBB00236076 /* HTMLSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C4518717BAFE3500C144DF /* HTMLSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F6E1A179DC000236076 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6691818D604BC00BDF7B8 /* HTMLSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1C6C1F711A179DD400236076 /* HTMLTreeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F318D74C1F003F46A3 /* HTMLTreeEnumerator.h */; };
 		1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10531919F1560010007B /* NSString+HTMLEntities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -53,7 +48,6 @@
 		1C8E10551919F1560010007B /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10531919F1560010007B /* NSString+HTMLEntities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C8E10561919F1560010007B /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10541919F1560010007B /* NSString+HTMLEntities.m */; };
 		1C8E10571919F1560010007B /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10541919F1560010007B /* NSString+HTMLEntities.m */; };
-		1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10581919F2570010007B /* HTMLEntities.h */; };
 		1C8E105B1919F2570010007B /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
 		1C8E105C1919F2570010007B /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
 		1C8E105E1919F27A0010007B /* HTMLEscapingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */; };
@@ -96,7 +90,6 @@
 		1CC666AB17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AA17B0C82200E457E7 /* HTMLTreeEnumeratorTests.m */; };
 		1CC666AD17B14D2B00E457E7 /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
 		1CC666B117B14E1800E457E7 /* HTMLTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666B017B14E1800E457E7 /* HTMLTestUtilities.m */; };
-		1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6693418D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h */; };
 		1CC6693718D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */; };
 		1CC6693818D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */; };
 		1CC6693F18D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */; };
@@ -104,7 +97,6 @@
 		1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CD524F118D74B71003F46A3 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
 		1CD524F218D74B71003F46A3 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
-		1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F318D74C1F003F46A3 /* HTMLTreeEnumerator.h */; };
 		1CD524F618D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */; };
 		1CD524F718D74C1F003F46A3 /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */; };
 		1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -401,7 +393,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */,
-				1C3C5BC11A809C8A0091E7E6 /* HTMLEncoding.h in Headers */,
 				1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */,
 				1C6C1F681A179D8B00236076 /* HTMLElement.h in Headers */,
 				1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */,
@@ -413,9 +404,6 @@
 				1C6C1F6F1A179DC600236076 /* HTMLSupport.h in Headers */,
 				1C6C1F701A179DCC00236076 /* HTMLTextNode.h in Headers */,
 				1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */,
-				1C6C1F691A179D9400236076 /* HTMLEntities.h in Headers */,
-				1C6C1F6B1A179DA400236076 /* HTMLOrderedDictionary.h in Headers */,
-				1C6C1F711A179DD400236076 /* HTMLTreeEnumerator.h in Headers */,
 				1C6C1F721A179DD700236076 /* NSString+HTMLEntities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,7 +413,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C88296C18369E090051653C /* HTMLDocument.h in Headers */,
-				1C3C5BC21A809C8A0091E7E6 /* HTMLEncoding.h in Headers */,
 				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
 				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
 				1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */,
@@ -436,11 +423,8 @@
 				1C88296F18369E090051653C /* HTMLSelector.h in Headers */,
 				1CD524FA18D74CFF003F46A3 /* HTMLSerialization.h in Headers */,
 				1CE12D091A12120E00FFA8C0 /* HTMLSupport.h in Headers */,
-				1C8E105A1919F2570010007B /* HTMLEntities.h in Headers */,
-				1CC6693618D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h in Headers */,
 				1CD524F018D74B71003F46A3 /* HTMLTextNode.h in Headers */,
 				1C8E10551919F1560010007B /* NSString+HTMLEntities.h in Headers */,
-				1CD524F518D74C1F003F46A3 /* HTMLTreeEnumerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
