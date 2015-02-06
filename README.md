@@ -26,6 +26,24 @@ b.parentNode = wrapper;
 NSLog(@"%@", [document.rootElement serializedFragment]);
 // => <html><head></head><body><p><div class="special"> \
       <b>Ahoy there sailor!</b></div></p></body></html>
+
+// Load a web page.
+NSURL *URL = [NSURL URLWithString:@"https://github.com/nolanw/HTMLReader"];
+NSURLSession *session = [NSURLSession sharedSession];
+[[session dataTaskWithURL:URL completionHandler:
+  ^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSString *contentType = nil;
+    if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
+        contentType = headers[@"Content-Type"];
+    }
+    HTMLDocument *home = [HTMLDocument documentWithData:data
+                                      contentTypeHeader:contentType];
+    HTMLElement *div = [home firstNodeMatchingSelector:@".repository-description"];
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSLog(@"%@", [div.textContent stringByTrimmingCharactersInSet:whitespace]);
+    // => A WHATWG-compliant HTML parser in Objective-C.
+}] resume];
 ```
 
 ## Installation
