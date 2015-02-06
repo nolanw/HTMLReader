@@ -5,7 +5,7 @@
 #import "HTMLNode.h"
 
 /**
- * An HTMLCommentNode represents a comment.
+ * An HTMLComment represents a comment.
  *
  * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#comments
  */
