@@ -665,26 +665,30 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSError **error
 	}
 }
 
-HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, NSError **error)
+HTMLSelectorPredicateGen scanTagPredicate(NSScanner *scanner, BOOL emptyOK, NSError **error)
 {
 	NSString *identifier = scanIdentifier(scanner, error);
 	if (identifier) {
         return isTagTypePredicate(identifier);
     } else {
-        [scanner scanString:@"*" intoString:nil];
-        return isTagTypePredicate(@"*");
+        BOOL scanned = [scanner scanString:@"*" intoString:nil];
+        return scanned || emptyOK ? isTagTypePredicate(@"*") : nil;
     }
 }
 
-
-HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate inputPredicate, NSError **error)
+HTMLSelectorPredicateGen scanSimplePredicate(NSScanner *scanner, HTMLSelectorPredicate inputPredicate, BOOL emptyOK, NSError **error)
 {
-	HTMLSelectorPredicate tagPredicate = scanTagPredicate(scanner, error);
+	HTMLSelectorPredicate tagPredicate = scanTagPredicate(scanner, emptyOK, error);
 	
 	inputPredicate = inputPredicate ? bothCombinatorPredicate(tagPredicate, inputPredicate) : tagPredicate;
 	
-	// If we're out of things to scan, all we have is this tag, no operators on it
-	if (scanner.isAtEnd) return inputPredicate;
+	// If we're out of things to scan, or we hit the next item in the selector group, then all we have is this tag with no operators on it.
+    if (scanner.isAtEnd) return inputPredicate;
+    NSUInteger scanLocation = scanner.scanLocation;
+    if ([scanner scanString:@"," intoString:nil]) {
+        scanner.scanLocation = scanLocation;
+        return inputPredicate;
+    }
 	
 	NSString *modifier;
 	
@@ -717,10 +721,8 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 		
 	} while (modifier != nil);
 	
-
-	
 	// Pseudo and attribute cases require that this is either the end of the selector, or there's another combinator after them
-	
+    
 	if (scanner.isAtEnd) return inputPredicate;
 	
 	NSString *combinator = scanCombinator(scanner, error);
@@ -734,7 +736,14 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 		return adjacentSiblingPredicate(inputPredicate);
 	} else if ([combinator isEqualToString:@"~"]) {
 		return generalSiblingPredicate(inputPredicate);
-	}
+    }
+    
+    // A comma means that we're working on a selector group, and this one selector's done. We'll back up the scanner so the comma can be scanned higher up in the call stack.
+    scanLocation = scanner.scanLocation;
+    if (combinator == nil && [scanner scanString:@"," intoString:nil]) {
+        scanner.scanLocation = scanLocation;
+        return inputPredicate;
+    }
     
 	if (combinator == nil) {
 		*error = ParseError(@"Expected a combinator here", scanner.string, scanner.scanLocation);
@@ -743,6 +752,28 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 		*error = ParseError(@"Unexpected combinator", scanner.string, scanner.scanLocation - combinator.length);
 		return nil;
 	}
+}
+
+static HTMLSelectorPredicate scanSelector(NSScanner *scanner, BOOL emptyOK, NSError **error)
+{
+    // Scan out simple predicate parts and combine them
+    HTMLSelectorPredicate lastPredicate = nil;
+    
+    for (;;) {
+        lastPredicate = scanSimplePredicate(scanner, lastPredicate, emptyOK, error);
+        if (!lastPredicate || scanner.isAtEnd || *error) break;
+        NSUInteger scanLocation = scanner.scanLocation;
+        if ([scanner scanString:@"," intoString:nil]) {
+            scanner.scanLocation = scanLocation;
+            break;
+        }
+    }
+    
+    if (!lastPredicate && !emptyOK) return nil;
+    
+    NSCAssert(lastPredicate || *error, @"Need either a predicate or error at this point");
+    
+    return lastPredicate;
 }
 
 static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString, NSError **error)
@@ -759,17 +790,38 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 	NSScanner *scanner = [NSScanner scannerWithString:selectorString];
     scanner.caseSensitive = NO; // Section 3 states that in HTML parsing, selectors are case-insensitive
     scanner.charactersToBeSkipped = nil;
+    
+    // Deal with leading comma right away.
+    if ([scanner scanString:@"," intoString:nil]) {
+        if (error) *error = ParseError(@"Empty selector in group", selectorString, 0);
+        return nil;
+    }
 	
-	// Scan out predicate parts and combine them
-	HTMLSelectorPredicate lastPredicate = nil;
+	// Scan out selectors and combine them.
+    NSMutableArray *selectors = [NSMutableArray new];
+    BOOL expectsAnother = NO;
+    for (;;) {
+        [scanner scanCharactersFromSet:HTMLSelectorWhitespaceCharacterSet() intoString:nil];
+        
+        HTMLSelectorPredicate selector = scanSelector(scanner, !expectsAnother, error);
+        if (selector) {
+            [selectors addObject:selector];
+        }
+        
+        if (!selector && expectsAnother) {
+            NSString *description = [NSString stringWithFormat:@"Empty selector %@ in group", @(selectors.count)];
+            *error = ParseError(description, selectorString, scanner.scanLocation);
+            return nil;
+        }
+        
+        if (!selector || scanner.isAtEnd || *error) break;
+        
+        expectsAnother = [scanner scanString:@"," intoString:nil];
+    }
 	
-	do {
-		lastPredicate = scanPredicate(scanner, lastPredicate, error);
-	} while (lastPredicate && ![scanner isAtEnd] && !*error);
+	NSCAssert(selectors.count > 0 || *error, @"Need either a predicate or error at this point");
 	
-	NSCAssert(lastPredicate || *error, @"Need either a predicate or error at this point");
-	
-	return lastPredicate;
+	return orCombinatorPredicate(selectors);
 }
 
 @interface HTMLSelector ()

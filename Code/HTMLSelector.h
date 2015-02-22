@@ -8,7 +8,9 @@
 /**
     An HTMLSelector concisely describes a set of nodes.
  
-    It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ per the WHATWG HTML spec with the following exceptions:
+    It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ per the WHATWG HTML spec. In the spec's lingo, an HTMLSelector is a group of selectors.
+ 
+    HTMLSelector's implementation of the spec has the following exceptions:
  
     @li The target pseudo-class (:target) is not supported.
     @li The :lang() and :dir() pseudo-classes are not supported.
