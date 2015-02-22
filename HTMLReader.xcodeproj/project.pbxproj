@@ -295,14 +295,14 @@
 		1C9C3EBA176BC53900E982C9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				1C6C1F4C1A179BF600236076 /* HTMLReader.framework */,
 				1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */,
 				1C9C3ECA176BC53900E982C9 /* Tests on iOS.xctest */,
 				1C88293B18369DD70051653C /* HTMLReader.framework */,
 				1C88295018369DD70051653C /* Tests on OS X.xctest */,
-				1C9A2A071836FEAE0059FE17 /* Entity Fetcher */,
 				1CD5250918DC83E6003F46A3 /* Benchmarker */,
-				1C6C1F4C1A179BF600236076 /* HTMLReader.framework */,
 				1C9513C91A80971100BB2CC9 /* Encoding Labeler */,
+				1C9A2A071836FEAE0059FE17 /* Entity Fetcher */,
 			);
 			name = Products;
 			sourceTree = "<group>";
