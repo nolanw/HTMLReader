@@ -3,9 +3,9 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 /**
- * The many states of an HTML tokenizer.
- *
- * For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html
+    The many states of an HTML tokenizer.
+ 
+    For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html
  */
 typedef NS_ENUM(NSInteger, HTMLTokenizerState)
 {

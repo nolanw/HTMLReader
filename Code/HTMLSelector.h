@@ -6,133 +6,93 @@
 #import "HTMLElement.h"
 
 /**
- * An HTMLSelector concisely describes a set of nodes.
- *
- * It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ per the WHATWG HTML spec with the following exceptions:
- *
- * @li The target pseudo-class (:target) is not supported.
- * @li The :lang() and :dir() pseudo-classes are not supported.
- * @li Pseudo-elements (including ::first-line, ::first-leter, ::before, ::after) are not supported.
- * @li The :not() pseudo-class supports any selector. (The spec only supports a simple selector.)
+    An HTMLSelector concisely describes a set of nodes.
+ 
+    It implements (CSS) Selectors Level 3 http://www.w3.org/TR/css3-selectors/ per the WHATWG HTML spec with the following exceptions:
+ 
+    @li The target pseudo-class (:target) is not supported.
+    @li The :lang() and :dir() pseudo-classes are not supported.
+    @li Pseudo-elements (including ::first-line, ::first-leter, ::before, ::after) are not supported.
+    @li The :not() pseudo-class supports any selector. (The spec only supports a simple selector.)
+ 
+    Once initialized, an HTMLSelector is fully parsed. Feel free to cache it for future use with -nodesMatchingParsedSelector: or -firstNodeMatchingParsedSelector:.
  */
 @interface HTMLSelector : NSObject
 
-/**
- * Creates and initializes a new selector.
- */
+/// Creates and initializes a new selector by parsing a string representation.
 + (instancetype)selectorForString:(NSString *)selectorString;
 
+/// Initializes a new selector by parsing a string representation.
 - (instancetype)initWithString:(NSString *)selectorString NS_DESIGNATED_INITIALIZER;
 
-/**
- * A string representation of the selector.
- */
+/// A string representation of the selector.
 @property (readonly, copy, nonatomic) NSString *string;
 
-/**
- * Whether or not an element is matched by the selector.
- */
+/// Whether or not an element is matched by the selector.
 - (BOOL)matchesElement:(HTMLElement *)element;
 
-/**
- * The error encountered when parsing the selector string, or nil if there was no error. Errors are in the HTMLSelectorErrorDomain.
- */
+/// The error encountered when parsing the selector string, or nil if there was no error. Errors are in the HTMLSelectorErrorDomain.
 @property (readonly, strong, nonatomic) NSError *error;
 
 @end
 
-/**
- * Returns a character set containing all CSS whitespace characters. This is not necessarily identical to `+[NSCharacterSet whitespaceCharacterSet]` or `+[NSCharacterSet whitespaceAndNewlineCharacterSet]`.
- */
+/// Returns a character set containing all CSS whitespace characters. This is not necessarily identical to `+[NSCharacterSet whitespaceCharacterSet]` or `+[NSCharacterSet whitespaceAndNewlineCharacterSet]`.
 extern NSCharacterSet * HTMLSelectorWhitespaceCharacterSet(void);
 
-/**
- * Error domain for all selector parse errors. Errors in this domain describe in localizedFailureReason where in the input the error occurred.
- */
+/// Error domain for all selector parse errors. Errors in this domain describe in localizedFailureReason where in the input the error occurred.
 extern NSString * const HTMLSelectorErrorDomain;
 
-/**
- * The corresponding value is an NSString of the input that caused the error.
- */
+/// The corresponding value is an NSString of the input that caused the error.
 extern NSString * const HTMLSelectorInputStringErrorKey;
 
-/**
- * The corresponding value is an NSNumber of the 0-based index into the input string at which the parse error occurred.
- */
+/// The corresponding value is an NSNumber of the 0-based index into the input string at which the parse error occurred.
 extern NSString * const HTMLSelectorLocationErrorKey;
 
-/**
- * HTMLSelector expands the HTMLNode class to search for matches.
- */
+/// HTMLSelector expands the HTMLNode class to search for matches.
 @interface HTMLNode (HTMLSelector)
 
-/**
- * Returns the nodes matched by selectorString, or nil if the string could not be parsed.
- */
+/// Returns the nodes matched by selectorString, or nil if the string could not be parsed.
 - (NSArray *)nodesMatchingSelector:(NSString *)selectorString;
 
-/**
- * Returns the first node matched by selectorString, or nil if there is no such node or the string could not be parsed.
- */
+/// Returns the first node matched by selectorString, or nil if there is no such node or the string could not be parsed.
 - (HTMLElement *)firstNodeMatchingSelector:(NSString *)selectorString;
 
-/**
- * Returns the nodes matched by selector.
- */
+/// Returns the nodes matched by selector.
 - (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector;
 
-/**
- * Returns the first node matched by selector, or nil if there is no such node.
- */
+/// Returns the first node matched by selector, or nil if there is no such node.
 - (HTMLElement *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
 
 @end
 
-/**
- * HTMLNthExpression represents the expression in an :nth-child (or similar) pseudo-class.
- */
+/// HTMLNthExpression represents the expression in an :nth-child (or similar) pseudo-class.
 typedef struct {
-    
-    /**
-     * The coefficient.
-     */
+    /// The coefficient.
     NSInteger n;
     
-    /**
-     * The constant.
-     */
+    /// The constant.
     NSInteger c;
 } HTMLNthExpression;
 
 /**
- * Returns an initialized HTMLNthExpression.
- *
- * @param n The coefficient.
- * @param c The constant.
+    Returns an initialized HTMLNthExpression.
+ 
+    @param n The coefficient.
+    @param c The constant.
  */
 extern HTMLNthExpression HTMLNthExpressionMake(NSInteger n, NSInteger c);
 
-/**
- * Returns YES if the two expressions are equal, or NO otherwise.
- */
+/// Returns YES if the two expressions are equal, or NO otherwise.
 extern BOOL HTMLNthExpressionEqualToNthExpression(HTMLNthExpression a, HTMLNthExpression b);
 
-/**
- * Translates a string resembling one of the forms `nx + c`, `odd`, or `even` into an HTMLNthExpression `{n, c}`.
- */
+/// Translates a string resembling one of the forms `nx + c`, `odd`, or `even` into an HTMLNthExpression `{n, c}`.
 extern HTMLNthExpression HTMLNthExpressionFromString(NSString *string);
 
-/**
- * An HTMLNthExpression equivalent to the expression "odd".
- */
+/// An HTMLNthExpression equivalent to the expression "odd".
 extern const HTMLNthExpression HTMLNthExpressionOdd;
 
-/**
- * An HTMLNthExpression equivalent to the expression "even".
- */
+/// An HTMLNthExpression equivalent to the expression "even".
 extern const HTMLNthExpression HTMLNthExpressionEven;
 
-/**
- * An invalid HTMLNthExpression.
- */
+/// An invalid HTMLNthExpression.
 extern const HTMLNthExpression HTMLNthExpressionInvalid;

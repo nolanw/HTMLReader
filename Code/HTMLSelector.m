@@ -57,12 +57,10 @@ HTMLSelectorPredicateGen neverPredicate(void)
 
 HTMLSelectorPredicateGen bothCombinatorPredicate(HTMLSelectorPredicate a, HTMLSelectorPredicate b)
 {
-	//There was probably an error somewhere else
-	//in parsing, so return nil here
+	// There was probably an error somewhere else in parsing, so return nil here
 	if (!a || !b) return nil;
 	
-	return ^BOOL(HTMLElement *node)
-	{
+	return ^BOOL(HTMLElement *node) {
 		return a(node) && b(node);
 	};
 }
@@ -254,7 +252,7 @@ HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLas
 {
 	return ^BOOL(HTMLNode *node) {
 		NSArray *parentElements = node.parentElement.childElementNodes;
-		//Index relative to start/end
+		// Index relative to start/end
 		NSInteger nthPosition;
 		if (fromLast) {
 			nthPosition = parentElements.count - [parentElements indexOfObject:node];
@@ -283,8 +281,7 @@ HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, HTMLSe
 				count++;
 			}
 			if ([currentNode isEqual:node]) {
-				//check if the current node is the nth element of its type
-				//based on the current count
+				// check if the current node is the nth element of its type based on the current count
 				if (nth.n > 0) {
 					return (count - nth.c) % nth.n == 0;
 				} else {
@@ -331,12 +328,12 @@ HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
 HTMLSelectorPredicateGen isLinkPredicate(void)
 {
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/selectors.html#selector-link
-    return andCombinatorPredicate(@[ orCombinatorPredicate(@[ isTagTypePredicate(@"a"),
-                                                              isTagTypePredicate(@"area"),
-                                                              isTagTypePredicate(@"link")
-                                                              ]),
-                                     hasAttributePredicate(@"href")
-                                     ]);
+    return andCombinatorPredicate(@[orCombinatorPredicate(@[isTagTypePredicate(@"a"),
+                                                            isTagTypePredicate(@"area"),
+                                                            isTagTypePredicate(@"link")
+                                                            ]),
+                                    hasAttributePredicate(@"href")
+                                    ]);
 }
 
 HTMLSelectorPredicateGen isDisabledPredicate(void)
@@ -347,24 +344,24 @@ HTMLSelectorPredicateGen isDisabledPredicate(void)
     HTMLSelectorPredicate hasDisabledAttribute = hasAttributePredicate(@"disabled");
     
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/common-idioms.html#concept-element-disabled
-    HTMLSelectorPredicate disabledOptgroup = and(@[ isTagTypePredicate(@"optgroup"), hasDisabledAttribute ]);
-    HTMLSelectorPredicate disabledFieldset = and(@[ isTagTypePredicate(@"fieldset"), hasDisabledAttribute ]);
-    HTMLSelectorPredicate disabledMenuitem = and(@[ isTagTypePredicate(@"menuitem"), hasDisabledAttribute ]);
+    HTMLSelectorPredicate disabledOptgroup = and(@[isTagTypePredicate(@"optgroup"), hasDisabledAttribute]);
+    HTMLSelectorPredicate disabledFieldset = and(@[isTagTypePredicate(@"fieldset"), hasDisabledAttribute]);
+    HTMLSelectorPredicate disabledMenuitem = and(@[isTagTypePredicate(@"menuitem"), hasDisabledAttribute]);
     
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/association-of-controls-and-forms.html#concept-fe-disabled
-    HTMLSelectorPredicate formElement = or(@[ isTagTypePredicate(@"button"),
+    HTMLSelectorPredicate formElement = or(@[isTagTypePredicate(@"button"),
                                               isTagTypePredicate(@"input"),
                                               isTagTypePredicate(@"select"),
                                               isTagTypePredicate(@"textarea")
                                               ]);
     HTMLSelectorPredicate firstLegend = isFirstChildOfTypePredicate(isTagTypePredicate(@"legend"));
-    HTMLSelectorPredicate firstLegendOfDisabledFieldset = and(@[ firstLegend, descendantOfPredicate(disabledFieldset) ]);
-    HTMLSelectorPredicate disabledFormElement = and(@[ formElement,
-                                                       or(@[ hasDisabledAttribute,
-                                                             and(@[ descendantOfPredicate(disabledFieldset),
-                                                                    not(descendantOfPredicate(firstLegendOfDisabledFieldset))
-                                                                    ])
-                                                             ])
+    HTMLSelectorPredicate firstLegendOfDisabledFieldset = and(@[firstLegend, descendantOfPredicate(disabledFieldset)]);
+    HTMLSelectorPredicate disabledFormElement = and(@[formElement,
+                                                      or(@[hasDisabledAttribute,
+                                                           and(@[descendantOfPredicate(disabledFieldset),
+                                                                 not(descendantOfPredicate(firstLegendOfDisabledFieldset))
+                                                                 ])
+                                                           ])
                                                       ]);
     
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-button-element.html#concept-option-disabled
@@ -380,24 +377,24 @@ HTMLSelectorPredicateGen isEnabledPredicate(void)
 {
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/selectors.html#selector-enabled
     HTMLSelectorPredicate hasHrefAttribute = hasAttributePredicate(@"href");
-    HTMLSelectorPredicate enabledByHref = orCombinatorPredicate(@[ isTagTypePredicate(@"a"),
-                                                                   isTagTypePredicate(@"area"),
-                                                                   isTagTypePredicate(@"link")
-                                                                   ]);
-    HTMLSelectorPredicate canOtherwiseBeEnabled = orCombinatorPredicate(@[ isTagTypePredicate(@"button"),
-                                                                           isTagTypePredicate(@"input"),
-                                                                           isTagTypePredicate(@"select"),
-                                                                           isTagTypePredicate(@"textarea"),
-                                                                           isTagTypePredicate(@"optgroup"),
-                                                                           isTagTypePredicate(@"option"),
-                                                                           isTagTypePredicate(@"menuitem"),
-                                                                           isTagTypePredicate(@"fieldset")
-                                                                           ]);
-    return orCombinatorPredicate(@[ andCombinatorPredicate(@[ enabledByHref, hasHrefAttribute ]),
-                                    andCombinatorPredicate(@[ canOtherwiseBeEnabled,
-                                                              negatePredicate(isDisabledPredicate())
-                                                              ])
-                                    ]);
+    HTMLSelectorPredicate enabledByHref = orCombinatorPredicate(@[isTagTypePredicate(@"a"),
+                                                                  isTagTypePredicate(@"area"),
+                                                                  isTagTypePredicate(@"link")
+                                                                  ]);
+    HTMLSelectorPredicate canOtherwiseBeEnabled = orCombinatorPredicate(@[isTagTypePredicate(@"button"),
+                                                                          isTagTypePredicate(@"input"),
+                                                                          isTagTypePredicate(@"select"),
+                                                                          isTagTypePredicate(@"textarea"),
+                                                                          isTagTypePredicate(@"optgroup"),
+                                                                          isTagTypePredicate(@"option"),
+                                                                          isTagTypePredicate(@"menuitem"),
+                                                                          isTagTypePredicate(@"fieldset")
+                                                                          ]);
+    return orCombinatorPredicate(@[andCombinatorPredicate(@[enabledByHref, hasHrefAttribute ]),
+                                   andCombinatorPredicate(@[canOtherwiseBeEnabled,
+                                                            negatePredicate(isDisabledPredicate())
+                                                            ])
+                                   ]);
 }
 
 HTMLSelectorPredicateGen isCheckedPredicate(void)
@@ -470,37 +467,37 @@ static HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanner *scanner,
     
 	NSString *pseudo;
 	
-	//Todo Can't assume the end of the pseudo is the end of the string
+	// TODO Can't assume the end of the pseudo is the end of the string
 	ok = [scanner scanUpToString:@"(" intoString:&pseudo];
 	if (!ok && !scanner.isAtEnd) {
 		pseudo = [scanner.string substringFromIndex:scanner.scanLocation];
 		scanner.scanLocation = scanner.string.length - 1;
 	}
 	
-	//Case-insensitively look for pseudo classes
+	// Case-insensitively look for pseudo classes
 	pseudo = [pseudo lowercaseString];
 	
 	static NSDictionary *simplePseudos = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		simplePseudos = @{
-						  @"first-child": isFirstChildPredicate(),
-						  @"last-child": isLastChildPredicate(),
-						  @"only-child": isOnlyChildPredicate(),
-						  
-						  @"empty": isEmptyPredicate(),
-						  @"root": isRootPredicate(),
-						  
+        simplePseudos = @{
+                          @"first-child": isFirstChildPredicate(),
+                          @"last-child": isLastChildPredicate(),
+                          @"only-child": isOnlyChildPredicate(),
+                          
+                          @"empty": isEmptyPredicate(),
+                          @"root": isRootPredicate(),
+                          
                           @"link": isLinkPredicate(),
                           @"visited": neverPredicate(),
                           @"active": neverPredicate(),
                           @"hover": neverPredicate(),
                           @"focus": neverPredicate(),
                           
-						  @"enabled": isEnabledPredicate(),
-						  @"disabled": isDisabledPredicate(),
-						  @"checked": isCheckedPredicate()
-						  };
+                          @"enabled": isEnabledPredicate(),
+                          @"disabled": isDisabledPredicate(),
+                          @"checked": isCheckedPredicate()
+                          };
 	});
 	
 	id simple = simplePseudos[pseudo];
@@ -660,8 +657,8 @@ HTMLSelectorPredicate scanAttributePredicate(NSScanner *scanner, NSError **error
 	} else if ([operator isEqualToString:@"*"]) {
 		return attributeContainsPredicate(attributeName, attributeValue);
 	} else if ([operator isEqualToString:@"|"]) {
-		return orCombinatorPredicate(@[ attributeIsExactlyPredicate(attributeName, attributeValue),
-                                        attributeStartsWithPredicate(attributeName, [attributeValue stringByAppendingString:@"-"]) ]);
+		return orCombinatorPredicate(@[attributeIsExactlyPredicate(attributeName, attributeValue),
+                                       attributeStartsWithPredicate(attributeName, [attributeValue stringByAppendingString:@"-"])]);
 	} else {
 		*error = ParseError(@"Unexpected operator", scanner.string, scanner.scanLocation - operator.length);
 		return nil;
@@ -686,7 +683,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	
 	inputPredicate = inputPredicate ? bothCombinatorPredicate(tagPredicate, inputPredicate) : tagPredicate;
 	
-	//If we're out of things to scan, all we have is this tag, no operators on it
+	// If we're out of things to scan, all we have is this tag, no operators on it
 	if (scanner.isAtEnd) return inputPredicate;
 	
 	NSString *modifier;
@@ -694,7 +691,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	do {
 		modifier = scanTagModifier(scanner, error);
 		
-		//Pseudo and attribute
+		// Pseudo and attribute
 		if ([modifier isEqualToString:@":"]) {
 			inputPredicate = bothCombinatorPredicate(inputPredicate,
 													 scanPredicateFromPseudoClass(scanner, inputPredicate, error));
@@ -707,12 +704,13 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 													 scanAttributePredicate(scanner, error));
 		} else if ([modifier isEqualToString:@"."]) {
 			NSString *className = scanIdentifier(scanner, error);
-			inputPredicate =  bothCombinatorPredicate(inputPredicate, isKindOfClassPredicate(className));
+			inputPredicate =  bothCombinatorPredicate(inputPredicate,
+                                                      isKindOfClassPredicate(className));
 		} else if ([modifier isEqualToString:@"#"]) {
 			NSString *idName = scanIdentifier(scanner, error);
-			inputPredicate =  bothCombinatorPredicate(inputPredicate, hasIDPredicate(idName));
-		} else if (modifier != nil)
-		{
+			inputPredicate =  bothCombinatorPredicate(inputPredicate,
+                                                      hasIDPredicate(idName));
+		} else if (modifier != nil) {
 			*error = ParseError(@"Unexpected modifier", scanner.string, scanner.scanLocation - modifier.length);
 			return nil;
 		}
@@ -721,17 +719,14 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	
 
 	
-	//Pseudo and attribute cases require that this is
-	//either the end of the selector, or there's another
-	//combinator after them
+	// Pseudo and attribute cases require that this is either the end of the selector, or there's another combinator after them
 	
 	if (scanner.isAtEnd) return inputPredicate;
 	
 	NSString *combinator = scanCombinator(scanner, error);
 	
 	if ([combinator isEqualToString:@""]) {
-		//Whitespace combinator
-		//y descendant of an x
+		// Whitespace combinator: y descendant of an x
 		return descendantOfPredicate(inputPredicate);
 	} else if ([combinator isEqualToString:@">"]) {
 		return childOfOtherPredicatePredicate(inputPredicate);
@@ -740,11 +735,11 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 	} else if ([combinator isEqualToString:@"~"]) {
 		return generalSiblingPredicate(inputPredicate);
 	}
+    
 	if (combinator == nil) {
 		*error = ParseError(@"Expected a combinator here", scanner.string, scanner.scanLocation);
 		return nil;
-	}
-	else {
+	} else {
 		*error = ParseError(@"Unexpected combinator", scanner.string, scanner.scanLocation - combinator.length);
 		return nil;
 	}
@@ -752,7 +747,7 @@ HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelectorPredicate
 
 static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString, NSError **error)
 {
-	//Trim non-functional whitespace
+	// Trim non-functional whitespace
 	selectorString = [selectorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     // An empty selector is an invalid selector.
@@ -762,13 +757,13 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
     }
 	
 	NSScanner *scanner = [NSScanner scannerWithString:selectorString];
-    scanner.caseSensitive = NO; //Section 3 states that in HTML parsing, selectors are case-insensitive
+    scanner.caseSensitive = NO; // Section 3 states that in HTML parsing, selectors are case-insensitive
     scanner.charactersToBeSkipped = nil;
 	
-	//Scan out predicate parts and combine them
+	// Scan out predicate parts and combine them
 	HTMLSelectorPredicate lastPredicate = nil;
 	
-	do{
+	do {
 		lastPredicate = scanPredicate(scanner, lastPredicate, error);
 	} while (lastPredicate && ![scanner isAtEnd] && !*error);
 	
@@ -780,9 +775,7 @@ static HTMLSelectorPredicate SelectorFunctionForString(NSString *selectorString,
 @interface HTMLSelector ()
 
 @property (copy, nonatomic) NSString *string;
-
 @property (strong, nonatomic) NSError *error;
-
 @property (copy, nonatomic) HTMLSelectorPredicate predicate;
 
 @end
@@ -893,14 +886,14 @@ HTMLNthExpression HTMLNthExpressionFromString(NSString *string)
 	NSArray *valueSplit = [string componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"nN"]];
 	
 	if (valueSplit.count == 0 || valueSplit.count > 2) {
-		//No Ns or multiple Ns, fail
+		// No Ns or multiple Ns, fail
 		return HTMLNthExpressionInvalid;
 	} else if (valueSplit.count == 2) {
 		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
 		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
 		
 		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo) {
-			//"n" was defined, and only "-" was given as a multiplier
+			// "n" was defined, and only "-" was given as a multiplier
 			return HTMLNthExpressionMake(-1, numberTwo.integerValue);
 		} else if (numberOne && numberTwo) {
 			return HTMLNthExpressionMake(numberOne.integerValue, numberTwo.integerValue);
@@ -910,7 +903,7 @@ HTMLNthExpression HTMLNthExpressionFromString(NSString *string)
 	} else {
 		NSNumber *number = parseNumber(valueSplit[0], 1);
 		
-		//"n" not found, use whole string as b
+		// "n" not found, use whole string as b
 		return HTMLNthExpressionMake(0, number.integerValue);
 	}
 }
