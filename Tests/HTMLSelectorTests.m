@@ -192,13 +192,6 @@
 	TestMatchedElementIDs(@"input#input-disabled-by-fieldset + legend input", (@[ @"input-enabled-by-legend" ]));
 }
 
-- (void)testSelectorGroups
-{
-    TestMatchedElementIDs(@"a, root", (@[ @"root", @"a-enabled", @"a-neither-enabled-nor-disabled" ]));
-    TestMatchedElementIDs(@"input#input-disabled-by-fieldset + legend input, root", (@[ @"root", @"input-enabled-by-legend" ]));
-    TestMatchedElementIDs(@"input:not(#input-disabled-by-fieldset, [disabled])", (@[ @"root-enabled", @"input-enabled-by-fieldset" ]));
-}
-
 #define ExpectError(selectorString) XCTAssertNotNil([HTMLSelector selectorForString:selectorString].error)
 
 - (void)testBadInput
@@ -206,11 +199,6 @@
 	ExpectError(@"[id]asdf");
     ExpectError(@"h2..foo");
     ExpectError(@"");
-    ExpectError(@",");
-    ExpectError(@"a,");
-    ExpectError(@",a");
-    ExpectError(@"a,[id]asdf");
-    ExpectError(@"[id]asdf,a");
 }
 
 - (void)testConvenienceMethods
