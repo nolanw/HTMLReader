@@ -2198,14 +2198,14 @@ static BOOL IsSpecialElement(HTMLElement *element)
 
 - (void)foreignContentInsertionModeHandleAnyOtherStartTagToken:(HTMLStartTagToken *)token
 {
-    if (self.adjustedCurrentNode.namespace == HTMLNamespaceMathML) {
+    if (self.adjustedCurrentNode.htmlNamespace == HTMLNamespaceMathML) {
         AdjustMathMLAttributesForToken(token);
-    } else if (self.adjustedCurrentNode.namespace == HTMLNamespaceSVG) {
+    } else if (self.adjustedCurrentNode.htmlNamespace == HTMLNamespaceSVG) {
         FixSVGTagNameCaseForToken(token);
         AdjustSVGAttributesForToken(token);
     }
     AdjustForeignAttributesForToken(token);
-    [self insertForeignElementForToken:token inNamespace:self.adjustedCurrentNode.namespace];
+    [self insertForeignElementForToken:token inNamespace:self.adjustedCurrentNode.htmlNamespace];
     if (token.selfClosingFlag) {
         [_stackOfOpenElements removeLastObject];
     }
