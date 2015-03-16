@@ -180,9 +180,9 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
         NSString *namespace = parts.count == 2 ? parts[0] : nil;
         HTMLElement *node = [[HTMLElement alloc] initWithTagName:tagName attributes:nil];
         if ([namespace isEqualToString:@"svg"]) {
-            node.namespace = HTMLNamespaceSVG;
+            node.htmlNamespace = HTMLNamespaceSVG;
         } else if ([namespace isEqualToString:@"math"]) {
-            node.namespace = HTMLNamespaceMathML;
+            node.htmlNamespace = HTMLNamespaceMathML;
         }
         return node;
     } else {
@@ -222,11 +222,11 @@ static id NodeOrAttributeNameValuePairFromString(NSString *s)
                 if ([scanner scanString:@"math " intoString:nil]) {
                     NSString *tagName = [scanner.string substringFromIndex:scanner.scanLocation];
                     context = [[HTMLElement alloc] initWithTagName:tagName attributes:nil];
-                    context.namespace = HTMLNamespaceMathML;
+                    context.htmlNamespace = HTMLNamespaceMathML;
                 } else if ([scanner scanString:@"svg " intoString:nil]) {
                     NSString *tagName = [scanner.string substringFromIndex:scanner.scanLocation];
                     context = [[HTMLElement alloc] initWithTagName:tagName attributes:nil];
-                    context.namespace = HTMLNamespaceSVG;
+                    context.htmlNamespace = HTMLNamespaceSVG;
                 } else {
                     context = [[HTMLElement alloc] initWithTagName:scanner.string attributes:nil];
                 }
