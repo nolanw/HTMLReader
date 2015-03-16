@@ -49,6 +49,6 @@
 - (void)toggleClass:(NSString *)className;
 
 /// This element's namespace.
-@property (assign, nonatomic) HTMLNamespace namespace;
+@property (assign, nonatomic) HTMLNamespace htmlNamespace;
 
 @end

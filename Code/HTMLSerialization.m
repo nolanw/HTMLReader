@@ -109,9 +109,9 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
     NSMutableString *description = [NSMutableString new];
     [description appendFormat:@"<%@: %p <", self.class, self];
     
-    if (self.namespace == HTMLNamespaceMathML) {
+    if (self.htmlNamespace == HTMLNamespaceMathML) {
         [description appendString:@"math "];
-    } else if (self.namespace == HTMLNamespaceSVG) {
+    } else if (self.htmlNamespace == HTMLNamespaceSVG) {
         [description appendString:@"svg "];
     }
     

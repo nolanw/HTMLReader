@@ -1264,7 +1264,7 @@ static inline BOOL is_lower(NSInteger c)
     if ([_inputStream consumeString:@"--" matchingCase:YES]) {
         _currentToken = [[HTMLCommentToken alloc] initWithData:@""];
         [self switchToState:HTMLCommentStartTokenizerState];
-    } else if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML && [_inputStream consumeString:@"[CDATA[" matchingCase:YES]) {
+    } else if (_parser.adjustedCurrentNode.htmlNamespace != HTMLNamespaceHTML && [_inputStream consumeString:@"[CDATA[" matchingCase:YES]) {
         [self switchToState:HTMLCDATASectionTokenizerState];
     } else if ([_inputStream consumeString:@"DOCTYPE" matchingCase:NO]) {
         [self switchToState:HTMLDOCTYPETokenizerState];
