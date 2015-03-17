@@ -4,8 +4,6 @@ before_install:
   - brew install xctool || brew upgrade xctool
 env:
   - TEST_SDK=iphonesimulator8.1
-  - TEST_SDK=iphonesimulator7.1
-  - TEST_SDK=iphonesimulator7.0
   - TEST_SDK=macosx10.10 TEST_SCHEME="OS X"
   - TEST_SDK=macosx10.9 TEST_SCHEME="OS X"
 script: xctool -project HTMLReader.xcodeproj -scheme "HTMLReader ${TEST_SCHEME:-iOS}" -sdk $TEST_SDK ${TEST_ACTION:-test}
