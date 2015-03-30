@@ -36,6 +36,11 @@
                     @"  </fieldset>"
                     @"  <a href='' id='a-enabled'></a>"
                     @"  <a name='' id='a-neither-enabled-nor-disabled'></a>"
+                    @"  <ahoy‽ id=interrobang>"
+                    @"    <there id=there />"
+                    @"    <some-ns:some-tag id='colon' />"
+                    @"    <replacement\uFFFD id='fffd' />"
+                    @"  </ahoy‽>"
                     @"</root>"];
     }
     return _testDoc;
@@ -90,6 +95,8 @@
     TestMatchedElementIDs(@"parent", (@[ @"empty", @"one-child", @"three-children" ]));
     TestMatchedElementIDs(@"elem", (@[ @"only-child", @"child1", @"child3" ]));
     TestMatchedElementIDs(@"other", (@[ @"child2" ]));
+    TestMatchedElementIDs(@"some-ns\\:some-tag", (@[ @"colon" ]));
+    TestMatchedElementIDs(@"ahoy\\203D", (@[ @"interrobang" ]));
 }
 
 - (void)testDescendantCombinator
@@ -100,6 +107,8 @@
     // Test grandchild chaining, as described in http://www.w3.org/TR/css3-selectors/#descendant-combinators
     // "root * elem" == <root><*any*><elem/></*any></root>
     TestMatchedElementIDs(@"root * elem", (@[ @"only-child", @"child1", @"child3" ]));
+    
+    TestMatchedElementIDs(@"ahoy\\203d  there", (@[ @"there" ]));
 }
 
 - (void)testPseudoClasses
@@ -192,13 +201,36 @@
 	TestMatchedElementIDs(@"input#input-disabled-by-fieldset + legend input", (@[ @"input-enabled-by-legend" ]));
 }
 
+- (void)testInadvertantMalescapage
+{
+    // First space after hex-escape gets swallowed up. Need two+ spaces for descendant combinator!
+    TestMatchedElementIDs(@"ahoy\\203d there", (@[]));
+}
+
+- (void)testMalescapageReplacement
+{
+    // Beyond maximum code point.
+    TestMatchedElementIDs(@"replacement\\110000", (@[ @"fffd" ]));
+    
+    // U+0000
+    TestMatchedElementIDs(@"replacement\\0", (@[ @"fffd" ]));
+    
+    // Surrogates
+    TestMatchedElementIDs(@"replacement\\d888", (@[ @"fffd" ]));
+    TestMatchedElementIDs(@"replacement\\de0f", (@[ @"fffd" ]));
+    
+    // EOF
+    TestMatchedElementIDs(@"replacement\\", (@[ @"fffd" ]));
+}
+
 #define ExpectError(selectorString) XCTAssertNotNil([HTMLSelector selectorForString:selectorString].error)
 
 - (void)testBadInput
 {
-	ExpectError(@"[id]asdf");
+    ExpectError(@"[id]asdf");
     ExpectError(@"h2..foo");
     ExpectError(@"");
+    ExpectError(@"\\\nuh");
 }
 
 - (void)testConvenienceMethods

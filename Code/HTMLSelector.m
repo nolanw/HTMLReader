@@ -5,6 +5,7 @@
 // Implements CSS Selectors Level 3 http://www.w3.org/TR/css3-selectors/
 
 #import "HTMLSelector.h"
+#import "HTMLString.h"
 #import "HTMLTextNode.h"
 
 typedef BOOL (^HTMLSelectorPredicate)(HTMLElement *node);
@@ -581,11 +582,73 @@ static NSCharacterSet *combinatorCharacters()
 	return frozenSet;
 }
 
+NSString *scanEscape(NSScanner *scanner, NSError **error)
+{
+    if (![scanner scanString:@"\\" intoString:nil]) {
+        return nil;
+    }
+    
+    NSCharacterSet *hexCharacters = [NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF"];
+    NSUInteger scanLocation = scanner.scanLocation;
+    NSString *hex;
+    if ([scanner scanCharactersFromSet:hexCharacters intoString:&hex]) {
+        if (scanner.scanLocation - scanLocation > 6) {
+            NSRange range = NSMakeRange(scanLocation, 6);
+            hex = [scanner.string substringWithRange:range];
+            scanner.scanLocation = NSMaxRange(range);
+        }
+        
+        // Optional single trailing whitespace.
+        if (![scanner scanString:@"\r\n" intoString:nil]) {
+            scanLocation = scanner.scanLocation;
+            if ([scanner scanCharactersFromSet:HTMLSelectorWhitespaceCharacterSet() intoString:nil]) {
+                scanner.scanLocation = scanLocation + 1;
+            }
+        }
+        
+        unsigned int codepoint;
+        [[NSScanner scannerWithString:hex] scanHexInt:&codepoint];
+        if (codepoint == 0x0 || codepoint > 0x10FFFF || (codepoint >= 0xD800 && codepoint <= 0xDFFF)) {
+            return @"\uFFFD";
+        } else {
+            return StringWithLongCharacter(codepoint);
+        }
+    } else if ([scanner scanString:@"\r\n" intoString:nil] || [scanner scanString:@"\n" intoString:nil] || [scanner scanString:@"\r" intoString:nil] || [scanner scanString:@"\f" intoString:nil]) {
+        if (error) {
+            *error = ParseError(@"Expected non-newline or hex digit(s) after starting escape", scanner.string, scanLocation);
+        }
+        return nil;
+    } else if (scanner.isAtEnd) {
+        return @"\uFFFD";
+    } else {
+        unichar characters[2];
+        NSUInteger count = 1;
+        characters[0] = [scanner.string characterAtIndex:scanner.scanLocation];
+        ++scanner.scanLocation;
+        if (CFStringIsSurrogateHighCharacter(characters[0])) {
+            characters[1] = [scanner.string characterAtIndex:scanner.scanLocation];
+            ++count;
+            ++scanner.scanLocation;
+        }
+        return [NSString stringWithCharacters:characters length:count];
+    }
+}
+
 NSString *scanIdentifier(NSScanner *scanner,  NSError **error)
 {
-	NSString *ident;
-	[scanner scanCharactersFromSet:identifierCharacters() intoString:&ident];
-	return [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSMutableString *ident = [NSMutableString new];
+    NSString *part;
+    while ([scanner scanCharactersFromSet:identifierCharacters() intoString:&part]) {
+        [ident appendString:part];
+        NSString *escape = scanEscape(scanner, error);
+        if (escape) {
+            [ident appendString:escape];
+        } else {
+            break;
+        }
+    }
+    NSString *trimmed = [ident stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmed.length > 0 ? trimmed : nil;
 }
 
 NSString *scanTagModifier(NSScanner *scanner, NSError **error)
