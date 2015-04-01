@@ -153,11 +153,13 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
         [fragment appendFormat:@" %@=\"%@\"", name, escapedValue];
     }];
 
-    [fragment appendString:@">"];
     
     if (StringIsEqualToAnyOf(self.tagName, @"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed", @"frame", @"hr", @"img", @"input", @"keygen", @"link", @"menuitem", @"meta", @"param", @"source", @"track", @"wbr")) {
+        [fragment appendString:@" />"];
         return fragment;
     }
+    
+    [fragment appendString:@">"];
     
     if (StringIsEqualToAnyOf(self.tagName, @"pre", @"textarea", @"listing")) {
         if ([self.children.firstObject isKindOfClass:[HTMLTextNode class]]) {
