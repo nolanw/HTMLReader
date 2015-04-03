@@ -2,7 +2,7 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-// Implements CSS Selectors Level 3 http://www.w3.org/TR/css3-selectors/
+// Implements CSS Selectors Level 3 http://www.w3.org/TR/css3-selectors/ with some pointers from CSS Syntax Module Level 3 http://www.w3.org/TR/2014/CR-css-syntax-3-20140220/
 
 #import "HTMLSelector.h"
 #import "HTMLString.h"
