@@ -167,6 +167,7 @@
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3ECA176BC53900E982C9 /* Tests on iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3ED5176BC53900E982C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1CA240D61AD95F6900BB9D61 /* HTMLReader.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HTMLReader.playground; sourceTree = "<group>"; };
 		1CA5C20F18D7457400147FE7 /* HTMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
 		1CA5C21018D7457400147FE7 /* HTMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLElement.m; sourceTree = "<group>"; };
 		1CA5C21418D746D600147FE7 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLComment.h; sourceTree = "<group>"; };
@@ -281,6 +282,7 @@
 		1C9C3EB0176BC53800E982C9 = {
 			isa = PBXGroup;
 			children = (
+				1CA240D61AD95F6900BB9D61 /* HTMLReader.playground */,
 				1CB61D2817BB7A2700EE9653 /* HTMLReader.podspec */,
 				1CB61D2717BB68F100EE9653 /* LICENSE */,
 				1C9928B117B18E9300D6AD9A /* README.md */,
