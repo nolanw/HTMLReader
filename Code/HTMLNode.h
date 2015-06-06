@@ -5,8 +5,8 @@
 #import <Foundation/Foundation.h>
 @class HTMLDocument;
 @class HTMLElement;
-#import "HTMLNamespace.h"
-#import "HTMLSupport.h"
+#import <HTMLReader/HTMLNamespace.h>
+#import <HTMLReader/HTMLSupport.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

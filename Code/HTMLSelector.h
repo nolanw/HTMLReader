@@ -3,7 +3,7 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import <Foundation/Foundation.h>
-#import "HTMLElement.h"
+#import <HTMLReader/HTMLElement.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
