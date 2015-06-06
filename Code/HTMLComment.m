@@ -4,10 +4,14 @@
 
 #import "HTMLComment.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLComment
 
 - (instancetype)initWithData:(NSString *)data
 {
+    NSParameterAssert(data);
+    
     if ((self = [super init])) {
         _data = [data copy];
     }
@@ -16,7 +20,7 @@
 
 - (instancetype)init
 {
-    return [self initWithData:nil];
+    return [self initWithData:@""];
 }
 
 - (NSString *)textContent
@@ -39,3 +43,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

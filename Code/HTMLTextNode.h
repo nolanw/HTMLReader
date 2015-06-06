@@ -4,6 +4,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     An HTMLTextNode represents text.
  
@@ -21,3 +23,5 @@
 - (void)appendString:(NSString *)string;
 
 @end
+
+NS_ASSUME_NONNULL_END

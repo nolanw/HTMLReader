@@ -5,6 +5,8 @@
 #import "HTMLTreeEnumerator.h"
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 // For performance we'll cache the number of nodes at each level of the tree.
 typedef struct {
     NSUInteger i;
@@ -31,6 +33,8 @@ typedef struct {
 
 - (instancetype)initWithNode:(HTMLNode *)node reversed:(BOOL)reversed
 {
+    NSParameterAssert(node);
+    
     if ((self = [super init])) {
         _nextNode = node;
         _reversed = reversed;
@@ -86,3 +90,5 @@ typedef struct {
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

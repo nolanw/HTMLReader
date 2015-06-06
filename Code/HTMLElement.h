@@ -4,6 +4,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     An HTMLElement represents a subtree of content in an HTML document.
  
@@ -17,7 +19,7 @@
     @param tagName    What kind of element to make.
     @param attributes A dictionary of attributes to start the element off. May be nil.
  */
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary * __nullable)attributes NS_DESIGNATED_INITIALIZER;
 
 /// The element's kind.
 @property (readonly, copy, nonatomic) NSString *tagName;
@@ -34,7 +36,7 @@
 @property (readonly, copy, nonatomic) NSDictionary *attributes;
 
 /// Returns the value of the named attribute, or nil if no such value exists.
-- (id)objectForKeyedSubscript:(id)attributeNameOrString;
+- (id __nullable)objectForKeyedSubscript:(id)attributeNameOrString;
 
 /// Sets a named attribute's value, adding it to the element if needed.
 - (void)setObject:(NSString *)attributeValue forKeyedSubscript:(NSString *)attributeName;
@@ -52,3 +54,5 @@
 @property (assign, nonatomic) HTMLNamespace htmlNamespace;
 
 @end
+
+NS_ASSUME_NONNULL_END

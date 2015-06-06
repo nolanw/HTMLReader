@@ -4,6 +4,8 @@
 
 #import "HTMLTextNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLTextNode
 {
     NSMutableString *_data;
@@ -11,6 +13,8 @@
 
 - (instancetype)initWithData:(NSString *)data
 {
+    NSParameterAssert(data);
+    
     if ((self = [super init])) {
         _data = [NSMutableString stringWithString:data];
     }
@@ -24,6 +28,8 @@
 
 - (void)appendString:(NSString *)string
 {
+    NSParameterAssert(string);
+    
     [_data appendString:string];
 }
 
@@ -42,3 +48,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

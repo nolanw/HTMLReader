@@ -5,6 +5,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLElement.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     An HTMLSelector concisely describes a set of nodes.
  
@@ -32,7 +34,7 @@
 - (BOOL)matchesElement:(HTMLElement *)element;
 
 /// The error encountered when parsing the selector string, or nil if there was no error. Errors are in the HTMLSelectorErrorDomain.
-@property (readonly, strong, nonatomic) NSError *error;
+@property (readonly, strong, nonatomic) NSError * __nullable error;
 
 @end
 
@@ -51,17 +53,17 @@ extern NSString * const HTMLSelectorLocationErrorKey;
 /// HTMLSelector expands the HTMLNode class to search for matches.
 @interface HTMLNode (HTMLSelector)
 
-/// Returns the nodes matched by selectorString, or nil if the string could not be parsed.
+/// Returns the nodes matched by selectorString. Throws an NSInvalidArgumentException if selectorString cannot be parsed.
 - (NSArray *)nodesMatchingSelector:(NSString *)selectorString;
 
-/// Returns the first node matched by selectorString, or nil if there is no such node or the string could not be parsed.
-- (HTMLElement *)firstNodeMatchingSelector:(NSString *)selectorString;
+/// Returns the first node matched by selectorString, or nil if there is no such node. Throws an NSInvalidArgumentException if selectorString cannot be parsed.
+- (HTMLElement * __nullable)firstNodeMatchingSelector:(NSString *)selectorString;
 
-/// Returns the nodes matched by selector.
+/// Returns the nodes matched by selector. Throws an NSInvalidArgumentException if the selector could not be parsed.
 - (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector;
 
-/// Returns the first node matched by selector, or nil if there is no such node.
-- (HTMLElement *)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
+/// Returns the first node matched by selector, or nil if there is no such node. Throws an NSInvalidArgumentException if the selector could not be parsed.
+- (HTMLElement * __nullable)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
 
 @end
 
@@ -96,3 +98,5 @@ extern const HTMLNthExpression HTMLNthExpressionEven;
 
 /// An invalid HTMLNthExpression.
 extern const HTMLNthExpression HTMLNthExpressionInvalid;
+
+NS_ASSUME_NONNULL_END

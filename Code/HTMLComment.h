@@ -4,6 +4,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     An HTMLComment represents a comment.
  
@@ -18,3 +20,5 @@
 @property (copy, nonatomic) NSString *data;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,6 +4,8 @@
 
 #import "HTMLOrderedDictionary.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLOrderedDictionary
 {
     CFMutableDictionaryRef _map;
@@ -90,6 +92,8 @@
 
 - (id)objectForKey:(id)key
 {
+    NSParameterAssert(key);
+    
     return (__bridge id)CFDictionaryGetValue(_map, (__bridge const void *)key);
 }
 
@@ -159,3 +163,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

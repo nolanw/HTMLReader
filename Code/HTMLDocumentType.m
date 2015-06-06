@@ -5,10 +5,14 @@
 #import "HTMLDocumentType.h"
 #import "HTMLDocument.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLDocumentType
 
-- (instancetype)initWithName:(NSString *)name publicIdentifier:(NSString *)publicIdentifier systemIdentifier:(NSString *)systemIdentifier
+- (instancetype)initWithName:(NSString *)name publicIdentifier:(NSString * __nullable)publicIdentifier systemIdentifier:(NSString * __nullable)systemIdentifier
 {
+    NSParameterAssert(name);
+    
     if ((self = [super init])) {
         _name = [name copy];
         _publicIdentifier = [publicIdentifier copy] ?: @"";
@@ -19,7 +23,7 @@
 
 - (instancetype)init
 {
-    return [self initWithName:nil publicIdentifier:nil systemIdentifier:nil];
+    return [self initWithName:@"html" publicIdentifier:nil systemIdentifier:nil];
 }
 
 #pragma mark NSCopying
@@ -34,3 +38,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

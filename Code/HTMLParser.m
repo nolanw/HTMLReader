@@ -196,7 +196,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     {
         [self addParseError:@"Invalid DOCTYPE"];
     }
-    _document.documentType = [[HTMLDocumentType alloc] initWithName:token.name
+    _document.documentType = [[HTMLDocumentType alloc] initWithName:(token.name ?: @"html")
                                                    publicIdentifier:token.publicIdentifier
                                                    systemIdentifier:token.systemIdentifier];
     _document.quirksMode = ^{

@@ -6,13 +6,17 @@
 #import "HTMLOrderedDictionary.h"
 #import "HTMLSelector.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLElement
 {
     HTMLOrderedDictionary *_attributes;
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary * __nullable)attributes
 {
+    NSParameterAssert(tagName);
+    
     if ((self = [super init])) {
         _tagName = [tagName copy];
         _attributes = [HTMLOrderedDictionary new];
@@ -23,7 +27,7 @@
 
 - (instancetype)init
 {
-    return [self initWithTagName:nil attributes:nil];
+    return [self initWithTagName:@"" attributes:nil];
 }
 
 - (NSDictionary *)attributes
@@ -31,13 +35,15 @@
     return [_attributes copy];
 }
 
-- (id)objectForKeyedSubscript:(id)attributeName
+- (id __nullable)objectForKeyedSubscript:(id)attributeName
 {
     return _attributes[attributeName];
 }
 
 - (void)setObject:(NSString *)attributeValue forKeyedSubscript:(NSString *)attributeName
 {
+    NSParameterAssert(attributeValue);
+    
     _attributes[attributeName] = attributeValue;
 }
 
@@ -48,12 +54,16 @@
 
 - (BOOL)hasClass:(NSString *)className
 {
+    NSParameterAssert(className);
+    
     NSArray *classes = [self[@"class"] componentsSeparatedByCharactersInSet:HTMLSelectorWhitespaceCharacterSet()];
     return [classes containsObject:className];
 }
 
 - (void)toggleClass:(NSString *)className
 {
+    NSParameterAssert(className);
+    
     NSString *classValue = self[@"class"] ?: @"";
     NSMutableArray *classes = [[classValue componentsSeparatedByCharactersInSet:HTMLSelectorWhitespaceCharacterSet()] mutableCopy];
     NSUInteger i = [classes indexOfObject:className];
@@ -76,3 +86,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

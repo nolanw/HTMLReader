@@ -7,6 +7,8 @@
 #import "HTMLTextNode.h"
 #import "HTMLTreeEnumerator.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTMLChildrenRelationshipProxy : NSMutableOrderedSet
 
 - (instancetype)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children;
@@ -30,7 +32,7 @@
     return self;
 }
 
-- (HTMLDocument *)document
+- (HTMLDocument * __nullable)document
 {
     HTMLNode *currentNode = self.parentNode;
     while (currentNode && ![currentNode isKindOfClass:[HTMLDocument class]]) {
@@ -39,12 +41,12 @@
     return (HTMLDocument *)currentNode;
 }
 
-- (void)setParentNode:(HTMLNode *)parentNode
+- (void)setParentNode:(HTMLNode * __nullable)parentNode
 {
     [self setParentNode:parentNode updateChildren:YES];
 }
 
-- (void)setParentNode:(HTMLNode *)parentNode updateChildren:(BOOL)updateChildren
+- (void)setParentNode:(HTMLNode * __nullable)parentNode updateChildren:(BOOL)updateChildren
 {
     [_parentNode removeChild:self updateParentNode:NO];
     _parentNode = parentNode;
@@ -53,13 +55,13 @@
     }
 }
 
-- (HTMLElement *)parentElement
+- (HTMLElement * __nullable)parentElement
 {
     HTMLNode *parent = self.parentNode;
     return [parent isKindOfClass:[HTMLElement class]] ? (HTMLElement *)parent : nil;
 }
 
-- (void)setParentElement:(HTMLElement *)parentElement
+- (void)setParentElement:(HTMLElement * __nullable)parentElement
 {
     self.parentNode = parentElement;
 }
@@ -162,6 +164,8 @@
 
 - (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)index
 {
+    NSParameterAssert(string);
+    
     id candidate = index > 0 ? _children[index - 1] : nil;
     HTMLTextNode *textNode;
     if ([candidate isKindOfClass:[HTMLTextNode class]]) {
@@ -207,6 +211,8 @@
 
 - (void)setTextContent:(NSString *)textContent
 {
+    NSParameterAssert(textContent);
+    
     [[self mutableChildren] removeAllObjects];
     if (textContent.length > 0) {
         HTMLTextNode *textNode = [[HTMLTextNode alloc] initWithData:textContent];
@@ -278,3 +284,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

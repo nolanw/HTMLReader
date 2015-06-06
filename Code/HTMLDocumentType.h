@@ -4,6 +4,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     An HTMLDocumentType represents an archaic description of the standards an HTML document is meant to adhere to.
  
@@ -18,15 +20,17 @@
                       |____|       |_________________________| |_____________________________________|
     We have:           name             publicIdentifier                  systemIdentifier
  */
-- (instancetype)initWithName:(NSString *)name publicIdentifier:(NSString *)publicIdentifier systemIdentifier:(NSString *)systemIdentifier NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithName:(NSString *)name publicIdentifier:(NSString * __nullable)publicIdentifier systemIdentifier:(NSString * __nullable)systemIdentifier NS_DESIGNATED_INITIALIZER;
 
 /// That first part of the DOCTYPE.
 @property (readonly, copy, nonatomic) NSString *name;
 
 /// That second part of the DOCTYPE.
-@property (readonly, copy, nonatomic) NSString *publicIdentifier;
+@property (readonly, copy, nonatomic) NSString * __nullable publicIdentifier;
 
 /// That third part of the DOCTYPE.
-@property (readonly, copy, nonatomic) NSString *systemIdentifier;
+@property (readonly, copy, nonatomic) NSString * __nullable systemIdentifier;
 
 @end
+
+NS_ASSUME_NONNULL_END

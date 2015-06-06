@@ -2,6 +2,8 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     The three namespaces that this HTML parser cares about.
  
@@ -18,3 +20,5 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
     /// Most elements within <svg> tags are in the SVG namespace.
     HTMLNamespaceSVG,
 };
+
+NS_ASSUME_NONNULL_END

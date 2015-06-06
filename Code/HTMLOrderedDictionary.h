@@ -5,6 +5,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLSupport.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// An HTMLOrderedDictionary is a mutable dictionary type that maintains its keys' insertion order.
 @interface HTMLOrderedDictionary : NSMutableDictionary
 
@@ -27,3 +29,5 @@
 @property (readonly, nonatomic) id lastKey;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,6 +4,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Turns an HTMLNode (back) into a string.
 @interface HTMLNode (Serialization)
 
@@ -25,3 +27,5 @@
 @property (readonly, copy, nonatomic) NSString *serializedFragment;
 
 @end
+
+NS_ASSUME_NONNULL_END

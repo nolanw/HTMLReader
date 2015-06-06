@@ -9,6 +9,8 @@
 #import "HTMLQuirksMode.h"
 #import "HTMLSupport.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     An HTMLDocument is the root of a tree of nodes representing parsed HTML.
  
@@ -21,14 +23,14 @@
  
     @param contentType The value of the HTTP Content-Type header, if present.
  */
-+ (instancetype)documentWithData:(NSData *)data contentTypeHeader:(NSString *)contentType;
++ (instancetype)documentWithData:(NSData *)data contentTypeHeader:(NSString * __nullable)contentType;
 
 /**
     Initializes a document with data of an unknown string encoding.
  
     @param contentType The value of the HTTP Content-Type header, if present.
  */
-- (instancetype)initWithData:(NSData *)data contentTypeHeader:(NSString *)contentType;
+- (instancetype)initWithData:(NSData *)data contentTypeHeader:(NSString * __nullable)contentType;
 
 /// Parses an HTML string into a document.
 + (instancetype)documentWithString:(NSString *)string;
@@ -41,7 +43,7 @@
  
     The setter replaces the existing documentType, if there is one; otherwise, the new documentType will be placed immediately before the rootElement, if there is one; otherwise the new documentType is added as the last child.
  */
-@property (strong, nonatomic) HTMLDocumentType *documentType;
+@property (strong, nonatomic) HTMLDocumentType * __nullable documentType;
 
 /// The document's quirks mode.
 @property (assign, nonatomic) HTMLQuirksMode quirksMode;
@@ -51,6 +53,8 @@
  
     The setter replaces the existing rootElement, if there is one; otherwise, the new rootElement is added as the last child.
  */
-@property (strong, nonatomic) HTMLElement *rootElement;
+@property (strong, nonatomic) HTMLElement * __nullable rootElement;
 
 @end
+
+NS_ASSUME_NONNULL_END

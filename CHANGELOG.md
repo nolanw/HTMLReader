@@ -1,5 +1,15 @@
 # Change Log
 
+## next
+
+* The public API now has nullability annotations to ease usage from Swift.
+* Some default values have changed when initializing nodes via `init`, in order to conform to the (now explicit) nullability annotations:
+	* `HTMLComment` defaults to a `data` of "" (the empty string). Previously its default `data` was `nil`.
+	* `HTMLDocumentType` defaults to a `name` of "`html`". Previously its default `name` was `nil`.
+	* `HTMLElement` defaults to a `tagName` of "" (the empty string). Previously its default `tagName` was `nil`.
+* Nullability assertions for parameters are checked using NSParameterAssert. Some methods which previously returned `nil` when passed a `nil` parameter will now raise an assertion error. If you get assertion errors after upgrading where you previously did not get assertion errors, this may be why.
+* `HTMLNode`'s `-nodesMatchingSelector:`, `-firstNodeMatchingSelector`, `-nodesMatchingParsedSelector:`, and `-firstNodeMatchingParsedSelector:` methods now throw an `NSInvalidArgumentException` if the selector fails to parse. Previously they would raise an assertion, but otherwise fail in other (more poorly-defined) ways.
+
 ## [0.7.1] – 2015-04-03
 
 * Selectors can now include escaped characters, allowing for e.g. matching elements like `<some-ns:some-tag>` using a selector like `some-ns\:some-tag`. Supported escapes are `\XXXXXX` for 1-6 hex digits `X`, and `\c` for any other character `c`.

@@ -8,6 +8,8 @@
 #import "HTMLNamespace.h"
 #import "HTMLSupport.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
     HTMLNode is an abstract class representing a node in a parsed HTML tree.
  
@@ -21,13 +23,13 @@
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 /// The document in which this node appears, or nil if the node is not in a tree with a document at its root.
-@property (readonly, strong, nonatomic) HTMLDocument *document;
+@property (readonly, strong, nonatomic) HTMLDocument * __nullable document;
 
 /// The node's parent, or nil if the node is a root node.
-@property (weak, nonatomic) HTMLNode *parentNode;
+@property (weak, nonatomic) HTMLNode * __nullable parentNode;
 
 /// The node's parent if it is an instance of HTMLElement, otherwise nil. Setter is equivalent to calling -setParentNode:.
-@property (weak, nonatomic) HTMLElement *parentElement;
+@property (weak, nonatomic) HTMLElement * __nullable parentElement;
 
 /// Removes the node from its parent, effectively detaching it from the tree.
 - (void)removeFromParentNode;
@@ -88,3 +90,5 @@
 - (void)insertString:(NSString *)string atChildNodeIndex:(NSUInteger)childNodeIndex;
 
 @end
+
+NS_ASSUME_NONNULL_END

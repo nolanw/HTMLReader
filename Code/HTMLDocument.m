@@ -5,21 +5,29 @@
 #import "HTMLDocument.h"
 #import "HTMLParser.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLDocument
 
-+ (instancetype)documentWithData:(NSData *)data contentTypeHeader:(NSString *)contentType
++ (instancetype)documentWithData:(NSData *)data contentTypeHeader:(NSString * __nullable)contentType
 {
+    NSParameterAssert(data);
+    
     HTMLParser *parser = ParserWithDataAndContentType(data, contentType);
     return parser.document;
 }
 
-- (instancetype)initWithData:(NSData *)data contentTypeHeader:(NSString *)contentType
+- (instancetype)initWithData:(NSData *)data contentTypeHeader:(NSString * __nullable)contentType
 {
+    NSParameterAssert(data);
+    
     return [self.class documentWithData:data contentTypeHeader:contentType];
 }
 
 + (instancetype)documentWithString:(NSString *)string
 {
+    NSParameterAssert(string);
+    
     HTMLStringEncoding defaultEncoding = (HTMLStringEncoding){
         .encoding = NSUTF8StringEncoding,
         .confidence = Tentative
@@ -30,15 +38,17 @@
 
 - (instancetype)initWithString:(NSString *)string
 {
+    NSParameterAssert(string);
+    
     return [self.class documentWithString:string];
 }
 
-- (HTMLDocumentType *)documentType
+- (HTMLDocumentType * __nullable)documentType
 {
     return FirstNodeOfType(self.children, [HTMLDocumentType class]);
 }
 
-- (void)setDocumentType:(HTMLDocumentType *)documentType
+- (void)setDocumentType:(HTMLDocumentType * __nullable)documentType
 {
     HTMLDocumentType *oldDocumentType = self.documentType;
     NSMutableOrderedSet *children = [self mutableChildren];
@@ -57,12 +67,12 @@
     }
 }
 
-- (HTMLElement *)rootElement
+- (HTMLElement * __nullable)rootElement
 {
     return FirstNodeOfType(self.children, [HTMLElement class]);
 }
 
-- (void)setRootElement:(HTMLElement *)rootElement
+- (void)setRootElement:(HTMLElement * __nullable)rootElement
 {
     HTMLElement *oldRootElement = self.rootElement;
     NSMutableOrderedSet *children = [self mutableChildren];
@@ -86,3 +96,5 @@ static id FirstNodeOfType(id <NSFastEnumeration> collection, Class type)
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

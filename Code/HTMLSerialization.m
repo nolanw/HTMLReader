@@ -10,6 +10,8 @@
 #import "HTMLString.h"
 #import "HTMLTextNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation HTMLNode (Serialization)
 
 - (NSString *)recursiveDescription
@@ -201,3 +203,5 @@ static void RecursiveDescriptionHelper(HTMLNode *self, NSMutableString *string, 
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
