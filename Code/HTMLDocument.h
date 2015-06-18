@@ -2,7 +2,6 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <Foundation/Foundation.h>
 #import <HTMLReader/HTMLDocumentType.h>
 #import <HTMLReader/HTMLElement.h>
 #import <HTMLReader/HTMLNode.h>

@@ -2,11 +2,10 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <Foundation/Foundation.h>
-@class HTMLDocument;
-@class HTMLElement;
 #import <HTMLReader/HTMLNamespace.h>
 #import <HTMLReader/HTMLSupport.h>
+@class HTMLDocument;
+@class HTMLElement;
 
 NS_ASSUME_NONNULL_BEGIN
 

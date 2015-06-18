@@ -2,9 +2,8 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <Foundation/Foundation.h>
-@class HTMLNode;
 #import "HTMLSupport.h"
+@class HTMLNode;
 
 NS_ASSUME_NONNULL_BEGIN
 
