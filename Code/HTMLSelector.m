@@ -465,7 +465,6 @@ static __nullable HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanne
                                                                         HTMLSelectorPredicate typePredicate,
                                                                         NSError ** __nullable error)
 {
-	typedef HTMLSelectorPredicate (^CSSThing)(HTMLNthExpression nth);
     BOOL ok;
     
 	NSString *pseudo;
