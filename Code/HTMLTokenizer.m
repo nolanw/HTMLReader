@@ -2603,6 +2603,11 @@ static inline BOOL is_lower(NSInteger c)
     return self;
 }
 
+- (instancetype)init
+{
+    return [self initWithString:@""];
+}
+
 - (instancetype)leadingWhitespaceToken
 {
     CFRange range = CFRangeMake(0, self.string.length);

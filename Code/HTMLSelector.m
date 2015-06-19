@@ -867,6 +867,11 @@ static __nullable HTMLSelectorPredicate SelectorFunctionForString(NSString *sele
     return self;
 }
 
+- (instancetype)init
+{
+    return [self initWithString:@""];
+}
+
 - (BOOL)matchesElement:(HTMLElement *)element
 {
     NSParameterAssert(element);

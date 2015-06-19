@@ -22,6 +22,11 @@
     return self;
 }
 
+- (instancetype)init
+{
+    return [self initWithString:@""];
+}
+
 - (BOOL)consumeString:(NSString *)string matchingCase:(BOOL)caseSensitive
 {
     NSScanner *scanner = [self unprocessedScanner];

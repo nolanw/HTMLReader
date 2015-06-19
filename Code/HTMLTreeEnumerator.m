@@ -42,6 +42,16 @@ typedef struct {
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+- (instancetype)init
+{
+    NSAssert(NO, @"send -initWithNode:reversed:");
+    return nil;
+}
+#pragma clang diagnostic pop
+
 - (id __nullable)nextObject
 {
     // This enumerator works by storing the *next* node we intend to emit, and the index path that points to that next node.

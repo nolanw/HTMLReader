@@ -105,6 +105,11 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     return self;
 }
 
+- (instancetype)init
+{
+    return [self initWithString:@"" encoding:(HTMLStringEncoding){.encoding = NSUTF8StringEncoding, .confidence = Tentative} context:nil];
+}
+
 - (NSString *)string
 {
     return _tokenizer.string;
