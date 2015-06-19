@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark NSCopying
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone * __nullable)zone
 {
     return [[self.class allocWithZone:zone] init];
 }

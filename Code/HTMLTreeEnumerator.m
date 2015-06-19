@@ -42,7 +42,7 @@ typedef struct {
     return self;
 }
 
-- (id)nextObject
+- (id __nullable)nextObject
 {
     // This enumerator works by storing the *next* node we intend to emit, and the index path that points to that next node.
     HTMLNode *currentNode = _nextNode;

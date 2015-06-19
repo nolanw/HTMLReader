@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark NSCopying
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone * __nullable)zone
 {
     HTMLElement *copy = [super copyWithZone:zone];
     copy->_tagName = self.tagName;

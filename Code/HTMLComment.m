@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark NSCopying
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone * __nullable)zone
 {
     HTMLComment *copy = [super copyWithZone:zone];
     copy->_data = self.data;

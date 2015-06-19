@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithCapacity:0];
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (id __nullable)initWithCoder:(NSCoder * __nullable)coder
 {
     NSDictionary *map = [coder decodeObjectForKey:@"map"];
     NSArray *keys = [coder decodeObjectForKey:@"keys"];
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     CFRelease(_map);
 }
 
-- (Class)classForKeyedArchiver
+- (Class __nullable)classForKeyedArchiver
 {
     return [self class];
 }
@@ -73,14 +73,14 @@ NS_ASSUME_NONNULL_BEGIN
     [coder encodeObject:_keys forKey:@"keys"];
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone * __nullable)zone
 {
     HTMLOrderedDictionary *copy = [[[self class] allocWithZone:zone] initWithCapacity:self.count];
     [copy addEntriesFromDictionary:self];
     return copy;
 }
 
-- (id)mutableCopyWithZone:(NSZone *)zone
+- (id)mutableCopyWithZone:(NSZone * __nullable)zone
 {
     return [self copyWithZone:zone];
 }
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
     return _keys.count;
 }
 
-- (id)objectForKey:(id)key
+- (id __nullable)objectForKey:(id)key
 {
     NSParameterAssert(key);
     

@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark NSCopying
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone * __nullable)zone
 {
     HTMLTextNode *copy = [super copyWithZone:zone];
     [copy->_data setString:_data];

@@ -98,8 +98,13 @@ static NSArray *fixtureKeys;
 
 - (void)testSetObjectForKey
 {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
+    
     XCTAssertThrows([_dictionary setObject:@1 forKey:nil]);
     XCTAssertThrows([_dictionary setObject:nil forKey:@1]);
+    
+    #pragma clang diagnostic pop
     
     XCTAssertNil(_dictionary[@"yo"]);
     _dictionary[@"yo"] = @"hey";
