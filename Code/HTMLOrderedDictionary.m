@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithCapacity:0];
 }
 
-- (id __nullable)initWithCoder:(NSCoder * __nullable)coder
+- (id __nullable)initWithCoder:(NSCoder *)coder
 {
     NSDictionary *map = [coder decodeObjectForKey:@"map"];
     NSArray *keys = [coder decodeObjectForKey:@"keys"];
