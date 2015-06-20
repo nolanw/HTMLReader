@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     @param tagName    What kind of element to make.
     @param attributes A dictionary of attributes to start the element off. May be nil.
  */
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary * __nullable)attributes NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(HTMLDictOf(NSString *, NSString *) * __nullable)attributes NS_DESIGNATED_INITIALIZER;
 
 /// The element's kind.
 @property (readonly, copy, nonatomic) NSString *tagName;
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
     @see -setObject:forKeyedSubscript:
     @see -removeAttributeWithName:
  */
-@property (readonly, copy, nonatomic) NSDictionary *attributes;
+@property (readonly, copy, nonatomic) HTMLDictOf(NSString *, NSString *) *attributes;
 
 /// Returns the value of the named attribute, or nil if no such value exists.
 - (id __nullable)objectForKeyedSubscript:(id)attributeNameOrString;

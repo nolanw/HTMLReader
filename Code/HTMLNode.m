@@ -9,19 +9,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HTMLChildrenRelationshipProxy : NSMutableOrderedSet
+@interface HTMLChildrenRelationshipProxy : HTMLGenericOf(NSMutableOrderedSet, HTMLNode *)
 
-- (instancetype)initWithNode:(HTMLNode *)node children:(NSMutableOrderedSet *)children;
+- (instancetype)initWithNode:(HTMLNode *)node children:(HTMLMutableOrderedSetOf(HTMLNode *) *)children;
 
 @property (readonly, strong, nonatomic) HTMLNode *node;
 
-@property (readonly, strong, nonatomic) NSMutableOrderedSet *children;
+@property (readonly, strong, nonatomic) HTMLMutableOrderedSetOf(HTMLNode *) *children;
 
 @end
 
 @implementation HTMLNode
 {
-    NSMutableOrderedSet *_children;
+    HTMLMutableOrderedSetOf(HTMLNode *) *_children;
 }
 
 - (instancetype)init
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.parentNode.mutableChildren removeObject:self];
 }
 
-- (NSOrderedSet *)children
+- (HTMLOrderedSetOf(HTMLNode *) *)children
 {
     return [_children copy];
 }
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 //
 // Note that -mutableOrderedSetValueForKey: will still work for the key "children", it'll just be slow.
 
-- (NSMutableOrderedSet *)mutableChildren
+- (HTMLMutableOrderedSetOf(HTMLNode *) *)mutableChildren
 {
     return [[HTMLChildrenRelationshipProxy alloc] initWithNode:self children:_children];
 }
@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
     [textNode appendString:string];
 }
 
-- (NSArray *)childElementNodes
+- (HTMLArrayOf(HTMLElement *) *)childElementNodes
 {
 	NSMutableArray *childElements = [NSMutableArray arrayWithCapacity:self.numberOfChildren];
 	for (id node in _children) {
@@ -188,12 +188,12 @@ NS_ASSUME_NONNULL_BEGIN
 	return childElements;
 }
 
-- (NSEnumerator *)treeEnumerator
+- (HTMLEnumeratorOf(HTMLNode *) *)treeEnumerator
 {
     return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:NO];
 }
 
-- (NSEnumerator *)reversedTreeEnumerator
+- (HTMLEnumeratorOf(HTMLNode *) *)reversedTreeEnumerator
 {
 	return [[HTMLTreeEnumerator alloc] initWithNode:self reversed:YES];
 }

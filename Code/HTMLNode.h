@@ -34,10 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeFromParentNode;
 
 /// The node's children. Each is an instance of HTMLNode. Key-Value Coding compliant for accessing and mutation.
-@property (readonly, copy, nonatomic) NSOrderedSet *children;
+@property (readonly, copy, nonatomic) HTMLOrderedSetOf(HTMLNode *) *children;
 
 /// Convenience method that returns a mutable proxy for children. The proxy returned by -mutableChildren is much faster than the one obtained by calling -mutableOrderedSetValueForKey: yourself.
-@property (readonly, nonatomic) NSMutableOrderedSet *mutableChildren;
+@property (readonly, nonatomic) HTMLMutableOrderedSetOf(HTMLNode *) *mutableChildren;
 
 /**
     The number of nodes that have the node as their parent.
@@ -61,17 +61,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)indexOfChild:(HTMLNode *)child;
 
 /// The node's children which are instances of HTMLElement.
-@property (readonly, copy, nonatomic) NSArray *childElementNodes;
+@property (readonly, copy, nonatomic) HTMLArrayOf(HTMLElement *) *childElementNodes;
 
 /**
     Emits in tree order the nodes in the subtree rooted at the node.
  
     For more information, see http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order
  */
-- (NSEnumerator *)treeEnumerator;
+- (HTMLEnumeratorOf(HTMLNode *) *)treeEnumerator;
 
 /// Emits in tree order the node in the subree rooted at the node, except children are enumerated back to front.
-- (NSEnumerator *)reversedTreeEnumerator;
+- (HTMLEnumeratorOf(HTMLNode *) *)reversedTreeEnumerator;
 
 /**
     The combined text content of the node and its descendants. The setter replaces the node's text, removing all descendants.

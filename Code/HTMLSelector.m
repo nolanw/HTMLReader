@@ -897,7 +897,7 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
 
 @implementation HTMLNode (HTMLSelector)
 
-- (NSArray *)nodesMatchingSelector:(NSString *)selectorString
+- (HTMLArrayOf(HTMLElement *) *)nodesMatchingSelector:(NSString *)selectorString
 {
 	return [self nodesMatchingParsedSelector:[HTMLSelector selectorForString:selectorString]];
 }
@@ -907,7 +907,7 @@ NSString * const HTMLSelectorLocationErrorKey = @"HTMLSelectorLocation";
     return [self firstNodeMatchingParsedSelector:[HTMLSelector selectorForString:selectorString]];
 }
 
-- (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector
+- (HTMLArrayOf(HTMLElement *) *)nodesMatchingParsedSelector:(HTMLSelector *)selector
 {
     if (selector.error) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Attempted to use selector with error: %@", selector.error] userInfo:nil];

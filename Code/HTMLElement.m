@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
     HTMLOrderedDictionary *_attributes;
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary * __nullable)attributes
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(HTMLDictOf(NSString *, NSString *) * __nullable)attributes
 {
     NSParameterAssert(tagName);
     
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithTagName:@"" attributes:nil];
 }
 
-- (NSDictionary *)attributes
+- (HTMLDictOf(NSString *, NSString *) *)attributes
 {
     return [_attributes copy];
 }

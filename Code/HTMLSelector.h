@@ -54,13 +54,13 @@ extern NSString * const HTMLSelectorLocationErrorKey;
 @interface HTMLNode (HTMLSelector)
 
 /// Returns the nodes matched by selectorString. Throws an NSInvalidArgumentException if selectorString cannot be parsed.
-- (NSArray *)nodesMatchingSelector:(NSString *)selectorString;
+- (HTMLArrayOf(HTMLElement *) *)nodesMatchingSelector:(NSString *)selectorString;
 
 /// Returns the first node matched by selectorString, or nil if there is no such node. Throws an NSInvalidArgumentException if selectorString cannot be parsed.
 - (HTMLElement * __nullable)firstNodeMatchingSelector:(NSString *)selectorString;
 
 /// Returns the nodes matched by selector. Throws an NSInvalidArgumentException if the selector could not be parsed.
-- (NSArray *)nodesMatchingParsedSelector:(HTMLSelector *)selector;
+- (HTMLArrayOf(HTMLElement *) *)nodesMatchingParsedSelector:(HTMLSelector *)selector;
 
 /// Returns the first node matched by selector, or nil if there is no such node. Throws an NSInvalidArgumentException if the selector could not be parsed.
 - (HTMLElement * __nullable)firstNodeMatchingParsedSelector:(HTMLSelector *)selector;
