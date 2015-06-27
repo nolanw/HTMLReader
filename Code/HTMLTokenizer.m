@@ -51,7 +51,7 @@
     BOOL _done;
 }
 
-- (id)initWithString:(NSString *)string
+- (instancetype)initWithString:(NSString *)string
 {
     self = [super init];
     if (!self) return nil;
@@ -2346,7 +2346,7 @@ static inline BOOL is_lower(NSInteger c)
 
 #pragma mark NSObject
 
-- (id)init
+- (instancetype)init
 {
     return [self initWithString:nil];
 }

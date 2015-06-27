@@ -3183,11 +3183,6 @@ static HTMLMarker *instance = nil;
     return instance;
 }
 
-- (id)init
-{
-    return self;
-}
-
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
