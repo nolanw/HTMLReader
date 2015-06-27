@@ -1,15 +1,16 @@
 # Change Log
 
-## next
+## [0.8] – 2015-06-27
 
-* The public API now has nullability annotations to ease usage from Swift.
+* The public API now has nullability annotations.
+* The public API now uses generics where available.
 * Some default values have changed when initializing nodes via `init`, in order to conform to the (now explicit) nullability annotations:
 	* `HTMLComment` defaults to a `data` of "" (the empty string). Previously its default `data` was `nil`.
 	* `HTMLDocumentType` defaults to a `name` of "`html`". Previously its default `name` was `nil`.
 	* `HTMLElement` defaults to a `tagName` of "" (the empty string). Previously its default `tagName` was `nil`.
-* Nullability assertions for parameters are checked using NSParameterAssert. Some methods which previously returned `nil` when passed a `nil` parameter will now raise an assertion error. If you get assertion errors after upgrading where you previously did not get assertion errors, this may be why.
-* `HTMLNode`'s `-nodesMatchingSelector:`, `-firstNodeMatchingSelector`, `-nodesMatchingParsedSelector:`, and `-firstNodeMatchingParsedSelector:` methods now throw an `NSInvalidArgumentException` if the selector fails to parse. Previously they would raise an assertion, but otherwise fail in other (more poorly-defined) ways.
-* Use angle bracket imports (`#import <HTMLReader/…>`) in public headers, like a proper framework.
+* Nullability annotations for parameters are checked using NSParameterAssert. Some methods which previously returned `nil` when passed a `nil` parameter will now raise an assertion error. If you get assertion errors after upgrading where you previously did not get assertion errors, this may be why.
+* `HTMLNode`'s `-nodesMatchingSelector:`, `-firstNodeMatchingSelector`, `-nodesMatchingParsedSelector:`, and `-firstNodeMatchingParsedSelector:` methods now always throw an `NSInvalidArgumentException` if the selector fails to parse. Previously they would raise an assertion, but otherwise fail in other (more poorly-defined) ways.
+* Use angle bracket imports (`#import <HTMLReader/…>`) throughout public headers, like a proper framework.
 
 ## [0.7.1] – 2015-04-03
 
