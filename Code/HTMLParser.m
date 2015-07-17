@@ -3209,6 +3209,12 @@ HTMLParser * ParserWithDataAndContentType(NSData *data, NSString *contentType)
 {
     HTMLStringEncoding initialEncoding = DeterminedStringEncodingForData(data, contentType);
     NSString *initialString = [[NSString alloc] initWithData:data encoding:initialEncoding.encoding];
+    
+    if(!initialString){
+        HTMLStringEncoding newInitialEncoding = DeterminedStringEncodingForData(data, @"text/html; charset=ASCII");
+        initialString = [[NSString alloc] initWithData:data encoding:newInitialEncoding.encoding];
+    }
+    
     HTMLParser *initialParser = [[HTMLParser alloc] initWithString:initialString encoding:initialEncoding context:nil];
     __block HTMLParser *parser = initialParser;
     initialParser.changeEncoding = ^(HTMLStringEncoding newEncoding) {
