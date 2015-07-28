@@ -3207,8 +3207,8 @@ static HTMLMarker *instance = nil;
 
 HTMLParser * ParserWithDataAndContentType(NSData *data, NSString *contentType)
 {
-    HTMLStringEncoding initialEncoding = DeterminedStringEncodingForData(data, contentType);
-    NSString *initialString = [[NSString alloc] initWithData:data encoding:initialEncoding.encoding];
+    NSString *initialString;
+    HTMLStringEncoding initialEncoding = DeterminedStringEncodingForData(data, contentType, &initialString);
     HTMLParser *initialParser = [[HTMLParser alloc] initWithString:initialString encoding:initialEncoding context:nil];
     __block HTMLParser *parser = initialParser;
     initialParser.changeEncoding = ^(HTMLStringEncoding newEncoding) {

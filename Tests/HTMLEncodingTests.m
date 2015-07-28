@@ -179,4 +179,13 @@ static NSArray * TestsInFileAtURL(NSURL *URL)
     return tests;
 }
 
+- (void)testIncorrectContentTypeHeader
+{
+    const char neitherUTF8NorWin1252[] = "\x90";
+    NSData *data = [NSData dataWithBytes:neitherUTF8NorWin1252 length:sizeof(neitherUTF8NorWin1252)];
+    HTMLParser *parser = ParserWithDataAndContentType(data, @"charset=utf-8");
+    XCTAssertNotNil(parser);
+    XCTAssertTrue(parser.encoding.encoding == NSISOLatin1StringEncoding);
+}
+
 @end

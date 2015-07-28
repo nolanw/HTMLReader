@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+* HTMLReader no longer crashes when the `Content-Type` header has the wrong string encoding. Instead, it will fall back as if the `Content-Type` had said nothing at all.
+
 ## [0.8] – 2015-06-27
 
 * The public API now has nullability annotations.

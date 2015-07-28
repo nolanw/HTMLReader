@@ -17,11 +17,12 @@ typedef struct {
 /**
     Returns a string encoding that likely encodes the data.
  
-    @param contentType The value of the HTTP Content-Type header, if present.
+    @param contentType   The value of the HTTP Content-Type header, if present.
+    @param decodedString On return, contains the string decoded as the determined string encoding.
  
     For more information, see https://html.spec.whatwg.org/multipage/syntax.html#determining-the-character-encoding
  */
-extern HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *contentType);
+extern HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *contentType, NSString **outDecodedString);
 
 /// Returns the string encoding labeled according to the WHATWG Encoding Standard. Returns InvalidStringEncoding() if the label is unknown.
 extern NSStringEncoding StringEncodingForLabel(NSString *label);

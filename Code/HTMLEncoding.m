@@ -16,21 +16,24 @@ static NSString * NamedEncodingForLabel(NSString *label);
  */
 static NSStringEncoding StringEncodingForName(NSString *name);
 
-HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *contentType)
+HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *contentType, NSString **outDecodedString)
 {
     unsigned char buffer[3] = {0};
     [data getBytes:buffer length:MIN(data.length, 3U)];
     if (buffer[0] == 0xFE && buffer[1] == 0xFF) {
+        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSUTF16BigEndianStringEncoding];
         return (HTMLStringEncoding){
             .encoding = NSUTF16BigEndianStringEncoding,
             .confidence = Certain
         };
     } else if (buffer[0] == 0xFF && buffer[1] == 0xFE) {
+        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSUTF16LittleEndianStringEncoding];
         return (HTMLStringEncoding){
             .encoding = NSUTF16LittleEndianStringEncoding,
             .confidence = Certain
         };
     } else if (buffer[0] == 0xEF && buffer[1] == 0xBB && buffer[2] == 0xBF) {
+        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         return (HTMLStringEncoding){
             .encoding = NSUTF8StringEncoding,
             .confidence = Certain
@@ -47,10 +50,14 @@ HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *conte
             if ([scanner scanUpToString:@"\"" intoString:&encodingLabel]) {
                 NSStringEncoding encoding = StringEncodingForLabel(encodingLabel);
                 if (encoding != InvalidStringEncoding()) {
-                    return (HTMLStringEncoding){
-                        .encoding = encoding,
-                        .confidence = Certain
-                    };
+                    NSString *decodedString = [[NSString alloc] initWithData:data encoding:encoding];
+                    if (decodedString) {
+                        *outDecodedString = decodedString;
+                        return (HTMLStringEncoding){
+                            .encoding = encoding,
+                            .confidence = Certain
+                        };
+                    }
                 }
             }
         }
@@ -61,13 +68,16 @@ HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *conte
     // TODO There's a table down in step 9 of https://html.spec.whatwg.org/multipage/syntax.html#documentEncoding that describes default encodings based on the current locale. Maybe implement that.
     
     // win1252 actually has some invalid characters in it, so it's not a guarantee that it'll work, so try it first.
-    if ([[NSString alloc] initWithData:data encoding:NSWindowsCP1252StringEncoding]) {
+    NSString *win1252 = [[NSString alloc] initWithData:data encoding:NSWindowsCP1252StringEncoding];
+    if (win1252) {
+        *outDecodedString = win1252;
         return (HTMLStringEncoding){
             .encoding = NSWindowsCP1252StringEncoding,
             .confidence = Tentative
         };
     } else {
-        // iso8869-1 is the closest sensible default to win1252 that always decodes.
+        // iso8859-1 is the closest sensible default to win1252 that always decodes.
+        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
         return (HTMLStringEncoding){
             .encoding = NSISOLatin1StringEncoding,
             .confidence = Tentative
