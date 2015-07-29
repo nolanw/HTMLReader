@@ -1,8 +1,8 @@
 # Change Log
 
-## Unreleased
+## [0.8.1] – 2015-07-29
 
-* HTMLReader no longer crashes when the `Content-Type` header has the wrong string encoding. Instead, it will fall back as if the `Content-Type` had said nothing at all.
+* HTMLReader no longer crashes when the `Content-Type` header has the wrong string encoding. Instead, it will pretend that the `Content-Type` had said nothing at all.
 
 ## [0.8] – 2015-06-27
 
