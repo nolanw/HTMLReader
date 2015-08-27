@@ -3213,7 +3213,9 @@ HTMLParser * ParserWithDataAndContentType(NSData *data, NSString *contentType)
     __block HTMLParser *parser = initialParser;
     initialParser.changeEncoding = ^(HTMLStringEncoding newEncoding) {
         NSString *correctedString = [[NSString alloc] initWithData:data encoding:newEncoding.encoding];
-        parser = [[HTMLParser alloc] initWithString:correctedString encoding:newEncoding context:nil];
+        if (correctedString) {
+            parser = [[HTMLParser alloc] initWithString:correctedString encoding:newEncoding context:nil];
+        }
     };
     [initialParser document];
     return parser;
