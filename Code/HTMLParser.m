@@ -3215,9 +3215,7 @@ HTMLParser * ParserWithDataAndContentType(NSData *data, NSString *contentType)
         NSString *correctedString = [[NSString alloc] initWithData:data encoding:newEncoding.encoding];
         if (correctedString) {
             parser = [[HTMLParser alloc] initWithString:correctedString encoding:newEncoding context:nil];
-        }
-        else
-        {
+        } else {
             parser = [[HTMLParser alloc] initWithString:initialString encoding:initialEncoding context:nil];
         }
     };
