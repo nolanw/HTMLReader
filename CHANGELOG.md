@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.8.2] – 2015-09-03
+
+* Fix a crash when a document provides an unhelpful `<meta charset=>`.
+
 ## [0.8.1] – 2015-07-29
 
 * HTMLReader no longer crashes when the `Content-Type` header has the wrong string encoding. Instead, it will pretend that the `Content-Type` had said nothing at all.
