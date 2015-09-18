@@ -149,6 +149,7 @@
 {
     TestMatchedElementIDs(@"elem:not(elem#only-child)", (@[ @"child1", @"child3" ]));
     TestMatchedElementIDs(@"elem:NOT(elem#only-child)", (@[ @"child1", @"child3" ]));
+    TestMatchedElementIDs(@"elem:not(elem#only-child, #child3)", (@[ @"child1" ]));
 }
 
 - (void)testLinkPseudoClass
@@ -201,6 +202,13 @@
 	TestMatchedElementIDs(@"input#input-disabled-by-fieldset + legend input", (@[ @"input-enabled-by-legend" ]));
 }
 
+- (void)testSelectorGroup
+{
+    TestMatchedElementIDs(@"root, there", (@[ @"root", @"there" ]));
+    TestMatchedElementIDs(@".non, #existent, [missing], gone", (@[]));
+    TestMatchedElementIDs(@"root, root parent, root > #there notthere", (@[ @"root", @"empty", @"one-child", @"three-children" ]));
+}
+
 - (void)testInadvertantMalescapage
 {
     // First space after hex-escape gets swallowed up. Need two+ spaces for descendant combinator!
@@ -231,6 +239,11 @@
     ExpectError(@"h2..foo");
     ExpectError(@"");
     ExpectError(@"\\\nuh");
+    ExpectError(@",");
+    ExpectError(@",uh");
+    ExpectError(@"buh,");
+    ExpectError(@",,");
+    ExpectError(@":not(,)");
 }
 
 - (void)testConvenienceMethods

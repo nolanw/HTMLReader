@@ -800,6 +800,17 @@ __nullable HTMLSelectorPredicateGen scanPredicate(NSScanner *scanner, HTMLSelect
 		return generalSiblingPredicate(inputPredicate);
 	}
     
+    if (combinator == nil) {
+        NSUInteger scanLocation = scanner.scanLocation;
+        [scanner scanCharactersFromSet:HTMLSelectorWhitespaceCharacterSet() intoString:nil];
+        if ([scanner scanString:@"," intoString:nil]) {
+            --scanner.scanLocation;
+            return inputPredicate;
+        } else {
+            scanner.scanLocation = scanLocation;
+        }
+    }
+    
 	if (combinator == nil) {
 		*error = ParseError(@"Expected a combinator here", scanner.string, scanner.scanLocation);
 		return nil;
@@ -815,7 +826,7 @@ static __nullable HTMLSelectorPredicate SelectorFunctionForString(NSString *sele
 	selectorString = [selectorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     // An empty selector is an invalid selector.
-    if (selectorString.length == 0) {
+    if (selectorString.length == 0 || [selectorString hasPrefix:@","]) {
         if (error) *error = ParseError(@"Empty selector", selectorString, 0);
         return nil;
     }
@@ -823,17 +834,38 @@ static __nullable HTMLSelectorPredicate SelectorFunctionForString(NSString *sele
 	NSScanner *scanner = [NSScanner scannerWithString:selectorString];
     scanner.caseSensitive = NO; // Section 3 states that in HTML parsing, selectors are case-insensitive
     scanner.charactersToBeSkipped = nil;
+    
+    NSMutableArray *predicates = [NSMutableArray new];
+    for (;;) {
+        // Scan out predicate parts and combine them
+        HTMLSelectorPredicate lastPredicate = nil;
+        
+        do {
+            lastPredicate = scanPredicate(scanner, lastPredicate, error);
+        } while (lastPredicate && ![scanner isAtEnd] && [scanner.string characterAtIndex:scanner.scanLocation] != ',' && !*error);
+        
+        if (*error) {
+            return nil;
+        }
+        
+        NSCAssert(lastPredicate, @"Need a predicate at this point");
+        
+        [predicates addObject:lastPredicate];
+        
+        if ([scanner scanString:@"," intoString:nil]) {
+            [scanner scanCharactersFromSet:HTMLSelectorWhitespaceCharacterSet() intoString:nil];
+            if ([scanner isAtEnd]) {
+                if (error) *error = ParseError(@"Empty selector in group", selectorString, scanner.scanLocation);
+                return nil;
+            }
+        } else if ([scanner isAtEnd]) {
+            break;
+        }
+    }
+    
+    NSCAssert(predicates.count > 0 || *error, @"Need predicates or an error at this point");
 	
-	// Scan out predicate parts and combine them
-	HTMLSelectorPredicate lastPredicate = nil;
-	
-	do {
-		lastPredicate = scanPredicate(scanner, lastPredicate, error);
-	} while (lastPredicate && ![scanner isAtEnd] && !*error);
-	
-	NSCAssert(lastPredicate || *error, @"Need either a predicate or error at this point");
-	
-	return lastPredicate;
+    return orCombinatorPredicate(predicates);
 }
 
 @interface HTMLSelector ()

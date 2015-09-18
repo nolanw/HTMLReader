@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased]
+
+* Add selector groups (e.g. `p, span` to find all paragraphs and spans). Works in `:not()` too.
+
 ## [0.8.2] – 2015-09-03
 
 * Fix a crash when a document provides an unhelpful `<meta charset=>`.
