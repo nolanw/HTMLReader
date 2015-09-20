@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased][]
+## [0.9][] – 2015-09-20
 
 * Add selector groups (e.g. `p, span` to find all paragraphs and spans). Works in `:not()` too.
 
