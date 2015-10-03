@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased][]
+
+* Export public headers when building static library.
+
 ## [0.9][] – 2015-09-20
 
 * Add selector groups (e.g. `p, span` to find all paragraphs and spans). Works in `:not()` too.
@@ -45,6 +49,7 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v0.9...HEAD
 [0.9]: https://github.com/nolanw/HTMLReader/compare/v0.8.2...v0.9
 [0.8.2]: https://github.com/nolanw/HTMLReader/compare/v0.8.1...v0.8.2
 [0.8.1]: https://github.com/nolanw/HTMLReader/compare/v0.8...v0.8.1
