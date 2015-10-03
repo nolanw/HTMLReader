@@ -57,7 +57,7 @@ You have choices:
 * Add the following line to your [Podfile][CocoaPods]:
    
    `pod "HTMLReader"`
-* Clone this repository (perhaps add it as a submodule), add `HTMLReader.xcodeproj` to your project/workspace, and add `libHTMLReader.a` to your iOS target or `HTMLReader.framework` to your OS X target. Also add `"$(SYMROOT)/include"` to your target's Header Search Paths.
+* Clone this repository (perhaps add it as a submodule) and add `HTMLReader.xcodeproj` to your project/workspace. Then add `HTMLReader.framework` to your app target. (Or, if you're targeting iOS earlier than 8.0: add `libHTMLReader.a` to your app target and `"$(SYMROOT)/include"` to your app target's Header Search Paths.)
 
 HTMLReader has no dependencies other than Foundation.
 
