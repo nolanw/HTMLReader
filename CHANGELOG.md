@@ -3,6 +3,7 @@
 ## [Unreleased][]
 
 * Export public headers when building static library.
+* Add watchos deployment target to podspec.
 
 ## [0.9][] – 2015-09-20
 
