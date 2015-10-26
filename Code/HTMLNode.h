@@ -81,6 +81,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *textContent;
 
 /**
+    Returns the contents of each child text node. Only direct children are considered; no further descendants are included.
+ */
+@property (readonly, copy, nonatomic) NSArray *textComponents;
+
+/**
     Convenience method for either adding a string to an existing text node or creating a new text node.
  
     @param string         The text to insert.

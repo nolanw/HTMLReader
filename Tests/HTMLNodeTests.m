@@ -138,6 +138,19 @@ static NSArray *nodeChildClasses;
     XCTAssertNil(comment.parentNode);
 }
 
+- (void)testTextComponents
+{
+    HTMLElement *dd = [[HTMLElement alloc] initWithTagName:@"dd" attributes:nil];
+    XCTAssertEqualObjects(dd.textComponents, (@[ ]));
+    
+    [[dd mutableChildren] addObject:[[HTMLTextNode alloc] initWithData:@"\n  Some Description\n  "]];
+    HTMLElement *dl = [[HTMLElement alloc] initWithTagName:@"dl" attributes:nil];
+    [[dl mutableChildren] addObject:[[HTMLTextNode alloc] initWithData:@"…"]];
+    [[dd mutableChildren] addObject:dl];
+    [[dd mutableChildren] addObject:[[HTMLTextNode alloc] initWithData:@"\n"]];
+    XCTAssertEqualObjects(dd.textComponents, (@[ @"\n  Some Description\n  ", @"\n" ]));
+}
+
 - (void)testClassAttribute
 {
     HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p" attributes:@{ @"class": @"unboring" }];

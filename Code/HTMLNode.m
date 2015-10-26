@@ -220,6 +220,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (NSArray *)textComponents
+{
+    NSMutableArray *textComponents = [NSMutableArray new];
+    for (HTMLTextNode *textNode in _children) {
+        if ([textNode isKindOfClass:[HTMLTextNode class]]) {
+            [textComponents addObject:textNode.data];
+        }
+    }
+    return textComponents;
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone * __nullable)zone
