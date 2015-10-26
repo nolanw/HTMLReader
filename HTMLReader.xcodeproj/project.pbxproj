@@ -220,6 +220,7 @@
 		1CC6693418D6CFFC00BDF7B8 /* HTMLOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLOrderedDictionary.h; sourceTree = "<group>"; };
 		1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLOrderedDictionary.m; sourceTree = "<group>"; };
 		1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDictionaryTests.m; sourceTree = "<group>"; };
+		1CD0C54D1BDDC07700C3AC80 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTextNode.h; sourceTree = "<group>"; };
 		1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTextNode.m; sourceTree = "<group>"; };
 		1CD524F318D74C1F003F46A3 /* HTMLTreeEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeEnumerator.h; sourceTree = "<group>"; };
@@ -310,6 +311,7 @@
 		1C9C3EB0176BC53800E982C9 = {
 			isa = PBXGroup;
 			children = (
+				1CD0C54D1BDDC07700C3AC80 /* CHANGELOG.md */,
 				1CA240D61AD95F6900BB9D61 /* HTMLReader.playground */,
 				1CB61D2817BB7A2700EE9653 /* HTMLReader.podspec */,
 				1CB61D2717BB68F100EE9653 /* LICENSE */,
