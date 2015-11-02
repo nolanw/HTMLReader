@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased][]
+
+* Add tvos deployment target to podspec.
+
 ## [0.9.2][] – 2015-10-25
 
 * Make HTMLTextNode publicly accessible so that instances are usable when enumerating a node's descendants.
