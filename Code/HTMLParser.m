@@ -657,7 +657,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         NSDictionary *attributes = token.attributes;
         for (NSString *attributeName in attributes) {
             if (!element[attributeName]) {
-                element[attributeName] = attributes[attributeName];
+                element[attributeName] = (NSString * __nonnull)attributes[attributeName];
             }
         }
     } else if (StringIsEqualToAnyOf(token.tagName, @"base", @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"script", @"style", @"title")) {
@@ -674,7 +674,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         NSDictionary *attributes = token.attributes;
         for (NSString *attributeName in attributes) {
             if (!body[attributeName]) {
-                body[attributeName] = attributes[attributeName];
+                body[attributeName] = (NSString * __nonnull)attributes[attributeName];
             }
         }
     } else if ([token.tagName isEqualToString:@"frameset"]) {
@@ -3085,7 +3085,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 {
     if (_activeFormattingElements.count == 0) return;
     if ([_activeFormattingElements.lastObject isEqual:[HTMLMarker marker]]) return;
-    if ([_stackOfOpenElements containsObject:_activeFormattingElements.lastObject]) return;
+    if ([_stackOfOpenElements containsObject:(id __nonnull)_activeFormattingElements.lastObject]) return;
     NSUInteger entryIndex = _activeFormattingElements.count - 1;
 rewind:
     if (entryIndex == 0) goto create;
