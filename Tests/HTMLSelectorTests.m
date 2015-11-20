@@ -84,7 +84,10 @@
     NSArray *nodes = [self.testDoc nodesMatchingSelector:(selectorString)]; \
     NSMutableArray *IDs = [NSMutableArray new]; \
     for (HTMLElement *node in nodes) { \
-        [IDs addObject:(node[@"id"] ?: node.tagName)]; \
+        id object = node[@"id"] ?: node.tagName; \
+        if (object) { \
+            [IDs addObject:(id __nonnull)object]; \
+        } \
     } \
     XCTAssertEqualObjects(IDs, expectedIDs); \
 } while(0)

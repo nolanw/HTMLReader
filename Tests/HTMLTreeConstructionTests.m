@@ -278,8 +278,9 @@ BOOL TreesAreTestEquivalent(id aThing, id bThing)
         if (![bThing isKindOfClass:[HTMLDocumentType class]]) return NO;
         HTMLDocumentType *a = aThing, *b = bThing;
         return (((a.name == nil && b.name == nil) || [a.name isEqualToString:b.name]) &&
-                [a.publicIdentifier isEqualToString:b.publicIdentifier] &&
-                [a.systemIdentifier isEqualToString:b.systemIdentifier]);
+                b.publicIdentifier != nil && b.systemIdentifier != nil &&
+                [a.publicIdentifier isEqualToString:(NSString * __nonnull)b.publicIdentifier] &&
+                [a.systemIdentifier isEqualToString:(NSString * __nonnull)b.systemIdentifier]);
     } else if (arrayLike(aThing)) {
         if (!arrayLike(bThing)) return NO;
         NSArray *a = aThing, *b = bThing;
