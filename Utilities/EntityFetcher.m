@@ -55,8 +55,9 @@ static inline BOOL is_universal(unsigned int c)
 
 int main(void) { @autoreleasepool
 {
-    static NSString * const EntitiesURL = @"http://www.whatwg.org/specs/web-apps/current-work/multipage/entities.json";
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:EntitiesURL]];
+    static NSString * const EntitiesURLString = @"http://www.whatwg.org/specs/web-apps/current-work/multipage/entities.json";
+    NSURL * const EntitiesURL = [NSURL URLWithString:EntitiesURLString];
+    NSData *data = (EntitiesURL) ? [NSData dataWithContentsOfURL:(NSURL * __nonnull)EntitiesURL] : nil;
     if (!data) {
         NSLog(@"could not download entities JSON from %@", EntitiesURL);
         return 1;

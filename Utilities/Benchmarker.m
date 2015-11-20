@@ -43,7 +43,8 @@ int main(void) { @autoreleasepool {
     }
     
     if ([arguments containsObject:@"selector"]) {
-        HTMLDocument *selectorsDocument = [HTMLDocument documentWithString:[NSString stringWithContentsOfFile:PathForFixture(@"query-selector.html") usedEncoding:nil error:nil]];
+        NSString * const HTMLString = [NSString stringWithContentsOfFile:PathForFixture(@"query-selector.html") usedEncoding:nil error:nil];
+        HTMLDocument *selectorsDocument = (HTMLString) ? [HTMLDocument documentWithString:(NSString * __nonnull)HTMLString] : nil;
         NSArray *selectorSuites = [NSArray arrayWithContentsOfFile:PathForFixture(@"query-selector.plist")];
         NSUInteger reps = 5;
         NSTimeInterval selectorTime = Time(reps, ^{
