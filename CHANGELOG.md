@@ -1,5 +1,10 @@
 # Change Log
 
+## [Unreleased][]
+
+* Fix nullability attributions and uses of nullable values.
+    * Fixed by [dlkinney](https://github.com/dlkinney) in #49.
+
 ## [0.9.3][] – 2015-11-08
 
 * Add tvos deployment target to podspec.
