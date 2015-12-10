@@ -153,6 +153,8 @@ static NSArray * TestFileURLs(void)
                                                         includingPropertiesForKeys:nil
                                                                            options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                              error:&error];
+    // If this assert fails, make sure you have the Tests/html5lib submodule
+    // checked out (git submodule update --init Tests/html5lib).
     NSCAssert(candidates, @"possible error listing test directory: %@", error);
     
     // Skipping test-yahoo-jp.dat because I can't be bothered to figure out how it's encoded.
