@@ -39,7 +39,7 @@ NSURLSession *session = [NSURLSession sharedSession];
     }
     HTMLDocument *home = [HTMLDocument documentWithData:data
                                       contentTypeHeader:contentType];
-    HTMLElement *div = [home firstNodeMatchingSelector:@".repository-description"];
+    HTMLElement *div = [home firstNodeMatchingSelector:@".repository-meta-content"];
     NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSLog(@"%@", [div.textContent stringByTrimmingCharactersInSet:whitespace]);
     // => A WHATWG-compliant HTML parser in Objective-C.
