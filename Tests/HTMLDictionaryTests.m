@@ -120,7 +120,7 @@ static NSArray *fixtureKeys;
     XCTAssertNotEqualObjects(_dictionary[key], value);
     
     XCTAssertEqualObjects(_dictionary.lastKey, key);
-    _dictionary[fixtureKeys.firstObject] = @1;
+    _dictionary[(id __nonnull)fixtureKeys.firstObject] = @1;
     XCTAssertEqualObjects(_dictionary.lastKey, key);
 }
 
