@@ -153,7 +153,9 @@ static NSArray * TestFileURLs(void)
                                                         includingPropertiesForKeys:nil
                                                                            options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                              error:&error];
-    NSCAssert(candidates, @"possible error listing test directory: %@", error);
+    if (candidates == nil) {
+        NSLog(@"Cannot find the HTML5 tests, do you have the submodule (%@) checked out?", html5libTestPath());
+    }
     
     // Skipping test-yahoo-jp.dat because I can't be bothered to figure out how it's encoded.
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pathExtension = 'dat' && lastPathComponent != 'test-yahoo-jp.dat'"];
