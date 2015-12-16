@@ -1,8 +1,8 @@
-![Supports iOS, OS X and tvOS](http://img.shields.io/badge/platform-ios_osx_tvos-lightgrey.svg?style=flat)
-
 # HTMLReader
 
 A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-level-3] in Objective-C and Foundation. It parses HTML just like a browser.
+
+![Supports iOS, OS X, tvOS, and watchOS](https://img.shields.io/cocoapods/p/HTMLReader.svg)
 
 [selectors-level-3]: http://www.w3.org/TR/css3-selectors/
 [whatwg-spec]: http://whatwg.org/html
