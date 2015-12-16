@@ -7,6 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D1077781C1AC2DF00CF9B41 /* HTMLReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D10776E1C1AC2DF00CF9B41 /* HTMLReader.framework */; };
+		0D1077851C1AC36200CF9B41 /* HTMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CB61D2417BB671A00EE9653 /* HTMLReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077861C1AC40500CF9B41 /* HTMLDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */; };
+		0D1077871C1AC40500CF9B41 /* HTMLEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9513C21A8029CC00BB2CC9 /* HTMLEncodingTests.m */; };
+		0D1077881C1AC40500CF9B41 /* HTMLEscapingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */; };
+		0D1077891C1AC40500CF9B41 /* HTMLNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */; };
+		0D10778A1C1AC40500CF9B41 /* HTMLSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518C17BB1FA400C144DF /* HTMLSelectorTests.m */; };
+		0D10778B1C1AC40500CF9B41 /* HTMLSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4584117CC83DD000F64B5 /* HTMLSerializerTests.m */; };
+		0D10778C1C1AC40500CF9B41 /* HTMLTestUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666B017B14E1800E457E7 /* HTMLTestUtilities.m */; };
+		0D10778E1C1AC40500CF9B41 /* HTMLTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666AC17B14D2B00E457E7 /* HTMLTreeConstructionTests.m */; };
+		0D1077901C1AC4BE00CF9B41 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
+		0D1077911C1AC4BE00CF9B41 /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10591919F2570010007B /* HTMLEntities.m */; };
+		0D1077921C1AC4BE00CF9B41 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
+		0D1077931C1AC4BE00CF9B41 /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B95E183F2C7100021DBE /* HTMLPreprocessedInputStream.m */; };
+		0D1077941C1AC4BE00CF9B41 /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E91783AA6600754A8F /* HTMLString.m */; };
+		0D1077951C1AC4BE00CF9B41 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
+		0D1077961C1AC4BE00CF9B41 /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8E10541919F1560010007B /* NSString+HTMLEntities.m */; };
+		0D1077971C1AC4CD00CF9B41 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21518D746D600147FE7 /* HTMLComment.m */; };
+		0D1077981C1AC4CD00CF9B41 /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
+		0D1077991C1AC4CD00CF9B41 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */; };
+		0D10779A1C1AC4CD00CF9B41 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21018D7457400147FE7 /* HTMLElement.m */; };
+		0D10779B1C1AC4CD00CF9B41 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CACE9E31783A92F00754A8F /* HTMLNode.m */; };
+		0D10779C1C1AC4CD00CF9B41 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6693518D6CFFC00BDF7B8 /* HTMLOrderedDictionary.m */; };
+		0D10779D1C1AC4CD00CF9B41 /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F918D74CFF003F46A3 /* HTMLSerialization.m */; };
+		0D10779E1C1AC4CD00CF9B41 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524EF18D74B71003F46A3 /* HTMLTextNode.m */; };
+		0D10779F1C1AC4CD00CF9B41 /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD524F418D74C1F003F46A3 /* HTMLTreeEnumerator.m */; };
+		0D1077A01C1AC4D800CF9B41 /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C4518817BAFE3500C144DF /* HTMLSelector.m */; };
+		0D1077A11C1AC61000CF9B41 /* HTMLSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CC6691818D604BC00BDF7B8 /* HTMLSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A21C1AC75000CF9B41 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21418D746D600147FE7 /* HTMLComment.h */; };
+		0D1077A31C1AC75300CF9B41 /* HTMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C25D3A6177BB78600F7C10D /* HTMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A41C1AC75C00CF9B41 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A51C1AC76400CF9B41 /* HTMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C20F18D7457400147FE7 /* HTMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A61C1AC76600CF9B41 /* HTMLNamespace.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250218DB5F1B003F46A3 /* HTMLNamespace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A71C1AC76800CF9B41 /* HTMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CACE9E21783A92F00754A8F /* HTMLNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A81C1AC77200CF9B41 /* HTMLQuirksMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD5250018DB5DCD003F46A3 /* HTMLQuirksMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077A91C1AC78700CF9B41 /* HTMLSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C4518717BAFE3500C144DF /* HTMLSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077AA1C1AC79000CF9B41 /* HTMLTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524EE18D74B71003F46A3 /* HTMLTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077AB1C1AC79900CF9B41 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077AC1C1AC7C600CF9B41 /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10531919F1560010007B /* NSString+HTMLEntities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D1077AD1C1AC99500CF9B41 /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
 		1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
 		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
 		1C3C5BC31A809C8A0091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
@@ -126,6 +166,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0D1077791C1AC2DF00CF9B41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C9C3EB1176BC53800E982C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D10776D1C1AC2DF00CF9B41;
+			remoteInfo = "HTMLReader tvOS";
+		};
 		1C88295418369DD70051653C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1C9C3EB1176BC53800E982C9 /* Project object */;
@@ -168,6 +215,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D10776E1C1AC2DF00CF9B41 /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D1077771C1AC2DF00CF9B41 /* Tests on tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C25D3A6177BB78600F7C10D /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocument.h; sourceTree = "<group>"; };
 		1C25D3A7177BB78600F7C10D /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
 		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
@@ -241,6 +290,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0D10776A1C1AC2DF00CF9B41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1077741C1AC2DF00CF9B41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D1077781C1AC2DF00CF9B41 /* HTMLReader.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C6C1F481A179BF600236076 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -335,6 +399,8 @@
 				1CD5250918DC83E6003F46A3 /* Benchmarker */,
 				1C9513C91A80971100BB2CC9 /* Encoding Labeler */,
 				1C9A2A071836FEAE0059FE17 /* Entity Fetcher */,
+				0D10776E1C1AC2DF00CF9B41 /* HTMLReader.framework */,
+				0D1077771C1AC2DF00CF9B41 /* Tests on tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -440,6 +506,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		0D10776B1C1AC2DF00CF9B41 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D1077A31C1AC75300CF9B41 /* HTMLDocument.h in Headers */,
+				0D1077A41C1AC75C00CF9B41 /* HTMLDocumentType.h in Headers */,
+				0D1077A51C1AC76400CF9B41 /* HTMLElement.h in Headers */,
+				0D1077A61C1AC76600CF9B41 /* HTMLNamespace.h in Headers */,
+				0D1077A71C1AC76800CF9B41 /* HTMLNode.h in Headers */,
+				0D1077A81C1AC77200CF9B41 /* HTMLQuirksMode.h in Headers */,
+				0D1077851C1AC36200CF9B41 /* HTMLReader.h in Headers */,
+				0D1077A91C1AC78700CF9B41 /* HTMLSelector.h in Headers */,
+				0D1077AA1C1AC79000CF9B41 /* HTMLTextNode.h in Headers */,
+				0D1077AB1C1AC79900CF9B41 /* HTMLSerialization.h in Headers */,
+				0D1077A11C1AC61000CF9B41 /* HTMLSupport.h in Headers */,
+				0D1077AC1C1AC7C600CF9B41 /* NSString+HTMLEntities.h in Headers */,
+				0D1077A21C1AC75000CF9B41 /* HTMLComment.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C6C1F491A179BF600236076 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -483,6 +569,42 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0D10776D1C1AC2DF00CF9B41 /* HTMLReader tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D1077831C1AC2DF00CF9B41 /* Build configuration list for PBXNativeTarget "HTMLReader tvOS" */;
+			buildPhases = (
+				0D1077691C1AC2DF00CF9B41 /* Sources */,
+				0D10776A1C1AC2DF00CF9B41 /* Frameworks */,
+				0D10776B1C1AC2DF00CF9B41 /* Headers */,
+				0D10776C1C1AC2DF00CF9B41 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "HTMLReader tvOS";
+			productName = "HTMLReader tvOS";
+			productReference = 0D10776E1C1AC2DF00CF9B41 /* HTMLReader.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0D1077761C1AC2DF00CF9B41 /* Tests on tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D1077841C1AC2DF00CF9B41 /* Build configuration list for PBXNativeTarget "Tests on tvOS" */;
+			buildPhases = (
+				0D1077731C1AC2DF00CF9B41 /* Sources */,
+				0D1077741C1AC2DF00CF9B41 /* Frameworks */,
+				0D1077751C1AC2DF00CF9B41 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D10777A1C1AC2DF00CF9B41 /* PBXTargetDependency */,
+			);
+			name = "Tests on tvOS";
+			productName = "HTMLReader tvOSTests";
+			productReference = 0D1077771C1AC2DF00CF9B41 /* Tests on tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		1C6C1F4B1A179BF600236076 /* HTMLReader iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */;
@@ -629,6 +751,12 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Nolan Waite";
 				TargetAttributes = {
+					0D10776D1C1AC2DF00CF9B41 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					0D1077761C1AC2DF00CF9B41 = {
+						CreatedOnToolsVersion = 7.2;
+					};
 					1C6C1F4B1A179BF600236076 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -659,6 +787,8 @@
 				1C9C3EC9176BC53900E982C9 /* Tests on iOS */,
 				1C88293A18369DD70051653C /* HTMLReader OS X */,
 				1C88294F18369DD70051653C /* Tests on OS X */,
+				0D10776D1C1AC2DF00CF9B41 /* HTMLReader tvOS */,
+				0D1077761C1AC2DF00CF9B41 /* Tests on tvOS */,
 				1CD5250818DC83E6003F46A3 /* Benchmarker */,
 				1C9513C81A80971100BB2CC9 /* Encoding Labeler */,
 				1C9A2A061836FEAE0059FE17 /* Entity Fetcher */,
@@ -668,6 +798,20 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0D10776C1C1AC2DF00CF9B41 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1077751C1AC2DF00CF9B41 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C6C1F4A1A179BF600236076 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -716,6 +860,46 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0D1077691C1AC2DF00CF9B41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D1077971C1AC4CD00CF9B41 /* HTMLComment.m in Sources */,
+				0D1077981C1AC4CD00CF9B41 /* HTMLDocument.m in Sources */,
+				0D1077991C1AC4CD00CF9B41 /* HTMLDocumentType.m in Sources */,
+				0D10779D1C1AC4CD00CF9B41 /* HTMLSerialization.m in Sources */,
+				0D1077941C1AC4BE00CF9B41 /* HTMLString.m in Sources */,
+				0D10779A1C1AC4CD00CF9B41 /* HTMLElement.m in Sources */,
+				0D1077A01C1AC4D800CF9B41 /* HTMLSelector.m in Sources */,
+				0D1077931C1AC4BE00CF9B41 /* HTMLPreprocessedInputStream.m in Sources */,
+				0D10779F1C1AC4CD00CF9B41 /* HTMLTreeEnumerator.m in Sources */,
+				0D1077961C1AC4BE00CF9B41 /* NSString+HTMLEntities.m in Sources */,
+				0D10779C1C1AC4CD00CF9B41 /* HTMLOrderedDictionary.m in Sources */,
+				0D1077901C1AC4BE00CF9B41 /* HTMLEncoding.m in Sources */,
+				0D10779B1C1AC4CD00CF9B41 /* HTMLNode.m in Sources */,
+				0D1077921C1AC4BE00CF9B41 /* HTMLParser.m in Sources */,
+				0D10779E1C1AC4CD00CF9B41 /* HTMLTextNode.m in Sources */,
+				0D1077951C1AC4BE00CF9B41 /* HTMLTokenizer.m in Sources */,
+				0D1077911C1AC4BE00CF9B41 /* HTMLEntities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D1077731C1AC2DF00CF9B41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D1077881C1AC40500CF9B41 /* HTMLEscapingTest.m in Sources */,
+				0D1077871C1AC40500CF9B41 /* HTMLEncodingTests.m in Sources */,
+				0D1077861C1AC40500CF9B41 /* HTMLDictionaryTests.m in Sources */,
+				0D1077AD1C1AC99500CF9B41 /* HTMLTokenizerTests.m in Sources */,
+				0D1077891C1AC40500CF9B41 /* HTMLNodeTests.m in Sources */,
+				0D10778B1C1AC40500CF9B41 /* HTMLSerializerTests.m in Sources */,
+				0D10778E1C1AC40500CF9B41 /* HTMLTreeConstructionTests.m in Sources */,
+				0D10778A1C1AC40500CF9B41 /* HTMLSelectorTests.m in Sources */,
+				0D10778C1C1AC40500CF9B41 /* HTMLTestUtilities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C6C1F471A179BF600236076 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -849,6 +1033,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0D10777A1C1AC2DF00CF9B41 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0D10776D1C1AC2DF00CF9B41 /* HTMLReader tvOS */;
+			targetProxy = 0D1077791C1AC2DF00CF9B41 /* PBXContainerItemProxy */;
+		};
 		1C88295518369DD70051653C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1C88293A18369DD70051653C /* HTMLReader OS X */;
@@ -862,6 +1051,140 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0D10777F1C1AC2DF00CF9B41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.nolanw.HTMLReader;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0D1077801C1AC2DF00CF9B41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.nolanw.HTMLReader;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0D1077811C1AC2DF00CF9B41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"HTML5LIBTESTPATH=\"${SRCROOT}/Tests/html5lib\"",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.HTMLReader-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		0D1077821C1AC2DF00CF9B41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"HTML5LIBTESTPATH=\"${SRCROOT}/Tests/html5lib\"",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.HTMLReader-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
 		1C6C1F5F1A179BF600236076 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1296,6 +1619,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0D1077831C1AC2DF00CF9B41 /* Build configuration list for PBXNativeTarget "HTMLReader tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D10777F1C1AC2DF00CF9B41 /* Debug */,
+				0D1077801C1AC2DF00CF9B41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		0D1077841C1AC2DF00CF9B41 /* Build configuration list for PBXNativeTarget "Tests on tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D1077811C1AC2DF00CF9B41 /* Debug */,
+				0D1077821C1AC2DF00CF9B41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1C6C1F631A179BF600236076 /* Build configuration list for PBXNativeTarget "HTMLReader iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
