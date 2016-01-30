@@ -54,6 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) HTMLElement * __nullable rootElement;
 
+/**
+    The first child element of the root with the tag name `body`. Typically the `<body>` element.
+ */
+@property (readonly, nonatomic) HTMLElement * __nullable bodyElement;
+
 @end
 
 NS_ASSUME_NONNULL_END
