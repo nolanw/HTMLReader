@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) HTMLElement * __nullable rootElement;
 
+@property (strong, nonatomic) HTMLElement * __nullable bodyElement;
+
 @end
 
 NS_ASSUME_NONNULL_END

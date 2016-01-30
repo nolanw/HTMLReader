@@ -60,6 +60,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSUInteger)indexOfChild:(HTMLNode *)child;
 
+- (void)addChild:(HTMLNode *)node updateParentNode:(BOOL)updateParentNode;
+
+- (void)removeChild:(HTMLNode *)node updateParentNode:(BOOL)updateParentNode;
+
 /// The node's children which are instances of HTMLElement.
 @property (readonly, copy, nonatomic) HTMLArrayOf(HTMLElement *) *childElementNodes;
 

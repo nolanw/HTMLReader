@@ -85,6 +85,19 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (HTMLElement * __nullable)bodyElement
+{
+	for (id child in self.rootElement.children) {
+		if ([child isKindOfClass:[HTMLElement class]]) {
+			HTMLElement *elem = (HTMLElement *)child;
+			if([elem.tagName isEqualToString:@"body"]) {
+				return elem;
+			}
+		}
+	}
+	return nil;
+}
+
 static id FirstNodeOfType(id <NSFastEnumeration> collection, Class type)
 {
     for (id node in collection) {
