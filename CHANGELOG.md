@@ -4,6 +4,10 @@
 
 * Fix nullability attributions and uses of nullable values.
     * Fixed by [dlkinney](https://github.com/dlkinney) in #49.
+* Add `-[HTMLDocument bodyElement]` for convenient access to the `<body>` element.
+    * Added by [zoul](https://github.com/zoul) in #57.
+* Add `-addChild:` and `-removeChild:` methods to `HTMLNode` for convenient access to the most common node manipulations.
+    * Added by [zoul](https://github.com/zoul) and [nolanw](https://github.com/nolanw) in #57.
 
 ## [0.9.3][] – 2015-11-08
 
