@@ -40,6 +40,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) HTMLMutableOrderedSetOf(HTMLNode *) *mutableChildren;
 
 /**
+    Add a child to the end of the node's set of children, removing it from its current parentNode's set of children. If the child is already in the node's set of children, nothing happens.
+ */
+- (void)addChild:(HTMLNode *)child;
+
+/**
+    Remove a child from the node's set of children. If the child is not in the node's set of children, nothing happens.
+ */
+- (void)removeChild:(HTMLNode *)child;
+
+/**
     The number of nodes that have the node as their parent.
  
     This method is faster than calling `aNode.children.count`.

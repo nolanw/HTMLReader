@@ -93,6 +93,20 @@ NS_ASSUME_NONNULL_BEGIN
     return [[HTMLChildrenRelationshipProxy alloc] initWithNode:self children:_children];
 }
 
+- (void)addChild:(HTMLNode *)child
+{
+    NSParameterAssert(child);
+    
+    [self.mutableChildren addObject:child];
+}
+
+- (void)removeChild:(HTMLNode *)child
+{
+    NSParameterAssert(child);
+    
+    [self.mutableChildren removeObject:child];
+}
+
 - (NSUInteger)numberOfChildren
 {
     return _children.count;
@@ -110,15 +124,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)insertObject:(HTMLNode *)node inChildrenAtIndex:(NSUInteger)index
 {
+    if ([_children containsObject:node]) {
+        return;
+    }
     [_children insertObject:node atIndex:index];
     [node setParentNode:self updateChildren:NO];
 }
 
 - (void)insertChildren:(NSArray *)array atIndexes:(NSIndexSet *)indexes
 {
-    [_children insertObjects:array atIndexes:indexes];
-    for (HTMLNode *node in array) {
-        [node setParentNode:self updateChildren:NO];
+    NSUInteger nextIndex = indexes.firstIndex;
+    for (HTMLNode *child in array) {
+        [self insertObject:child inChildrenAtIndex:nextIndex];
+        nextIndex = [indexes indexGreaterThanIndex:nextIndex];
     }
 }
 

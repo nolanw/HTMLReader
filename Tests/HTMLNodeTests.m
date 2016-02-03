@@ -101,6 +101,34 @@ static NSArray *nodeChildClasses;
     XCTAssertNil(comment.document);
 }
 
+- (void)testAddRemoveChild
+{
+    HTMLComment *comment = [HTMLComment new];
+    
+    XCTAssertNil(comment.document);
+    XCTAssertTrue(_document.children.count == 0);
+    [_document addChild:comment];
+    XCTAssertEqualObjects(comment.document, _document);
+    XCTAssertEqualObjects(_document.children.array, (@[ comment ]));
+    [_document removeChild:comment];
+    XCTAssertNil(comment.document);
+    XCTAssertTrue(_document.children.count == 0);
+    
+    [_document removeChild:comment];
+    XCTAssertTrue(_document.children.count == 0);
+    
+    HTMLElement *element = [HTMLElement new];
+    [_document addChild:comment];
+    [_document addChild:element];
+    XCTAssertEqualObjects(_document.children.array, (@[ comment, element ]));
+    [_document addChild:comment];
+    XCTAssertEqualObjects(_document.children.array, (@[ comment, element ]));
+    
+    HTMLTextNode *text = [HTMLTextNode new];
+    [_document removeChild:text];
+    XCTAssertEqualObjects(_document.children.array, (@[ comment, element ]));
+}
+
 - (void)testRemoveFromParentNode
 {
     HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p" attributes:nil];
