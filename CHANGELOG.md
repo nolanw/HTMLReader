@@ -2,8 +2,14 @@
 
 ## [Unreleased][]
 
+## [0.9.4][] – 2016-02-02
+
 * Fix nullability attributions and uses of nullable values.
     * Fixed by [dlkinney](https://github.com/dlkinney) in #49.
+* Add `-[HTMLDocument bodyElement]` for convenient access to the `<body>` element.
+    * Added by [zoul](https://github.com/zoul) in #57.
+* Add `-addChild:` and `-removeChild:` methods to `HTMLNode` for convenient access to the most common node manipulations.
+    * Added by [zoul](https://github.com/zoul) and [nolanw](https://github.com/nolanw) in #57.
 
 ## [0.9.3][] – 2015-11-08
 
@@ -64,7 +70,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v0.9.3...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v0.9.4...HEAD
+[0.9.4]: https://github.com/nolanw/HTMLReader/compare/v0.9.3...v0.9.4
 [0.9.3]: https://github.com/nolanw/HTMLReader/compare/v0.9.2...v0.9.3
 [0.9.2]: https://github.com/nolanw/HTMLReader/compare/v0.9.1...v0.9.2
 [0.9.1]: https://github.com/nolanw/HTMLReader/compare/v0.9...v0.9.1
