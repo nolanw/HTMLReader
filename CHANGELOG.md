@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+* Fix incorrect parsing of selector groups when a selector included a pseudo-class.
+
 ## [0.9.4][] – 2016-02-02
 
 * Fix nullability attributions and uses of nullable values.

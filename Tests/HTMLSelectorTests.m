@@ -210,6 +210,7 @@
     TestMatchedElementIDs(@"root, there", (@[ @"root", @"there" ]));
     TestMatchedElementIDs(@".non, #existent, [missing], gone", (@[]));
     TestMatchedElementIDs(@"root, root parent, root > #there notthere", (@[ @"root", @"empty", @"one-child", @"three-children" ]));
+    TestMatchedElementIDs(@"nonexistent:root > a, arbitrary, missing:not(b)", (@[ @"nonempty-yet-devoid-of-elements" ]));
 }
 
 - (void)testInadvertantMalescapage
