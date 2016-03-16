@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [0.9.5][] – 2016-03-15
+
 * Fix incorrect parsing of selector groups when a selector included a pseudo-class.
 
 ## [0.9.4][] – 2016-02-02
@@ -72,7 +74,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v0.9.4...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v0.9.5...HEAD
+[0.9.4]: https://github.com/nolanw/HTMLReader/compare/v0.9.4...v0.9.5
 [0.9.4]: https://github.com/nolanw/HTMLReader/compare/v0.9.3...v0.9.4
 [0.9.3]: https://github.com/nolanw/HTMLReader/compare/v0.9.2...v0.9.3
 [0.9.2]: https://github.com/nolanw/HTMLReader/compare/v0.9.1...v0.9.2
