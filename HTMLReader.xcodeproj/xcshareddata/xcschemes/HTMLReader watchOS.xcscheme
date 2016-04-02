@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1C319BC21C618863000DAA63"
-               BuildableName = "HTMLReader watchOS.framework"
+               BuildableName = "HTMLReader.framework"
                BlueprintName = "HTMLReader watchOS"
                ReferencedContainer = "container:HTMLReader.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1C319BC21C618863000DAA63"
-            BuildableName = "HTMLReader watchOS.framework"
+            BuildableName = "HTMLReader.framework"
             BlueprintName = "HTMLReader watchOS"
             ReferencedContainer = "container:HTMLReader.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1C319BC21C618863000DAA63"
-            BuildableName = "HTMLReader watchOS.framework"
+            BuildableName = "HTMLReader.framework"
             BlueprintName = "HTMLReader watchOS"
             ReferencedContainer = "container:HTMLReader.xcodeproj">
          </BuildableReference>
