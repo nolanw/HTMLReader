@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#if !__has_feature(objc_generic)
+#if !__has_feature(objc_generics)
     #define KeyType id
     #define ObjectType id
 #endif
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#if !__has_feature(objc_generic)
+#if !__has_feature(objc_generics)
     #undef KeyType
     #undef ObjectType
 #endif

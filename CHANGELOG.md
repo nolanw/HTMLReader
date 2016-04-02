@@ -2,6 +2,7 @@
 
 ## [Unreleased][]
 
+* Fix Objective-C generics (and their import into Swift) by spelling things correctly. (Fixes #59.) (Fixes #60.)
 * Revert back to quoted `#import` to fix installation by copying files over.
 
 ## [0.9.5][] – 2016-03-15

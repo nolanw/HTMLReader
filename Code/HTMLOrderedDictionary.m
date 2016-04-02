@@ -6,15 +6,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#if !__has_feature(objc_generic)
-    #define KeyType id
-    #define ObjectType id
-#endif
-
 @implementation HTMLOrderedDictionary
 {
     CFMutableDictionaryRef _map;
-    HTMLGenericOf(NSMutableArray, KeyType) *_keys;
+    NSMutableArray *_keys;
 }
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems
@@ -29,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Diagnostic needs ignoring on iOS 5.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmismatched-parameter-types"
-- (instancetype)initWithObjects:(const ObjectType [])objects forKeys:(const KeyType <NSCopying> [])keys count:(NSUInteger)count
+- (instancetype)initWithObjects:(const id [])objects forKeys:(const id<NSCopying> [])keys count:(NSUInteger)count
 #pragma clang diagnostic pop
 {
     if ((self = [self initWithCapacity:count])) {
@@ -95,14 +90,14 @@ NS_ASSUME_NONNULL_BEGIN
     return _keys.count;
 }
 
-- (ObjectType __nullable)objectForKey:(KeyType)key
+- (id __nullable)objectForKey:(id)key
 {
     NSParameterAssert(key);
     
     return (__bridge id)CFDictionaryGetValue(_map, (__bridge const void *)key);
 }
 
-- (NSUInteger)indexOfKey:(KeyType)key
+- (NSUInteger)indexOfKey:(id)key
 {
     if ([self objectForKey:key]) {
         return [_keys indexOfObject:key];
@@ -111,17 +106,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (__nullable KeyType)firstKey
+- (id __nullable)firstKey
 {
     return _keys.firstObject;
 }
 
-- (__nullable KeyType)lastKey
+- (id __nullable)lastKey
 {
     return _keys.lastObject;
 }
 
-- (void)setObject:(ObjectType)object forKey:(KeyType)key
+- (void)setObject:(id)object forKey:(id<NSCopying>)key
 {
     if (!object) [NSException raise:NSInvalidArgumentException format:@"%@ object cannot be nil", NSStringFromSelector(_cmd)];
     if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key cannot be nil", NSStringFromSelector(_cmd)];
@@ -129,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self insertObject:object forKey:key atIndex:self.count];
 }
 
-- (void)removeObjectForKey:(KeyType)key
+- (void)removeObjectForKey:(id<NSCopying>)key
 {
     if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key cannot be nil", NSStringFromSelector(_cmd)];
     
@@ -139,25 +134,25 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)insertObject:(ObjectType)object forKey:(KeyType)key atIndex:(NSUInteger)index
+- (void)insertObject:(id)object forKey:(id<NSCopying>)key atIndex:(NSUInteger)index
 {
     if (!object) [NSException raise:NSInvalidArgumentException format:@"%@ object cannot be nil", NSStringFromSelector(_cmd)];
     if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key cannot be nil", NSStringFromSelector(_cmd)];
     if (index > self.count) [NSException raise:NSRangeException format:@"%@ index %@ beyond count %@ of array", NSStringFromSelector(_cmd), @(index), @(self.count)];
     
     if (![self objectForKey:key]) {
-        key = [key copy];
+        key = [key copyWithZone:nil];
         [_keys insertObject:key atIndex:index];
     }
     CFDictionarySetValue(_map, (__bridge const void *)key, (__bridge const void *)object);
 }
 
-- (HTMLEnumeratorOf(KeyType) *)keyEnumerator
+- (NSEnumerator *)keyEnumerator
 {
     return _keys.objectEnumerator;
 }
 
-- (ObjectType)objectAtIndexedSubscript:(NSUInteger)index
+- (id)objectAtIndexedSubscript:(NSUInteger)index
 {
     return _keys[index];
 }
