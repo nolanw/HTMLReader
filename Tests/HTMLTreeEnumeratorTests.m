@@ -43,7 +43,7 @@
 {
     HTMLStringEncoding encoding = (HTMLStringEncoding){ .encoding = NSUTF8StringEncoding, .confidence = Certain };
     HTMLDocument *document = [[HTMLParser alloc] initWithString:string encoding:encoding context:nil].document;
-    HTMLElement *body = document.rootElement.children.lastObject;
+    HTMLElement *body = (HTMLElement *)document.rootElement.children.lastObject;
     return body.children[0];
 }
 
