@@ -2,8 +2,8 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <HTMLReader/HTMLNamespace.h>
-#import <HTMLReader/HTMLSupport.h>
+#import "HTMLNamespace.h"
+#import "HTMLSupport.h"
 @class HTMLDocument;
 @class HTMLElement;
 

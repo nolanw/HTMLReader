@@ -2,8 +2,8 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <HTMLReader/HTMLElement.h>
-#import <HTMLReader/HTMLSupport.h>
+#import "HTMLElement.h"
+#import "HTMLSupport.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

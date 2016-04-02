@@ -10,7 +10,7 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 ## Usage
 
 ```objc
-#import <HTMLReader/HTMLReader.h>
+@import HTMLReader;
 
 // Parse a string and find an element.
 NSString *markup = @"<p><b>Ahoy there sailor!</b></p>";

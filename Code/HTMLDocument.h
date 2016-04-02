@@ -2,11 +2,11 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import <HTMLReader/HTMLDocumentType.h>
-#import <HTMLReader/HTMLElement.h>
-#import <HTMLReader/HTMLNode.h>
-#import <HTMLReader/HTMLQuirksMode.h>
-#import <HTMLReader/HTMLSupport.h>
+#import "HTMLDocumentType.h"
+#import "HTMLElement.h"
+#import "HTMLNode.h"
+#import "HTMLQuirksMode.h"
+#import "HTMLSupport.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
