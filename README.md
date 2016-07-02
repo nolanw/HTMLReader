@@ -52,19 +52,26 @@ NSURLSession *session = [NSURLSession sharedSession];
 
 You have choices:
 
-* Copy the files in the [Code](Code) folder into your project.
+* Copy the files in the [Sources](Sources) folder into your project.
 * Add the following line to your [Cartfile][Carthage]:
   
   `github "nolanw/HTMLReader"`
 * Add the following line to your [Podfile][CocoaPods]:
    
    `pod "HTMLReader"`
+* Add the following line to your [Package.swift][Swift Package Manager]:
+    
+   `.Package(url: "https://github.com/nolanw/HTMLReader",
+             majorVersion: 0, minorVersion: 9)`
+   
+   You'll need to invoke `swift build` like so: `swift build -Xcc -fobjc-arc`.
 * Clone this repository (perhaps add it as a submodule) and add `HTMLReader.xcodeproj` to your project/workspace. Then add `HTMLReader.framework` to your app target. (Or, if you're targeting iOS earlier than 8.0: add `libHTMLReader.a` to your app target and `"$(SYMROOT)/include"` to your app target's Header Search Paths.)
 
 HTMLReader has no dependencies other than Foundation.
 
 [Carthage]: https://github.com/Carthage/Carthage#readme
 [CocoaPods]: http://docs.cocoapods.org/podfile.html#pod
+[Swift Package Manager]: https://swift.org/package-manager/#importing-dependencies
 
 ## Why HTMLReader?
 

@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+* Rearrange source folder tree to match Swift Package Manager convention.
+
 ## [0.9.6][] – 2016-04-02
 
 * Fix Objective-C generics (and their import into Swift) by spelling things correctly. (Fixes #59.) (Fixes #60.)
