@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = "Public domain"
   s.author       = { "Nolan Waite" => 'nolan@nolanw.ca' }
   s.source       = { :git => 'https://github.com/nolanw/HTMLReader.git', :tag => "v#{s.version}" }
-  s.source_files = "Code"
+  s.source_files = "Sources/**/*.[hm]"
   s.requires_arc = true
   
   s.ios.deployment_target = '5.0'
