@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'HTMLReader'
-  s.version      = '0.9.6'
+  s.version      = '1.0'
   s.summary      = "A WHATWG-compliant HTML parser in Objective-C."
   s.homepage     = 'https://github.com/nolanw/HTMLReader'
   s.license      = "Public domain"
