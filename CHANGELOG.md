@@ -5,7 +5,7 @@
 # [1.0][] – 2016-07-02
 
 * Rearrange source folder tree to match Swift Package Manager convention.
-* Update html5lib submodule to fix cloning.
+* Update html5lib-tests submodule to fix cloning.
 
 ## [0.9.6][] – 2016-04-02
 
