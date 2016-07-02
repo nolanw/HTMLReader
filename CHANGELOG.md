@@ -28,7 +28,7 @@
 
 ## [0.9.2][] – 2015-10-25
 
-* Make HTMLTextNode publicly accessible so that instances are usable when enumerating a node's descendants.
+* Make `HTMLTextNode` publicly accessible so that instances are usable when enumerating a node's descendants.
 * Add `-[HTMLNode textComponents]` for convenient access to a node's direct text contents.
 
 ## [0.9.1][] – 2015-10-23
