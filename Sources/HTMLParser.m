@@ -1559,7 +1559,17 @@ static BOOL IsSpecialElement(HTMLElement *element)
         [self switchInsertionMode:HTMLInRowInsertionMode];
         [self reprocessToken:token];
     } else if (StringIsEqualToAnyOf(token.tagName, @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead")) {
-        [self inTableBodyInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
+        if (![self elementInTableScopeWithTagNameInArray:@[ @"tbody", @"thead", @"tfoot" ] namespace:HTMLNamespaceHTML]) {
+            [self addParseError:@"Start tag '%@' when none of <tbody>, <thead>, <tfoot> in table scope; ignoring", token.tagName];
+            return;
+        }
+        
+        [self clearStackBackToATableBodyContext];
+        
+        [_stackOfOpenElements removeLastObject];
+        [self switchInsertionMode:HTMLInTableInsertionMode];
+        
+        [self reprocessToken:token];
     } else {
         [self inTableBodyInsertionModeHandleAnythingElse:token];
     }
@@ -1576,7 +1586,17 @@ static BOOL IsSpecialElement(HTMLElement *element)
         [_stackOfOpenElements removeLastObject];
         [self switchInsertionMode:HTMLInTableInsertionMode];
     } else if ([token.tagName isEqualToString:@"table"]) {
-        [self inTableBodyInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
+        if (![self elementInTableScopeWithTagNameInArray:@[ @"tbody", @"thead", @"tfoot" ] namespace:HTMLNamespaceHTML]) {
+            [self addParseError:@"End tag 'table' when none of <tbody>, <thead>, <tfoot> in table scope; ignoring"];
+            return;
+        }
+        
+        [self clearStackBackToATableBodyContext];
+        
+        [_stackOfOpenElements removeLastObject];
+        [self switchInsertionMode:HTMLInTableInsertionMode];
+        
+        [self reprocessToken:token];
     } else if (StringIsEqualToAnyOf(token.tagName, @"body", @"caption", @"col", @"colgroup", @"html", @"td", @"th", @"tr")) {
         [self addParseError:@"End tag '%@' in <table> body", token.tagName];
     } else {
@@ -1615,11 +1635,22 @@ static BOOL IsSpecialElement(HTMLElement *element)
 {
     if (StringIsEqualToAnyOf(token.tagName, @"th", @"td")) {
         [self clearStackBackToATableRowContext];
+        
         [self insertElementForToken:token];
         [self switchInsertionMode:HTMLInCellInsertionMode];
+        
         [self pushMarkerOnToListOfActiveFormattingElements];
     } else if (StringIsEqualToAnyOf(token.tagName, @"caption", @"col", @"colgroup", @"tbody", @"tfoot", @"thead", @"tr")) {
-        [self inRowInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
+        if (![self elementInTableScopeWithTagName:@"tr" namespace:HTMLNamespaceHTML]) {
+            [self addParseError:@"Start tag '%@' without <tr> in table scope; ignoring", token.tagName];
+            return;
+        }
+        
+        [self clearStackBackToATableRowContext];
+        [_stackOfOpenElements removeLastObject];
+        [self switchInsertionMode:HTMLInTableBodyInsertionMode];
+        
+        [self reprocessToken:token];
     } else {
         [self inRowInsertionModeHandleAnythingElse:token];
     }
@@ -1628,15 +1659,27 @@ static BOOL IsSpecialElement(HTMLElement *element)
 - (void)inRowInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
 {
     if ([token.tagName isEqualToString:@"tr"]) {
-        if (![self elementInTableScopeWithTagName:@"tr"]) {
+        if (![self elementInTableScopeWithTagName:@"tr" namespace:HTMLNamespaceHTML]) {
             [self addParseError:@"End tag 'tr' for unknown element in <tr>"];
             return;
         }
+        
         [self clearStackBackToATableRowContext];
+        
         [_stackOfOpenElements removeLastObject];
         [self switchInsertionMode:HTMLInTableBodyInsertionMode];
     } else if ([token.tagName isEqualToString:@"table"]) {
-        [self inRowInsertionModeHandleTableCaptionStartTagOrTableEndTagToken:token];
+        if (![self elementInTableScopeWithTagName:@"tr" namespace:HTMLNamespaceHTML]) {
+            [self addParseError:@"End tag 'table' without <tr> in table scope; ignoring"];
+            return;
+        }
+        
+        [self clearStackBackToATableRowContext];
+        
+        [_stackOfOpenElements removeLastObject];
+        [self switchInsertionMode:HTMLInTableBodyInsertionMode];
+        
+        [self reprocessToken:token];
     } else if (StringIsEqualToAnyOf(token.tagName, @"tbody", @"tfoot", @"thead")) {
         if (![self elementInTableScopeWithTagName:token.tagName]) {
             [self addParseError:@"End tag '%@' for unknown element in <tr>", token.tagName];
