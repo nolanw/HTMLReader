@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+* Pass updated html5lib-tests.
+
 # [1.0][] – 2016-07-02
 
 * Rearrange source folder tree to match Swift Package Manager convention.
