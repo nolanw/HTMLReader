@@ -67,6 +67,9 @@
     [scanner scanString:@"#data\n" intoString:nil];
     NSString *data;
     [scanner scanUpToString:@"#errors\n" intoString:&data];
+    if ([data containsString:@"#script-off"]) {
+        return nil;
+    }
     if (data.length > 0) {
         data = [data substringToIndex:data.length - 1];
     } else {
