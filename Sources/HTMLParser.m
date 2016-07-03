@@ -2893,7 +2893,7 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
 }
 
 - (HTMLElement *)elementInSpecificScopeWithTagNameInArray:(NSArray *)tagNames
-                                                 elementTypes:(NSDictionary *)elementTypes
+                                             elementTypes:(NSDictionary *)elementTypes
 {
     for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
         if ([tagNames containsObject:node.tagName]) return node;
