@@ -67,7 +67,7 @@
     [scanner scanString:@"#data\n" intoString:nil];
     NSString *data;
     [scanner scanUpToString:@"#errors\n" intoString:&data];
-    if ([data containsString:@"#script-off"]) {
+    if ([data rangeOfString:@"#script-off"].location != NSNotFound) {
         return nil;
     }
     if (data.length > 0) {
