@@ -1181,34 +1181,56 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         NSUInteger bookmark = [_activeFormattingElements indexOfObject:formattingElement];
         HTMLElement *node = furthestBlock, *lastNode = furthestBlock;
         NSUInteger nodeIndex = [_stackOfOpenElements indexOfObject:node];
-        for (NSInteger innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter++) {
-            node = _stackOfOpenElements[--nodeIndex];
+        NSInteger innerLoopCounter = 0;
+        while (YES) {
+            innerLoopCounter += 1;
+            
+            nodeIndex -= 1;
+            node = _stackOfOpenElements[nodeIndex];
+            
+            if (node == formattingElement) break;
+            
+            if (innerLoopCounter > 3 && [_activeFormattingElements containsObject:node]) {
+                [_activeFormattingElements removeObject:node];
+            }
+            
             if (![_activeFormattingElements containsObject:node]) {
                 [_stackOfOpenElements removeObject:node];
                 continue;
             }
-            if ([node isEqual:formattingElement]) break;
+            
             HTMLElement *clone = [node copy];
             [_activeFormattingElements replaceObjectAtIndex:[_activeFormattingElements indexOfObject:node]
                                                  withObject:clone];
             [_stackOfOpenElements replaceObjectAtIndex:[_stackOfOpenElements indexOfObject:node]
                                             withObject:clone];
             node = clone;
+            
             if ([lastNode isEqual:furthestBlock]) {
-                bookmark = [_activeFormattingElements indexOfObject:node] + 1;
+                bookmark = [_activeFormattingElements indexOfObject:node];
             }
+            
             [[node mutableChildren] addObject:lastNode];
+            
             lastNode = node;
         }
+        
         [self insertNode:lastNode atAppropriatePlaceWithOverrideTarget:commonAncestor];
+        
         HTMLElement *formattingClone = [formattingElement copy];
-        [[formattingClone mutableChildren] addObjectsFromArray:furthestBlock.children.array];
-        [[furthestBlock mutableChildren] addObject:formattingClone];
+        
+        [formattingClone.mutableChildren addObjectsFromArray:furthestBlock.children.array];
+        
+        [furthestBlock.mutableChildren addObject:formattingClone];
+        
+        // TODO: Explain why this is necessary.
         if ([_activeFormattingElements indexOfObject:formattingElement] < bookmark) {
             bookmark--;
         }
+        
         [self removeElementFromListOfActiveFormattingElements:formattingElement];
         [_activeFormattingElements insertObject:formattingClone atIndex:bookmark];
+        
         [_stackOfOpenElements removeObject:formattingElement];
         [_stackOfOpenElements insertObject:formattingClone
                                    atIndex:[_stackOfOpenElements indexOfObject:furthestBlock] + 1];
