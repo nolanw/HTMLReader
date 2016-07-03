@@ -1700,24 +1700,29 @@ static BOOL IsSpecialElement(HTMLElement *element)
 - (void)inCellInsertionModeHandleEndTagToken:(HTMLEndTagToken *)token
 {
     if (StringIsEqualToAnyOf(token.tagName, @"td", @"th")) {
-        if (![self elementInTableScopeWithTagName:token.tagName]) {
+        if (![self elementInTableScopeWithTagName:token.tagName namespace:HTMLNamespaceHTML]) {
             [self addParseError:@"End tag '%@' outside cell in cell", token.tagName];
             return;
         }
+        
         [self generateImpliedEndTags];
-        if (![self.currentNode.tagName isEqualToString:token.tagName]) {
+        
+        if (!(self.currentNode.htmlNamespace == HTMLNamespaceHTML && [self.currentNode.tagName isEqualToString:token.tagName])) {
             [self addParseError:@"Misnested end tag '%@' in cell", token.tagName];
         }
-        while (![self.currentNode.tagName isEqualToString:token.tagName]) {
+        
+        while (!(self.currentNode.htmlNamespace == HTMLNamespaceHTML && [self.currentNode.tagName isEqualToString:token.tagName])) {
             [_stackOfOpenElements removeLastObject];
         }
         [_stackOfOpenElements removeLastObject];
+        
         [self clearActiveFormattingElementsUpToLastMarker];
+        
         [self switchInsertionMode:HTMLInRowInsertionMode];
     } else if (StringIsEqualToAnyOf(token.tagName, @"body", @"caption", @"col", @"colgroup", @"html")) {
         [self addParseError:@"End tag '%@' in cell", token.tagName];
     } else if (StringIsEqualToAnyOf(token.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr")) {
-        if (![self elementInTableScopeWithTagName:token.tagName]) {
+        if (![self elementInTableScopeWithTagName:token.tagName namespace:HTMLNamespaceHTML]) {
             [self addParseError:@"End tag '%@' for unknown element in cell", token.tagName];
             return;
         }
@@ -2854,15 +2859,37 @@ static inline NSDictionary * ElementTypesForSpecificScope(NSArray *additionalHTM
     return nil;
 }
 
+- (HTMLElement *)elementInSpecificScopeWithTagNameInArray:(NSArray *)tagNames
+                                             elementTypes:(NSDictionary *)elementTypes
+                                                namespace:(HTMLNamespace)namespace
+{
+    for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
+        if (node.htmlNamespace == namespace && [tagNames containsObject:node.tagName]) return node;
+        if ([elementTypes[@(node.htmlNamespace)] containsObject:node.tagName]) return nil;
+    }
+    return nil;
+}
+
 - (HTMLElement *)elementInTableScopeWithTagName:(NSString *)tagName
 {
     return [self elementInTableScopeWithTagNameInArray:@[ tagName ]];
+}
+
+- (HTMLElement *)elementInTableScopeWithTagName:(NSString *)tagName namespace:(HTMLNamespace)namespace
+{
+    return [self elementInTableScopeWithTagNameInArray:@[ tagName ] namespace:namespace];
 }
 
 - (HTMLElement *)elementInTableScopeWithTagNameInArray:(NSArray *)tagNames
 {
     NSDictionary *elementTypes = @{ @(HTMLNamespaceHTML): @[ @"html", @"table" ] };
     return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:elementTypes];
+}
+
+- (HTMLElement *)elementInTableScopeWithTagNameInArray:(NSArray *)tagNames namespace:(HTMLNamespace)namespace
+{
+    NSDictionary *elementTypes = @{ @(HTMLNamespaceHTML): @[ @"html", @"table" ] };
+    return [self elementInSpecificScopeWithTagNameInArray:tagNames elementTypes:elementTypes namespace:namespace];
 }
 
 - (HTMLElement *)elementInListItemScopeWithTagName:(NSString *)tagName
