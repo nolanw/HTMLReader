@@ -692,10 +692,20 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         }
         [self insertElementForToken:token];
         [self switchInsertionMode:HTMLInFramesetInsertionMode];
-    } else if (StringIsEqualToAnyOf(token.tagName, @"address", @"article", @"aside", @"blockquote", @"center", @"details", @"dialog", @"dir", @"div", @"dl", @"fieldset", @"figcaption", @"figure", @"footer", @"header", @"hgroup", @"main", @"menu", @"nav", @"ol", @"p", @"section", @"summary", @"ul")) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"address", @"article", @"aside", @"blockquote", @"center", @"details", @"dialog", @"dir", @"div", @"dl", @"fieldset", @"figcaption", @"figure", @"footer", @"header", @"hgroup", @"main", @"nav", @"ol", @"p", @"section", @"summary", @"ul")) {
         if ([self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
+        [self insertElementForToken:token];
+    } else if ([token.tagName isEqualToString:@"menu"]) {
+        if ([self elementInButtonScopeWithTagName:@"p"]) {
+            [self closePElement];
+        }
+        
+        if ([self.currentNode.tagName isEqualToString:@"menuitem"]) {
+            [_stackOfOpenElements removeObject:self.currentNode];
+        }
+        
         [self insertElementForToken:token];
     } else if (StringIsEqualToAnyOf(token.tagName, @"h1", @"h2", @"h3", @"h4", @"h5", @"h6")) {
         if ([self elementInButtonScopeWithTagName:@"p"]) {
@@ -725,28 +735,37 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         _formElementPointer = form;
     } else if ([token.tagName isEqualToString:@"li"]) {
         _framesetOkFlag = NO;
+        
         HTMLElement *node = self.currentNode;
+        
     loop:
         if ([node.tagName isEqualToString:@"li"]) {
             [self generateImpliedEndTagsExceptForTagsNamed:@"li"];
+            
             if (![self.currentNode.tagName isEqualToString:@"li"]) {
                 [self addParseError:@"Misnested li tag in <body>"];
             }
+            
             while (![self.currentNode.tagName isEqualToString:@"li"]) {
                 [_stackOfOpenElements removeLastObject];
             }
             [_stackOfOpenElements removeLastObject];
+            
             goto done;
         }
+        
         if (IsSpecialElement(node) && !(node.htmlNamespace == HTMLNamespaceHTML && StringIsEqualToAnyOf(node.tagName, @"address", @"div", @"p"))) {
             goto done;
         }
+        
         node = [_stackOfOpenElements objectAtIndex:[_stackOfOpenElements indexOfObject:node] - 1];
         goto loop;
+        
     done:
         if ([self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
+        
         [self insertElementForToken:token];
     } else if ([token.tagName isEqualToString:@"dd"] || [token.tagName isEqualToString:@"dt"]) {
         _framesetOkFlag = NO;
@@ -855,15 +874,21 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         if (!type || [type caseInsensitiveCompare:@"hidden"] != NSOrderedSame) {
             _framesetOkFlag = NO;
         }
-    } else if (StringIsEqualToAnyOf(token.tagName, @"menuitem", @"param", @"source", @"track")) {
+    } else if (StringIsEqualToAnyOf(token.tagName, @"param", @"source", @"track")) {
         [self insertElementForToken:token];
         [_stackOfOpenElements removeLastObject];
     } else if ([token.tagName isEqualToString:@"hr"]) {
         if ([self elementInButtonScopeWithTagName:@"p"]) {
             [self closePElement];
         }
+        
+        if ([self.currentNode.tagName isEqualToString:@"menuitem"]) {
+            [_stackOfOpenElements removeObject:self.currentNode];
+        }
+        
         [self insertElementForToken:token];
         [_stackOfOpenElements removeLastObject];
+        
         _framesetOkFlag = NO;
     } else if ([token.tagName isEqualToString:@"image"]) {
         [self addParseError:@"It's spelled 'img' in <body>"];
@@ -907,6 +932,15 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             [_stackOfOpenElements removeLastObject];
         }
         [self reconstructTheActiveFormattingElements];
+        [self insertElementForToken:token];
+    } else if ([token.tagName isEqualToString:@"menuitem"]) {
+        if ([self.currentNode.tagName isEqualToString:@"menuitem"]) {
+            [_stackOfOpenElements removeObject:self.currentNode];
+        }
+        
+        // SPEC: Missing as of 2016-Jul-03 but tests and nearby commentary suggest its presence in order to act like <option>.
+        [self reconstructTheActiveFormattingElements];
+        
         [self insertElementForToken:token];
     } else if (StringIsEqualToAnyOf(token.tagName, @"rp", @"rt")) {
         if ([self elementInScopeWithTagName:@"ruby"]) {
@@ -3109,7 +3143,7 @@ create:;
 
 - (void)generateImpliedEndTagsExceptForTagsNamed:(NSString *)tagName
 {
-    NSArray *list = @[ @"dd", @"dt", @"li", @"option", @"optgroup", @"p", @"rp", @"rt" ];
+    NSArray *list = @[ @"dd", @"dt", @"li", @"menuitem", @"optgroup", @"option", @"p", @"rp", @"rt" ];
     if (tagName) {
         list = [list filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self != %@", tagName]];
     }
