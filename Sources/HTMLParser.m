@@ -868,39 +868,6 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
     } else if ([token.tagName isEqualToString:@"image"]) {
         [self addParseError:@"It's spelled 'img' in <body>"];
         [self reprocessToken:[token copyWithTagName:@"img"]];
-    } else if ([token.tagName isEqualToString:@"isindex"]) {
-        [self addParseError:@"Don't use isindex in <body>"];
-        if (_formElementPointer) return;
-        _framesetOkFlag = NO;
-        if ([self elementInButtonScopeWithTagName:@"p"]) {
-            [self closePElement];
-        }
-        HTMLElement *form = [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"form"]];
-        _formElementPointer = form;
-        NSString *action = token.attributes[@"action"];
-        if (action) {
-            form[@"action"] = action;
-        }
-        [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"hr"]];
-        [_stackOfOpenElements removeLastObject];
-        [self reconstructTheActiveFormattingElements];
-        [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"label"]];
-        NSString *prompt = token.attributes[@"prompt"] ?: @"This is a searchable index. Enter search keywords: ";
-        [self insertString:prompt];
-        HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input"];
-        [token.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *value, BOOL *stop) {
-            if (!(StringIsEqualToAnyOf(name, @"name", @"action", @"prompt"))) {
-                inputToken.attributes[name] = value;
-            }
-        }];
-        inputToken.attributes[@"name"] = @"isindex";
-        [self insertElementForToken:inputToken];
-        [_stackOfOpenElements removeLastObject];
-        [_stackOfOpenElements removeLastObject];
-        [self insertElementForToken:[[HTMLStartTagToken alloc] initWithTagName:@"hr"]];
-        [_stackOfOpenElements removeLastObject];
-        [_stackOfOpenElements removeLastObject];
-        _formElementPointer = nil;
     } else if ([token.tagName isEqualToString:@"textarea"]) {
         [self insertElementForToken:token];
         _ignoreNextTokenIfLineFeed = YES;
@@ -1241,7 +1208,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
 static BOOL IsSpecialElement(HTMLElement *element)
 {
     if (element.htmlNamespace == HTMLNamespaceHTML) {
-        return StringIsEqualToAnyOf(element.tagName, @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center", @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed", @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"isindex", @"li", @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style", @"summary", @"table", @"tbody", @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul", @"wbr", @"xmp");
+        return StringIsEqualToAnyOf(element.tagName, @"address", @"applet", @"area", @"article", @"aside", @"base", @"basefont", @"bgsound", @"blockquote", @"body", @"br", @"button", @"caption", @"center", @"col", @"colgroup", @"dd", @"details", @"dir", @"div", @"dl", @"dt", @"embed", @"fieldset", @"figcaption", @"figure", @"footer", @"form", @"frame", @"frameset", @"h1", @"h2", @"h3", @"h4", @"h5", @"h6", @"head", @"header", @"hgroup", @"hr", @"html", @"iframe", @"img", @"input", @"li", @"link", @"listing", @"main", @"marquee", @"menu", @"menuitem", @"meta", @"nav", @"noembed", @"noframes", @"noscript", @"object", @"ol", @"p", @"param", @"plaintext", @"pre", @"script", @"section", @"select", @"source", @"style", @"summary", @"table", @"tbody", @"td", @"template", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr", @"track", @"ul", @"wbr", @"xmp");
     } else if (element.htmlNamespace == HTMLNamespaceMathML) {
         return StringIsEqualToAnyOf(element.tagName, @"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml");
     } else if (element.htmlNamespace == HTMLNamespaceSVG) {
