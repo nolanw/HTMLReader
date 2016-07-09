@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
     Returns the contents of each child text node. Only direct children are considered; no further descendants are included.
  */
-@property (readonly, copy, nonatomic) NSArray *textComponents;
+@property (readonly, copy, nonatomic) HTMLArrayOf(NSString *) *textComponents;
 
 /**
     Convenience method for either adding a string to an existing text node or creating a new text node.

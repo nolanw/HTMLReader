@@ -3,6 +3,7 @@
 ## [Unreleased][]
 
 * Pass updated html5lib-tests.
+* Update return type of `-[HTMLNode textComponents]` to an array of `NSString`.
 
 # [1.0][] – 2016-07-02
 
