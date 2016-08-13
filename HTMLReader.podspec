@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'HTMLReader'
-  s.version      = '1.0'
+  s.version      = `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" Framework/Info.plist`.strip
   s.summary      = "A WHATWG-compliant HTML parser in Objective-C."
   s.homepage     = 'https://github.com/nolanw/HTMLReader'
   s.license      = "Public domain"

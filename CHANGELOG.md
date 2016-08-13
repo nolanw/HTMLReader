@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [1.0.1][]
+
 * Pass updated html5lib-tests.
 * Update return type of `-[HTMLNode textComponents]` to an array of `NSString`.
 * Add a nonempty `Package.swift` as now required by Swift Package Manager.
@@ -88,7 +90,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v1.0...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/nolanw/HTMLReader/compare/v1.0...1.0.1
 [1.0]: https://github.com/nolanw/HTMLReader/compare/v0.9.6...1.0
 [0.9.6]: https://github.com/nolanw/HTMLReader/compare/v0.9.5...v0.9.6
 [0.9.5]: https://github.com/nolanw/HTMLReader/compare/v0.9.4...v0.9.5
