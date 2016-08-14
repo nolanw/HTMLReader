@@ -3,6 +3,7 @@
 ## [Unreleased][]
 
 * Fix `HTMLElement`'s subscripting abilities not getting bridged into Swift (issue #59 revisited).
+* Update project and playground for Xcode 8 and Swift 3.
 
 ## [1.0.1][]
 

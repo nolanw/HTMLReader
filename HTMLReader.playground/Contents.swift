@@ -1,26 +1,33 @@
 //: HTMLReader – A WHATWG-compliant HTML parser
 import HTMLReader
-import XCPlayground
-
-XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
+import PlaygroundSupport
 
 let homepage = "https://github.com/nolanw/HTMLReader"
-NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: homepage)!) {
-    (data, response, error) in
+
+URLSession.shared.dataTask(with: URL(string: homepage)!) { (data, response, error) in
+    defer { PlaygroundPage.finishExecution(PlaygroundPage.current) }
+    
+    
     var contentType: String? = nil
-    if let response = response as? NSHTTPURLResponse {
+    if let response = response as? HTTPURLResponse {
         contentType = response.allHeaderFields["Content-Type"] as? String
     }
-    if let data = data {
-        let home = HTMLDocument(data: data, contentTypeHeader:contentType)
-        if let div = home.firstNodeMatchingSelector(".repository-meta-content") {
-            let whitespace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-            print(div.textContent.stringByTrimmingCharactersInSet(whitespace))
-        } else {
-            print("Failed to match .repository-meta-content, maybe the HTML changed?")
-        }
-    } else {
+    
+    guard let data = data else {
         print("No data received, sorry.")
+        return
     }
-    XCPlaygroundPage.finishExecution(XCPlaygroundPage.currentPage)
+    
+    let home = HTMLDocument(data: data, contentTypeHeader:contentType)
+    
+    guard let div = home.firstNode(matchingSelector: ".repository-meta-content") else {
+        print("Failed to match .repository-meta-content, maybe the HTML changed?")
+        return
+    }
+    
+    print(div.textContent.trimmingCharacters(in: .whitespacesAndNewlines))
+    
+    
 }.resume()
+
+PlaygroundPage.current.needsIndefiniteExecution = true
