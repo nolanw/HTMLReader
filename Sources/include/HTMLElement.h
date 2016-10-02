@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, copy, nonatomic) HTMLDictOf(NSString *, NSString *) *attributes;
 
 /// Returns the value of the named attribute, or nil if no such value exists.
-- (id __nullable)objectForKeyedSubscript:(id)attributeNameOrString;
+- (NSString * __nullable)objectForKeyedSubscript:(NSString *)attributeNameOrString;
 
 /// Sets a named attribute's value, adding it to the element if needed.
 - (void)setObject:(NSString *)attributeValue forKeyedSubscript:(NSString *)attributeName;

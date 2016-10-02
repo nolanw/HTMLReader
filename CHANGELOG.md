@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+* Fix `HTMLElement`'s subscripting abilities not getting bridged into Swift (issue #59 revisited).
+
 ## [1.0.1][]
 
 * Pass updated html5lib-tests.
