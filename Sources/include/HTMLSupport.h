@@ -26,6 +26,12 @@
     #define __null_unspecified
 #endif
 
+// The 10.9.5 SDK has nullability but exports neither NS_ASSUME_NONNULL_BEGIN nor NS_ASSUME_NONNULL_END
+#if __has_feature(nullability) && !defined(NS_ASSUME_NONNULL_BEGIN)
+    #define NS_ASSUME_NONNULL_BEGIN _Pragma("clang assume_nonnull begin")
+    #define NS_ASSUME_NONNULL_END _Pragma("clang assume_nonnull end")
+#endif
+
 // NS_DESIGNATED_INITIALIZER arrived in Xcode 6, but we can use it earlier, and it's handy documentation even when it's unavailable as a compiler attribute.
 #ifndef NS_DESIGNATED_INITIALIZER
     #if __has_attribute(objc_designated_initializer)

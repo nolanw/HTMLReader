@@ -833,15 +833,13 @@
 					};
 					0D1077761C1AC2DF00CF9B41 = {
 						CreatedOnToolsVersion = 7.2;
+						ProvisioningStyle = Manual;
 					};
 					1C319BC21C618863000DAA63 = {
 						CreatedOnToolsVersion = 7.2;
 					};
 					1C6C1F4B1A179BF600236076 = {
 						CreatedOnToolsVersion = 6.1.1;
-					};
-					1C88294F18369DD70051653C = {
-						TestTargetID = 1C88293A18369DD70051653C;
 					};
 					1C9513C81A80971100BB2CC9 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -943,7 +941,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+			shellScript = "# Run the unit tests in this test bundle.\nif [[ \"$XCODE_VERSION_MAJOR\" -lt 800 ]]; then\n    \"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1247,7 +1245,9 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1277,8 +1277,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1495,7 +1497,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLReader.framework/Versions/A/HTMLReader";
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1514,7 +1515,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1523,7 +1523,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLReader.framework/Versions/A/HTMLReader";
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1544,7 +1543,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
