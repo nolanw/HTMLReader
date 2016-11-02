@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+* Fix buffer overlow when parsing named entities.
+    * This would happen when attempting to parse the first semicolonless named entity `AElig`.
+
 ## [2.0][]
 
 * Fix `HTMLElement`'s subscripting abilities not getting bridged into Swift (issue #59 revisited).

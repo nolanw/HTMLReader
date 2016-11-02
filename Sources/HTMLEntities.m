@@ -2341,13 +2341,13 @@ NSString * StringForNamedEntity(NSString *search, NSString **parsedName)
     NamedReferenceMap *nearbyItem = bsearch_b((__bridge void *)search, NamedSemicolonlessReferences, count, sizeof(NamedReferenceMap), NamedMapPrefixComparator);
     if (!nearbyItem) return nil;
     NamedReferenceMap *longestPrefixItem = nearbyItem;
-    for (NamedReferenceMap *item = nearbyItem - 1; item >= NamedReferences; item--) {
+    for (NamedReferenceMap *item = nearbyItem - 1; item >= NamedSemicolonlessReferences; item--) {
         if (![item->name hasPrefix:nearbyItem->name]) break;
         if ([search hasPrefix:item->name] && item->name.length > longestPrefixItem->name.length) {
             longestPrefixItem = item;
         }
     }
-    for (NamedReferenceMap *item = nearbyItem + 1; item < NamedReferences + count; item++) {
+    for (NamedReferenceMap *item = nearbyItem + 1; item < NamedSemicolonlessReferences + count; item++) {
         if (![item->name hasPrefix:nearbyItem->name]) break;
         if ([search hasPrefix:item->name] && item->name.length > longestPrefixItem->name.length) {
             longestPrefixItem = item;
