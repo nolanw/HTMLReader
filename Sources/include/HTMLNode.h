@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (HTMLEnumeratorOf(HTMLNode *) *)treeEnumerator;
 
-/// Emits in tree order the node in the subree rooted at the node, except children are enumerated back to front.
+/// Emits in tree order the nodes in the subtree rooted at the node, except that children are enumerated back to front.
 - (HTMLEnumeratorOf(HTMLNode *) *)reversedTreeEnumerator;
 
 /**
