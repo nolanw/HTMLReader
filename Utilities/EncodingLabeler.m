@@ -7,7 +7,7 @@
 int main(void) { @autoreleasepool
 {
     static NSString * const EncodingLabelsURL = @"https://encoding.spec.whatwg.org/encodings.json";
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:EncodingLabelsURL]];
+    NSData *data = [NSData dataWithContentsOfURL:(NSURL *)[NSURL URLWithString:EncodingLabelsURL]];
     if (!data) {
         NSLog(@"could not download encoding labels JSON");
         return 1;
