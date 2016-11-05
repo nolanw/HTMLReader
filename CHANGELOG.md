@@ -1,8 +1,8 @@
 # Change Log
 
-## Unreleased
+## [2.0.1][]
 
-* Fix buffer overlow when parsing named entities.
+* Fix buffer overflow when parsing named entities.
     * This would happen when attempting to parse the first semicolonless named entity `AElig`.
 
 ## [2.0][]
@@ -99,7 +99,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.0...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/nolanw/HTMLReader/compare/v2.0...v2.0.1
 [2.0]: https://github.com/nolanw/HTMLReader/compare/v1.0.1...v2.0
 [1.0.1]: https://github.com/nolanw/HTMLReader/compare/v1.0...1.0.1
 [1.0]: https://github.com/nolanw/HTMLReader/compare/v0.9.6...1.0
