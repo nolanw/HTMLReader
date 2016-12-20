@@ -3303,15 +3303,15 @@ HTMLParser * ParserWithDataAndContentType(NSData *data, NSString *contentType)
     NSString *initialString;
     HTMLStringEncoding initialEncoding = DeterminedStringEncodingForData(data, contentType, &initialString);
     HTMLParser *initialParser = [[HTMLParser alloc] initWithString:initialString encoding:initialEncoding context:nil];
-    __block HTMLParser *parser = initialParser;
+    __block HTMLParser *finalParser;
     initialParser.changeEncoding = ^(HTMLStringEncoding newEncoding) {
         NSString *correctedString = [[NSString alloc] initWithData:data encoding:newEncoding.encoding];
         if (correctedString) {
-            parser = [[HTMLParser alloc] initWithString:correctedString encoding:newEncoding context:nil];
+            finalParser = [[HTMLParser alloc] initWithString:correctedString encoding:newEncoding context:nil];
         } else {
-            parser = [[HTMLParser alloc] initWithString:initialString encoding:initialEncoding context:nil];
+            finalParser = [[HTMLParser alloc] initWithString:initialString encoding:initialEncoding context:nil];
         }
     };
     [initialParser document];
-    return parser;
+    return finalParser ?: initialParser;
 }

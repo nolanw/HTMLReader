@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased][]
+
+* Fix retain cycle on documents created with `-[HTMLDocument initWithData:contentTypeHeader:]`.
+
 ## [2.0.1][]
 
 * Fix buffer overflow when parsing named entities.
