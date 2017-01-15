@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased]
+
+* Move tests folder to support Swift 3's Package Manager.
+
 ## [2.0.2][]
 
 * Fix retain cycle on documents created with `-[HTMLDocument initWithData:contentTypeHeader:]`.

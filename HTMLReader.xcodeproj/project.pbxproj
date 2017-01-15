@@ -473,7 +473,8 @@
 				1C9C3ED5176BC53900E982C9 /* Info.plist */,
 				1C8829781836A0A80051653C /* Tests.xcconfig */,
 			);
-			path = Tests;
+			name = Tests;
+			path = HTMLReaderTests;
 			sourceTree = "<group>";
 		};
 		1CB15BB81A9A4AA000176E73 /* Selectors */ = {
@@ -1239,6 +1240,7 @@
 		};
 		0D1077811C1AC2DF00CF9B41 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1259,7 +1261,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = HTMLReaderTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.HTMLReader-tvOSTests";
@@ -1271,6 +1273,7 @@
 		};
 		0D1077821C1AC2DF00CF9B41 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C8829781836A0A80051653C /* Tests.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1293,7 +1296,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = HTMLReaderTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.HTMLReader-tvOSTests";
@@ -1511,7 +1514,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = HTMLReaderTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1539,7 +1542,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = HTMLReaderTests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "ca.nolanw.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1743,7 +1746,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = HTMLReaderTests/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1762,7 +1765,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = HTMLReaderTests/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
