@@ -62,9 +62,9 @@ You have choices:
 * Add the following line to your [Package.swift][Swift Package Manager]:
     
    `.Package(url: "https://github.com/nolanw/HTMLReader",
-             majorVersion: 0, minorVersion: 9)`
+             majorVersion: 2)`
    
-   You'll need to invoke `swift build` like so: `swift build -Xcc -fobjc-arc`.
+   You'll need to invoke `swift package` with an extra option like so: `swift package [command] -Xcc -fobjc-arc`.
 * Clone this repository (perhaps add it as a submodule) and add `HTMLReader.xcodeproj` to your project/workspace. Then add `HTMLReader.framework` to your app target. (Or, if you're targeting iOS earlier than 8.0: add `libHTMLReader.a` to your app target and `"$(SYMROOT)/include"` to your app target's Header Search Paths.)
 
 HTMLReader has no dependencies other than Foundation.
@@ -83,9 +83,9 @@ I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.
 
 Other Objective-C libraries I came across (e.g. [hpple][] and [Ono][]) use libxml2 and inherit its shortcomings.
 
-There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle data to and from Objective-C.
+There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle data to and from Objective-C. (Also Gumbo wasn't publicly announced until after HTMLReader was far enough along.)
 
-[WebKit][] ships with iOS, but its HTML parsing abilities are considered private API. I consider a round-trip through UIWebView inappropriate for parsing HTML. And I didn't make it very far into building my own copy of WebCore.
+[WebKit][] ships with iOS, but its HTML parsing abilities are considered private API. I consider a round-trip through a web view inappropriate for parsing HTML. And I didn't make it very far into building my own copy of WebCore.
 
 [Google Toolbox for Mac][GTMNSString+HTML] will escape and unescape strings for HTML (e.g. `&amp;` ⇔ `&`) but, again, not like a modern browser. For example, GTM will not unescape `&#65` (note the missing semicolon).
 
