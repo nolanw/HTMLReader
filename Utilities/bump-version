@@ -1,0 +1,139 @@
+#!/usr/bin/env python
+from __future__ import print_function
+import argparse
+import os
+import plistlib
+import re
+from subprocess import check_call
+import sys
+
+
+SOURCE_ROOT = os.path.realpath(os.path.join(__file__, '..', '..'))
+os.chdir(SOURCE_ROOT)
+
+
+INFOPLIST_PATH = os.path.join(SOURCE_ROOT, 'Framework', 'Info.plist')
+
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
+class Version(object):
+    def __init__(self, major, minor, patch, bundle):
+        super(Version, self).__init__()
+        
+        (self.major, self.minor, self.patch) = (major, minor, patch)
+        self.bundle = bundle
+    
+    @classmethod
+    def from_info_plist(cls, plist):
+        (string, bundle) = (plist['CFBundleShortVersionString'], plist['CFBundleVersion'])
+        
+        parts = [int(s) for s in string.split('.')]
+        while len(parts) < 3:
+            parts.append(0)
+        
+        return cls(parts[0], parts[1], parts[2], int(bundle))
+    
+    def increment_major(self):
+        return self.__class__(self.major + 1, 0, 0, self.bundle + 1)
+    
+    def increment_minor(self):
+        return self.__class__(self.major, self.minor + 1, 0, self.bundle + 1)
+    
+    def increment_patch(self):
+        return self.__class__(self.major, self.minor, self.patch + 1, self.bundle + 1)
+    
+    def __unicode__(self):
+        if self.patch > 0:
+            return u'{v.major}.{v.minor}.{v.patch}'.format(v=self)
+        else:
+            return u'{v.major}.{v.minor}'.format(v=self)
+    
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
+
+def get_current_version():
+    plist = plistlib.readPlist(INFOPLIST_PATH)
+    return Version.from_info_plist(plist)
+
+
+def increment_version(old_version, part):
+    if part == 'major':
+        return old_version.increment_major()
+    elif part == 'minor':
+        return old_version.increment_minor()
+    elif part == 'patch':
+        return old_version.increment_patch()
+    else:
+        raise ValueError(u"Can only increment a version's major, minor, or patch parts")
+
+
+def update_change_log(next_version):
+    path = os.path.join(SOURCE_ROOT, 'CHANGELOG.md')
+    with open(path, 'r+') as changelog:
+        updated = changelog.read()
+        
+        def append_header(match):
+            unreleased = match.group(0)
+            return "{unreleased}\n## [{next_version}][]".format(unreleased=match.group(0),
+                                                                next_version=next_version)
+        
+        updated = re.sub(r'^##\s*\[Unreleased\]\s*$', append_header, updated, flags=re.MULTILINE)
+        
+        def adjust_links(match):
+            (base_url, old_version) = (match.group(1), match.group(2))
+            return (    "[Unreleased]: {base_url}/v{next_version}...HEAD\n" +
+                        "[{next_version}]: {base_url}/v{old_version}...v{next_version}"
+                   ).format(base_url=base_url, next_version=next_version, old_version=old_version)
+        
+        updated = re.sub(r'^\[Unreleased\]:\s*(\S+?)/v([0-9.]+?)\.{3}.*$', 
+                         adjust_links, updated, flags=re.MULTILINE)
+        
+        changelog.seek(0)
+        changelog.write(updated)
+        changelog.truncate()
+
+
+def commit_changes(next_version):
+    check_call(["git", "add", "--", "CHANGELOG.md", "Framework/Info.plist"])
+    commit_message = "Bump version to {} ({}).".format(next_version, next_version.bundle)
+    check_call(["git", "commit", "-m", commit_message])
+
+
+def git_tag(next_version):
+    tag_message = "HTMLReader {}".format(next_version)
+    version = "v{}".format(next_version)
+    check_call(["git", "tag", "-am", tag_message, version])
+
+
+def update_info_plist(next_version):
+    plist = plistlib.readPlist(INFOPLIST_PATH)
+    plist['CFBundleShortVersionString'] = unicode(next_version)
+    plist['CFBundleVersion'] = next_version.bundle
+    plistlib.writePlist(plist, INFOPLIST_PATH)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Increment the library version")
+    subparsers = parser.add_subparsers(dest='part', help="Commands")
+    subparsers.add_parser('major', help="Bump major version")
+    subparsers.add_parser('minor', help="Bump minor version")
+    subparsers.add_parser('patch', help="Bump patch version")
+    part = parser.parse_args().part
+    
+    old_version = get_current_version()
+    next_version = increment_version(old_version, part)
+    
+    print("{} -> {}".format(old_version, next_version))
+    
+    update_change_log(next_version)
+    update_info_plist(next_version)
+    commit_changes(next_version)
+    git_tag(next_version)
+
+
+if __name__ == '__main__':
+    main()
