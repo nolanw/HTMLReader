@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Diagnostic needs ignoring on iOS 5.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmismatched-parameter-types"
-- (instancetype)initWithObjects:(const id [])objects forKeys:(const id<NSCopying> [])keys count:(NSUInteger)count
+- (instancetype)initWithObjects:(_Nonnull const id [])objects forKeys:(_Nonnull const id<NSCopying> [])keys count:(NSUInteger)count
 #pragma clang diagnostic pop
 {
     if ((self = [self initWithCapacity:count])) {
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
     return _keys[index];
 }
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained _Nonnull  id [])buffer count:(NSUInteger)len
 {
     return [_keys countByEnumeratingWithState:state objects:buffer count:len];
 }
