@@ -1,85 +1,77 @@
 language: objective-c
 matrix:
   include:
-    # Xcode 8: iOS 10, macOS 10.12, tvOS 10, watchOS 3
-    - osx_image: xcode8
+    # Xcode 8.3: iOS 10, macOS 10.12, tvOS 10, watchOS 3
+    - osx_image: xcode8.3
       env:
-        - TEST_SDK="iphonesimulator10.0"
-        - TEST_SCHEME="iOS"
-        - DESTINATION="OS=10.0,name=iPhone 7 Plus"
-        - TEST_ACTION="test"
-    - osx_image: xcode8
+        - SDK="iphonesimulator10.3"
+        - SCHEME="HTMLReader iOS"
+        - DESTINATION="OS=10.3,name=iPhone 7 Plus"
+        - ACTION="test"
+    - osx_image: xcode8.3
       env:
-        - TEST_SDK="macosx10.12"
-        - TEST_SCHEME="OS X"
+        - SDK="macosx10.12"
+        - SCHEME="HTMLReader OS X"
         - DESTINATION="arch=x86_64"
-        - TEST_ACTION="test"
-    - osx_image: xcode8
+        - ACTION="test"
+    - osx_image: xcode8.3
       env:
-        - TEST_SDK="appletvsimulator10.0"
-        - TEST_SCHEME="tvOS"
+        - SDK="appletvsimulator10.2"
+        - SCHEME="HTMLReader tvOS"
         - DESTINATION="OS=10.0,name=Apple TV 1080p"
-        - TEST_ACTION="test"
-    - osx_image: xcode8
+        - ACTION="test"
+    - osx_image: xcode8.3
       env:
-        - TEST_SDK="watchsimulator3.0"
-        - TEST_SCHEME="watchOS"
-        - DESTINATION="OS=3.0,name=Apple Watch - 42mm"
-        - TEST_ACTION="build"
+        - SDK="watchsimulator3.2"
+        - SCHEME="HTMLReader watchOS"
+        - DESTINATION="OS=3.2,name=Apple Watch - 42mm"
+        - ACTION="build"
     # Xcode 7.3: iOS 9, OS X 10.11, tvOS 9, watchOS 2
     - osx_image: xcode7.3
       env:
-        - TEST_SDK="iphonesimulator9.3"
-        - TEST_SCHEME="iOS"
+        - SDK="iphonesimulator9.3"
+        - SCHEME="HTMLReader iOS"
         - DESTINATION="OS=9.0,name=iPhone 5"
-        - TEST_ACTION="test"
+        - ACTION="test"
     - osx_image: xcode7.3
       env:
-        - TEST_SDK="macosx10.11"
-        - TEST_SCHEME="OS X"
+        - SDK="macosx10.11"
+        - SCHEME="HTMLReader OS X"
         - DESTINATION="arch=x86_64"
-        - TEST_ACTION="test"
+        - ACTION="test"
     - osx_image: xcode7.3
       env:
-        - TEST_SDK="appletvsimulator9.2"
-        - TEST_SCHEME="tvOS"
+        - SDK="appletvsimulator9.2"
+        - SCHEME="HTMLReader tvOS"
         - DESTINATION="OS=9.0,name=Apple TV 1080p"
-        - TEST_ACTION="test"
+        - ACTION="test"
     - osx_image: xcode7.3
       env:
-        - TEST_SDK="watchsimulator2.2"
-        - TEST_SCHEME="watchOS"
+        - SDK="watchsimulator2.2"
+        - SCHEME="HTMLReader watchOS"
         - DESTINATION="OS=2.0,name=Apple Watch - 42mm"
-        - TEST_ACTION="build"
+        - ACTION="build"
     # Xcode 6.4: iOS 8, OS X 10.10, OS X 10.9
     - osx_image: xcode6.4
       env:
-        - TEST_SDK="iphonesimulator8.4"
-        - TEST_SCHEME="iOS"
+        - SDK="iphonesimulator8.4"
+        - SCHEME="HTMLReader iOS"
         - DESTINATION="OS=8.4,name=iPhone 5s"
-        - TEST_ACTION="test"
+        - ACTION="test"
     - osx_image: xcode6.4
       env:
-        - TEST_SDK="macosx10.10"
-        - TEST_SCHEME="OS X"
+        - SDK="macosx10.10"
+        - SCHEME="HTMLReader OS X"
         - DESTINATION="arch=x86_64"
-        - TEST_ACTION="test"
+        - ACTION="test"
     - osx_image: xcode6.4
       env:
-        - TEST_SDK="macosx10.9"
-        - TEST_SCHEME="OS X"
+        - SDK="macosx10.9"
+        - SCHEME="HTMLReader OS X"
         - DESTINATION="arch=x86_64"
-        - TEST_ACTION="test"
-    # Xcode 6.1: iOS 7
-    - osx_image: beta-xcode6.1
-      env:
-        - TEST_SDK="iphonesimulator7.1"
-        - TEST_SCHEME="iOS"
-        - DESTINATION="OS=7.1,name=iPhone 4s"
-        - TEST_ACTION="test"
+        - ACTION="test"
 script:
-  - set -o pipefail
-  - xcodebuild -project HTMLReader.xcodeproj -scheme "HTMLReader $TEST_SCHEME" -sdk "$TEST_SDK" -destination "$DESTINATION" "${TEST_ACTION:-test}" | xcpretty
+  - xcodebuild -project HTMLReader.xcodeproj -scheme "$SCHEME" -configuration Release -sdk "$SDK" -destination "$DESTINATION" "$ACTION"
 notifications:
   email:
     - nolan@nolanw.ca
