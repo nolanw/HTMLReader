@@ -112,7 +112,7 @@ def git_tag(next_version):
 def update_info_plist(next_version):
     plist = plistlib.readPlist(INFOPLIST_PATH)
     plist['CFBundleShortVersionString'] = unicode(next_version)
-    plist['CFBundleVersion'] = next_version.bundle
+    plist['CFBundleVersion'] = str(next_version.bundle)
     plistlib.writePlist(plist, INFOPLIST_PATH)
 
 

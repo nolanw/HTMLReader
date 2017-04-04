@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Fix `bump-version` script to save `CFBundleVersion` as a string (not a number) in `Info.plist`. (Fixes #74.)
+
 ## [2.0.4][]
 
 * Fix a compiler warning new to Xcode 8.3.
