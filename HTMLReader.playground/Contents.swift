@@ -26,8 +26,8 @@ URLSession.shared.dataTask(with: URL(string: homepage)!) { (data, response, erro
     }
     
     print(div.textContent.trimmingCharacters(in: .whitespacesAndNewlines))
-    
-    
+
+    PlaygroundPage.current.finishExecution()
 }.resume()
 
 PlaygroundPage.current.needsIndefiniteExecution = true
