@@ -398,10 +398,13 @@ HTMLSelectorPredicateGen isEnabledPredicate(void)
                                                                           isTagTypePredicate(@"menuitem"),
                                                                           isTagTypePredicate(@"fieldset")
                                                                           ]);
+    NSMutableArray *combinator = [NSMutableArray arrayWithObject:canOtherwiseBeEnabled];
+    HTMLSelectorPredicateGen negate = negatePredicate(isDisabledPredicate());
+    if (negate) {
+        [combinator addObject:negate];
+    }
     return orCombinatorPredicate(@[andCombinatorPredicate(@[enabledByHref, hasHrefAttribute ]),
-                                   andCombinatorPredicate(@[canOtherwiseBeEnabled,
-                                                            negatePredicate(isDisabledPredicate())
-                                                            ])
+                                   andCombinatorPredicate(combinator)
                                    ]);
 }
 
