@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)html_stringByEscapingForHTML
 {
     NSMutableString *escaped = [self mutableCopy];
-    void (^replace)() = ^(NSString *find, NSString *replace) {
+    void (^replace)(NSString *, NSString *) = ^(NSString *find, NSString *replace) {
         [escaped replaceOccurrencesOfString:find withString:replace options:0 range:NSMakeRange(0, escaped.length)];
     };
     replace(@"&", @"&amp;");

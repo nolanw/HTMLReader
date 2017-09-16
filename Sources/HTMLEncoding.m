@@ -310,7 +310,7 @@ static const EncodingLabelMap EncodingLabels[] = {
     { @"x-x-big5", @"big5" },
 };
 
-static int (^EncodingLabelComparator)() = ^int(const void *voidKey, const void *voidItem) {
+static int (^EncodingLabelComparator)(const void *, const void *) = ^int(const void *voidKey, const void *voidItem) {
     const NSString *key = (__bridge const NSString *)voidKey;
     const EncodingLabelMap *item = voidItem;
     return [key caseInsensitiveCompare:item->label];
@@ -376,7 +376,7 @@ static const NameCFEncodingMap StringEncodings[] = {
     { @"x-user-defined", kCFStringEncodingWindowsLatin1 },
 };
 
-static int (^NameCFEncodingComparator)() = ^int(const void *voidKey, const void *voidItem) {
+static int (^NameCFEncodingComparator)(const void *, const void *) = ^int(const void *voidKey, const void *voidItem) {
     const NSString *key = (__bridge const NSString *)voidKey;
     const NameCFEncodingMap *item = voidItem;
     return [key caseInsensitiveCompare:item->name];

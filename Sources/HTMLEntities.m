@@ -47,7 +47,7 @@ static const ReplacementMap Win1252Table[] = {
     { 0x9F, 0x0178 },
 };
 
-static int (^ReplacementMapComparator)() = ^(const void *voidKey, const void *voidItem) {
+static int (^ReplacementMapComparator)(const void *, const void *) = ^(const void *voidKey, const void *voidItem) {
     const UTF32Char *key = voidKey;
     const ReplacementMap *item = voidItem;
     if (item->number < *key) {
@@ -2315,7 +2315,7 @@ static const NamedReferenceMap NamedSemicolonlessReferences[] = {
 
 const NSUInteger LongestEntityNameLength = 32;
 
-static int (^NamedMapPrefixComparator)() = ^int(const void *voidKey, const void *voidItem) {
+static int (^NamedMapPrefixComparator)(const void *, const void *) = ^int(const void *voidKey, const void *voidItem) {
     const NSString *key = (__bridge const NSString *)voidKey;
     const NamedReferenceMap *item = voidItem;
     if ([key hasPrefix:item->name]) {
