@@ -1,12 +1,37 @@
 language: objective-c
 matrix:
   include:
+    # Xcode 9: iOS 11, macOS 10.13, tvOS 11, watchOS 4
+    - osx_image: xcode9
+      env:
+        - SDK="iphonesimulator11.0"
+        - SCHEME="HTMLReader iOS"
+        - DESTINATION="OS=11.0,name=iPhone 8 Plus"
+        - ACTION="test"
+    - osx_image: xcode9
+      env:
+        - SDK="macosx10.13"
+        - SCHEME="HTMLReader OS X"
+        - DESTINATION="arch=x86_64"
+        - ACTION="test"
+    - osx_image: xcode9
+      env:
+        - SDK="appletvsimulator11.0"
+        - SCHEME="HTMLReader tvOS"
+        - DESTINATION="OS=11.0,name=Apple TV 4K"
+        - ACTION="test"
+    - osx_image: xcode9
+      env:
+        - SDK="watchsimulator4.0"
+        - SCHEME="HTMLReader watchOS"
+        - DESTINATION="OS=4.0,name=Apple Watch Series 3 - 42mm"
+        - ACTION="build"
     # Xcode 8.3: iOS 10, macOS 10.12, tvOS 10, watchOS 3
     - osx_image: xcode8.3
       env:
         - SDK="iphonesimulator10.3"
         - SCHEME="HTMLReader iOS"
-        - DESTINATION="OS=10.3,name=iPhone 7 Plus"
+        - DESTINATION="OS=10.3.1,name=iPhone 7 Plus"
         - ACTION="test"
     - osx_image: xcode8.3
       env:
