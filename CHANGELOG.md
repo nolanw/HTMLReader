@@ -2,7 +2,10 @@
 
 ## [Unreleased]
 
+* Update project settings for Xcode 9 GM and fix warnings.
+
 ## [2.0.5][]
+
 * Fix `bump-version` script to save `CFBundleVersion` as a string (not a number) in `Info.plist`. (Fixes #74.)
 
 ## [2.0.4][]
