@@ -82,7 +82,7 @@
 /**
     A block called whenever a parse error occurs. The block has no return value and takes as parameters:
  
-    @param error A description of the error.
+    * error A description of the error.
  */
 @property (copy, nonatomic) void (^errorBlock)(NSString *error);
 
