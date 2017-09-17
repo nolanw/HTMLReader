@@ -31,7 +31,7 @@
 /**
     Continually consumes characters until a certain character is encountered.
  
-    @param predicate A block that is called with each character consumed. When the block returns YES, character consumption stops.
+    @param test A block that is called with each character consumed. When the block returns YES, character consumption stops.
  
     @return A string of the characters consumed, or nil if the stream is fully consumed before the block returns YES.
  */

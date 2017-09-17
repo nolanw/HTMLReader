@@ -18,7 +18,7 @@ typedef struct {
     Returns a string encoding that likely encodes the data.
  
     @param contentType   The value of the HTTP Content-Type header, if present.
-    @param decodedString On return, contains the string decoded as the determined string encoding.
+    @param outDecodedString On return, contains the string decoded as the determined string encoding.
  
     For more information, see https://html.spec.whatwg.org/multipage/syntax.html#determining-the-character-encoding
  */

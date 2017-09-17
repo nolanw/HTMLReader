@@ -47,7 +47,7 @@
 
 #pragma mark - Tokens
 
-/// An HTMLTagToken abstractly represents opening (`<p>`) and closing (`</p>`) HTML tags with optional attributes.
+/// An HTMLTagToken abstractly represents opening (\<p\>) and closing (\</p\>) HTML tags with optional attributes.
 @interface HTMLTagToken : NSObject
 
 /// Initializes a token with a tag name.
@@ -59,7 +59,7 @@
 /// A dictionary mapping HTMLAttributeName keys to NSString values.
 @property (copy, nonatomic) HTMLOrderedDictionary *attributes;
 
-/// YES if this tag is a self-closing tag (<br/>), or NO otherwise (<br> or </br>).
+/// YES if this tag is a self-closing tag (\<br/\>), or NO otherwise (\<br\> or \</br\>).
 @property (assign, nonatomic) BOOL selfClosingFlag;
 
 @end
@@ -76,12 +76,12 @@
 
 @end
 
-/// An HTMLEndTagToken represents an end tag like `</p>`.
+/// An HTMLEndTagToken represents an end tag like \</p\>.
 @interface HTMLEndTagToken : HTMLTagToken
 
 @end
 
-/// An HTMLCommentToken represents a comment <!-- like this -->.
+/// An HTMLCommentToken represents a comment \<!-- like this --\>.
 @interface HTMLCommentToken : NSObject
 
 /// @param data The comment's data.
