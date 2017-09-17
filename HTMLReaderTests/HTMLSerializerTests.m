@@ -73,7 +73,7 @@
 
 - (void)testDescriptionForNonStringAttributes
 {
-    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"p" attributes:@{@"num": @1}];
+    HTMLElement *node = [[HTMLElement alloc] initWithTagName:@"p" attributes:@{@"num": (id)@1}];
     XCTAssertEqualObjects(node.serializedFragment, @"<p num=\"1\"></p>");
 }
 

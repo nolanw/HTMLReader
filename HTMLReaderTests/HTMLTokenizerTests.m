@@ -26,7 +26,7 @@
     NSMutableArray *expectedTokens = [NSMutableArray new];
     NSMutableArray *parseErrors = [NSMutableArray new];
     NSMutableString *characterBuffer = [NSMutableString new];
-    void (^flushCharacterBuffer)() = ^{
+    void (^flushCharacterBuffer)(void) = ^{
         if (characterBuffer.length > 0) {
             [expectedTokens addObject:[[HTMLCharacterToken alloc] initWithString:characterBuffer]];
             characterBuffer.string = @"";
@@ -188,7 +188,7 @@ static NSString * UnDoubleEscape(NSString *input)
 {
     NSMutableArray *tokens = [NSMutableArray new];
     NSMutableString *currentString = [NSMutableString new];
-    void (^flushCurrentString)() = ^{
+    void (^flushCurrentString)(void) = ^{
         if (currentString.length > 0) {
             [tokens addObject:[[HTMLCharacterToken alloc] initWithString:currentString]];
             currentString.string = @"";
