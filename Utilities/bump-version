@@ -78,7 +78,7 @@ def update_change_log(next_version):
         
         def append_header(match):
             unreleased = match.group(0)
-            return "{unreleased}\n## [{next_version}][]".format(unreleased=match.group(0),
+            return "{unreleased}\n## [{next_version}][]\n".format(unreleased=match.group(0),
                                                                 next_version=next_version)
         
         updated = re.sub(r'^##\s*\[Unreleased\]\s*$', append_header, updated, flags=re.MULTILINE)
