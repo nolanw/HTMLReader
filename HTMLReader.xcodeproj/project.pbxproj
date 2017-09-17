@@ -47,6 +47,9 @@
 		0D1077AB1C1AC79900CF9B41 /* HTMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CD524F818D74CFF003F46A3 /* HTMLSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0D1077AC1C1AC7C600CF9B41 /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C8E10531919F1560010007B /* NSString+HTMLEntities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0D1077AD1C1AC99500CF9B41 /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC666A617B0C71100E457E7 /* HTMLTokenizerTests.m */; };
+		1C19CA421F6EFDCE0060F4DE /* HTMLDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C19CA411F6EFDCE0060F4DE /* HTMLDocumentTests.m */; };
+		1C19CA431F6EFDCE0060F4DE /* HTMLDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C19CA411F6EFDCE0060F4DE /* HTMLDocumentTests.m */; };
+		1C19CA441F6EFDCE0060F4DE /* HTMLDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C19CA411F6EFDCE0060F4DE /* HTMLDocumentTests.m */; };
 		1C25D3A8177BB78600F7C10D /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D3A7177BB78600F7C10D /* HTMLDocument.m */; };
 		1C25D40A17837A8A00F7C10D /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C25D40917837A8A00F7C10D /* HTMLParser.m */; };
 		1C319BCB1C618939000DAA63 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5C21518D746D600147FE7 /* HTMLComment.m */; };
@@ -247,6 +250,8 @@
 /* Begin PBXFileReference section */
 		0D10776E1C1AC2DF00CF9B41 /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D1077771C1AC2DF00CF9B41 /* Tests on tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C19CA361F6EFCE30060F4DE /* HTMLDocument+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "HTMLDocument+Private.h"; path = "include/HTMLDocument+Private.h"; sourceTree = "<group>"; };
+		1C19CA411F6EFDCE0060F4DE /* HTMLDocumentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentTests.m; sourceTree = "<group>"; };
 		1C25D3A6177BB78600F7C10D /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLDocument.h; path = include/HTMLDocument.h; sourceTree = "<group>"; };
 		1C25D3A7177BB78600F7C10D /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
 		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLParser.h; path = include/HTMLParser.h; sourceTree = "<group>"; };
@@ -275,7 +280,7 @@
 		1C9C3EB9176BC53900E982C9 /* libHTMLReader.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLReader.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3ECA176BC53900E982C9 /* Tests on iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests on iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C9C3ED5176BC53900E982C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1CA240D61AD95F6900BB9D61 /* HTMLReader.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HTMLReader.playground; sourceTree = "<group>"; };
+		1CA240D61AD95F6900BB9D61 /* HTMLReader.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HTMLReader.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1CA5C20F18D7457400147FE7 /* HTMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLElement.h; path = include/HTMLElement.h; sourceTree = "<group>"; };
 		1CA5C21018D7457400147FE7 /* HTMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLElement.m; sourceTree = "<group>"; };
 		1CA5C21418D746D600147FE7 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLComment.h; path = include/HTMLComment.h; sourceTree = "<group>"; };
@@ -460,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC6693E18D6DDD400BDF7B8 /* HTMLDictionaryTests.m */,
+				1C19CA411F6EFDCE0060F4DE /* HTMLDocumentTests.m */,
 				1C9513C21A8029CC00BB2CC9 /* HTMLEncodingTests.m */,
 				1C8E105D1919F27A0010007B /* HTMLEscapingTest.m */,
 				1CD524FD18DB51E6003F46A3 /* HTMLNodeTests.m */,
@@ -493,6 +499,7 @@
 				1CA5C21518D746D600147FE7 /* HTMLComment.m */,
 				1C25D3A6177BB78600F7C10D /* HTMLDocument.h */,
 				1C25D3A7177BB78600F7C10D /* HTMLDocument.m */,
+				1C19CA361F6EFCE30060F4DE /* HTMLDocument+Private.h */,
 				1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */,
 				1CA5C21A18D7479C00147FE7 /* HTMLDocumentType.m */,
 				1CA5C20F18D7457400147FE7 /* HTMLElement.h */,
@@ -978,6 +985,7 @@
 				0D1077881C1AC40500CF9B41 /* HTMLEscapingTest.m in Sources */,
 				0D1077871C1AC40500CF9B41 /* HTMLEncodingTests.m in Sources */,
 				0D1077861C1AC40500CF9B41 /* HTMLDictionaryTests.m in Sources */,
+				1C19CA441F6EFDCE0060F4DE /* HTMLDocumentTests.m in Sources */,
 				0D1077AD1C1AC99500CF9B41 /* HTMLTokenizerTests.m in Sources */,
 				0D1077891C1AC40500CF9B41 /* HTMLNodeTests.m in Sources */,
 				0D10778B1C1AC40500CF9B41 /* HTMLSerializerTests.m in Sources */,
@@ -1065,6 +1073,7 @@
 			files = (
 				1CC6694018D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */,
 				1C8E105F1919F27A0010007B /* HTMLEscapingTest.m in Sources */,
+				1C19CA431F6EFDCE0060F4DE /* HTMLDocumentTests.m in Sources */,
 				1CD524FF18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				1C88297118369F320051653C /* HTMLSelectorTests.m in Sources */,
 				1C88297218369F320051653C /* HTMLSerializerTests.m in Sources */,
@@ -1122,6 +1131,7 @@
 			files = (
 				1CC6693F18D6DDD400BDF7B8 /* HTMLDictionaryTests.m in Sources */,
 				1C8E105E1919F27A0010007B /* HTMLEscapingTest.m in Sources */,
+				1C19CA421F6EFDCE0060F4DE /* HTMLDocumentTests.m in Sources */,
 				1CD524FE18DB51E6003F46A3 /* HTMLNodeTests.m in Sources */,
 				83C4518D17BB1FA500C144DF /* HTMLSelectorTests.m in Sources */,
 				1CF4584217CC83DD000F64B5 /* HTMLSerializerTests.m in Sources */,

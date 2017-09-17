@@ -2,7 +2,7 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import "HTMLDocument.h"
+#import "HTMLDocument+Private.h"
 #import "HTMLParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,6 +43,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.class documentWithString:string];
 }
 
+- (instancetype)init
+{
+    if (!(self = [super init])) {
+        return nil;
+    }
+
+    _parsedStringEncoding = NSUTF8StringEncoding;
+
+    return self;
+}
+
 - (HTMLDocumentType * __nullable)documentType
 {
     return FirstNodeOfType(self.children, [HTMLDocumentType class]);
@@ -65,6 +76,11 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (oldDocumentType) {
         [children removeObject:oldDocumentType];
     }
+}
+
+- (void)setParsedStringEncoding:(NSStringEncoding)parsedStringEncoding
+{
+    _parsedStringEncoding = parsedStringEncoding;
 }
 
 - (HTMLElement * __nullable)rootElement

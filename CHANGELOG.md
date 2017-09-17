@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Add a `-[HTMLDocument parsedStringEncoding]` property.
+    * Some parts of the HTML spec make use of a document's string encoding, such as when submitting a form.
 * Import updated character encoding labels from the WHATWG.
 
 ## [2.0.6][]

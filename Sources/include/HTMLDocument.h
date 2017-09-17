@@ -44,6 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) HTMLDocumentType * __nullable documentType;
 
+/// The string encoding used to parse the document. Defaults to `NSUTF8StringEncoding` (e.g. if the document was created programmatically).
+@property (readonly, nonatomic) NSStringEncoding parsedStringEncoding;
+
 /// The document's quirks mode.
 @property (assign, nonatomic) HTMLQuirksMode quirksMode;
 

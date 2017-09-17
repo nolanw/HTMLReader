@@ -4,6 +4,7 @@
 
 #import "HTMLParser.h"
 #import "HTMLComment.h"
+#import "HTMLDocument+Private.h"
 #import "HTMLString.h"
 #import "HTMLTokenizer.h"
 
@@ -144,6 +145,7 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         [documentChildren removeAllObjects];
         [documentChildren addObjectsFromArray:root.children.array];
     }
+    _document.parsedStringEncoding = self.encoding.encoding;
     return _document;
 }
 
