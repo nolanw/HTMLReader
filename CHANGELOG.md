@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Import updated character encoding labels from the WHATWG.
+
 ## [2.0.6][]
 * Update project settings for Xcode 9 GM and fix warnings.
 
