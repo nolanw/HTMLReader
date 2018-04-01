@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
             
             if (!object) [NSException raise:NSInvalidArgumentException format:@"%@ object at %@ cannot be nil", NSStringFromSelector(_cmd), @(i)];
             if (!key) [NSException raise:NSInvalidArgumentException format:@"%@ key at %@ cannot be nil", NSStringFromSelector(_cmd), @(i)];
-            
-            self[keys[i]] = objects[i];
+
+            [self setObject:objects[i] forKey:keys[i]];
         }
     }
     return self;
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *keys = [coder decodeObjectForKey:@"keys"];
     HTMLOrderedDictionary *dictionary = [self initWithCapacity:keys.count];
     for (id key in keys) {
-        dictionary[key] = map[key];
+        [dictionary setObject:(id)[map objectForKey:key] forKey:key];
     }
     return dictionary;
 }
@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)objectAtIndexedSubscript:(NSUInteger)index
 {
-    return _keys[index];
+    return [_keys objectAtIndex:index];
 }
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id __nonnull [])buffer count:(NSUInteger)len

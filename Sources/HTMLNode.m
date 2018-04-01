@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (HTMLNode *)childAtIndex:(NSUInteger)index
 {
-    return _children[index];
+    return [_children objectAtIndex:index];
 }
 
 - (NSUInteger)indexOfChild:(HTMLNode *)child
@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeObjectFromChildrenAtIndex:(NSUInteger)index
 {
-    HTMLNode *node = _children[index];
+    HTMLNode *node = [_children objectAtIndex:index];
     [_children removeObjectAtIndex:index];
     [node setParentNode:nil updateChildren:NO];
 }
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)replaceObjectInChildrenAtIndex:(NSUInteger)index withObject:(HTMLNode *)node
 {
-    HTMLNode *old = _children[index];
+    HTMLNode *old = [_children objectAtIndex:index];
     [_children replaceObjectAtIndex:index withObject:node];
     [old setParentNode:nil updateChildren:NO];
     [node setParentNode:self updateChildren:NO];
@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSParameterAssert(string);
     
-    id candidate = index > 0 ? _children[index - 1] : nil;
+    id candidate = index > 0 ? [_children objectAtIndex:(index - 1)] : nil;
     HTMLTextNode *textNode;
     if ([candidate isKindOfClass:[HTMLTextNode class]]) {
         textNode = candidate;

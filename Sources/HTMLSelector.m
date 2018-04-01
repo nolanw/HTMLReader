@@ -503,7 +503,7 @@ static __nullable HTMLSelectorPredicateGen scanPredicateFromPseudoClass(NSScanne
                           };
 	});
 	
-	id simple = simplePseudos[pseudo];
+    id simple = [simplePseudos objectForKey:pseudo];
 	if (simple) {
 		return simple;
 	}
@@ -1003,10 +1003,10 @@ HTMLNthExpression HTMLNthExpressionFromString(NSString *string)
 		// No Ns or multiple Ns, fail
 		return HTMLNthExpressionInvalid;
 	} else if (valueSplit.count == 2) {
-		NSNumber *numberOne = parseNumber(valueSplit[0], 1);
-		NSNumber *numberTwo = parseNumber(valueSplit[1], 0);
+        NSNumber *numberOne = parseNumber([valueSplit objectAtIndex:0], 1);
+        NSNumber *numberTwo = parseNumber([valueSplit objectAtIndex:1], 0);
 		
-		if ([valueSplit[0] isEqualToString:@"-"] && numberTwo) {
+        if ([[valueSplit objectAtIndex:0] isEqualToString:@"-"] && numberTwo) {
 			// "n" was defined, and only "-" was given as a multiplier
 			return HTMLNthExpressionMake(-1, numberTwo.integerValue);
 		} else if (numberOne && numberTwo) {
@@ -1015,7 +1015,7 @@ HTMLNthExpression HTMLNthExpressionFromString(NSString *string)
 			return HTMLNthExpressionInvalid;
 		}
 	} else {
-		NSNumber *number = parseNumber(valueSplit[0], 1);
+        NSNumber *number = parseNumber([valueSplit objectAtIndex:0], 1);
 		
 		// "n" not found, use whole string as b
 		return HTMLNthExpressionMake(0, number.integerValue);

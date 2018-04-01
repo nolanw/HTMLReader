@@ -2231,10 +2231,10 @@ static inline BOOL is_lower(NSInteger c)
 - (void)addCurrentAttributeToCurrentToken
 {
     HTMLTagToken *token = _currentToken;
-    if (token.attributes[_currentAttributeName]) {
+    if ([token.attributes objectForKey:_currentAttributeName]) {
         [self emitParseError:@"Duplicate attribute"];
     } else {
-        token.attributes[_currentAttributeName] = _currentAttributeValue ?: @"";
+        [token.attributes setObject:(_currentAttributeValue ?: @"") forKey:_currentAttributeName];
     }
     _currentAttributeName = nil;
     _currentAttributeValue = nil;
@@ -2339,7 +2339,7 @@ static inline BOOL is_lower(NSInteger c)
         [self resume];
     }
     if (_tokenQueue.count == 0) return nil;
-    id token = _tokenQueue[0];
+    id token = [_tokenQueue objectAtIndex:0];
     [_tokenQueue removeObjectAtIndex:0];
     return token;
 }

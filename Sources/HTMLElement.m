@@ -39,14 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id __nullable)objectForKeyedSubscript:(id)attributeName
 {
-    return _attributes[attributeName];
+    return [_attributes objectForKey:attributeName];
 }
 
 - (void)setObject:(NSString *)attributeValue forKeyedSubscript:(NSString *)attributeName
 {
     NSParameterAssert(attributeValue);
-    
-    _attributes[attributeName] = attributeValue;
+
+    [_attributes setObject:attributeValue forKey:attributeName];
 }
 
 - (void)removeAttributeWithName:(NSString *)attributeName

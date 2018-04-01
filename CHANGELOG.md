@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Replace subscripting to quiet `-Wunguarded-availability` warnings (despite ARClite making the method available at the deployment target).
+
 ## [2.1.1][]
 
 * Update project for and fix build failures new to Xcode 9.3.
