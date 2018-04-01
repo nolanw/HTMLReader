@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.1.1][]
+
 * Update project for and fix build failures new to Xcode 9.3.
 
 ## [2.1][]
@@ -128,7 +130,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/nolanw/HTMLReader/compare/v2.1...v2.1.1
 [2.1]: https://github.com/nolanw/HTMLReader/compare/v2.0.6...v2.1
 [2.0.6]: https://github.com/nolanw/HTMLReader/compare/v2.0.5...v2.0.6
 [2.0.5]: https://github.com/nolanw/HTMLReader/compare/v2.0.4...v2.0.5
