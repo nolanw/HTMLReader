@@ -2151,7 +2151,7 @@ static inline BOOL is_lower(NSInteger c)
         case HTMLCDATASectionTokenizerState:
             return [self CDATASectionState];
         default:
-            NSAssert(NO, @"unexpected state %zd", self.state);
+            NSAssert(NO, @"unexpected state %ld", (long)self.state);
     }
 }
 

@@ -2827,7 +2827,7 @@ static BOOL IsHTMLIntegrationPoint(HTMLElement *node)
             }
             
         default:
-            NSAssert(NO, @"cannot handle %@ token in insertion mode %zd", [token class], insertionMode);
+            NSAssert(NO, @"cannot handle %@ token in insertion mode %ld", [token class], (long)insertionMode);
             break;
     }
 }

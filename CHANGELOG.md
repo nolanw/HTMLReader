@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Update project for and fix build failures new to Xcode 9.3.
+
 ## [2.1][]
 
 * Add a `-[HTMLDocument parsedStringEncoding]` property.

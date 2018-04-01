@@ -26,8 +26,8 @@ static NSError * ParseError(NSString *reason, NSString *string, NSUInteger posit
      
      */
     NSString *caretString = [@"^" stringByPaddingToLength:position+1 withString:@" " startingAtIndex:0];
-    NSString *failureReason = [NSString stringWithFormat:@"Error near character %zd: %@\n\n\t%@\n\t\%@",
-                               position,
+    NSString *failureReason = [NSString stringWithFormat:@"Error near character %lu: %@\n\n\t%@\n\t\%@",
+                               (unsigned long)position,
                                reason,
                                string,
                                caretString];
