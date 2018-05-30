@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.1.2][]
+
 * Avoid symbol collision for `parseNumber` with Tapjoy SDK by marking it and other helper functions in `HTMLSelector.m` as `static`. (Fixes #85.)
 * Replace subscripting to quiet `-Wunguarded-availability` warnings (despite ARClite making the method available at the deployment target).
 
@@ -133,7 +135,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.2...HEAD
+[2.1.2]: https://github.com/nolanw/HTMLReader/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/nolanw/HTMLReader/compare/v2.1...v2.1.1
 [2.1]: https://github.com/nolanw/HTMLReader/compare/v2.0.6...v2.1
 [2.0.6]: https://github.com/nolanw/HTMLReader/compare/v2.0.5...v2.0.6
