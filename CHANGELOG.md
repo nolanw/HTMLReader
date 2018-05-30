@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+* Avoid symbol collision for `parseNumber` with Tapjoy SDK by marking it and other helper functions in `HTMLSelector.m` as `static`. (Fixes #85.)
 * Replace subscripting to quiet `-Wunguarded-availability` warnings (despite ARClite making the method available at the deployment target).
 
 ## [2.1.1][]

@@ -40,7 +40,7 @@ static NSError * ParseError(NSString *reason, NSString *string, NSUInteger posit
     return [NSError errorWithDomain:HTMLSelectorErrorDomain code:1 userInfo:userInfo];
 }
 
-__nullable HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
+static __nullable HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predicate)
 {
 	if (!predicate) return nil;
 	
@@ -49,7 +49,7 @@ __nullable HTMLSelectorPredicateGen negatePredicate(HTMLSelectorPredicate predic
 	};
 }
 
-HTMLSelectorPredicateGen neverPredicate(void)
+static HTMLSelectorPredicateGen neverPredicate(void)
 {
     return ^(HTMLElement *node) {
         return NO;
@@ -58,7 +58,7 @@ HTMLSelectorPredicateGen neverPredicate(void)
 
 #pragma mark - Combinators
 
-HTMLSelectorPredicateGen bothCombinatorPredicate(__nullable HTMLSelectorPredicate a, __nullable HTMLSelectorPredicate b)
+static HTMLSelectorPredicateGen bothCombinatorPredicate(__nullable HTMLSelectorPredicate a, __nullable HTMLSelectorPredicate b)
 {
 	// There was probably an error somewhere else in parsing, so return a block that always returns NO
     if (!a || !b) return ^(HTMLElement *_) { return NO; };
@@ -68,7 +68,7 @@ HTMLSelectorPredicateGen bothCombinatorPredicate(__nullable HTMLSelectorPredicat
 	};
 }
 
-HTMLSelectorPredicateGen andCombinatorPredicate(NSArray * __nullable predicates)
+static HTMLSelectorPredicateGen andCombinatorPredicate(NSArray * __nullable predicates)
 {
     return ^(HTMLElement *node) {
         for (HTMLSelectorPredicate predicate in predicates) {
@@ -80,7 +80,7 @@ HTMLSelectorPredicateGen andCombinatorPredicate(NSArray * __nullable predicates)
     };
 }
 
-HTMLSelectorPredicateGen orCombinatorPredicate(NSArray * __nullable predicates)
+static HTMLSelectorPredicateGen orCombinatorPredicate(NSArray * __nullable predicates)
 {
 	return ^(HTMLElement *node) {
 		for (HTMLSelectorPredicate predicate in predicates) {
@@ -92,7 +92,7 @@ HTMLSelectorPredicateGen orCombinatorPredicate(NSArray * __nullable predicates)
 	};
 }
 
-HTMLSelectorPredicateGen isTagTypePredicate(NSString *tagType)
+static HTMLSelectorPredicateGen isTagTypePredicate(NSString *tagType)
 {
 	if ([tagType isEqualToString:@"*"]) {
 		return ^(HTMLElement *node) {
@@ -105,7 +105,7 @@ HTMLSelectorPredicateGen isTagTypePredicate(NSString *tagType)
 	}
 }
 
-HTMLSelectorPredicateGen childOfOtherPredicatePredicate(HTMLSelectorPredicate parentPredicate)
+static HTMLSelectorPredicateGen childOfOtherPredicatePredicate(HTMLSelectorPredicate parentPredicate)
 {
     static HTMLSelectorPredicateGen const AlwaysNo = ^(HTMLElement *_) { return NO; };
     if (!parentPredicate) return AlwaysNo;
@@ -119,7 +119,7 @@ HTMLSelectorPredicateGen childOfOtherPredicatePredicate(HTMLSelectorPredicate pa
 	};
 }
 
-HTMLSelectorPredicateGen descendantOfPredicate(__nullable HTMLSelectorPredicate parentPredicate)
+static HTMLSelectorPredicateGen descendantOfPredicate(__nullable HTMLSelectorPredicate parentPredicate)
 {
     if (!parentPredicate) return ^(HTMLElement *_) { return NO; };
 	
@@ -135,7 +135,7 @@ HTMLSelectorPredicateGen descendantOfPredicate(__nullable HTMLSelectorPredicate 
 	};
 }
 
-HTMLSelectorPredicateGen isEmptyPredicate(void)
+static HTMLSelectorPredicateGen isEmptyPredicate(void)
 {
 	return ^BOOL(HTMLElement *node) {
         for (HTMLNode *child in node.children) {
@@ -155,14 +155,14 @@ HTMLSelectorPredicateGen isEmptyPredicate(void)
 
 #pragma mark - Attribute Predicates
 
-HTMLSelectorPredicateGen hasAttributePredicate(NSString *attributeName)
+static HTMLSelectorPredicateGen hasAttributePredicate(NSString *attributeName)
 {
 	return ^BOOL(HTMLElement *node) {
 		return !!node[attributeName];
 	};
 }
 
-HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NSString *attributeValue)
+static HTMLSelectorPredicateGen attributeIsExactlyPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElement *node) {
 		return [node[attributeName] isEqualToString:attributeValue];
@@ -175,7 +175,7 @@ NSCharacterSet * HTMLSelectorWhitespaceCharacterSet(void)
     return [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
 }
 
-HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate(NSString *attributeName, NSString *attributeValue)
+static HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate(NSString *attributeName, NSString *attributeValue)
 {
     NSCharacterSet *whitespace = HTMLSelectorWhitespaceCharacterSet();
     return ^(HTMLElement *node) {
@@ -184,14 +184,14 @@ HTMLSelectorPredicateGen attributeContainsExactWhitespaceSeparatedValuePredicate
     };
 }
 
-HTMLSelectorPredicateGen attributeStartsWithPredicate(NSString *attributeName, NSString *attributeValue)
+static HTMLSelectorPredicateGen attributeStartsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElement *node) {
 		return [node[attributeName] hasPrefix:attributeValue];
 	};
 }
 
-HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSString *attributeValue)
+static HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^BOOL(HTMLElement *node) {
         NSString *value = node[attributeName];
@@ -199,34 +199,16 @@ HTMLSelectorPredicateGen attributeContainsPredicate(NSString *attributeName, NSS
 	};
 }
 
-HTMLSelectorPredicateGen attributeEndsWithPredicate(NSString *attributeName, NSString *attributeValue)
+static HTMLSelectorPredicateGen attributeEndsWithPredicate(NSString *attributeName, NSString *attributeValue)
 {
 	return ^(HTMLElement *node) {
 		return [node[attributeName] hasSuffix:attributeValue];
 	};
 }
 
-HTMLSelectorPredicateGen attributeIsExactlyAnyOf(NSString *attributeName, NSArray *attributeValues)
-{
-	NSMutableArray *arrayOfPredicates = [NSMutableArray arrayWithCapacity:attributeValues.count];
-	for (NSString *attributeValue in attributeValues) {
-		[arrayOfPredicates addObject:attributeIsExactlyPredicate(attributeName, attributeValue)];
-	}
-	return orCombinatorPredicate(arrayOfPredicates);
-}
-
-HTMLSelectorPredicateGen attributeStartsWithAnyOf(NSString *attributeName, NSArray *attributeValues)
-{
-	NSMutableArray *arrayOfPredicates = [NSMutableArray arrayWithCapacity:attributeValues.count];
-	for (NSString *attributeValue in attributeValues) {
-		[arrayOfPredicates addObject:attributeStartsWithPredicate(attributeName, attributeValue)];
-	}
-	return orCombinatorPredicate(arrayOfPredicates);
-}
-
 #pragma mark Sibling Predicates
 
-__nullable HTMLSelectorPredicateGen adjacentSiblingPredicate(__nullable HTMLSelectorPredicate siblingTest)
+static __nullable HTMLSelectorPredicateGen adjacentSiblingPredicate(__nullable HTMLSelectorPredicate siblingTest)
 {
 	if (!siblingTest) return nil;
 	
@@ -237,7 +219,7 @@ __nullable HTMLSelectorPredicateGen adjacentSiblingPredicate(__nullable HTMLSele
 	};
 }
 
-__nullable HTMLSelectorPredicateGen generalSiblingPredicate(__nullable HTMLSelectorPredicate siblingTest)
+static __nullable HTMLSelectorPredicateGen generalSiblingPredicate(__nullable HTMLSelectorPredicate siblingTest)
 {
 	if (!siblingTest) return nil;
 	
@@ -256,7 +238,7 @@ __nullable HTMLSelectorPredicateGen generalSiblingPredicate(__nullable HTMLSelec
 
 #pragma mark nth- Predicates
 
-HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLast)
+static HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLast)
 {
 	return ^BOOL(HTMLNode *node) {
 		NSArray *parentElements = node.parentElement.childElementNodes;
@@ -275,7 +257,7 @@ HTMLSelectorPredicateGen isNthChildPredicate(HTMLNthExpression nth, BOOL fromLas
 	};
 }
 
-__nullable HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, __nullable HTMLSelectorPredicate typePredicate, BOOL fromLast)
+static __nullable HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression nth, __nullable HTMLSelectorPredicate typePredicate, BOOL fromLast)
 {
 	if (!typePredicate) return nil;
 	
@@ -301,39 +283,39 @@ __nullable HTMLSelectorPredicateGen isNthChildOfTypePredicate(HTMLNthExpression 
 	};
 }
 
-HTMLSelectorPredicateGen isFirstChildPredicate(void)
+static HTMLSelectorPredicateGen isFirstChildPredicate(void)
 {
 	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), NO);
 }
 
-HTMLSelectorPredicateGen isLastChildPredicate(void)
+static HTMLSelectorPredicateGen isLastChildPredicate(void)
 {
 	return isNthChildPredicate(HTMLNthExpressionMake(0, 1), YES);
 }
 
-__nullable HTMLSelectorPredicateGen isFirstChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
+static __nullable HTMLSelectorPredicateGen isFirstChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
 {
 	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), typePredicate, NO);
 }
 
-__nullable HTMLSelectorPredicateGen isLastChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
+static __nullable HTMLSelectorPredicateGen isLastChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
 {
 	return isNthChildOfTypePredicate(HTMLNthExpressionMake(0, 1), typePredicate, YES);
 }
 
 #pragma mark Attribute Helpers
 
-HTMLSelectorPredicateGen isKindOfClassPredicate(NSString *classname)
+static HTMLSelectorPredicateGen isKindOfClassPredicate(NSString *classname)
 {
 	return attributeContainsExactWhitespaceSeparatedValuePredicate(@"class", classname);
 }
 
-HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
+static HTMLSelectorPredicateGen hasIDPredicate(NSString *idValue)
 {
 	return attributeIsExactlyPredicate(@"id", idValue);
 }
 
-HTMLSelectorPredicateGen isLinkPredicate(void)
+static HTMLSelectorPredicateGen isLinkPredicate(void)
 {
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/selectors.html#selector-link
     return andCombinatorPredicate(@[orCombinatorPredicate(@[isTagTypePredicate(@"a"),
@@ -344,7 +326,7 @@ HTMLSelectorPredicateGen isLinkPredicate(void)
                                     ]);
 }
 
-HTMLSelectorPredicateGen isDisabledPredicate(void)
+static HTMLSelectorPredicateGen isDisabledPredicate(void)
 {
     HTMLSelectorPredicateGen (*and)(NSArray *) = andCombinatorPredicate;
     HTMLSelectorPredicateGen (*or)(NSArray *) = orCombinatorPredicate;
@@ -381,7 +363,7 @@ HTMLSelectorPredicateGen isDisabledPredicate(void)
     return or(@[ disabledOptgroup, disabledFieldset, disabledMenuitem, disabledFormElement, disabledOption ]);
 }
 
-HTMLSelectorPredicateGen isEnabledPredicate(void)
+static HTMLSelectorPredicateGen isEnabledPredicate(void)
 {
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/selectors.html#selector-enabled
     HTMLSelectorPredicate hasHrefAttribute = hasAttributePredicate(@"href");
@@ -408,26 +390,26 @@ HTMLSelectorPredicateGen isEnabledPredicate(void)
                                    ]);
 }
 
-HTMLSelectorPredicateGen isCheckedPredicate(void)
+static HTMLSelectorPredicateGen isCheckedPredicate(void)
 {
 	return orCombinatorPredicate(@[hasAttributePredicate(@"checked"), hasAttributePredicate(@"selected")]);
 }
 
 #pragma mark - Only Child
 
-HTMLSelectorPredicateGen isOnlyChildPredicate(void)
+static HTMLSelectorPredicateGen isOnlyChildPredicate(void)
 {
 	return ^BOOL(HTMLNode *node) {
 		return [node.parentElement childElementNodes].count == 1;
 	};
 }
 
-__nullable HTMLSelectorPredicateGen isOnlyChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
+static __nullable HTMLSelectorPredicateGen isOnlyChildOfTypePredicate(HTMLSelectorPredicate typePredicate)
 {
 	return bothCombinatorPredicate(isFirstChildOfTypePredicate(typePredicate), isLastChildOfTypePredicate(typePredicate));
 }
 
-HTMLSelectorPredicateGen isRootPredicate(void)
+static HTMLSelectorPredicateGen isRootPredicate(void)
 {
 	return ^BOOL(HTMLElement *node)
 	{
@@ -435,7 +417,7 @@ HTMLSelectorPredicateGen isRootPredicate(void)
 	};
 }
 
-NSNumber * __nullable parseNumber(NSString *number, NSInteger defaultValue)
+static NSNumber * __nullable parseNumber(NSString *number, NSInteger defaultValue)
 {
     // Strip whitespace so -isAtEnd check below answers "was this a valid integer?"
     number = [number stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
