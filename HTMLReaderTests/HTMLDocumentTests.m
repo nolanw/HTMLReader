@@ -37,4 +37,13 @@
     XCTAssertEqual(document.parsedStringEncoding, (NSStringEncoding)NSUTF8StringEncoding);
 }
 
+- (void)testInvalidUTF8WithBOM
+{
+    char buffer[] = "\xEF\xBB\xBF" // UTF-8 BOM
+                    "\xF5";        // invalid byte in UTF-8
+    NSData *data = [NSData dataWithBytesNoCopy:buffer length:(sizeof(buffer) - 1) freeWhenDone:NO];
+    HTMLDocument *document = [HTMLDocument documentWithData:data contentTypeHeader:nil];
+    XCTAssertEqual(document.parsedStringEncoding, (NSStringEncoding)NSWindowsCP1252StringEncoding);
+}
+
 @end

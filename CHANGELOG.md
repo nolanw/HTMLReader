@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Fix crash when given data that starts with a UTF-8 BOM but is not valid UTF-8.
+
 ## [2.1.2][]
 
 * Avoid symbol collision for `parseNumber` with Tapjoy SDK by marking it and other helper functions in `HTMLSelector.m` as `static`. (Fixes #85.)

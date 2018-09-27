@@ -21,23 +21,32 @@ HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *conte
     unsigned char buffer[3] = {0};
     [data getBytes:buffer length:MIN(data.length, 3U)];
     if (buffer[0] == 0xFE && buffer[1] == 0xFF) {
-        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSUTF16BigEndianStringEncoding];
-        return (HTMLStringEncoding){
-            .encoding = NSUTF16BigEndianStringEncoding,
-            .confidence = Certain
-        };
+        NSString *decodedString = [[NSString alloc] initWithData:data encoding:NSUTF16BigEndianStringEncoding];
+        if (decodedString) {
+            *outDecodedString = decodedString;
+            return (HTMLStringEncoding){
+                .encoding = NSUTF16BigEndianStringEncoding,
+                .confidence = Certain
+            };
+        }
     } else if (buffer[0] == 0xFF && buffer[1] == 0xFE) {
-        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSUTF16LittleEndianStringEncoding];
-        return (HTMLStringEncoding){
-            .encoding = NSUTF16LittleEndianStringEncoding,
-            .confidence = Certain
-        };
+        NSString *decodedString = [[NSString alloc] initWithData:data encoding:NSUTF16LittleEndianStringEncoding];
+        if (decodedString) {
+            *outDecodedString = decodedString;
+            return (HTMLStringEncoding){
+                .encoding = NSUTF16LittleEndianStringEncoding,
+                .confidence = Certain
+            };
+        }
     } else if (buffer[0] == 0xEF && buffer[1] == 0xBB && buffer[2] == 0xBF) {
-        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        return (HTMLStringEncoding){
-            .encoding = NSUTF8StringEncoding,
-            .confidence = Certain
-        };
+        NSString *decodedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (decodedString) {
+            *outDecodedString = decodedString;
+            return (HTMLStringEncoding){
+                .encoding = NSUTF8StringEncoding,
+                .confidence = Certain
+            };
+        }
     }
     
     if (contentType) {
