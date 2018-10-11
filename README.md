@@ -9,25 +9,43 @@ A [WHATWG-compliant HTML parser][whatwg-spec] with [CSS selectors][selectors-lev
 
 ## Usage
 
+A quick example of parsing an inline document and finding the bold text:
+
+```swift
+import HTMLReader
+
+let document = HTMLDocument(string: """
+    <p>
+        Ahoy there, <b>sailor</b>!
+    </p>
+    """)
+print(document.firstNode(matchingSelector: "b")?.textContent ?? "")
+// => sailor
+```
+
+Manipulating a document is a little more involved, but entirely doable. Here we take the document from the first example and wrap the paragraph within a new element:
+
+```swift
+if
+    let p = document.firstNode(matchingSelector: "p"),
+    let parent = p.parent
+{
+    let wrapper = HTMLElement(tagName: "div", attributes: ["class": "special"])
+    let children = parent.mutableChildren
+    children.insert(wrapper, at: children.index(of: p))
+    p.parent = wrapper
+}
+
+print(document.innerHTML)
+// => <html><head></head><body><div class="special"><p>\
+          Ahoy there, <b>sailor</b>!\
+      </p></div></body></html>
+```
+
+Finally, the most involved example: fetching the main page for the HTMLReader repository and scraping the description of the project. (This is just an example; GitHub has a fabulous API that you should use if you want to find a repository's description!)
+
 ```objc
 @import HTMLReader;
-
-// Parse a string and find an element.
-NSString *markup = @"<p><b>Ahoy there sailor!</b></p>";
-HTMLDocument *document = [HTMLDocument documentWithString:markup];
-NSLog(@"%@", [document firstNodeMatchingSelector:@"b"].textContent);
-// => Ahoy there sailor!
-
-// Wrap one element in another.
-HTMLElement *b = [document firstNodeMatchingSelector:@"b"];
-NSMutableOrderedSet *children = [b.parentNode mutableChildren];
-HTMLElement *wrapper = [[HTMLElement alloc] initWithTagName:@"div"
-                                                 attributes:@{@"class": @"special"}];
-[children insertObject:wrapper atIndex:[children indexOfObject:b]];
-b.parentNode = wrapper;
-NSLog(@"%@", [document.rootElement serializedFragment]);
-// => <html><head></head><body><p><div class="special"> \
-      <b>Ahoy there sailor!</b></div></p></body></html>
 
 // Load a web page.
 NSURL *URL = [NSURL URLWithString:@"https://github.com/nolanw/HTMLReader"];
