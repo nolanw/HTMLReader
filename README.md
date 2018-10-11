@@ -38,8 +38,8 @@ if
 
 print(document.innerHTML)
 // => <html><head></head><body><div class="special"><p>\
-          Ahoy there, <b>sailor</b>!\
-      </p></div></body></html>
+//        Ahoy there, <b>sailor</b>!\
+//    </p></div></body></html>
 ```
 
 Finally, the most involved example: fetching the main page for the HTMLReader repository and scraping the description of the project. (This is just an example; GitHub has a fabulous API that you should use if you want to find a repository's description!)
@@ -48,9 +48,9 @@ Finally, the most involved example: fetching the main page for the HTMLReader re
 @import HTMLReader;
 
 // Load a web page.
-NSURL *URL = [NSURL URLWithString:@"https://github.com/nolanw/HTMLReader"];
+NSURL *url = [NSURL URLWithString:@"https://github.com/nolanw/HTMLReader"];
 NSURLSession *session = [NSURLSession sharedSession];
-[[session dataTaskWithURL:URL completionHandler:
+[[session dataTaskWithURL:url completionHandler:
   ^(NSData *data, NSURLResponse *response, NSError *error) {
     NSString *contentType = nil;
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
