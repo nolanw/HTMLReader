@@ -97,11 +97,13 @@ I needed to scrape HTML like a browser. I couldn't find a good choice for iOS.
 
 ## The Alternatives
 
-[libxml2][] ships with iOS. It parses a variant of HTML 4 and does not handle broken markup like a modern browser.
+[libxml2][] ships with iOS. It parses some variant of HTML 4 (?) and does not handle new/broken markup like a modern browser.
 
-Other Objective-C libraries I came across (e.g. [hpple][] and [Ono][]) use libxml2 and inherit its shortcomings.
+Other Objective-C and Swift libraries I come across (e.g. [Fuzi][], [hpple][], [Kanna][], [Ono][]) use libxml2 and inherit its shortcomings.
 
-There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle data to and from Objective-C. (Also Gumbo wasn't publicly announced until after HTMLReader was far enough along.)
+[SwiftSoup][] is a Swift port of Jsoup. It didn't exist when I made HTMLReader. (To be fair, publicly, neither did Swift.)
+
+There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle data to and from Objective-C or Swift. (Also Gumbo wasn't publicly announced until after HTMLReader was far along.)
 
 [WebKit][] ships with iOS, but its HTML parsing abilities are considered private API. I consider a round-trip through a web view inappropriate for parsing HTML. And I didn't make it very far into building my own copy of WebCore.
 
@@ -109,13 +111,16 @@ There are C libraries such as [Gumbo][] or [Hubbub][], but you need to shuffle d
 
 [CFStringTransform][kCFStringTransformToXMLHex] does numeric entities via (the reversible) `kCFStringTransformToXMLHex`, but that rules out named entities.
 
+[Fuzi]: https://github.com/cezheng/Fuzi
 [GTMNSString+HTML]: https://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/Foundation/GTMNSString%2BHTML.h
 [Gumbo]: https://github.com/google/gumbo-parser
 [hpple]: https://github.com/topfunky/hpple
 [Hubbub]: http://www.netsurf-browser.org/projects/hubbub/
+[Kanna]: https://github.com/tid-kijyun/Kanna
 [kCFStringTransformToXMLHex]: https://developer.apple.com/library/mac/documentation/corefoundation/Reference/CFMutableStringRef/Reference/reference.html#//apple_ref/doc/uid/20001504-CH2g-DontLinkElementID_46
 [libxml2]: http://www.xmlsoft.org/
 [Ono]: https://github.com/mattt/Ono
+[SwiftSoup]: https://github.com/scinfu/SwiftSoup
 [WebKit]: https://www.webkit.org/building/checkout.html
 
 ## Does it work?
