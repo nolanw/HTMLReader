@@ -103,9 +103,9 @@ def commit_changes(next_version):
     check_call(["git", "commit", "-m", commit_message])
 
 
-def git_tag(next_version):
+def git_tag(next_version, prefix=""):
     tag_message = "HTMLReader {}".format(next_version)
-    version = "v{}".format(next_version)
+    version = "{}{}".format(prefix, next_version)
     check_call(["git", "tag", "-am", tag_message, version])
 
 
@@ -133,6 +133,7 @@ def main():
     update_info_plist(next_version)
     commit_changes(next_version)
     git_tag(next_version)
+    git_tag(next_version, prefix="v")
 
 
 if __name__ == '__main__':
