@@ -2321,7 +2321,7 @@ static int (^NamedMapPrefixComparator)(const void *, const void *) = ^int(const 
     if ([key hasPrefix:item->name]) {
         return 0;
     } else {
-        return [key compare:item->name];
+        return (int)[key compare:item->name];
     }
 };
 
