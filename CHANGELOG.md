@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Fix `-Wshorten-64-to-32` warnings new to Xcode 11 beta.
+
 ## [2.1.3][]
 
 * Fix crash when given data that starts with a UTF-8 BOM but is not valid UTF-8.
