@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.1.5][]
+
 * Fix general sibling combinator (`~`) in selectors.
     * This would only work when both sides were the same, e.g. `span ~ span`, which is not at all how the combinator is specified.
 
@@ -146,7 +148,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.4...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.5...HEAD
+[2.1.5]: https://github.com/nolanw/HTMLReader/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/nolanw/HTMLReader/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/nolanw/HTMLReader/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/nolanw/HTMLReader/compare/v2.1.1...v2.1.2
