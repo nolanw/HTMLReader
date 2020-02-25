@@ -228,7 +228,7 @@ static __nullable HTMLSelectorPredicateGen generalSiblingPredicate(__nullable HT
 			if ([sibling isEqual:node]) {
 				break;
 			}
-			if (siblingTest(node)) {
+			if (siblingTest(sibling)) {
 				return YES;
 			}
 		}

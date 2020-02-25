@@ -133,6 +133,7 @@
 - (void)testGeneralSiblingCombinator
 {
     TestMatchedElementIDs(@"elem~elem", (@[ @"child3" ]));
+    TestMatchedElementIDs(@"arbitrary~a", (@[ @"a-enabled", @"a-neither-enabled-nor-disabled" ]));
 }
 
 - (void)testIDSelector

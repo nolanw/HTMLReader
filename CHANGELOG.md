@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+* Fix general sibling combinator (`~`) in selectors.
+    * This would only work when both sides were the same, e.g. `span ~ span`, which is not at all how the combinator is specified.
+
 ## [2.1.4][]
 
 * Fix `-Wshorten-64-to-32` warnings new to Xcode 11 beta.
