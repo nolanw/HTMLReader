@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Fix "header missing from umbrella header" build error when using Swift Package Manager.
+
 ## [2.1.5][]
 
 * Fix general sibling combinator (`~`) in selectors.
