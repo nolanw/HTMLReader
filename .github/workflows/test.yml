@@ -1,0 +1,87 @@
+name: test
+on:
+  push:
+    branches: [main, ci]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+          - developer-dir: "/Applications/Xcode_12.4.app"
+            sdk: "iphonesimulator14.4"
+            scheme: "HTMLReader iOS"
+            destination: "OS=14.4,name=iPhone X"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_12.4.app"
+            sdk: "macosx11.1"
+            scheme: "HTMLReader OS X"
+            destination: "arch=x86_64"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_12.4.app"
+            sdk: "appletvsimulator14.3"
+            scheme: "HTMLReader tvOS"
+            destination: "OS=14.3,name=Apple TV 4K"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_12.4.app"
+            sdk: "watchsimulator7.2"
+            scheme: "HTMLReader watchOS"
+            destination: "OS=7.2,name=Apple Watch Series 4 - 44mm"
+            action: "build"
+          - developer-dir: "/Applications/Xcode_11.7.app"
+            sdk: "iphonesimulator13.7"
+            scheme: "HTMLReader iOS"
+            destination: "OS=13.7,name=iPhone X"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_11.7.app"
+            sdk: "macosx10.15"
+            scheme: "HTMLReader OS X"
+            destination: "arch=x86_64"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_11.7.app"
+            sdk: "appletvsimulator13.4"
+            scheme: "HTMLReader tvOS"
+            destination: "OS=13.4,name=Apple TV 4K"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_11.7.app"
+            sdk: "watchsimulator6.2"
+            scheme: "HTMLReader watchOS"
+            destination: "OS=6.2,name=Apple Watch Series 4 - 44mm"
+            action: "build"
+          - developer-dir: "/Applications/Xcode_10.3.app"
+            sdk: "iphonesimulator12.4"
+            scheme: "HTMLReader iOS"
+            destination: "OS=12.4,name=iPhone X"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_10.3.app"
+            sdk: "macosx10.14"
+            scheme: "HTMLReader OS X"
+            destination: "arch=x86_64"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_10.3.app"
+            sdk: "appletvsimulator12.4"
+            scheme: "HTMLReader tvOS"
+            destination: "OS=12.4,name=Apple TV 4K"
+            action: "test"
+          - developer-dir: "/Applications/Xcode_10.3.app"
+            sdk: "watchsimulator5.3"
+            scheme: "HTMLReader watchOS"
+            destination: "OS=5.3,name=Apple Watch Series 4 - 44mm"
+            action: "build"
+    steps:
+      - uses: actions/checkout@v2
+      - name: xcodebuild
+        env:
+          DEVELOPER_DIR: ${{ matrix.developer-dir }}
+        run: xcodebuild -project HTMLReader.xcodeproj -scheme "${{ matrix.scheme }}" -configuration Release -sdk "${{ matrix.sdk }}" -destination "${{ matrix.destination }}" "${{ matrix.action }}"
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
