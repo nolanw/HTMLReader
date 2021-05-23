@@ -78,8 +78,9 @@ You have choices:
    
    `pod "HTMLReader"`
 * Add the following line to your [Package.swift][Swift Package Manager]:
-    
-   `.package(url: "https://github.com/nolanw/HTMLReader", from: "2.1.3")`
+
+   `.package(url: "https://github.com/nolanw/HTMLReader", from: "2.1.6")`
+* Add the package in Xcode by selecting File > Swift Packages > Add Package Dependency and enter the URL `https://github.com/nolanw/HTMLReader`.
 * Clone this repository (perhaps add it as a submodule) and add `HTMLReader.xcodeproj` to your project/workspace. Then add `HTMLReader.framework` to your app target. (Or, if you're targeting iOS earlier than 8.0: add `libHTMLReader.a` to your app target and `"$(SYMROOT)/include"` to your app target's Header Search Paths.)
 
 HTMLReader has no dependencies other than Foundation.
