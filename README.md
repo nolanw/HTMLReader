@@ -126,7 +126,7 @@ HTMLReader continually runs [html5lib][html5lib-tests]'s tokenization and tree c
 
 HTMLReader is continually built and tested on iOS versions 8.4, 9.3, 10.3, and 11.0; built and tested on macOS versions 10.9, 10.10, 10.11, 10.12, and 10.13; built and tested on tvOS versions 9.2, 10.2, and 11.0; and built on watchOS versions 2.2, 3.2, and 4.0. It should work on down to iOS 5, macOS 10.7, tvOS 9.0, and watchOS 2.0, but there is no automated testing there (it's ok to file an issue though!).
 
-Given all that:  [![Build Status](https://travis-ci.org/nolanw/HTMLReader.png?branch=main)](https://travis-ci.org/nolanw/HTMLReader)
+Given all that: [![Build Status](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)](https://github.com/nolanw/HTMLReader/actions/workflows/test.yml)
 
 HTMLReader is used by at least [one shipping app][Awful].
 
