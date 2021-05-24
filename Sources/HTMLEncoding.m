@@ -2,7 +2,7 @@
 //
 //  Public domain. https://github.com/nolanw/HTMLReader
 
-#import "HTMLEncoding.h"
+#import "HTMLEncoding+Private.h"
 
 /**
  * Returns the name of an encoding given by a label, as specified in the WHATWG Encoding standard, or nil if the label has no associated name.
@@ -12,7 +12,7 @@
 static NSString * NamedEncodingForLabel(NSString *label);
 
 /**
- * Returns the string encoding given by a name from the WHATWG Encoding Standard, or the result of InvalidStringEncoding() if there is no known encoding given by name.
+ * Returns the string encoding given by a name from the WHATWG Encoding Standard, or the result of HTMLInvalidStringEncoding() if there is no known encoding given by name.
  */
 static NSStringEncoding StringEncodingForName(NSString *name);
 
@@ -57,8 +57,8 @@ HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *conte
             [scanner scanString:@"\"" intoString:nil];
             NSString *encodingLabel;
             if ([scanner scanUpToString:@"\"" intoString:&encodingLabel]) {
-                NSStringEncoding encoding = StringEncodingForLabel(encodingLabel);
-                if (encoding != InvalidStringEncoding()) {
+                NSStringEncoding encoding = HTMLStringEncodingForLabel(encodingLabel);
+                if (encoding != HTMLInvalidStringEncoding()) {
                     NSString *decodedString = [[NSString alloc] initWithData:data encoding:encoding];
                     if (decodedString) {
                         *outDecodedString = decodedString;
@@ -400,23 +400,23 @@ static NSStringEncoding StringEncodingForName(NSString *name)
     if (match) {
         return CFStringConvertEncodingToNSStringEncoding(match->encoding);
     } else {
-        return InvalidStringEncoding();
+        return HTMLInvalidStringEncoding();
     }
 }
 
-NSStringEncoding InvalidStringEncoding(void)
+NSStringEncoding HTMLInvalidStringEncoding(void)
 {
     return CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingInvalidId);
 }
 
-NSStringEncoding StringEncodingForLabel(NSString *untrimmedLabel)
+NSStringEncoding HTMLStringEncodingForLabel(NSString *untrimmedLabel)
 {
     NSString *label = [untrimmedLabel stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *name = NamedEncodingForLabel(label);
     if (name) {
         return StringEncodingForName(name);
     } else {
-        return InvalidStringEncoding();
+        return HTMLInvalidStringEncoding();
     }
 }
 

@@ -101,7 +101,7 @@
 
 - (NSStringEncoding)correctEncoding
 {
-    return StringEncodingForLabel(self.correctEncodingLabel);
+    return HTMLStringEncodingForLabel(self.correctEncodingLabel);
 }
 
 - (NSString *)testString

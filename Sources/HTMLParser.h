@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 #import "HTMLDocument.h"
 #import "HTMLElement.h"
-#import "HTMLEncoding.h"
+#import "HTMLEncoding+Private.h"
 
 /**
     An HTMLParser turns a string into an HTMLDocument.

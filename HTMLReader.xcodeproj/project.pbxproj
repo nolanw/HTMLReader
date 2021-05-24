@@ -86,6 +86,11 @@
 		1C3C5BC41A809C8A0091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
 		1C3C5BC51A8201640091E7E6 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */; };
 		1C640EB4176BCA1C00919E5C /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */; };
+		1C65EDF1265B3BC20095BA29 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C65EDF2265B3BC20095BA29 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C65EDF3265B3BC20095BA29 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C65EDF4265B3BC20095BA29 /* HTMLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C65EDF5265B3CF90095BA29 /* HTMLEncoding.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */; };
 		1C6C1F651A179D7900236076 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21418D746D600147FE7 /* HTMLComment.h */; };
 		1C6C1F661A179D7D00236076 /* HTMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C25D3A6177BB78600F7C10D /* HTMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CA5C21918D7479C00147FE7 /* HTMLDocumentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -229,6 +234,7 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				1C65EDF5265B3CF90095BA29 /* HTMLEncoding.h in CopyFiles */,
 				1CD0C54C1BDDBBFE00C3AC80 /* HTMLTextNode.h in CopyFiles */,
 				66BD104F1BBF7CAC00B9346B /* HTMLComment.h in CopyFiles */,
 				66BD104E1BBF7CA500B9346B /* NSString+HTMLEntities.h in CopyFiles */,
@@ -257,10 +263,11 @@
 		1C25D40817837A8A00F7C10D /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		1C25D40917837A8A00F7C10D /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		1C319BC31C618863000DAA63 /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEncoding.h; sourceTree = "<group>"; };
+		1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTMLEncoding+Private.h"; sourceTree = "<group>"; };
 		1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEncoding.m; sourceTree = "<group>"; };
 		1C640EB2176BCA1C00919E5C /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		1C640EB3176BCA1C00919E5C /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
+		1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLEncoding.h; path = include/HTMLEncoding.h; sourceTree = "<group>"; };
 		1C6C1F4C1A179BF600236076 /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C88293B18369DD70051653C /* HTMLReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C88294418369DD70051653C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -523,7 +530,8 @@
 		1CB15BBA1A9A4AE500176E73 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding.h */,
+				1C65EDF0265B3BC20095BA29 /* HTMLEncoding.h */,
+				1C3C5BBF1A809C8A0091E7E6 /* HTMLEncoding+Private.h */,
 				1C3C5BC01A809C8A0091E7E6 /* HTMLEncoding.m */,
 				1C8E10581919F2570010007B /* HTMLEntities.h */,
 				1C8E10591919F2570010007B /* HTMLEntities.m */,
@@ -561,6 +569,7 @@
 				0D1077A41C1AC75C00CF9B41 /* HTMLDocumentType.h in Headers */,
 				0D1077A51C1AC76400CF9B41 /* HTMLElement.h in Headers */,
 				0D1077A61C1AC76600CF9B41 /* HTMLNamespace.h in Headers */,
+				1C65EDF3265B3BC20095BA29 /* HTMLEncoding.h in Headers */,
 				0D1077A71C1AC76800CF9B41 /* HTMLNode.h in Headers */,
 				0D1077A81C1AC77200CF9B41 /* HTMLQuirksMode.h in Headers */,
 				0D1077851C1AC36200CF9B41 /* HTMLReader.h in Headers */,
@@ -581,6 +590,7 @@
 				1C319BD31C618970000DAA63 /* HTMLNode.h in Headers */,
 				1C319BD61C618970000DAA63 /* HTMLTextNode.h in Headers */,
 				1C319BCD1C618947000DAA63 /* HTMLDocument.h in Headers */,
+				1C65EDF4265B3BC20095BA29 /* HTMLEncoding.h in Headers */,
 				1C319BD71C618970000DAA63 /* HTMLReader.h in Headers */,
 				1C319BE71C6189B6000DAA63 /* HTMLSelector.h in Headers */,
 				1C319BD11C618970000DAA63 /* HTMLElement.h in Headers */,
@@ -601,6 +611,7 @@
 				1C6C1F671A179D8300236076 /* HTMLDocumentType.h in Headers */,
 				1C6C1F681A179D8B00236076 /* HTMLElement.h in Headers */,
 				1C6C1FE01A17A05E00236076 /* HTMLNamespace.h in Headers */,
+				1C65EDF1265B3BC20095BA29 /* HTMLEncoding.h in Headers */,
 				1C6C1F6A1A179D9900236076 /* HTMLNode.h in Headers */,
 				1C6C1FE21A17A07200236076 /* HTMLQuirksMode.h in Headers */,
 				1C6C1F6C1A179DB600236076 /* HTMLReader.h in Headers */,
@@ -621,6 +632,7 @@
 				1CA5C21B18D7479C00147FE7 /* HTMLDocumentType.h in Headers */,
 				1CA5C21118D7457400147FE7 /* HTMLElement.h in Headers */,
 				1C6C1FE11A17A05E00236076 /* HTMLNamespace.h in Headers */,
+				1C65EDF2265B3BC20095BA29 /* HTMLEncoding.h in Headers */,
 				1C88296D18369E090051653C /* HTMLNode.h in Headers */,
 				1C6C1FE31A17A07300236076 /* HTMLQuirksMode.h in Headers */,
 				1C88296E18369E090051653C /* HTMLReader.h in Headers */,

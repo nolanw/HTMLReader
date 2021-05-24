@@ -3,6 +3,7 @@
 //  Public domain. https://github.com/nolanw/HTMLReader
 
 #import "HTMLDocument.h"
+#import "HTMLEncoding.h"
 #import "HTMLSelector.h"
 #import "HTMLSerialization.h"
 #import "HTMLTextNode.h"

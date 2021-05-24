@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+* Publicize functions `HTMLStringEncodingForLabel()` and `HTMLInvalidStringEncoding()`.
+    * `HTMLStringEncodingForLabel()` is useful in any context where HTML-style encoding names can occur, such as a form element's `accept-charset` attribute. When looking up an encoding name fails, `HTMLInvalidStringEncoding()` is returned.
+
 ## [2.1.6][]
 
 * Fix "header missing from umbrella header" build error when using Swift Package Manager.

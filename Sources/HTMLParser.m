@@ -449,8 +449,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         if (self.encoding.confidence == Tentative) {
             NSString *charset = [token.attributes objectForKey:@"charset"];
             if (charset) {
-                NSStringEncoding encoding = StringEncodingForLabel(charset);
-                if (encoding != InvalidStringEncoding() && (IsASCIICompatibleEncoding(encoding) || IsUTF16Encoding(encoding))) {
+                NSStringEncoding encoding = HTMLStringEncodingForLabel(charset);
+                if (encoding != HTMLInvalidStringEncoding() && (IsASCIICompatibleEncoding(encoding) || IsUTF16Encoding(encoding))) {
                     [self changeEncoding:encoding];
                 }
             } else if ([token.attributes objectForKey:@"http-equiv"] && [[token.attributes objectForKey:@"http-equiv"] caseInsensitiveCompare:@"Content-Type"] == NSOrderedSame) {
@@ -487,8 +487,8 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                     }
                     
                     if (encodingLabel) {
-                        NSStringEncoding encoding = StringEncodingForLabel(encodingLabel);
-                        if (encoding != InvalidStringEncoding() && (IsASCIICompatibleEncoding(encoding) || IsUTF16Encoding(encoding))) {
+                        NSStringEncoding encoding = HTMLStringEncodingForLabel(encodingLabel);
+                        if (encoding != HTMLInvalidStringEncoding() && (IsASCIICompatibleEncoding(encoding) || IsUTF16Encoding(encoding))) {
                             [self changeEncoding:encoding];
                         }
                     }
