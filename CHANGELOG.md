@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.1.7][]
+
 * Publicize functions `HTMLStringEncodingForLabel()` and `HTMLInvalidStringEncoding()`.
     * `HTMLStringEncodingForLabel()` is useful in any context where HTML-style encoding names can occur, such as a form element's `accept-charset` attribute. When looking up an encoding name fails, `HTMLInvalidStringEncoding()` is returned.
 
@@ -155,7 +157,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.6...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.7...HEAD
+[2.1.7]: https://github.com/nolanw/HTMLReader/compare/v2.1.6...v2.1.7
 [2.1.6]: https://github.com/nolanw/HTMLReader/compare/v2.1.5...v2.1.6
 [2.1.5]: https://github.com/nolanw/HTMLReader/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/nolanw/HTMLReader/compare/v2.1.3...v2.1.4
