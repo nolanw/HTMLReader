@@ -74,6 +74,8 @@ jobs:
             action: "build"
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: xcodebuild
         env:
           DEVELOPER_DIR: ${{ matrix.developer-dir }}
