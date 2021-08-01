@@ -42,6 +42,19 @@ print(document.innerHTML)
 //    </p></div></body></html>
 ```
 
+You can save a document as a file:
+
+```swift
+let serialized = document.serializedFragment
+let temp = FileManager.default.temporaryDirectory
+let fileURL = temp.appendPathComponent("nifty.html", isDirectory: false)
+do {
+    try serialized.write(to: fileURL, atomically: true, encoding: .utf8)
+} catch {
+    print("Could not save nifty document", error)
+}
+```
+
 Finally, the most involved example: fetching the main page for the HTMLReader repository and scraping the description of the project. (This is just an example; GitHub has a fabulous API that you should use if you want to find a repository's description!)
 
 ```objc
