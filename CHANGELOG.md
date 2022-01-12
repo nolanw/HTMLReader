@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+* Change `HTMLReaderTests/html5lib` submodule to use https.
+    * To update your local checkout, after pulling at least this version of the HTMLReader repository, run `git submodule sync`.
+
 ## [2.1.7][]
 
 * Publicize functions `HTMLStringEncodingForLabel()` and `HTMLInvalidStringEncoding()`.
