@@ -75,23 +75,44 @@ HTMLStringEncoding DeterminedStringEncodingForData(NSData *data, NSString *conte
     // TODO Prescan?
     
     // TODO There's a table down in step 9 of https://html.spec.whatwg.org/multipage/syntax.html#documentEncoding that describes default encodings based on the current locale. Maybe implement that.
-    
-    // win1252 actually has some invalid characters in it, so it's not a guarantee that it'll work, so try it first.
-    NSString *win1252 = [[NSString alloc] initWithData:data encoding:NSWindowsCP1252StringEncoding];
-    if (win1252) {
-        *outDecodedString = win1252;
-        return (HTMLStringEncoding){
-            .encoding = NSWindowsCP1252StringEncoding,
-            .confidence = Tentative
+
+    // https://encoding.spec.whatwg.org/index-windows-1252.txt maps the unused positions to control code points. html5lib-python maps to U+FFFD REPLACEMENT CHARACTER. NSString's usual decoding of win1252 rejects unused positions entirely. If we can convince NSString to do a lossy conversion, that matches html5lib-python and seems close enough.
+    if (UsesLossyWindows1252Decoding()) {
+        NSString *win1252;
+        NSDictionary *encodingOptions = @{
+            NSStringEncodingDetectionSuggestedEncodingsKey: @[@(NSWindowsCP1252StringEncoding)],
+            NSStringEncodingDetectionUseOnlySuggestedEncodingsKey: @YES,
         };
+        NSStringEncoding result = [NSString stringEncodingForData:data
+                                                  encodingOptions:encodingOptions
+                                                  convertedString:&win1252
+                                              usedLossyConversion:nil];
+        // This is not expected or known to fail, but let's check anyway.
+        if (result != 0) {
+            *outDecodedString = win1252;
+            return (HTMLStringEncoding){
+                .encoding = NSWindowsCP1252StringEncoding,
+                .confidence = Tentative
+            };
+        }
     } else {
-        // iso8859-1 is the closest sensible default to win1252 that always decodes.
-        *outDecodedString = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
-        return (HTMLStringEncoding){
-            .encoding = NSISOLatin1StringEncoding,
-            .confidence = Tentative
-        };
+        // win1252 has some unused positions that NSString rejects, so it's not a guarantee that it'll work.
+        NSString *win1252 = [[NSString alloc] initWithData:data encoding:NSWindowsCP1252StringEncoding];
+        if (win1252) {
+            *outDecodedString = win1252;
+            return (HTMLStringEncoding){
+                .encoding = NSWindowsCP1252StringEncoding,
+                .confidence = Tentative
+            };
+        }
     }
+
+    // iso8859-1 is the closest analog to win1252 that always decodes.
+    *outDecodedString = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
+    return (HTMLStringEncoding){
+        .encoding = NSISOLatin1StringEncoding,
+        .confidence = Tentative
+    };
 }
 
 typedef struct {
@@ -446,4 +467,13 @@ BOOL IsUTF16Encoding(NSStringEncoding encoding)
         default:
             return NO;
     }
+}
+
+BOOL UsesLossyWindows1252Decoding(void)
+{
+    #if (__IPHONE_OS_VERSION_MAX_ALLOWED >= 80000) || (__MAC_OS_X_VERSION_MAX_ALLOWED >= 101000)
+    return [[NSString class] respondsToSelector:@selector(stringEncodingForData:encodingOptions:convertedString:usedLossyConversion:)];
+    #else
+    return NO;
+    #endif
 }

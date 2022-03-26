@@ -187,7 +187,14 @@ static NSArray * TestsInFileAtURL(NSURL *URL)
     NSData *data = [NSData dataWithBytes:neitherUTF8NorWin1252 length:sizeof(neitherUTF8NorWin1252)];
     HTMLParser *parser = ParserWithDataAndContentType(data, @"charset=utf-8");
     XCTAssertNotNil(parser);
-    XCTAssertTrue(parser.encoding.encoding == NSISOLatin1StringEncoding);
+
+    if (UsesLossyWindows1252Decoding()) {
+        XCTAssertEqual(parser.encoding.encoding, NSWindowsCP1252StringEncoding);
+        NSString *textContent = parser.document.textContent;
+        XCTAssertEqualObjects(textContent, @"\uFFFD");
+    } else {
+        XCTAssertEqual(parser.encoding.encoding, NSISOLatin1StringEncoding);
+    }
 }
 
 @end

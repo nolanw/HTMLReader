@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+* When no character set is specified or detected, fall back to Windows-1252 with replacement characters on iOS 8+ and Mac OS X 10.10+.
+    * Windows-1252 does not specify a character for every position. Previously, falling back to Windows-1252 would fail upon encountering any characters at unused positions, at which point HTMLReader would fall further back to ISO 8859-1 (which has no unused positions). As of iOS 8 and Mac OS X 10.10, NSString exposes a lossy decoding API that allows HTMLReader to fall back to Windows-1252 and replace unused positions with U+FFFD REPLACEMENT CHARACTER.
+
 ## [2.1.8][]
 
 * Change `HTMLReaderTests/html5lib` submodule to use https.

@@ -33,3 +33,6 @@ extern BOOL IsASCIICompatibleEncoding(NSStringEncoding encoding);
 
 /// Returns YES if encoding is UTF16-LE or UTF16-BE.
 extern BOOL IsUTF16Encoding(NSStringEncoding encoding);
+
+/// Returns YES if Windows-1252 encoding is used even when characters are found at unused positions in the code page. (The relevant NSString API to enable this appeared in iOS 8 and Mac OS X 10.10.)
+extern BOOL UsesLossyWindows1252Decoding(void);
