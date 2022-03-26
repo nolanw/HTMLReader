@@ -105,11 +105,11 @@ def git_tag(next_version, prefix=""):
 
 
 def update_info_plist(next_version):
-    with open(INFOPLIST_PATH, 'r+b') as fp:
+    with open(INFOPLIST_PATH, 'rb') as fp:
         plist = plistlib.load(fp)
-        plist['CFBundleShortVersionString'] = str(next_version)
-        plist['CFBundleVersion'] = str(next_version.bundle)
-        fp.truncate(0)
+    plist['CFBundleShortVersionString'] = str(next_version)
+    plist['CFBundleVersion'] = str(next_version.bundle)
+    with open(INFOPLIST_PATH, 'wb') as fp:
         plistlib.dump(plist, fp)
 
 
