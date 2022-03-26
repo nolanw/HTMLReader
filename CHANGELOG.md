@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.2][]
+
 * When no character set is specified or detected, fall back to Windows-1252 with replacement characters on iOS 8+ and Mac OS X 10.10+.
     * Windows-1252 does not specify a character for every position. Previously, falling back to Windows-1252 would fail upon encountering any characters at unused positions, at which point HTMLReader would fall further back to ISO 8859-1 (which has no unused positions). As of iOS 8 and Mac OS X 10.10, NSString exposes a lossy decoding API that allows HTMLReader to fall back to Windows-1252 and replace unused positions with U+FFFD REPLACEMENT CHARACTER.
 
@@ -165,7 +167,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.1.8...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.2...HEAD
+[2.2]: https://github.com/nolanw/HTMLReader/compare/v2.1.8...v2.2
 [2.1.8]: https://github.com/nolanw/HTMLReader/compare/v2.1.7...v2.1.8
 [2.1.7]: https://github.com/nolanw/HTMLReader/compare/v2.1.6...v2.1.7
 [2.1.6]: https://github.com/nolanw/HTMLReader/compare/v2.1.5...v2.1.6
