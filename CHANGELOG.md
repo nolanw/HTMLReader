@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.2.1][]
+
 * Correctly parse some previously-failing mis-nested combinations of `a` and formatting elements. (Fixes #95.)
 
 ## [2.2][]
@@ -169,7 +171,8 @@
 * A new document initializer, `-[HTMLDocument initWithData:contentTypeHeader:]`, detects the character encoding as a browser would. This is the ideal initializer for HTML documents fetched over the network, or any other time when the character encoding isn't previously known. Note that HTML does not blindly use the encoding specified by the HTTP `Content-Type` header, so this initializer is still superior to parsing the `Content-Type` yourself.
 
 
-[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.2...HEAD
+[Unreleased]: https://github.com/nolanw/HTMLReader/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/nolanw/HTMLReader/compare/v2.2...v2.2.1
 [2.2]: https://github.com/nolanw/HTMLReader/compare/v2.1.8...v2.2
 [2.1.8]: https://github.com/nolanw/HTMLReader/compare/v2.1.7...v2.1.8
 [2.1.7]: https://github.com/nolanw/HTMLReader/compare/v2.1.6...v2.1.7
