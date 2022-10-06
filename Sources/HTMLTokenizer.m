@@ -2152,6 +2152,7 @@ static inline BOOL is_lower(NSInteger c)
             return [self CDATASectionState];
         default:
             NSAssert(NO, @"unexpected state %ld", (long)self.state);
+            break;
     }
 }
 

@@ -1164,11 +1164,12 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             [self addParseError:@"Adoption agency formatting element not current"];
         }
         HTMLElement *furthestBlock;
-        for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement] + 1;
-             i < _stackOfOpenElements.count; i++)
+        for (NSUInteger i = [_stackOfOpenElements indexOfObject:formattingElement] + 1, end = _stackOfOpenElements.count;
+             i < end; i++)
         {
-            if (IsSpecialElement([_stackOfOpenElements objectAtIndex:i])) {
-                furthestBlock = [_stackOfOpenElements objectAtIndex:i];
+            HTMLElement *element = [_stackOfOpenElements objectAtIndex:i];
+            if (IsSpecialElement(element)) {
+                furthestBlock = element;
                 break;
             }
         }
@@ -1181,13 +1182,17 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
             return YES;
         }
         HTMLElement *commonAncestor = [_stackOfOpenElements objectAtIndex:[_stackOfOpenElements indexOfObject:formattingElement] - 1];
-        NSUInteger bookmark = [_activeFormattingElements indexOfObject:formattingElement];
+        HTMLElement *beforeBookmark, *afterBookmark; {
+            NSUInteger bookmark = [_activeFormattingElements indexOfObject:formattingElement];
+            if (bookmark > 0) beforeBookmark = [_activeFormattingElements objectAtIndex:bookmark - 1];
+            if ((bookmark + 1) < _activeFormattingElements.count) afterBookmark = [_activeFormattingElements objectAtIndex:bookmark + 1];
+        }
         HTMLElement *node = furthestBlock, *lastNode = furthestBlock;
         NSUInteger nodeIndex = [_stackOfOpenElements indexOfObject:node];
         NSInteger innerLoopCounter = 0;
         while (YES) {
             innerLoopCounter += 1;
-            
+
             nodeIndex -= 1;
             node = [_stackOfOpenElements objectAtIndex:nodeIndex];
             
@@ -1201,16 +1206,23 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
                 [_stackOfOpenElements removeObject:node];
                 continue;
             }
-            
-            HTMLElement *clone = [node copy];
-            [_activeFormattingElements replaceObjectAtIndex:[_activeFormattingElements indexOfObject:node]
-                                                 withObject:clone];
-            [_stackOfOpenElements replaceObjectAtIndex:[_stackOfOpenElements indexOfObject:node]
-                                            withObject:clone];
-            node = clone;
-            
+
+            {
+                HTMLElement *clone = [node copy];
+                [_activeFormattingElements replaceObjectAtIndex:[_activeFormattingElements indexOfObject:node]
+                                                     withObject:clone];
+                if (beforeBookmark == node) beforeBookmark = clone;
+                if (afterBookmark == node) afterBookmark = clone;
+                [_stackOfOpenElements replaceObjectAtIndex:[_stackOfOpenElements indexOfObject:node]
+                                                withObject:clone];
+                node = clone;
+            }
+
             if ([lastNode isEqual:furthestBlock]) {
-                bookmark = [_activeFormattingElements indexOfObject:node];
+                // "move the aforementioned bookmark to be immediately after the new node" -> new node is the before-bookmark
+                beforeBookmark = node;
+                NSUInteger bookmark = [_activeFormattingElements indexOfObject:node];
+                afterBookmark = ((bookmark + 1) < _activeFormattingElements.count) ? [_activeFormattingElements objectAtIndex:bookmark + 1] : nil;
             }
             
             [[node mutableChildren] addObject:lastNode];
@@ -1225,14 +1237,27 @@ typedef NS_ENUM(NSInteger, HTMLInsertionMode)
         [formattingClone.mutableChildren addObjectsFromArray:furthestBlock.children.array];
         
         [furthestBlock.mutableChildren addObject:formattingClone];
-        
-        // TODO: Explain why this is necessary.
-        if ([_activeFormattingElements indexOfObject:formattingElement] < bookmark) {
-            bookmark--;
-        }
-        
+
         [self removeElementFromListOfActiveFormattingElements:formattingElement];
-        [_activeFormattingElements insertObject:formattingClone atIndex:bookmark];
+        NSUInteger proposedBookmark = NSNotFound;
+        if (_activeFormattingElements.count == 0) {
+            proposedBookmark = 0;
+        }
+        if (proposedBookmark == NSNotFound) {
+            NSUInteger beforeIndex = beforeBookmark ? [_activeFormattingElements indexOfObject:beforeBookmark] : NSNotFound;
+            if (beforeIndex != NSNotFound) {
+                proposedBookmark = beforeIndex + 1;
+            }
+        }
+        if (proposedBookmark == NSNotFound) {
+            NSUInteger afterIndex = afterBookmark ? [_activeFormattingElements indexOfObject:afterBookmark] : NSNotFound;
+            if (afterIndex != NSNotFound) {
+                proposedBookmark = afterIndex;
+            }
+        }
+        NSAssert(proposedBookmark != NSNotFound, @"Adoption agency algorithm bookmark not found in the list of active formatting elements");
+        [_activeFormattingElements insertObject:formattingClone
+                                        atIndex:proposedBookmark];
         
         [_stackOfOpenElements removeObject:formattingElement];
         [_stackOfOpenElements insertObject:formattingClone
@@ -2614,6 +2639,7 @@ static BOOL IsHTMLIntegrationPoint(HTMLElement *node)
                 return [self inBodyInsertionModeHandleStartTagToken:token];
             } else {
                 NSAssert(NO, @"invalid %@ in in body insertion mode", [token class]);
+                break;
             }
             
         case HTMLTextInsertionMode:
@@ -2625,6 +2651,7 @@ static BOOL IsHTMLIntegrationPoint(HTMLElement *node)
                 return [self textInsertionModeHandleEOFToken:token];
             } else {
                 NSAssert(NO, @"invalid %@ in text insertion mode", [token class]);
+                break;
             }
             
         case HTMLInTableInsertionMode:
@@ -2824,6 +2851,7 @@ static BOOL IsHTMLIntegrationPoint(HTMLElement *node)
                 return [self foreignContentInsertionModeHandleStartTagToken:token];
             } else {
                 NSAssert(NO, @"invalid %@ in foreign content insertion mode", [token class]);
+                break;
             }
             
         default:

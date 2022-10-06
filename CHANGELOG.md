@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Correctly parse some previously-failing mis-nested combinations of `a` and formatting elements. (Fixes #95.)
+
 ## [2.2][]
 
 * When no character set is specified or detected, fall back to Windows-1252 with replacement characters on iOS 8+ and Mac OS X 10.10+.
